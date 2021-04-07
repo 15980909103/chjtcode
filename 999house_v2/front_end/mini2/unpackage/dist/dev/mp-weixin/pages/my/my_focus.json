@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "我的关注",
+  "usingComponents": {
+    "u-tabs": "/uview-ui/components/u-tabs/u-tabs",
+    "u-empty": "/uview-ui/components/u-empty/u-empty",
+    "common-new-house": "/components/common/template_newHouse",
+    "common-information": "/components/common/template_information"
+  }
+}

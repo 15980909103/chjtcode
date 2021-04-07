@@ -1,0 +1,558 @@
+<?php
+declare (strict_types = 1);
+
+namespace app\common\base;
+
+use app\common\lib\wxapi\WxServe;
+use think\App;
+use think\exception\ValidateException;
+use think\Exception;
+use think\exception\HttpResponseException;
+use think\facade\Event;
+use think\Response;
+use think\Validate;
+
+
+/**
+ * 控制器基础类11
+ */
+abstract class BaseController
+{
+    /**
+     * Request实例
+     * @var \think\Request
+     */
+    protected $request;
+    /**
+     * 应用实例
+     * @var \think\App
+     */
+    protected $app;
+    /**
+     * 是否批量验证
+     * @var bool
+     */
+    protected $batchValidate = false;
+    /**
+     * 控制器中间件
+     * @var array
+     */
+    protected $middleware = [];
+    protected $db = null;
+    protected $moduleName = '';
+    protected $controllerName = '';
+    protected $actionName = '';
+
+    public $apiVersion='1.0.0';
+    public $pageSize = 20;
+    public $userId = 0;//当前账号登录的id
+    protected $userType;//用户类型
+    protected $sid = '';//当前访问的session_id
+    protected $sign = '';//签名
+    protected $timestamp = '';//时间戳
+    protected $nonce = '';//随机数(13位)
+    protected $errCodeForLoginAgain = 50008;//返回前端判断用户需重登陆的代码
+    protected $clientIp='';//当前访问的ip
+    protected $appkey = '';//当前登陆设备的$deviceForAppKey对应的值
+    protected $allowedDeviceTypes = [ 'pc', 'wxmini', 'wxh5'];//允许的设备类型
+    protected $deviceForAppKey = ['pc'=>'jxFLOTYBdFgOzB6ZeXUMOFv1xcdDjcpe','wxmini'=>'vOyu8XW37nBjHENPThfPWsOl4WY0HvqE','wxh5'=>'vOyu8XW37nBjHENPThfPWsOl4WY0HvqE'];//设备类型对应的密钥
+    protected $deviceWhiteIps = ['pc'=>'','wxmini'=>'','wxh5'=>''];//各设备类型的IP白名单
+    protected $rulesWhiteListForPublic = [
+        //只到控制器层的白名单 // 模块/控制器
+        'controllers' => [
+            'admin/public',
+            'index/public',
+            'index/estates',//新房模块
+            'miniwechat/estates',//新房模块
+            'index/search',
+            'index/test',
+            'admin/upload',
+            'index/city',
+            'miniwechat/city',
+            'miniwechat/public',
+            'miniwechat/upload',
+            'miniwechat/search',
+            'admin/task',
+
+        ],
+        //到具体方法的白名单 // 模块/控制器/方法
+        'actions'     => [
+            'admin/index/index',
+//            'index/BoCake/syntheticCard1'
+            'index/news/setRank',
+            'miniwechat/news/setRank',
+            'index/news/getColumnList',
+            'miniwechat/news/getColumnList',
+            'index/news/getNewsList',
+            'miniwechat/news/getNewsList',
+            'index/news/getInstituteList',
+            'miniwechat/news/getInstituteList',
+            'index/news/getArticleInfo',
+            'miniwechat/news/getArticleInfo',
+            'index/comment/propertyReviewsList',
+            'miniwechat/comment/propertyReviewsList',
+            'index/news/getShoreInfo',
+            'miniwechat/news/getShoreInfo',
+            'index/news/getComment',
+            'miniwechat/news/getComment',
+            'index/adv/getAdvByFlag',
+            'miniwechat/adv/getAdvByFlag',
+            'index/news/getSmallvideo',
+            'miniwechat/news/getSmallvideo',
+            'index/news/ColligateSearchSearch',
+            'miniwechat/news/ColligateSearchSearch',
+            'index/news/getSmallvideoByid',
+            'miniwechat/news/getSmallvideoByid',
+            'index/news/getNewsRank',
+            'miniwechat/news/getNewsRank',
+            'index/news/addFollow',
+            'miniwechat/news/addFollow',
+            'index/rank/getEstatesRank',
+            'miniwechat/rank/getEstatesRank',
+            'index/Promotions/getPromotionsList',
+            'miniwechat/Promotions/getPromotionsList',
+            'index/Promotions/voteActivityList',
+            'miniwechat/Promotions/voteActivityList',
+            'index/Promotions/voteInfo',
+            'miniwechat/Promotions/voteInfo',
+            'index/news/getVideoInfo',
+            'miniwechat/news/getVideoInfo',
+            'index/news/newsSearch',
+            'miniwechat/news/newsSearch',
+            'index/PublicArticles/list',
+            'miniwechat/PublicArticles/list',
+            'index/news/getColumnList',
+            'miniwechat/news/getColumnList',
+            'index/subject/index',
+            'miniwechat/subject/index',
+            'admin/city/siteInfo',
+            'admin/city/sysCitys',
+//            'miniwechat/user/myListings',
+            //测试用
+//            'index/Promotions/getPromotionsList',
+//            'index/Promotions/voteActivityList',
+//            'index/Promotions/voteInfo',
+//
+//            'index/user/browseRecords',
+//            'index/user/myAdvisory',
+//            'index/user/getTableName',
+            'index/news/getVideoInfo',
+            'miniwechat/news/getVideoInfo',
+            'index/Promotions/getActiveInfo',
+            'miniwechat/Promotions/getActiveInfo',
+            'index/signup/add',
+            'miniwechat/signup/add',
+            'index/signup/discountRegistration',
+            'miniwechat/signup/discountRegistration',
+            'index/user/getMyAd',
+            'miniwechat/user/getMyAd',
+            'index/Promotions/getEstatesNewInfo',
+            'miniwechat/Promotions/getEstatesNewInfo',
+            'index/Comment/newsCommentLike',
+            'miniwechat/Comment/newsCommentLike',
+            'index/test1/index',
+            'miniwechat/test1/index',
+            'index/test1/updateOldnews',
+            'miniwechat/test1/updateOldnews',
+//            'miniwechat/public/oauthLogin',
+//            'miniwechat/public/sendMsg',
+//            'miniwechat/public/logout',
+
+        ]
+    ];
+    protected $rulesWhiteListForSign = [//不验证签名白名单
+        //只到控制器层的白名单 // 模块/控制器
+        'controllers' => [
+            'admin/upload',
+            'merchant/upload',
+            'index/upload',
+            'merchant/Offline',
+        ],
+        //到具体方法的白名单 // 模块/控制器/方法
+        'actions'     => [
+
+        ]
+    ];
+    protected $rulesWhiteListForAuth = [//不验证权限的白名单
+        //只到控制器层的白名单 // 模块/控制器
+        'controllers' => [
+
+        ],
+        //到具体方法的白名单 // 模块/控制器/方法
+        'actions'     => [
+            'admin/index/menu',
+            'admin/index/userInfo',
+        ]
+    ];
+
+
+
+    /**
+     * 构造方法
+     * @access public
+     * @param  App  $app  应用对象
+     */
+    public function __construct(App $app)
+    {
+        $this->app     = $app;
+        $this->request = $this->app->request;
+
+
+        $this->clientIp      = get_client_ip();
+        $this->apiVersion = $this->request->header('XX-Api-Version');
+        $this->deviceType = $this->request->header('XX-Device-Type');
+        $this->token      = $this->request->header('XX-Token');
+        $this->sid        = $this->request->header('XX-Sid');//获取请求的session_id;
+
+//        if(!empty($this->sid) && !sessiondId_compare($this->sid)){//验证请求的session_id是否正确
+//            clearSession();
+//            $this->error(['code' => $this->errCodeForLoginAgain, 'msg' => '重新验证中!']);//客户端头部sid和token需删除重置头部请求
+//        }
+
+        $this->db = (new HhDb())->init();//数据库调用
+            $this->_checkCanLoad();
+
+        // 控制器初始化
+        $this->initialize();
+
+        //监听请求结束处理
+        Event::listen('HttpEnd',function (){
+            $this->db = null;
+            $this->httpEnd();
+        });
+    }
+
+    // 初始化
+    protected function  initialize(){ }
+
+    //请求结束处理
+    protected function httpEnd(){
+
+    }
+
+    /**
+     * 用户初始化操作,子类复写
+     */
+    protected function _initUser(){ }
+
+    /**
+     * 权限检查操作,子类复写
+     */
+    protected function _checkAuth($rule_action=''){ }
+
+    //验证是否可以往下加载
+    protected function _checkCanLoad()
+    {
+        //$this->_checkAppInfo();// 检查app的身份信息
+
+        //白名单访问操作
+        //$module = strtolower($this->request->module());
+        $module = strtolower($this->app->http->getName()); //应用名称
+        $controller = strtolower($this->request->controller());//控制器白名单
+        $rule_controller = $module.'/'.$controller;
+        $action = strtolower($this->request->action());//执行方法
+        $rule_action = $module.'/'.$controller.'/'.$action;
+
+        $this->moduleName = $module;
+        $this->controllerName = $controller;
+        $this->actionName = $action;
+
+        //@todo 公开访问的白名单操作
+        $rulesWhiteListForPublic_controllers = $this->rulesWhiteListForPublic['controllers'];
+        $rulesWhiteListForPublic_actions = $this->rulesWhiteListForPublic['actions'];
+        if($this->isWhiteRule($rule_controller,$rulesWhiteListForPublic_controllers)||$this->isWhiteRule($rule_action,$rulesWhiteListForPublic_actions)){
+            return;
+        }
+
+        $this->_initUser();//@todo 用户初始化操作,需要子类复写
+
+        //@todo 签名验证与白名单操作
+        $rulesWhiteListForSign_controllers = $this->rulesWhiteListForSign['controllers'];
+        $rulesWhiteListForSign_actions = $this->rulesWhiteListForSign['actions'];
+        if(!$this->isWhiteRule($rule_controller,$rulesWhiteListForSign_controllers) && !$this->isWhiteRule($rule_action,$rulesWhiteListForSign_actions)){
+            //$this->_checkRequestSign();//检查请求签名是否正确
+        }
+
+        //检查是否已经登陆
+            if (empty($this->userId)) {
+                $this->error(['code' => $this->errCodeForLoginAgain, 'msg' => '用户未登陆，请重新登陆']);
+            }
+        //@todo 权限验证与白名单操作
+        $rulesWhiteListForAuth_controllers = $this->rulesWhiteListForAuth['controllers'];
+        $rulesWhiteListForAuth_actions = $this->rulesWhiteListForAuth['actions'];
+        if(!$this->isWhiteRule($rule_controller,$rulesWhiteListForAuth_controllers) && !$this->isWhiteRule($rule_action,$rulesWhiteListForAuth_actions)){
+            $this->_checkAuth($rule_action);//用户权限验证,需要子类复写
+        }
+    }
+
+    /**
+     * 验证是否属于白名单操作
+     * @param $rule 要验证的请求url
+     * @param $whiteList 白名单列表
+     * @return bool
+     */
+    private function isWhiteRule($rule,$whiteList){
+        $newWhiteList=[];
+        if(!empty($whiteList)){
+            foreach ($whiteList as $item){
+                $item = strtolower($item);//白名单设置转小写
+                array_push($newWhiteList,$item);
+            }
+        }
+        if(in_array($rule,$newWhiteList)) {
+            return true ;
+        }
+        return false;
+    }
+    /**
+     * 登陆密码错误时不能请求时锁定时间
+     * @param $errlogin_info
+     * @return float|int -1时代表还在锁定中 >0为新生成锁定时间
+     */
+    protected function banLoginLockTime($errlogin_info){
+        $locktime = 0;//登陆锁定时间
+        $nowtime = time();
+        if(!empty($errlogin_info)){
+            if(!is_array($errlogin_info)){
+                throw new Exception('参数错误');
+            }
+            if(!empty($errlogin_info['locktime'])&&$errlogin_info['locktime'] > $nowtime){
+                return $locktime = -1; //还在锁定中
+            }
+
+            if(!empty($errlogin_info['num'])){//重新计算新的锁定时间
+                if($errlogin_info['num'] > 5 && $errlogin_info['num'] <10 ){
+                    $locktime = $nowtime + ($errlogin_info['num']- 3) *60;
+                }elseif($errlogin_info['num'] >= 10){
+                    $locktime = $nowtime + 7200; //最长锁定2小时
+                }
+            }
+        }
+
+        return $locktime;
+    }
+
+    /**
+     * 获取当前登录用户的id
+     * @param bool $responseErr 是否抛出错误,不抛出错误用于在等可登录可不登录得白名单方法中获取 user——id;
+     * @return int
+     */
+    public function getUserId($responseErr=true)
+    {
+        if (empty($this->userId)) {
+            $this->_initUser();
+        }
+        if ($responseErr==true&&empty($this->userId)) {
+            $this->error(['code' => $this->errCodeForLoginAgain, 'msg' => '用户未登录']);
+        }
+        return intval($this->userId);
+    }
+
+    /**
+     * 检查请求的参数设备是否正确
+     *
+     */
+    protected function _checkAppInfo(){
+        if (empty($this->deviceType) || !in_array($this->deviceType, $this->allowedDeviceTypes)) {
+            $this->error("请求错误,未知设备!");
+        }
+        if(empty($this->deviceForAppKey[$this->deviceType])){
+            $this->error("请求错误,设备校验失败!");
+        }
+        $this->appkey = $this->deviceForAppKey[$this->deviceType];
+        $appWhiteIps=[];
+        if(isset($this->deviceWhiteIps[$this->deviceType])&&$this->deviceWhiteIps[$this->deviceType]){
+            $appWhiteIps = explode(',',$this->deviceWhiteIps[$this->deviceType]);
+        }
+
+        // ip白名单限制
+        if(!empty($appWhiteIps)){
+            if(!in_array($this->appIp,$appWhiteIps)){
+                $this->error("IP不是白名单内");
+            }
+        }
+    }
+    /**
+     * 检查请求的数据签名是否正确
+     *
+     */
+    protected function _checkRequestSign(){
+        $requestData = $this->request->param('',null,null);//将请求的参数去除过滤方法和默认值
+        if(!isset($requestData['sign']) || !isset($requestData['nonce']) || !isset($requestData['timestamp'])){
+            $this->error(['code' => 10002, 'msg' => '参数异常!']);
+        }
+        //$requestData['content'] = htmlspecialchars_decode($requestData['content']);
+        $this->sign = $requestData['sign'];
+        $this->nonce = $requestData['nonce'];
+        $this->timestamp = $requestData['timestamp'];
+        $this->_makeSign($requestData);
+
+        // 签名校验
+        if($this->_makeSign($requestData) != $this->sign){
+            $this->error(['code'=>10000, 'msg'=>"签名错误"]);
+        }
+    }
+
+    protected function _makeSign($data=array()){
+        //签名步骤一：按字典序排序参数
+        if(isset($data['sign'])){
+            unset($data['sign']);
+        }
+        if(!empty($data)){
+            $string = '';
+            ksort($data);
+            foreach ($data as $key=>$item){
+                $string.= $key.'&='.$item;
+            }
+            //$string = http_build_query($data,'','&',PHP_QUERY_RFC3986);
+        }else{
+            $string="timestamp=".time();
+        }
+
+        //签名步骤二：在string后加入KEY
+        $string = $string . "&key=".$this->appkey;
+        //签名步骤三：MD5加密
+        $string = md5($string);
+        //签名步骤四：所有字符转为小写
+        $result = strtolower($string);
+        return $result;
+    }
+    /**
+     * 操作成功跳转的快捷方法
+     * @access protected
+     * @param mixed $msg 提示信息
+     * @param mixed $data 返回的数据
+     * @param array $header 发送的Header信息
+     * @return void
+     */
+    protected function success($data = '',$msg = 'success',  array $header = [])
+    {
+        $code   = 1;
+        if (is_array($data)) {
+            if(!empty($data['msg'])){
+                $msg  = $data['msg'];
+            }
+            if(!empty($data['data'])){
+                $data = $data['data'];
+            }
+            if(isset($data['code'])){
+                $code  = $data['code'];
+            }
+        }
+        $result = [
+            'code' => $code,
+            'msg'  => $msg,
+            'data' => $data,
+        ];
+
+        $type                                   = 'json';
+        $header['Access-Control-Allow-Origin']  = '*';
+        $header['Access-Control-Allow-Headers'] = 'X-Requested-With,Content-Type,XX-Device-Type,XX-Token,XX-Api-Version,XX-Wxmini-AppId';
+        $header['Access-Control-Allow-Methods'] = 'GET,POST,PATCH,PUT,DELETE,OPTIONS';
+        $response                               = Response::create($result, $type)->header($header);
+        throw new HttpResponseException($response);
+    }
+
+    /**
+     * 操作错误跳转的快捷方法
+     * @access protected
+     * @param mixed $msg 提示信息,若要指定错误码,可以传数组,格式为['code'=>您的错误码,'msg'=>'您的错误消息']
+     * @param mixed $data 返回的数据
+     * @param array $header 发送的Header信息
+     * @return void
+     */
+    protected function error($msg = '操作失败', $data = '', array $header = [])
+    {
+        $code = 0;
+        if (is_array($msg)) {
+            $code = $msg['code'];
+            $data = !empty($msg['data'])?$msg['data']:'';
+            $msg  = $msg['msg'];
+        }
+        $result = [
+            'code' => $code,
+            'msg'  => $msg,
+            'data' => $data,
+        ];
+
+        $type                                   = 'json';
+        $header['Access-Control-Allow-Origin']  = '*';
+        $header['Access-Control-Allow-Headers'] = 'X-Requested-With,Content-Type,XX-Device-Type,XX-Token,XX-Api-Version,XX-Wxmini-AppId';
+        $header['Access-Control-Allow-Methods'] = 'GET,POST,PATCH,PUT,DELETE,OPTIONS';
+        $response                               = Response::create($result, $type)->header($header);
+        throw new HttpResponseException($response);
+    }
+
+
+
+
+    /**
+     * 验证数据
+     * @access protected
+     * @param  array        $data     数据
+     * @param  string|array $validate 验证器名或者验证规则数组
+     * @param  array        $message  提示信息
+     * @param  bool         $batch    是否批量验证
+     * @return array|string|true
+     * @throws ValidateException
+     */
+    protected function validate(array $data, $validate, array $message = [], bool $batch = false)
+    {
+        if (is_array($validate)) {
+            $v = new Validate();
+            $v->rule($validate);
+        } else {
+            if (strpos($validate, '.')) {
+                // 支持场景
+                [$validate, $scene] = explode('.', $validate);
+            }
+            $class = false !== strpos($validate, '\\') ? $validate : $this->app->parseClass('validate', $validate);
+            $v     = new $class();
+            if (!empty($scene)) {
+                $v->scene($scene);
+            }
+        }
+        $v->message($message);
+
+        // 是否批量验证
+        if ($batch || $this->batchValidate) {
+            $v->batch(true);
+        }
+        return $v->failException(true)->check($data);
+    }
+
+    protected function getImgPath($id){
+        if(empty($id) ) {
+            return '';
+        }
+        if(!is_array($id) && !is_string($id) ) {
+            return '';
+        }
+        if( is_string($id) ) {
+            $info  = $this->db->name('upload_file')->where('file_id','=',$id)->value('file_path');
+        }else{
+            $inof  = [];
+//            var_dump($id);
+            foreach ($id as $key =>$value ){
+                $info [] =  $this->db->name('upload_file')->where('file_id','=',$value)->field('file_path as url,file_hash as name')->find();
+            }
+        }
+
+//        echo $this->db->getLastSql();
+
+        return $info;
+    }
+
+    protected function getImgsIdAndUrl($imgs)
+    {
+        $imgs = !empty($imgs) ? explode(',', $imgs) : [];
+        $ids = $imgs;
+        if(!empty($imgs)) {
+            $url = $this->getImgPath($ids);
+        } else {
+            $url = [];
+        }
+        return [$ids, $url];
+    }
+
+}

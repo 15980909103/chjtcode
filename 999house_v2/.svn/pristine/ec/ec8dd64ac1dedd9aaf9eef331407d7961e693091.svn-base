@@ -1,0 +1,8 @@
+// pages/instrument/calculator.js
+const app = getApp()
+
+Page({
+  data: {
+    h5Host: app.globalData.h5Host,
+  },
+})

@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>户型图</title>
+		<link rel="stylesheet" href="../../common/vant/index.css"/>
+		<link rel="stylesheet" href="../../common/css/public.css"/>
+		<style>
+			.wrap{
+				padding: 0.2rem 0.32rem 1rem;
+				box-sizing: border-box;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app" v-cloak ref="DOM">
+			<van-tabs class="tabs" v-model="active" sticky>
+				<van-tab v-for="(item,index) in list" :title="item.name + '('+ item.list.length +')'" :key="index">
+					<div class="wrap">
+						<houses-template :list="item.list"/>
+					</div>
+				</van-tab>
+			</van-tabs>
+			
+		</div>
+	</body>
+</html>
+
+<script src="../../common/js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/rem.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/public.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/vant/index.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+<script>
+	const myComponents = [
+		'../../components/houses/template_house/index'
+	];
+	
+	$api.addComponents(myComponents)
+		.then(()=>{
+			
+			Vue.use(vant.Lazyload);
+			 
+			
+			const app = new Vue({
+				el: '#app',
+				data: {
+					active: 0,
+					list: [
+						{
+							name: '全部',
+							list: [
+								{
+									img: '/9house/static/logo.png',
+									title: '3室2厅2卫',
+									tip: ['住宅'],
+									area: 120,
+									way: '南',
+									price: 499
+								},
+								{
+									img: '/9house/static/logo.png',
+									title: '3室2厅2卫',
+									tip: ['住宅'],
+									area: 120,
+									way: '南',
+									price: 499
+								},
+								{
+									img: '/9house/static/logo.png',
+									title: '3室2厅2卫',
+									tip: ['住宅'],
+									area: 120,
+									way: '南',
+									price: 499
+								},
+								{
+									img: '/9house/static/logo.png',
+									title: '3室2厅2卫',
+									tip: ['住宅'],
+									area: 120,
+									way: '南',
+									price: 499
+								},
+								{
+									img: '/9house/static/logo.png',
+									title: '3室2厅2卫',
+									tip: ['住宅'],
+									area: 120,
+									way: '南',
+									price: 499
+								},
+								{
+									img: '/9house/static/logo.png',
+									title: '3室2厅2卫',
+									tip: ['住宅'],
+									area: 120,
+									way: '南',
+									price: 499
+								},
+								{
+									img: '/9house/static/logo.png',
+									title: '3室2厅2卫',
+									tip: ['住宅'],
+									area: 120,
+									way: '南',
+									price: 499
+								},
+								{
+									img: '/9house/static/logo.png',
+									title: '3室2厅2卫',
+									tip: ['住宅'],
+									area: 120,
+									way: '南',
+									price: 499
+								}
+							]
+						},
+						{
+							name: '四室',
+							list: [
+								{
+									img: '/9house/static/logo.png',
+									title: '3室2厅2卫',
+									tip: ['住宅'],
+									area: 120,
+									way: '南',
+									price: 499
+								},
+								{
+									img: '/9house/static/logo.png',
+									title: '3室2厅2卫',
+									tip: ['住宅'],
+									area: 120,
+									way: '南',
+									price: 499
+								}
+							]
+						},
+						{
+							name: '三室',
+							list: [
+								{
+									img: '/9house/static/logo.png',
+									title: '3室2厅2卫',
+									tip: ['住宅'],
+									area: 120,
+									way: '南',
+									price: 499
+								},
+								{
+									img: '/9house/static/logo.png',
+									title: '3室2厅2卫',
+									tip: ['住宅'],
+									area: 120,
+									way: '南',
+									price: 499
+								},
+								{
+									img: '/9house/static/logo.png',
+									title: '3室2厅2卫',
+									tip: ['住宅'],
+									area: 120,
+									way: '南',
+									price: 499
+								},
+								{
+									img: '/9house/static/logo.png',
+									title: '3室2厅2卫',
+									tip: ['住宅'],
+									area: 120,
+									way: '南',
+									price: 499
+								}
+							]
+						},
+						{
+							name: '两室',
+							list: [
+								{
+									img: '/9house/static/logo.png',
+									title: '3室2厅2卫',
+									tip: ['住宅'],
+									area: 120,
+									way: '南',
+									price: 499
+								}
+							]
+						},
+						{
+							name: '一室',
+							list: [
+								{
+									img: '/9house/static/logo.png',
+									title: '3室2厅2卫',
+									tip: ['住宅'],
+									area: 120,
+									way: '南',
+									price: 499
+								}
+							]
+						}
+					]
+				},
+				components: {
+					housesTemplate
+				},
+				created() {
+					
+					// this.$nextTick(()=>{
+					// 	this.$refs.DOM.scrollTo(0,3500)
+					// })
+					
+					
+				},
+				mounted() {
+					
+				},
+				methods:{
+				
+				},
+			})
+			
+		})
+	
+</script>

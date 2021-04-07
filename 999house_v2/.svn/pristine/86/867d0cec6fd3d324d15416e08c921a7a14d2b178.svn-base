@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>楼盘点评</title>
+		<link rel="stylesheet" href="../../common/vant/index.css"/>
+		<link rel="stylesheet" href="../../common/css/public.css"/>
+		<style>
+			.box{
+				box-sizing: border-box;
+				padding: .44rem .32rem 2rem;
+			}
+			
+			.tip{
+				display: flex;
+				flex-wrap: wrap;
+				margin-bottom: 0.44rem;
+			}
+			
+			.tip span{
+				margin-right: .3rem;
+			}
+			
+			.btn{
+				width: 100%;
+				height: 0.98rem;
+				background-color: #fff;
+				box-shadow: 0px -0.02rem .1rem 0px rgba(230, 230, 230, 0.5);
+				position: fixed;
+				bottom: 0;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+			
+			.btn .van-button{
+				width: 6.86rem;
+				height: .78rem;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<div id="app" v-cloak ref="DOM">
+			<div class="box">
+				<div class="tip">
+					<template v-for="(item,index) in list.tip">
+						<van-tag 
+							type="primary" 
+							size="large" 
+							:color="color[index].bg"
+							:text-color="color[index].color"
+							:key="index"
+							@click="changeTag(index)"
+						>
+							{{ item.name }}
+						</van-tag>
+					</template>
+				</div>
+				<houses-comment :list="list.list" :type="type" :time="true"></houses-comment>
+			</div>
+			<div class="btn">
+				<van-button type="default"  color="rgba(254, 130, 30, 1)" url="./send_comment.html">点评楼盘 分享心得</van-button>
+			</div>
+		</div>
+	</body>
+</html>
+
+<script src="../../common/js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/rem.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/public.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/vant/index.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+<script>
+	const myComponents = [
+		'../../components/houses/template_comment/index',
+	];
+	
+	console.log(Vue)
+	
+	$api.addComponents(myComponents)
+		.then(()=>{
+			
+			Vue.use(vant.Lazyload);
+			 
+			
+			const app = new Vue({
+				el: '#app',
+				data: {
+					color: [],
+					type: 0,
+					list: {
+						tip: [
+							{
+								type: 0,
+								name: '全部评论'
+							},
+							{
+								type: 1,
+								name: '有图'
+							},
+							{
+								type: 2,
+								name: '实看用户'
+							}
+						],
+						// type: 0-所有 1-有图，2-实看
+						list: [
+							{
+								type: [0],
+								head: '../../static/logo.png',
+								name: '海的声音',
+								say: '去看了样板房，89平的4房户型很好，简直了！',
+								img: [],
+								time: '2020年8月12日'
+							},
+							{
+								type: [0,2],
+								head: '../../static/logo.png',
+								name: '海的声音',
+								say: '去看了样板房，89平的4房户型很好，简直了！',
+								img: [],
+								time: '2020年8月12日'
+							},
+							{
+								type: [0,1],
+								head: '../../static/logo.png',
+								name: '马的声音',
+								say: '去看了样板房，89平的4房户型很好，简直了！空间设计的 很合理，nice！',
+								img: ['../../static/logo.png','../../static/logo.png','../../static/logo.png',],
+								time: '2020年8月12日'
+							},
+							{
+								type: [0,1,2],
+								head: '../../static/logo.png',
+								name: '猪的声音',
+								say: '世贸的房子还是可以的，物业是自己家的，品质也不错，世贸的房子还是可以的，物业是自己家的，品质也不错，世贸的房子还是可以的，物业是自己家的，品质也不错',
+								img: ['../../static/logo.png','../../static/logo.png','../../static/logo.png','../../static/logo.png',],
+								time: '2020年8月12日'
+							},
+							{
+								type: [0,1],
+								head: '../../static/logo.png',
+								name: '猪的声音',
+								say: '世贸的房子还是可以的，物业是自己家的，品质也不错，世贸的房子还是可以的，物业是自己家的，品质也不错，世贸的房子还是可以的，物业是自己家的，品质也不错',
+								img: ['../../static/logo.png','../../static/logo.png'],
+								time: '2020年8月12日'
+							}
+						]
+					}
+				},
+				components: {
+					housesComment
+				},
+				created() {
+					this.initColor();
+					// this.$nextTick(()=>{
+					// 	this.$refs.DOM.scrollTo(0,3500)
+					// })
+					
+			
+				},
+				mounted() {
+					
+				},
+				methods:{
+					initColor() {
+						let arr = [];
+						
+						this.list.tip.map( (item,index)=>{
+							if( index == 0 ){
+								arr.push({
+									bg: 'rgba(240, 255, 236, 1)',
+									color: 'rgba(121, 183, 107, 1)'
+								})
+							} else {
+								arr.push({
+									bg: 'rgba(247, 247, 247, 1)',
+									color: 'rgba(117, 117, 117, 1)'
+								})
+							}
+						})
+						
+						this.color = [...arr];
+					},
+					changeTag(index) {
+						if( this.color[index].bg == 'rgba(247, 247, 247, 1)' ){
+							
+							this.color.map( (item,num)=>{
+								if( item.bg == 'rgba(240, 255, 236, 1)' ){
+									this.$set(this.color,num,{
+										bg: 'rgba(247, 247, 247, 1)',
+										color: 'rgba(117, 117, 117, 1)'
+									});
+								}
+							});
+							
+							this.$set(this.color,index,{
+								bg: 'rgba(240, 255, 236, 1)',
+								color: 'rgba(121, 183, 107, 1)'
+							});
+							
+							this.type = this.list.tip[index].type;
+						}
+					}
+				},
+			})
+			
+			
+			
+		})
+	
+</script>

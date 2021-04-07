@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>店员</title>
+<!--    <link rel="stylesheet" type="text/css" href="../../static/css/aui.css" />-->
+<!--    <link rel="stylesheet" type="text/css" href="../../static/mui/css/mui.min.css" />-->
+<!--    <link rel="stylesheet" type="text/css" href="../../static/mui/css/mui.picker.min.css" />-->
+<!--    <link rel="stylesheet" type="text/css" href="../../static/mui/css/mui.poppicker.css" />-->
+<!--    <link rel="stylesheet" type="text/css" href="../../static/css/me/report.css?v=1" />-->
+    <link rel="stylesheet" type="text/css" href="../../static/css/me/my_store_new.css" />
+    <link rel="stylesheet" href="../../common/vant/index.css"/>
+
+    <style>.mui-btn-blue{background-color: #D33233;border: 1px solid #D33233;}</style>
+</head>
+<body>
+    <div id="app" class="my-content">
+        <div class="asf">
+            <van-cell title="选择店铺" is-link @click="listshows" :value="store_name" />
+            <van-popup v-model="listshow"  round  position="bottom">
+                <div @click="listshow = false">12412</div>
+                <van-picker
+                  title="标题"
+                  show-toolbar
+                  :columns="columns"
+                  @confirm="listshow = false"
+                   @cancel="listshow = false"
+                />
+            </van-popup>
+        </div>
+        <div>
+            <van-search v-model="value2" placeholder="请输入成员名称" />
+        </div>
+        <div class="tabs">
+            <div class="tab_list">
+                <div class="tab_item" :class="active == 1?'active':''" @click="tab_clicke(1)">
+                    <img :src="active == 1?'../../static/image/tab_5_active.png':'../../static/image/tab_5.png'" />
+                    成员列表
+                </div>
+                <div class="tab_item" :class="active == 2?'active':''" @click="tab_clicke(2)">
+                    <img :src="active == 2?'../../static/image/tab_5_active.png':'../../static/image/tab_5.png'" />
+                    认证列表
+                </div>
+                <div class="tab_item">
+                    <img src="../../static/image/tab_4.png" />
+                    邀请加入
+                </div>
+            </div>
+            <div class="tab_content">
+                <div class="tab_list" v-show="active == 1">
+                    <div class="member" style="width: 100%">
+                        <div class="member_title">
+                            <van-checkbox v-model="checkeall" shape="square" checked-color="#D22A2C">全选</van-checkbox>
+                        </div>
+                        <div class="check_list">
+                            <van-checkbox-group v-model="agent" checked-color="#D22A2C">
+                                <van-checkbox  v-for="(item, index) in  shopAssistantList" :name="item.said">
+                                    <img :src="item.agent_img" />
+                                    <p>{{item.agent_name}}</p>
+                                </van-checkbox>
+                            </van-checkbox-group>
+                            <van-button class="kickout" plain hairline  type="info">提出成员</van-button>
+                        </div>
+                    </div>
+                </div>
+                <div  class="tab_list" v-show="active == 2">
+                    <van-swipe-cell style="width: 100%">
+                        <template #default>
+                            <div class="swipercellbox">
+                                <div class="info">
+                                    <img src="../../static/image/profile-circle.png"/>
+                                    李
+                                </div>
+                                <div class="confirm">申请通过</div>
+                            </div>
+
+                        </template>
+                        <template #right>
+                            <van-button square text="删除" type="danger" color="#C1C1C1" class="delete-button" />
+                        </template>
+                    </van-swipe-cell>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script type="text/javascript" src="../../static/js/jquery-2.0.0.min.js" ></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script type="text/javascript" src="../../static/js/vue-tap.js" ></script>
+<script type="text/javascript" src="../../static/js/public.js" ></script>
+<script src="../../common/vant/index.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../static/js/rem.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    var vm=new Vue({
+        el: '#app',
+        data: {
+            columns:[],
+            store_id:'',
+            store_name:'',
+            value2:'',
+            listshow:false,
+            shopAssistantList:[], // 店员列表
+            active:1,
+            checkeall:[],
+            agent:[]
+        },
+        mounted() {
+           this.getStoreName()
+        },
+        methods:{
+            tab_clicke(index){
+                this.active = index
+            },
+            getStoreName(){
+                var _this=this;
+                ajax('agentAjax/getStoreName',{},function(res){
+                    if(res.success){
+                        console.log(res.data)
+                        _this.columns=res.data;
+                        _this.getStoreinfo(res.data[0].id)
+                        _this.columns.forEach((item,index)=>{
+                            item['value'] = item.id
+                            item['text'] = item.name
+                        })
+                    }
+                });
+            },
+            listshows(){
+                this.listshow = true
+                // let self = this;
+                // let goto = new mui.PopPicker({//通过new mui.PopPicker()初始化popPicker组件
+                //     layer: 1   //显示列数
+                // });
+                // goto.setData(this.columns);  //setData() 支持数据格式为: 数组
+                // goto.show(function(e) {   //e 就是总数据的数组 显示picker
+                //     self.store_id = e[0].value
+                //     self.store_name = e[0].text
+                // })
+            },
+            // 获取店铺员工
+            getStoreinfo(id){
+                var _this=this;
+                let pare = {
+                    store_id: id
+                }
+                ajax('agentAjax/bindStoreInfo',{...pare},res => {
+                    console.log(res)
+                    if(res.code == 1){
+                        this.shopAssistantList = res.data
+
+                        console.log('getStoreinfo',res.data)
+                    }
+                });
+            },
+        }
+    })
+</script>

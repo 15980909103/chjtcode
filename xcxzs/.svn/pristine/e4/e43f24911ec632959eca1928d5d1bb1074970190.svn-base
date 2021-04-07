@@ -1,0 +1,8 @@
+.my-scroll{width: 90vw;height: 100vh;padding: 0 5vw;}
+.view6-list{width: 90vw;padding: 2vh 0;border-bottom: 1px solid #eee;display: flex;justify-content:space-between;}
+.view6-list image{width: 10vw;height: 10vw;border-radius: 5vw;}
+.view6-list .view6-lis{width: 77vw;}
+.view6-lis view:nth-child(1){font-size: 4.5vw;font-weight: 600;}
+.view6-lis view:nth-child(2){font-size: 4vw;color: #5C5C5C;padding: 1vw 0;}
+.view6-lis view:nth-child(3){font-size: 3.3vw;color: #999;}
+.view6-all{text-align: center;font-size: 3.5vw;color: #999;padding: 2vh 0 4vh;}

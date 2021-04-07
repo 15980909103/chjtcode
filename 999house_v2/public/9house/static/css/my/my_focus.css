@@ -1,0 +1,62 @@
+.tab{
+	padding-bottom: .6rem;
+}
+
+.tab .van-tab{
+	padding: .2rem;
+	font-size: .34rem;
+	font-weight: bold;
+}
+
+.tab .van-tab--active{
+	color: rgba(254, 130, 30, 1);
+}
+
+.tab .van-tabs__line{
+	width: .24rem;
+	bottom: 19px;
+	background-color: rgba(254, 130, 30, 1);
+}
+
+.news{
+	width: 100%;
+	box-sizing: border-box;
+	padding: 0 .32rem;
+}
+
+.news-box{
+	display: flex;
+	padding: .4rem 0 .24rem;
+	border-bottom: 1px solid rgba(240, 240, 240, 1);
+}
+
+.news-box img{
+	width: 2.18rem;
+	height: 1.64rem;
+}
+
+.news-right{
+	flex: 1;
+	height: 1.64rem;
+	margin-left: .4rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.news-title{
+	font-size: .3rem;
+	line-height: .38rem;
+}
+
+.news-info{
+	display: flex;
+	align-items: center;
+}
+
+.news-info img{
+	width: .36rem;
+	height: .36rem;
+	border-radius: 50%;
+	margin-right: .16rem;
+}

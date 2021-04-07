@@ -1,0 +1,501 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>文章详情</title>
+    <link rel="stylesheet" type="text/css" href="../../static/css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/mui/css/mui.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/css/index/article_detail.css" />
+    <script type="text/javascript" src="../../static/js/jquery-2.0.0.min.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.min.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.pullToRefresh.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.pullToRefresh.material.js" ></script>
+    <!-- <script type="text/javascript" src="../../static/js/vue.min.js" ></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script type="text/javascript" src="../../static/js/vue-tap.js" ></script>
+    <script type="text/javascript" src="../../static/js/public.js?v=2" ></script>
+    <script type="text/javascript" src="../../static/js/jweixin-1.4.0.js" ></script>
+    <style>.mui-pull-bottom-tips{display: none;}</style>
+</head>
+<body>
+<div id="app" class="my-content" v-cloak >
+    <div id="my-scroll">
+        <div id="my-view1" class='aui-ellipsis-2' v-cloak>{{articleInfo.title}}</div>
+        <div id="my-view2" v-if="articleInfo.author">
+            <div>
+                <img :src="articleInfo.logo" v-cloak/>
+                <span v-cloak>{{articleInfo.author}}</span>
+            </div>
+            <!-- <div>
+                <img src="../../static/image/icon-nav-zhuanfa.png" alt="">
+            </div> -->
+            <!-- <div v-cloak>{{articleInfo.create_time}}</div> -->
+        </div>
+        <div id='my-view3' v-html="articleInfo.content" v-cloak></div>
+        <div id='my-view4'>
+            <div v-cloak>阅读 {{articleInfo.read_num}}</div>
+            <div v-cloak>{{articleInfo.create_time}}</div>
+            <!-- <div>
+                <img src="../../static/image/icon-nav-zhuanfa.png" alt="">
+            </div> -->
+        </div>
+        <!-- <div id="my-zixun">
+            <div class='my-h2' style="width: 100vw;">
+                <div class='my-h2-1'>新闻推荐</div>
+            </div>
+            <div class='zx-scroll'>
+                <div class='my-zx-lists' :style="'width:'+zx_width+'vw'">
+                    <div class='my-zx-list' v-for="item in zxInfo" v-tap="{methods:onArticleDetail,id:item.id}">
+                        <img :src='item.cover' v-cloak/>
+                        <div class='aui-ellipsis-2' v-cloak>{{item.title}}</div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        <div v-if="advertisingInfo.img" id='my-view7'>
+            <div class='view7-title'>—— 广告 ——</div>
+            <img :src='advertisingInfo.img' v-cloak/>
+        </div>
+
+        <div id='my-view6'>
+            <div class='my-h2 my-border-bottom'>
+                <div class='my-h2-1'>精彩评论</div>
+                <div class='my-h2-2' v-tap="{methods:setFocus}">写评论 <i class="aui-iconfont aui-icon-right"></i></div>
+            </div>
+            <div class='view6-list' v-for="(item,index) in commentsInfo">
+                <img :src="item.avatarUrl" v-cloak/>
+                <div class='view6-lis'>
+                    <div v-cloak class="name_like">
+                        {{item.nickName}}
+                        <div class="like_img reds" v-if="item.is_reply" @click="like_btn(item.id,'0')" >
+                            <img src="../../static/image/like_act.png" alt="">
+                            {{item.praise_num}}
+                        </div>
+                        <div class="like_img" v-if="!item.is_reply" @click="like_btn(item.id,'1')">
+                            <img src="../../static/image/like.png" alt="">
+                            {{item.praise_num}}
+                        </div>
+                    </div>
+                    <div v-html="item.content" v-cloak></div>
+                    <div v-cloak>
+                        {{item.create_time}}
+                        <div class="reply" v-tap="{methods:onReply,index:index}" v-cloak>{{item.replyNum}}回复</div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class='view6-all' v-tap="{methods:onComments}">查看全部评论</div> -->
+        </div>
+        <!-- <div id="my-loupan">
+            <div class='my-h2' style="width: 100vw;">
+                <div class='my-h2-1'>楼盘推荐</div>
+                <div class='my-h2-2' bindtap='onBuilding'>查看全部 <i class="aui-iconfont aui-icon-right"></i></div>
+            </div>
+            <div class="my-lp-lists">
+                <div class='my-lp-list' v-for="item in buildingInfo" v-tap="{methods:onBuildDetail,id:item.id}">
+                    <div class='my-lpimg'>
+                        <img class='my-lp-ig' :src='item.pic' v-cloak/>
+                    </div>
+                    <div class='my-lp-center'>
+                        <div class='my-lp-c1'><div class="my-c-1-1 aui-ellipsis-1" v-cloak>{{item.name}}</div></div>
+                        <div class='my-lp-c2' v-cloak>{{item.house_type}} | {{item.city}} {{item.area}}</div>
+                        <div class='my-lp-c4'>
+                            <div class="my-style1" v-cloak>{{item.sales_status}}</div>
+                            <div v-cloak :class="[val=='闪电结佣'?'my-style2':'',val=='电商优惠'?'my-style3':'',val=='带看券'?'my-style4':'',val=='九房验真'?'my-style5':'']" v-for="val in item.flag">{{val}}</div>
+                        </div>
+                        <div class='my-lp-c3' v-cloak>{{item.fold}}元/m² <span>佣金 {{item.commission}}元</span></div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        <div id='my-footer' v-if="is_login=='1'">
+            <div class='footer1'>
+                <input class="my-focus" type='text' placeholder='请留下你的评论...' v-model="commentsText"/>
+            </div>
+            <div class='footer2' v-tap="{methods:onSend}">发送</div>
+        </div>
+    </div>
+    <div id="popover" class="mui-popover">
+        <div class="mui-scroll-wrapper scroll-content my-detail-scroll">
+            <div class="mui-scroll popo-content-scroll">
+                <div class="popo-content" v-if="commentsInfo[popoIndex]">
+                    <div class='view6-list'>
+                        <img :src="commentsInfo[popoIndex].avatarUrl" v-cloak/>
+                        <div class='view6-lis'>
+                            <div v-cloak class="name_like">
+                                {{commentsInfo[popoIndex].nickName}}
+                                <div class="like_img reds" v-if="commentsInfo[popoIndex].is_reply" @click="like_btnss(commentsInfo[popoIndex].id,'0')" >
+                                    <img src="../../static/image/like_act.png" alt="">
+                                    {{commentsInfo[popoIndex].praise_num}}
+                                </div>
+                                <div class="like_img" v-if="!commentsInfo[popoIndex].is_reply" @click="like_btnss(commentsInfo[popoIndex].id,'1')">
+                                    <img src="../../static/image/like.png" alt="">
+                                    {{commentsInfo[popoIndex].praise_num}}
+                                </div>
+                            </div>
+                            <div v-html="commentsInfo[popoIndex].content" v-cloak></div>
+                            <div v-cloak>
+                                {{commentsInfo[popoIndex].create_time}}
+                                <div class="reply" v-tap="{methods:onReplyEdetail,popoPlaceholder:commentsInfo[popoIndex].nickName,popoReplyid:commentsInfo[popoIndex].id}">回复</div>
+                            </div>
+                        </div>
+                    </div>
+                    <h4 v-if="commentsDetailInfo.length>0">全部回复</h4>
+                    <div class='view6-list aa' v-for="(item,index) in commentsDetailInfo">
+                        <img :src="item.avatarUrl" v-cloak/>
+                        <div class='view6-lis'>
+                            <div v-cloak class="name_like">
+                                {{item.nickName}}
+                                <div class="like_img reds" v-if="item.is_reply" @click="like_btnss(item.id,'0')" >
+                                    <img src="../../static/image/like_act.png" alt="">
+                                    {{item.praise_num}}
+                                </div>
+                                <div class="like_img" v-if="!item.is_reply" @click="like_btnss(item.id,'1')">
+                                    <img src="../../static/image/like.png" alt="">
+                                    {{item.praise_num}}
+                                </div>
+                            </div>
+                            <div v-cloak><span v-if="item.nickName!=item.replyName">回复:&nbsp{{item.replyName}} &nbsp</span>{{item.content}}</div>
+                            <!-- <div v-html="'<span>回复'+item.replyName+'</span>'+item.content" v-cloak></div> -->
+                            <div v-cloak>
+                                {{item.create_time}}
+                                <div class="reply" v-tap="{methods:onReplyEdetail,popoPlaceholder:item.nickName,popoReplyid:item.id}">回复</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id='my-footer2' v-if="is_login=='1'">
+            <div class='footer1'><input class="my-focus2" type='text' :placeholder="'回复'+popoPlaceholder+'：'" v-model="commentsDetailText"/></div>
+            <div class='footer2' v-tap="{methods:onSendDetail}">发送</div>
+        </div>
+    </div>
+    <div v-if="isDisplayContactBar" class="contact-person">
+        <div class="contact-person__info">
+            <img :src="agentInfo.headimgurl" class="contact-person__info-avatar" v-cloak>
+            <p class="contact-person__info-primary">
+                <em class="contact-person__info-primary-name" v-cloak>{{ agentInfo.name? agentInfo.name: agentInfo.nickname }}</em>
+                <em class="contact-person__info-primary-post" v-cloak>经纪人</em>
+            </p>
+        </div>
+        <a :href="`tel:${agentInfo.phone}`" class="contact-person__button call-phone">打电话</a>
+        <button
+                v-tap="{methods: () => {isDisplayQRcodePopup = true}}"
+                class="contact-person__button wechar-qrcode"
+        >
+            联系我
+        </button>
+    </div>
+    <div
+            v-if="isDisplayContactBar"
+            v-show="isDisplayQRcodePopup"
+            class="qrcode-popup"
+            v-tap="{methods: () => {isDisplayQRcodePopup = false}}"
+    >
+        <div class="qrcode-popup__container">
+            <div class="qrcode-popup__container-header">
+                <p class="qrcode-popup__container-header-profile" v-cloak>
+                    <img :src="agentInfo.headimgurl" alt="" class="avatar" v-cloak>
+                    {{ agentInfo.name? agentInfo.name: agentInfo.nickname }}为您服务
+                </p>
+                <p>长按识别小程序码</p>
+                <p>立即咨询</p>
+            </div>
+            <div class="qrcode-popup__container-body">
+                <img :src="QRcodeBase64String" id="QRcode" class="QRcode">
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    var page=1;
+    var pageDetail=1;
+    new Vue({
+        el: '#app',
+        data: {
+            pullToRefresh:null,
+            pullToRefresh2:null,
+            articleInfo:{},//文章详情数据
+            focus:false,  //评论栏是否获取焦点
+            commentsInfo:[],    //评论数组
+            commentsDetailInfo:[],  //详情评论数组
+            commentsText:"",    //评论输入的内容
+            commentsDetailText:"",    //详情评论输入的内容
+            popoIndex:0,    //回复评论的索引
+            popoPlaceholder:"", //回复评论人提示
+            popoReplyid:0,  //回复评论人id
+            advertisingInfo:{}, //轮播图数据
+            zxInfo: [], //资讯
+            buildingInfo: [], //楼盘
+            zx_width: 100,  //资讯头条对应的宽度
+            isDisplayQRcodePopup: false,
+            QRcodeBase64String: '',
+            agentInfo: {}
+        },
+        mounted: function () {
+            this.$nextTick(function () {
+                var _this=this;
+                ajax('articleAjax/getArticleDetailData',{id:getQueryString('id')},function(res){
+                    _this.articleInfo=res.articleInfo;
+                    //  _this.commentsInfo=res.commentsInfo;
+                    _this.advertisingInfo=res.advertisingInfo?res.advertisingInfo:{};
+                    _this.zxInfo=res.zxInfo?res.zxInfo:[];
+                    _this.buildingInfo=res.buildingInfo;
+                    _this.setZxWidth();
+
+                    var agent_id = res.agent_id;
+                    var title = res.articleInfo.title;
+                    var cover = DOMAINIMAGE
+                    var description = res.articleInfo.description
+
+                    //初始化分享
+                    ajax('publicAjax/getShare',{},function(res2){
+                        cover+=res.articleInfo.cover
+
+                        wx.config({
+                            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                            appId: res2.data.appId, // 必填，公众号的唯一标识
+                            timestamp: res2.data.timestamp, // 必填，生成签名的时间戳
+                            nonceStr: res2.data.nonceStr, // 必填，生成签名的随机串
+                            signature: res2.data.signature,// 必填，签名
+                            jsApiList: ['checkJsApi','onMenuShareTimeline','onMenuShareAppMessage'] // 必填，需要使用的JS接口列表
+                        });
+                        wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
+                            console.log(666,DOMAINIMAGE,cover,title,description)
+                            wx.onMenuShareAppMessage({
+                                title: title, // 分享标题
+                                desc: description, // 分享描述
+                                //link: DOMAINNAME + 'agentside/pages/news/poster.html?id='+getQueryString('id')+'&agent_id='+agent_id+'&source=2',
+                                link: window.location.href+'&agent_id='+agent_id+'&source=2',
+                                imgUrl: cover, // 分享图标
+                                success: function () {
+                                    myAddShare('2',getQueryString('id'),'0');
+                                },
+                                cancel:function(){}
+                            });
+                            wx.onMenuShareTimeline({
+                                title: title, // 分享标题
+                                desc: description, // 分享描述
+                                //link: DOMAINNAME + 'agentside/pages/news/poster.html?id='+getQueryString('id')+'&agent_id='+agent_id+'&source=2',
+                                link: window.location.href+'&agent_id='+agent_id+'&source=2',
+                                imgUrl: cover, // 分享图标
+                                success: function () {
+                                    myAddShare('2',getQueryString('id'),'0');
+                                },
+                                cancel:function(){}
+                            });
+                        });
+                    });
+                });
+
+                //经纪人联系
+                if(getQueryString('agent_id')&&isLogin()==2){
+                    var that = this
+                    ajax('articleAjax/getAgentInfo',{agent_id:getQueryString('agent_id')},function(res){
+                        if (res.success) {
+                            that.QRcodeBase64String = res.data.qrCode;
+                            that.agentInfo = res.data.agentInfo;
+                        }
+                        console.log(that.QRcodeBase64String,that.agentInfo)
+                    },false,true)
+                }
+
+                mui('.my-detail-scroll').scroll({
+                    scrollY: true, //是否竖向滚动
+                    scrollX: false, //是否横向滚动
+                    startX: 0, //初始化时滚动至x
+                    startY: 0, //初始化时滚动至y
+                    indicators: false, //是否显示滚动条
+                    deceleration:0.0005, //阻尼系数,系数越小滑动越灵敏
+                    bounce: true //是否启用回弹
+                });
+                _this.pullToRefresh2=mui("#my-scroll").pullToRefresh({
+                    up: {
+                        auto: true, //自动执行一次上拉加载，可选；
+                        show: false, //显示底部上拉加载提示信息，可选；
+                        callback:function(){
+                            setTimeout(function(){
+                                _this.pullupRefresh2(_this.pullToRefresh2);
+                            },300)
+                        }
+                    }
+                });
+                _this.pullToRefresh=mui(".popo-content-scroll").pullToRefresh({
+                    up: {
+                        auto: false, //自动执行一次上拉加载，可选；
+                        show: false, //显示底部上拉加载提示信息，可选；
+                        callback:function(){
+                            setTimeout(function(){
+                                _this.pullupRefresh(_this.pullToRefresh,_this.commentsInfo[_this.popoIndex].id);
+                            },300)
+                        }
+                    }
+                });
+            })
+            window.vue = this;
+        },
+        computed:{
+            is_login(){
+                return isLogin()
+            },
+            isDisplayContactBar() {
+                return this.is_login!='1' && getQueryString('agent_id') && this.agentInfo && this.agentInfo.id;
+            }
+        },
+        methods:{
+            //资讯头条对应的宽度
+            setZxWidth() {
+                var myLength = this.zxInfo.length;
+                this.zx_width=parseInt(myLength) * 40;
+            },
+            onComments(){
+                setLocation('pages/index/comments.html?id='+getQueryString('id'));
+            },
+            setFocus(){
+                $('.my-focus').focus();
+            },
+            onArticleDetail(event){ //跳转文章详情
+                setLocation('pages/index/article_detail.html?id='+event.id);
+            },
+            onBuildDetail(event){    //楼盘跳转
+                setLocation('pages/build/build_detail.html?id='+event.id);
+            },
+            onReply(event){
+                var _this=this;
+                _this.popoIndex=event.index;
+                _this.popoPlaceholder=_this.commentsInfo[event.index].nickName;
+                _this.popoReplyid=_this.commentsInfo[event.index].id;
+                //获取详情评论数据
+                pageDetail=1;
+                _this.pullupRefresh(_this.pullToRefresh,_this.commentsInfo[event.index].id);
+                mui('#popover').popover('show');
+                mui('.my-detail-scroll').scroll().scrollTo(0,0,100);
+            },
+            //获取评论数据
+            pullupRefresh2(_self){
+                var _this=this;
+                ajax('articleAjax/getReply',{page:page,aid:getQueryString('id')},function(res){
+                    if(res.success){
+                        if(res.data.data){
+                            _this.commentsInfo=_this.commentsInfo.concat(res.data.data);
+                        }
+                        _self.endPullUpToRefresh(res.data.data? res.data.data.length <10: true);
+                        page++;
+                    }else{
+                        _self.endPullUpToRefresh(true);   //内容为空了
+                    }
+                });
+            },
+            // 点赞
+            like_btn(id,status){
+                var _this=this;
+                ajax('articleAjax/setPraise',{cid:id,status:status},function(res){
+                    if(res.success){
+                        page = 1
+                        _this.commentsInfo = []
+                        _this.pullupRefresh2(_this.pullToRefresh2);
+                        _this.pullupRefresh(_this.pullToRefresh,_this.commentsInfo[_this.popoIndex].id);
+                        if(status==1){
+                            console.log(status)
+                            mui.toast('点赞成功！');
+                        }else if(status==0){
+                            console.log(status)
+                            mui.toast('取消点赞成功！');
+                        }
+                    }else{
+                        mui.toast('失败');
+                    }
+                });
+            },
+            // 评论详情点赞
+            like_btnss(id,status){
+                var _this=this;
+                ajax('articleAjax/setPraise',{cid:id,status:status},function(res){
+                    if(res.success){
+                        console.log(status)
+                        page = 1
+                        pageDetail=1
+                        _this.commentsDetailInfo = []
+                        _this.pullupRefresh2(_this.pullToRefresh2);
+                        _this.pullupRefresh(_this.pullToRefresh,_this.commentsInfo[_this.popoIndex].id);
+                        if(status==1){
+                            console.log(status)
+                            mui.toast('点赞成功！');
+                        }else if(status==0){
+                            console.log(status)
+                            mui.toast('取消点赞成功！');
+                        }
+                    }else{
+                        mui.toast('失败');
+                    }
+                });
+            },
+            //获取详情评论数据
+            pullupRefresh(_self,root_id){
+                var _this=this;
+                ajax('articleAjax/getDetailReply',{page:pageDetail,root_id:root_id},function(res){
+                    if(res.success){
+                        if(pageDetail==1){
+                            _this.commentsDetailInfo=res.data.data;
+                        }else{
+                            _this.commentsDetailInfo=_this.commentsDetailInfo.concat(res.data.data);
+                        }
+                        _self.endPullUpToRefresh();
+                        pageDetail++;
+                    }else{
+                        if(pageDetail==1){
+                            _this.commentsDetailInfo=[];
+                        }
+                        _self.endPullUpToRefresh(true);   //内容为空了
+                    }
+                });
+            },
+            onReplyEdetail(event){
+                this.popoPlaceholder=event.popoPlaceholder;
+                this.popoReplyid=event.popoReplyid;
+                $('.my-focus2').focus();
+            },
+            //详情回复
+            onSendDetail(){
+                var _this=this;
+                var commentsDetailText=_this.commentsDetailText;
+                if(commentsDetailText==""){
+                    mui.toast('请输入评论内容！');
+                    return false;
+                }
+                ajax('articleAjax/addDetailComments',{parent_id:_this.popoReplyid,root_id:_this.commentsInfo[_this.popoIndex].id,content:commentsDetailText,aid:getQueryString('id')},function(res){
+                    if(res.success){
+                        mui.toast('评论成功！');
+                        _this.commentsDetailText="";
+                        _this.commentsDetailInfo=_this.commentsDetailInfo.concat(res.data.commentsInfo);
+                        // _this.pullupRefresh2(_this.pullToRefresh2);
+                    }else{
+                        mui.toast('评论失败！');
+                    }
+                });
+            },
+            onSend(){
+                var _this=this;
+                var commentsText=_this.commentsText;
+                if(commentsText==""){
+                    mui.toast('请输入评论内容！');
+                    return false;
+                }
+                ajax('articleAjax/addComments',{content:commentsText,aid:getQueryString('id')},function(res){
+                    if(res.success){
+                        mui.toast('评论成功！');
+                        _this.commentsText = '';
+                        _this.commentsInfo=_this.commentsInfo.concat(res.data.commentsInfo);
+                        // _this.pullupRefresh2(_this.pullToRefresh2);
+                    }else{
+                        mui.toast('评论失败！');
+                    }
+                });
+            },
+        }
+    })
+</script>

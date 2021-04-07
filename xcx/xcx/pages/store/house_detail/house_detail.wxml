@@ -1,0 +1,132 @@
+<view id='my-scroll'>
+  <view id="my-gzzt" bindtap='onCollection'>
+    <image src="{{is_collection?'/image/yigz.png':'/image/weigz.png'}}"></image>
+    <view class="{{is_collection?'my-tick':''}}">{{is_collection?'已收藏':'收藏'}}</view>
+  </view>
+  <swiper class='my-swiper' bindchange="onSwiperChange">
+    <block wx:for="{{shuffleInfo}}" wx:key="index">
+      <swiper-item>
+        <image src="{{domain_img+item.img}}" class="slide-image"/>
+      </swiper-item>
+    </block>
+  </swiper>
+  <view class='my-num' wx:if="{{shuffleInfo.length>0}}">{{current+1}}/{{shuffleInfo.length}}</view>
+  <view id="my-view1">
+    <view class="view1-1"><view class='view1-title van-ellipsis'>{{buildingInfo.name}}</view><view class="view1-zs">{{buildingInfo.sales_status}}</view></view>
+    <view class="view1-2" bindtap='onCalculator'><image src='/image/icon-fangdaijisuanqi.png'></image></view>
+  </view>
+  <view id='my-view2'>
+    <view class='view2-li'>
+      <view class="view2-title">{{buildingInfo.fold}}元/m²</view>
+      <view class='view2-tag'>参考均价</view>
+    </view>
+    <view class='view2-l'></view>
+
+    <view class='view2-l'></view>
+    <view class='view2-li'>
+      <view class="view2-title">{{buildingInfo.house_type}}</view>
+      <view class='view2-tag'>类型</view>
+    </view>
+  </view>
+  <view id='my-view3'>
+    <view class='view3-li'>开盘时间：<text class='view3-val'>{{buildingInfo.kaipang_time}}</text></view>
+    <view class='view3-li'>类型：<text class='view3-val'>{{buildingInfo.house_type_str}}</text></view>
+    <view class='view3-li'>楼层：<text class='view3-val'>{{buildingInfo.louchen}}/{{buildingInfo.floor_height}}层</text></view>
+    <view class='view3-li'>装修：<text class='view3-val'>{{buildingInfo.decoration}}</text></view>
+    <view class='view3-li'>建筑面积：<text class='view3-val'>{{buildingInfo.total_construction_area}}m²</text></view>
+    <view class='view3-li'>产权年限：<text class='view3-val'>{{doorInfo[0].year_number?doorInfo[0].year_number:0}}</text></view>
+    <view class='view3-li2'><view class='view3-ad'>楼盘地址：<text class='view3-address'>{{buildingInfo.address}}</text></view><view class="view3-dt"><image src='/image/icon-artical-map.png'></image><view>地图</view></view></view>
+    <view class='more-house' data-lindex='0' bindtap='onHouseInfo'>更多房源信息</view>
+  </view>
+  <!-- <view id='my-view4'>
+    <view class='view4-li' data-tag='kp' bindtap='onMessage'><image src='/image/icon-artical-notice1.png'></image><view>开盘通知</view></view>
+    <view class='view4-l'></view>
+    <view class='view4-li' data-tag='jj' bindtap='onMessage'><image src='/image/icon-artical-notice2.png'></image><view>降价通知</view></view>
+  </view> -->
+  <view id='my-view5'>
+    <view class='my-h2'>
+      <view class='my-h2-1'>主力户型</view>
+      <view class='my-h2-2' bindtap='onModelList'>查看全部 <van-icon name="arrow" size="3vw"/></view>
+    </view>
+    <scroll-view scroll-x class='view5-center'>
+      <view class="view5-center-list">
+        <view class='view5-li' wx:for="{{doorInfo}}" wx:key="index" data-id='{{item.id}}' bindtap='onModelDetail'>
+          <image src='{{domain_img+item.pic}}'></image>
+          <view class='view5-col1'>
+            <view class='view5-row1'>{{item.title}}</view>
+            <view class='view5-row2'>{{item.sales_status}}</view>
+            <view class='view5-row3'>{{item.house_type}}</view>
+          </view>
+          <view class='view5-col2'>建面{{item.construction_area}}m²朝向{{item.orientation}}</view>
+          <view class='view5-col3'>约{{item.price_total}}</view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+  <view id='my-view6'>
+    <view class='my-h2'>
+      <view class='my-h2-1'>位置周边</view>
+      <view class='my-h2-2' data-lindex='4' bindtap='onHouseInfo'>查看全部 <van-icon name="arrow" size="3vw"/></view>
+    </view>
+    <view class='view6-nav'>
+      <view class="view6-nav-li {{index==locationIndex?'my-tick':''}}" wx:for="{{mapInfo}}" wx:key="index" data-index='{{index}}' bindtap='onLocation'>{{item.title}}({{item.data.length}}) </view>
+    </view>
+    <map id="view6-map" scale="14" wx:if="{{!message.is_message}}" longitude="{{mapData.longitude}}" latitude="{{mapData.latitude}}" markers="{{mapData.markers}}"></map>
+    <view class='view6-list'>
+      <view class='view6-list-li' wx:for="{{mapInfo[locationIndex].data}}" wx:key="index" wx:if="{{index<3}}">
+        <view class='view6-li-1 van-ellipsis'>{{item.title}}</view>
+        <view class='view6-li-2'><image src='/image/icon-artical-map2.png'></image><view>{{item.distance}}m</view></view>
+      </view>
+      <view class='view6-btn' data-lindex='4' bindtap='onHouseInfo'>点开查看更多</view>
+    </view>
+  </view>
+  <view id='my-view7'>
+    <view class='my-h2'>
+      <view class='my-h2-1'>楼栋信息</view>
+    </view>
+    <view class='view7-loudong'>
+      <image src='{{buildingInfo.floor_img?domain_name+buildingInfo.floor_img:"/image/empty.png"}}'></image>
+      <view class='view7-floor' style="top:{{item.f_top}}%;left:{{item.f_left}}%;" wx:for="{{floorInfo}}" wx:key="index">{{item.title}}</view>
+    </view>
+    <view class='view7-btn' bindtap='onBuildingList'>查看详细楼栋信息</view>
+  </view>
+  <view id='my-view8'>
+    <view class='my-h2' style='border-bottom:1px solid #eee;'>
+      <view class='my-h2-1'>楼盘推荐</view>
+    </view>
+    <view class="my-lp-lists">
+        <view class='my-lp-list' wx:for="{{lpList}}" wx:key="index" data-id="{{item.id}}" bindtap='onHouseDetail'>
+          <view class='my-lpimg'>
+            <image class='my-lp-ig' src='{{domain_img+item.pic}}'></image>
+            <view class='my-huo'><image src='/image/icon-renqizhi.png'></image> {{item.views_number}}</view>
+          </view>
+          <view class='my-lp-center'>
+            <view class='my-lp-c1'><view class="my-c-1-1 van-ellipsis">{{item.name}}</view><view class='my-c-1-2'>{{item.sales_status}}</view></view>
+            <view class='my-lp-c2'>{{item.house_type}} | {{item.city}} {{item.area}}</view>
+            <view class='my-lp-c3'>{{item.fold}}元/m²</view>
+          </view>
+        </view>
+      </view>
+  </view>
+  <cover-view id="my-footer" wx:if="{{!message.is_message}}">
+    <cover-view class='f-img'><cover-image src='{{agentInfo.headimgurl}}'></cover-image></cover-view>
+    <cover-view class='f-name'>
+      <cover-view class='f-name-1 van-ellipsis'>{{agentInfo.name}}</cover-view>
+      <cover-view class='f-name-2 van-ellipsis'>{{agentInfo.storename}}</cover-view>
+    </cover-view>
+    <cover-view class='f-btn1' bindtap='onCall'>电话联系</cover-view>
+    <cover-view class='f-btn2'>微聊</cover-view>
+  </cover-view>
+</view>
+<van-popup show="{{message.is_message}}" bind:close="onClose" close-on-click-overlay="{{false}}">
+  <view id="my-pop">
+    <view class='pop-title'>{{message.tag=='kp'?'开盘提醒':'降价提醒'}}<image src='/image/icon-close.png' bindtap='onClose'></image></view>
+    <view class='pop-message'>{{message.tag=='kp'?'开盘':'降价'}}前第一时间提醒您，不错失好房源</view>
+    <view class='pop-btn' wx:if="{{message.tag=='kp'}}" bindtap='onNotice'>{{agentBuildingInfo.kaipan_notice=="0"?'确定提醒':'关闭提醒'}}</view>
+    <view class='pop-btn' wx:if="{{message.tag=='jj'}}" bindtap='onNotice'>{{agentBuildingInfo.jianjia_notice=="0"?'确定提醒':'关闭提醒'}}</view>
+  </view>
+</van-popup>
+<!-- <view class='button_box' wx:if="{{userinfoshow}}">
+  <view class='btn_title'>欢迎使用</view>
+  <button class='my-button' open-type="getUserInfo" bindgetuserinfo="onUser">确认授权</button>
+</view> -->

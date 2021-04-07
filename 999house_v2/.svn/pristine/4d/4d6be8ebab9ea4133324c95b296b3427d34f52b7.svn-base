@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>发现</title>
+		<link rel="stylesheet" href="../../common/vant/index.css"/>
+		<link rel="stylesheet" href="../../common/css/public.css?v=1.18"/>
+		<link rel="stylesheet" href="../../static/css/discover/index.css"/>
+		<style>
+			
+		</style>
+	</head>
+	<body>
+		<div id="app" v-cloak ref="DOM">
+			<i class="iconfont iconsousuo" @click="$api.goPage('discover/search.html')"></i>
+			<van-tabs class="tabs" v-model="navActive" sticky @change="navChange">
+				<van-tab v-for="( item, index ) in navList" :title="item.name" :key="index">
+					
+					<div class="tag" v-if="item.name == '资讯'">
+						<common-tag 
+							:list="item.tag" 
+							:tag="tag" 
+							margin-right="0.6rem" 
+							:cancel="false"
+							:bg="true"
+							@change="tagChange"
+						>
+						</common-tag>
+					</div>
+					
+					<!-- <div class="new-house-activity" v-if="index == 2">
+						<div class="new-house-activity-item" v-for="(list,index) in item.list" :key="index">
+							<div>{{list.name}}</div>
+							<img :src="list.img">
+						</div>
+					</div> -->
+					
+					<div class="market" v-if="item.name == '研究院' && item.tag[tag] && item.tag[tag].market">
+						<div class="market-wrap">
+							<div class="market-left" :style="{ backgroundImage: 'url(../../static/index/bg.png)' }">
+								<span class="market-title">{{ item.tag[tag].market.title }}</span>
+								<span>{{ item.tag[tag].market.time }}</span>
+							</div>
+							<div class="market-right">
+								<div class="market-right-top">
+									<div>
+										<p><span>{{ item.tag[tag].market.average }}</span>元/m²</p>
+										<span>成交均价</span>
+									</div>
+									<div v-if="item.tag[tag].market.lastMonth.num">
+										<p>
+											<i 
+												class="iconfont" 
+												:class="[ item.tag[tag].market.lastMonth.num.slice(0,-1) < 0 ? 'iconFill1beifen11' : 'iconFill1beifen12' ]"
+											>
+											</i>
+											{{ item.tag[tag].market.lastMonth.num.indexOf('-') == -1 ? item.tag[tag].market.lastMonth.num : item.tag[tag].market.lastMonth.num.slice(1,item.tag[tag].market.lastMonth.num.length) }}
+										</p>
+										<span>比上月</span>
+									</div>
+									<div v-if="item.tag[tag].market.lastYear.num">
+										<p>
+											<i
+												class="iconfont" 
+												:class="[ item.tag[tag].market.lastYear.num.slice(0,-1) < 0 ? 'iconFill1beifen11' : 'iconFill1beifen12' ]"
+											>
+											</i>
+											{{ item.tag[tag].market.lastYear.num.indexOf('-') == -1 ? item.tag[tag].market.lastYear.num : item.tag[tag].market.lastYear.num.slice(1,item.tag[tag].market.lastYear.num.length) }}
+										</p>
+										<span>比去年</span>
+									</div>
+								</div>
+								<div :class="[ tag == 0 ? 'market-right-bottom' : 'market-right-bottom2' ] ">
+									<template v-if="tag == 0">
+										<div>
+											<p>{{ item.tag[tag].market.opening }}</p>
+											<span>近期开盘(个)</span>
+										</div>
+										<div>
+											<p>{{ item.tag[tag].market.sale }}</p>
+											<span>在售楼盘(个)</span>
+										</div>
+										<div>
+											<p>{{ item.tag[tag].market.sold }}</p>
+											<span>成交套数(套)</span>
+										</div>
+									</template>
+									<template v-else>
+										<p>{{ item.tag[tag].market.attitude }}</p>
+										<div>
+											<div>市场情绪</div>
+											<span class="van-ellipsis">{{ item.tag[tag].market.tip }}</span>
+										</div>
+									</template>
+								</div>
+							</div>
+						</div>
+						<div class="market-tip" v-if="tag == 1">
+							近3个月上涨天数{{ item.tag[tag].market.state.up }}天, 下跌天数{{ item.tag[tag].market.state.down }}天, 累计<span>{{ item.tag[tag].market.state.state }}</span>
+						</div>
+					</div>
+					
+					<div class="chart"  v-if="item.name == '研究院'">
+						<div class="chart-top">
+							<span class="chart-title">成交价格走势</span>
+							<div @click="chartChange">
+								<span :class="[ chartActive == 0 ? 'text-active' : '' ]" data-id="0">近半年</span>
+								<span :class="[ chartActive == 1 ? 'text-active' : '' ]" data-id="1">近一年</span>
+							</div>
+						</div>
+						<div class="chart-tip">
+							{{ item.city }}均价(万/m²)
+						</div>
+						<canvas class="myChart" ref="myChart"></canvas>
+					</div>
+					
+					<div class="average" v-if="item.name == '研究院' && item.tag[tag] && item.tag[tag].averageMonth && item.tag[tag].averagePrice">
+						<h4 class="average-title">{{ item.tag[tag].averageMonth }}月区域均价</h4>
+						<div class="average-wrap">
+							
+							<div class="average-box" v-for="(list,key) in item.tag[tag].averagePrice" :key="key">
+								<div class="average-item">
+									<div class="average-top">
+										<span> {{ list.name }} </span>
+										<span> 
+											<i 
+												class="iconfont" 
+												:class="[ 
+													list.type == 0 ? 'iconFill1beifen11' : '',
+													list.type == 1 ? 'iconFill1beifen12' : '',
+												]"
+											>
+											</i>
+											{{ (list.type == 0 || list.type == 1) ? list.num : '持平' }}
+										</span>
+									</div>
+									<div class="average-bottom">
+										<span>{{ list.price }}</span><p>元/m²</p>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<van-list
+						v-model="loading"
+						:finished="finished"
+						finished-text="没有更多了"
+						@load="onLoad"
+					>
+						<common-template :list="activeList" @del="(e)=>{ activeList = e }" :cate_id="cate_id"></common-template>
+					</van-list>
+					
+				</van-tab>
+			</van-tabs>
+			
+			<!-- 底部栏 -->
+			<common-tabbar active="发现"></common-tabbar>
+			
+			<div id="container-user-site"></div>
+		</div>	
+	</body>
+</html>
+
+<script src="../../common/js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/rem.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/public.js?v=1.18" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/antv.f2.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/vant/index.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=53da8183ca23918f2f81c79a5b2ede15&plugin=AMap.Geocoder"></script>
+<script type="module">
+	import { http, loginMixin } from '../../common/js/method/http.js?v=1.18';
+	
+	Vue.use(http);
+	const myComponents = [
+		'../../components/common/tag/index',
+		'../../components/common/template/index',
+		'../../components/common/tabbar/index',
+	];
+	
+	$api.addComponents(myComponents)
+		.then(()=>{
+			
+			Vue.use(vant.Lazyload);
+			
+			const app = new Vue({
+				el: '#app',
+				data: {
+					// nav
+					navActive: 0,
+					navList: [],
+					// tag筛选
+					tag: 0,
+					
+					activeList: [],
+					page: 0,
+					maxPage: 2,
+					loading: true,
+					finished: false,
+					chartActive: 0,
+					chart: 0,
+					cate_id: 0,
+					city_no: 0
+				},
+				components: {
+					commonTag,
+					commonTabbar,
+					commonTemplate,
+				},
+				mixins: [loginMixin],
+				created(){
+					this.$http.getCurrentCity().then( data=>{
+						this.city_no = data.city_no;
+						
+						// 获取nav列表
+						this.getNavList();
+					})
+				},
+				methods:{
+					init() {
+						this.activeList = [];
+						this.page = 0;
+						this.maxPage = 2;
+						this.loading = true;
+						this.finished = false;
+					},
+					// 获取nav列表
+					getNavList() {
+						this.$http.ajax({
+							url:'/index/news/getColumnList'
+						}).then(res=>{
+							if(res.code == 1){
+								
+								const data = res.data;
+								// console.log(data)
+								const arr = [];
+								
+								data.map( item=>{
+									const obj = {};
+									
+									obj.id = item.id;
+									obj.name = item.name;
+									
+									if( item.children && item.children.length > 0 ){
+										obj.tag = [];
+										
+										item.children.map( child=>{
+											const newObj = {};
+											newObj.id = child.id;
+											newObj.name = child.name;
+											
+											obj.tag.push(newObj);
+										})
+									}
+									
+									arr.push(obj);
+								})
+								
+								// console.log(arr)
+								this.navList = arr;
+								
+								this.$nextTick(()=>{
+									this.initActive(arr);
+									
+									this.onLoad();
+								})
+							}
+						}).catch(res=>{
+							this.$toast(res.msg);
+						});
+					},
+					// 初始化nav
+					initActive(data) {
+						const option = this.$api.funcUrlDel().option;
+						
+						if( option.active ){
+							data.map( (item,index)=>{
+								if( item.name == option.active ){
+									this.navActive = index;
+								}
+							});
+						}
+					},
+					// 切换nav
+					navChange() {
+						console.log(888)
+						this.tag = 0;
+						this.init();
+						this.$refs.DOM.scrollTo(0,0);
+
+						this.$api.debounce(this.onLoad,500);
+					},
+					tagChange( e ) {
+						this.tag = e;
+						// this.cate_id = this.navList[0].tag[e].id;
+						this.init();
+
+						this.$api.debounce(this.onLoad,500);
+						
+						// if( this.navList[this.navActive].id == 19 ){
+							
+						// }
+					},
+					chartChange(e) {
+						if( this.chartActive != e.target.dataset.id ){
+							const data = e.target.dataset.id == 0 ? this.navList[this.navActive].chartList[this.tag].halfYear : this.navList[this.navActive].chartList[this.tag].year;
+							
+							this.chartActive = e.target.dataset.id;
+
+							this.chart.changeData(data);
+						}
+					},
+					chartCreat( el, list, chartY ) {
+						const that = this;
+						const labelStyle = {
+							fontSize: 11,
+							fontWeight: 500,
+						};
+				
+						console.log(list)
+						
+						
+						that.chart = new F2.Chart({
+						  id: el,
+						  appendPadding: [15, 0, 0, 0],
+						  pixelRatio: window.devicePixelRatio
+						});
+						
+						// 坐标轴显示
+						that.chart.source(list, {
+							value: {
+								tickCount: 5,
+								// ticks: chartY,
+								alias: '均价',
+								formatter: function formatter(ivalue) {
+									return parseInt(ivalue)+ '万';
+									// if( String(ivalue).indexOf('.') != -1 ){
+									// 	return ivalue + '万';
+									// } else {
+									// 	return ivalue + '.0万';
+									// }
+								}
+							},
+							data: {
+								type: 'timeCat',
+								mask: 'YYYY-MM',
+								range: [0.1, 0.9],
+							    tickCount: 6,
+							 }
+						});
+						
+						// 坐标轴字体样式
+						that.chart.axis('data', {
+						   label: labelStyle,
+						   labelOffset: 12,
+						}).axis('value', {
+						   label: labelStyle
+						});
+						
+						
+						
+						// 提示信息
+						that.chart.tooltip({
+							showTitle: true,
+							offsetY: 30,
+							offsetX: 35,
+							background: {
+								radius: 2,
+								fill: 'rgba(0, 0, 0, .3)',
+								padding: [ 6, 10 ]
+							},
+							nameStyle: {
+							    fill: '#fff',
+							},
+							showItemMarker: false,
+						});
+				
+						
+						that.chart.line()
+							.position('data*value')
+							.color('rgba(254, 130, 30, 1)');
+						
+						that.chart.render();
+					},
+					onLoad() {
+						if( this.finished == true ){
+							return;
+						}
+
+						const el = this.navList[this.navActive];
+						const id = el.id;		
+						const page  = this.page + 1;
+						let newList = [];
+						
+						if( page > this.maxPage ){
+							this.loading = false;
+							this.finished = true;
+							return;
+						}
+						
+						//	资讯-9 视频-13 选好房-18 研究院-19
+						if( id == 9 || id == 13 || id == 19 ) {
+							const myTag = el.tag ? el.tag[this.tag].id : id;
+							
+							const data = {
+								pid: id,
+								cate_id: myTag,
+								city_no: this.city_no,
+								page: page
+							}
+							
+							// console.log(data)
+							
+							// 研究院-19
+							if( id == 19 ) {
+								this.getChartList();
+							}
+							
+							this.$http.ajax({
+								url:'/index/news/getNewsList',
+								data: data
+							}).then(res=>{
+								const data = res.data;
+								
+								this.cate_id = myTag;
+								
+								if( data.length == 0 ){
+									// 数据全部加载完成
+									this.finished = true;
+								} else {
+									this.page = data.current_page;
+									this.maxPage = data.last_page;
+									
+									if( this.page == this.maxPage ){
+										this.finished = true;
+									}
+									
+									if( data.ad_lsit.length > 0 ){
+										let adIndex = 0;	
+										
+										data.list.map( (item,index)=>{
+											newList.push( item );
+											
+											if( (index+1)%6 == 3 ){
+												let ad = data.ad_lsit[adIndex];
+												ad = this.formatAdv(ad);
+
+												if( ad ){
+													newList.push( ad );
+													adIndex++;
+												}
+											}
+										})
+									} else {
+										newList = data.list;
+									}
+									
+									this.activeList = [...this.activeList, ...newList];
+									// console.log(newList)
+									// console.log(this.activeList.length)
+								}
+								
+								this.loading = false;
+								// console.log(res)
+							})
+						}else if( id == 18 ){	//选好房-18
+							// this.getHousesList();
+							
+							const data = {
+								city_no: this.city_no,
+								recommend: 1,
+								page_size: 6,
+								page: page
+							}
+							
+							this.$http.ajax({
+								url:'/index/estates/getEstatesList',
+								data: data
+							}).then(res=>{
+								let data = res.data.list;
+								//const ad_list = res.data.adv_list;
+								let newData = [];
+								const tag = this.$api.localGet('u-tag');
+								
+								let adIndex = 0;
+								// console.log(tag);
+								//console.log('猜你喜欢',data);
+								console.log(res)
+								
+								this.page = res.data.current_page;
+								this.maxPage = res.data.last_page;
+								
+								if( this.page == this.maxPage ){
+									this.finished = true;
+								}
+
+								// data.map( (item,index)=>{
+								// 	console.log(item)
+								// 	const cover = item.detail_cover && item.list_cover ? 1 : 0;
+									
+								// 	const obj = {
+								// 		id: item.id,
+								// 		type: 8, // 8-新房（数据和类型4-广告楼盘有图 雷同）
+								// 		info: {
+								// 			name: item.name,
+								// 			tip: [],
+								// 			price: item.price,
+								// 			site: item.area_str + item.business_area_str,
+								// 			area: item.built_area,
+								// 			lab: []
+								// 		},
+								// 		img:  [this.$http.testUrl(item.list_cover)],
+								// 		cover: cover
+								// 	};
+									
+								// 	obj.info.tip.push(tag['estatesnew_sale_status'][item.sale_status]);
+									
+								// 	if( item.house_purpose != 0 ){
+								// 		obj.info.tip.push(tag['house_purpose'][item.house_purpose]);
+								// 	}
+									
+								// 	if(!item.feature_tag){
+								// 		item.feature_tag = [];
+								// 	} else {
+								// 		item.feature_tag.length&&item.feature_tag.map( myTag=>{
+								// 			obj.info.tip.push(tag['feature_tag'][myTag]);
+								// 		})
+								// 	}
+									
+								// 	item.selling_point.map( point=>{
+								// 		let objP = {
+								// 			name: point.title
+								// 		}
+										
+								// 		objP.type = point.type == 'hot' ? 0 : 1;
+										
+								// 		obj.info.lab.push(objP);
+								// 	})
+									
+								// 	newData.push(obj);
+									
+								// 	if( index != 0 && (index+1)%3 == 0 ){
+								// 		const ad = ad_list[adIndex];
+									
+								// 		if( ad ){
+								// 			newData.push( ad );
+								// 			adIndex++;
+								// 		}
+								// 	}
+								// })
+								
+								newData = this.$api.createHouseList(res.data,1);
+								// console.log(newData)
+								this.activeList = [...this.activeList, ...newData];
+								
+								this.loading = false;
+							})
+						}
+					},
+					getHousesList() {
+						
+					},
+					getChartList() {
+						let time = new Date();
+						time = this.format(time);
+						
+						const newData = {
+							city: this.city_no,
+							date: time,
+							is_chart_list: 1 
+						}
+						
+						this.$http.ajax({
+							url:'/index/news/getInstituteList',
+							data: newData
+						}).then(res=>{
+							const data = res.data;
+							const info = data.info;
+							
+							const obj = {
+								market: {
+									title: info.city_no_name,
+									time: info.show_time + '月份',
+									average: info.price,
+									lastMonth: {
+										type: 1,
+										num: info.last_month_rate
+									},
+									lastYear: {
+										type: 0,
+										num: info.last_year_rate
+									},
+									opening: info.recent_opening,
+									sale: info.on_sale,
+									sold: info.deal
+								},
+								averageMonth: info.show_time,
+								averagePrice: info.city_price
+							}
+							
+							const obj2 = {
+								city: info.city_no_name,
+								chartList: [
+									{
+										halfYear: data.char_6,
+										year: data.char_12
+									}
+								]
+							}
+							
+							this.$set(this.navList[this.navActive].tag, this.tag, { ...this.navList[this.navActive].tag[this.tag], ...obj});
+							this.$set(this.navList, this.navActive, { ...this.navList[this.navActive], ...obj2});
+							
+							this.$nextTick(()=>{
+								this.chartCreat( this.$refs.myChart[0], this.navList[this.navActive].chartList[this.tag].halfYear);
+							});
+							
+						})
+					},
+					format(date,fmt) {
+						if(!fmt ){
+							fmt = 'yyyy-MM-dd';
+						}
+						var o = {
+							"M+": date.getMonth() + 1, //月份
+							"d+": date.getDate(), //日
+							"h+": date.getHours(), //小时
+							"m+": date.getMinutes(), //分
+							"s+": date.getSeconds(), //秒
+							"q+": Math.floor((date.getMonth() + 3) / 3), //季度
+							"S": date.getMilliseconds() //毫秒
+						};
+					
+						if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (date.getFullYear() + "").substr(4 - RegExp.$1.length));
+						for (var k in o)
+							if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+						return fmt;
+					},
+
+					formatAdv(advlist){
+						if(!advlist.href&&advlist.info){
+							advlist.href = 'houses/index.html?id='+advlist.info.estate_id+'&cover='+advlist.cover;
+						}
+						
+						let tips = [];	
+						let new_lab = [];	
+						if(advlist.info){
+							let adv_info = advlist.info															
+							tips = tips.concat($api.getTagsText('estatesnew_sale_status',advlist.info.sale_status));
+							tips = tips.concat($api.getTagsText('house_purpose',advlist.info.house_purpose));
+							if(advlist.info.feature_tag){
+								tips = tips.concat($api.getTagsText('feature_tag',advlist.info.feature_tag));
+							}
+							advlist.info.tip = tips;
+
+							if(advlist.info.lab){
+								let lab = advlist.info.lab
+								
+								for(let i in lab){
+									let item = lab[i]
+									if(item.type == 'discount'){
+										item.type = 1;
+										new_lab.push({
+											name: item.title,
+											type: item.type,
+										})
+									}
+									if(item.type == 'hot'){
+										item.type = 0;
+										new_lab.push({
+											name: item.title,
+											type: item.type,
+										})
+									}
+								}
+							}
+							advlist.info.lab = new_lab;
+						}
+						
+						
+						return advlist;
+					},
+				},
+			})
+		})
+	
+	
+</script>

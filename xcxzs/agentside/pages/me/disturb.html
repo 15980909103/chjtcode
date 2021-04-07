@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>勿扰模式</title>
+    <link rel="stylesheet" type="text/css" href="../../static/css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/mui/css/mui.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/mui/css/mui.picker.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/mui/css/mui.poppicker.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/css/me/disturb.css" />
+    <script type="text/javascript" src="../../static/js/jquery-2.0.0.min.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.min.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.picker.min.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.poppicker.js" ></script>
+    <script type="text/javascript" src="../../static/js/vue.min.js" ></script>
+    <script type="text/javascript" src="../../static/js/vue-tap.js" ></script>
+    <script type="text/javascript" src="../../static/js/public.js?v=2" ></script>
+    <style>.mui-btn-blue{background-color: #D33233;border: 1px solid #D33233;}</style>
+</head>
+<body>
+<div id="app" class="my-content">
+    <div class="my-div1">
+        <div class="my-scroll-li" v-tap="{methods:onZouqi}">
+            <div class="my-scroll-li-1"><div>周期设置</div></div>
+            <div class="my-scroll-li-2">
+                <div v-cloak :class="[settingInfo.zouqi==''?'my-tag-color':'']">{{settingInfo.zouqi==''?'请选择':settingInfo.zouqi}}</div>
+                <i class="aui-iconfont aui-icon-right"></i>
+            </div>
+        </div>
+        <div class="my-scroll-li" v-tap="{methods:onStartTime}">
+            <div class="my-scroll-li-1"><div>开始时间</div></div>
+            <div class="my-scroll-li-2">
+                <div v-cloak :class="[settingInfo.startTime==''?'my-tag-color':'']">{{settingInfo.startTime==''?'请选择':settingInfo.startTime}}</div>
+                <i class="aui-iconfont aui-icon-right"></i>
+            </div>
+        </div>
+        <div class="my-scroll-li" v-tap="{methods:onEndTime}">
+            <div class="my-scroll-li-1"><div>结束时间</div></div>
+            <div class="my-scroll-li-2">
+                <div v-cloak :class="[settingInfo.endTime==''?'my-tag-color':'']">{{settingInfo.endTime==''?'请选择':settingInfo.endTime}}</div>
+                <i class="aui-iconfont aui-icon-right"></i>
+            </div>
+        </div>
+        <div class="my-scroll-li">
+            <div class="my-scroll-li-1"><div>勿扰模式</div></div>
+            <div class="my-scroll-li-2">
+                <div class="mui-switch mui-switch-mini" :class="[typeSwitch?'mui-active':'']">
+                    <div class="mui-switch-handle"></div>
+                </div>
+            </div>
+        </div>
+        <div class="my-tishi">启用勿扰模式后，在设定时间内不会受到任何推送提醒，请谨慎选择时间，保证工作休憩两不误</div>
+        <div class="my-btn" v-tap="{methods:onSave}">保存</div>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    var disturb_id="0";
+    var zouqiData=[
+        {value: '0',text: '每天'},
+        {value: '1',text: '星期一'},
+        {value: '2',text: '星期二'},
+        {value: '3',text: '星期三'},
+        {value: '4',text: '星期四'},
+        {value: '5',text: '星期五'},
+        {value: '6',text: '星期六'},
+        {value: '7',text: '星期日'}
+    ];
+    new Vue({
+        el: '#app',
+        data: {
+            settingInfo:{
+                zouqi:'',
+                cycle_type:'0',
+                startTime:'',
+                endTime:''
+            },
+            typeSwitch:true
+        },
+        mounted: function () {
+        this.$nextTick(function () {
+            var _this=this;
+            //获取经纪人的勿扰初始数据
+            ajax('surroundingAjax/getDisturb',{},function(res){
+                res = res.data
+                disturb_id=res.disturbInfo.id;
+                var settingInfo=_this.settingInfo;
+                settingInfo.zouqi=res.disturbInfo.zouqi;
+                settingInfo.cycle_type=res.disturbInfo.cycle_type;
+                settingInfo.startTime=res.disturbInfo.start_time;
+                settingInfo.endTime=res.disturbInfo.end_time;
+                _this.settingInfo=settingInfo;
+                if(res.disturbInfo.status_type=="1")
+                    _this.typeSwitch=true;
+                else
+                    _this.typeSwitch=false;
+                userPicker = new mui.PopPicker();
+                timePicker=new mui.DtPicker({"type":"time"});
+                mui('.mui-switch')[0].addEventListener('toggle', function(event) {
+                    _this.typeSwitch=event.detail.isActive;
+                });
+            });
+        })
+        },
+        methods:{
+            onZouqi(){
+                var _this=this;
+                var settingInfo=_this.settingInfo;
+                userPicker.setData(zouqiData);
+                userPicker.show(function(items) {
+                    settingInfo.zouqi=items[0].text;
+                    settingInfo.cycle_type=items[0].value;
+                    _this.settingInfo=settingInfo;
+                    //return false; 返回 false 可以阻止选择框的关闭
+                });
+            },
+            onStartTime(){
+                var _this=this;
+                var settingInfo=_this.settingInfo;
+                timePicker.show(function(rs){
+                    settingInfo.startTime=rs.value;
+                    _this.settingInfo=settingInfo;
+                })
+            },
+            onEndTime(){
+                var _this=this;
+                var settingInfo=_this.settingInfo;
+                timePicker.show(function(rs){
+                    settingInfo.endTime=rs.value;
+                    _this.settingInfo=settingInfo;
+                })
+            },
+            onSave(){
+                var settingInfo=this.settingInfo;
+                var status_type=this.typeSwitch?'1':'0';
+                ajax('surroundingAjax/updateDisturb',{id:disturb_id,cycle_type:settingInfo.cycle_type,start_time:settingInfo.startTime,end_time:settingInfo.endTime,status_type:status_type},function(res){
+                    if(res.success){
+                        mui.toast('保存成功！');
+                    }else{
+                        mui.toast('保存失败！');
+                    }
+                });
+            }
+        }
+    })
+</script>

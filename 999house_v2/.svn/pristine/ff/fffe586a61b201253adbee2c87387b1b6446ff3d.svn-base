@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>搜索</title>
+		<link rel="stylesheet" href="../../common/vant/index.css"/>
+		<link rel="stylesheet" href="../../common/css/public.css?v=1.18"/>
+		<style>
+
+
+
+
+			.search{
+				box-sizing: border-box;
+				padding-right: 0.16rem;
+			}
+			
+			.van-search__content{
+				height: 0.8rem;
+				display: flex;
+				align-items: center;
+				background: #FFFFFF;
+				box-shadow: 0px 0.03rem 0.2rem 0px #F5F5F5;
+				border-radius: 0.06rem;
+				border: 0.01rem solid #E0E0E0;
+			}
+			
+			.van-icon-search{
+				color: rgba(173, 173, 173, 1);
+			}
+			
+			.van-field__control::-webkit-input-placeholder{
+				color: rgba(173, 173, 173, 1);
+			}
+			.van-field__control::-moz-placeholder{   /* Mozilla Firefox 19+ */
+				color: rgba(173, 173, 173, 1);
+			}
+		   .van-field__control:-moz-placeholder{    /* Mozilla Firefox 4 to 18 */
+				color: rgba(173, 173, 173, 1);
+			}
+			.van-field__control:-ms-input-placeholder{  /* Internet Explorer 10-11 */ 
+				color: rgba(173, 173, 173, 1);
+			}
+			
+			.van-search__action{
+				padding-left: 0.32rem;
+				font-size: 0.28rem;
+				color: rgba(117, 117, 117, 1);
+			}
+			
+			.box{
+				box-sizing: border-box;
+				padding: 0 0.32rem 1rem;
+			}
+			
+			.history{
+				height: 1rem;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				font-size: 0.34rem;
+			}
+			
+			.history .iconfont{
+				width: 0.8rem;
+				height: 1rem;
+				color: rgba(173, 173, 173, 1);
+				font-size: 0.28rem;
+				display: flex;
+				justify-content: flex-end;
+				align-items: center;
+			}
+			
+			.history-tip{
+				display: flex;
+				align-items: center;
+				flex-wrap: wrap;
+				margin-bottom: 0.4rem;
+			}
+			
+			.history-tip span{
+				height: 0.55rem;
+				line-height: 0.55rem;
+				padding: 0 0.15rem;
+				background-color: rgba(247, 247, 247, 1);
+				margin: 0 0.35rem 0.2rem 0;
+				font-size: 0.26rem;
+				border-radius: 0.04rem;
+			}
+			
+			.result{
+				padding-bottom: 1rem;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<div id="app" v-cloak>
+			<div class="search">
+				<form action="/">
+				  <van-search
+					v-model="value"
+					show-action
+					placeholder="搜索楼盘、小区、地点"
+					maxlength="15"
+					@search="onSearch"
+					@input="onInput"
+					@cancel="onCancel"
+					@clear="onClear"
+				  />
+				</form>
+			</div>
+			
+			<div class="box" v-show="!showResultBox">
+				
+				<div class="history" v-if="searchHistory && searchHistory.length > 0">
+					<h4>历史搜索</h4>
+					<span class="iconfont iconlajitong" @click="delHistory"></span>
+				</div>
+				
+				<div class="history-tip" v-if="searchHistory && searchHistory.length > 0">
+					<template v-for="(tip,num) in searchHistory" >
+						<span :key="num" @click="tipClick(tip)" v-if="num < 11">
+							{{tip}}
+						</span>
+					</template>
+				</div>
+			</div>
+			<div class="result" v-show="showResultBox">
+				<div class="detail" v-show="showResult">
+					<template v-if="resultDetail.length == 0">
+						<van-empty image="search" description="暂无相关搜索"/>
+					</template>
+					<template v-else>
+						 
+					</template>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
+
+<script src="../../common/js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/rem.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/public.js?v=1.18" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/vant/index.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+<script>
+	Vue.use(vant.Lazyload);
+	 
+	
+	const app = new Vue({
+		el: '#app',
+		data: {
+			value: '',
+			searchHistory: [],
+			
+			showResult: false,
+			showResultBox: false,
+			resultList: [
+				{
+					// 8-新房（数据和类型4-广告楼盘有图 雷同）
+					id: 14,
+					type: 8,
+					info: {
+						name: '世贸湖边首府',
+						tip: ['售完','住宅','热楼盘','装修交付'],
+						price: 34000,
+						site: '湖里 软件园',
+						area: 108,
+						lab: [
+							{ type: 0, name: '入围护理人气楼盘榜', img: '../../static/logo.png' },
+							{ type: 0, name: '享9.5折', img: '../../static/logo.png' },
+							{ type: 0, name: '777', img: '../../static/logo.png' },
+							{ type: 0, name: '888', img: '../../static/logo.png' }
+						]
+					},
+					img:  ['../../static/logo.png','../../static/logo.png','../../static/logo.png','../../static/logo.png','../../static/logo.png']
+				},
+				{
+					id: 15,
+					type: 4,
+					info: {
+						name: '建发养云',
+						tip: ['售完','住宅','热楼盘','装修交付'],
+						price: 34000,
+						site: '湖里 软件园',
+						area: 108,
+						lab: [
+							{ type: 0, name: '入围护理人气楼盘榜', img: '../../static/logo.png' },
+							{ type: 0, name: '享9.5折', img: '../../static/logo.png' },
+							{ type: 0, name: '777', img: '../../static/logo.png' },
+							{ type: 0, name: '888', img: '../../static/logo.png' }
+						]
+					},
+					title: '「样板间」看海无遮挡，大面宽，四房三厅二卫',
+					img:  ['../../static/logo.png','../../static/logo.png','../../static/logo.png','../../static/logo.png','../../static/logo.png']
+				},
+			],
+			resultDetail: []
+		},
+		created() {
+			this.searchHistory = this.uHistory('get');
+		},
+		methods:{
+			tabChange() {
+				this.value = '';
+				this.showResult = this.showResultBox = false;
+				this.resultDetail = [];
+			},
+			// 存取搜索历史
+			uHistory(type) {
+				if( type == 'get' ){
+					const val = $api.localGet('u-map-search-history');
+					
+					if( val ){
+						return JSON.parse(val);
+					} else {
+						return [];
+					}
+				} else {
+					if( type ) {
+
+						if( this.searchHistory.indexOf(type) != -1 ){
+							this.searchHistory.splice(this.searchHistory.indexOf(type),1);
+						}
+						
+						this.searchHistory.unshift(type);
+						
+						if( this.searchHistory.length > 11 ){
+							this.searchHistory.length = 11;
+						}
+					}
+					
+					$api.localSet('u-map-search-history',JSON.stringify(this.searchHistory));
+				}
+			},
+			onSearch(val) {
+				this.uHistory(val);
+				
+				// 显示结果模块
+				if( this.active != 0 ){
+					this.showResult = true;
+				}
+				this.showResultBox = true;
+				
+				this.chooseClassify(this.active);
+			},
+			onInput(val) {
+				val.length == 0 && this.onClear();
+			},
+			onClear() {
+				this.showResult = this.showResultBox = false;
+			},
+			// 取消按钮
+			onCancel() {
+				// $api.goPage('map/index.html');
+			},
+			delHistory() {
+				const key = this.active;
+				
+				this.searchHistory = [];
+				this.uHistory();
+			},
+			// 标签点击
+			tipClick(val) {
+				this.value = val;
+				this.onSearch( val );
+			},
+			
+			// 搜索结果
+			chooseClassify(key) {
+				this.resultDetail = this.resultList;
+				this.showResult = true;
+			},
+			
+		},
+	})
+	
+</script>

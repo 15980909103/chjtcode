@@ -1,0 +1,2 @@
+[2020-11-05T17:54:51+08:00][error] [10501]SQLSTATE[42S02]: Base table or view not found: 1146 Table '9h_v2.9h_estates_has_tag_8' doesn't exist[/mnt/e/project/999house_v2/vendor/topthink/think-orm/src/db/PDOConnection.php:722]
+[2020-11-05T17:54:54+08:00][error] [10501]SQLSTATE[42S02]: Base table or view not found: 1146 Table '9h_v2.9h_estates_has_tag_8' doesn't exist[/mnt/e/project/999house_v2/vendor/topthink/think-orm/src/db/PDOConnection.php:722]

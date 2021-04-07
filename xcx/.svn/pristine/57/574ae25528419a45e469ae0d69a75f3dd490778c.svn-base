@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>报备客户</title>
+    <link rel="stylesheet" type="text/css" href="../../static/css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/mui/css/mui.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/mui/css/mui.picker.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/mui/css/mui.poppicker.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/css/me/report.css?v=1" />
+	<link rel="stylesheet" href="../../common/vant/index.css"/>
+    <script type="text/javascript" src="../../static/js/jquery-2.0.0.min.js" ></script>
+	
+    <script type="text/javascript" src="../../static/mui/js/mui.min.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.pullToRefresh.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.pullToRefresh.material.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.picker.min.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.poppicker.js" ></script>
+	
+    <!-- <script type="text/javascript" src="../../static/js/vue.min.js" ></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script type="text/javascript" src="../../static/js/vue-tap.js" ></script>
+    <script type="text/javascript" src="../../static/js/public.js" ></script>
+    <style>.mui-btn-blue{background-color: #D33233;border: 1px solid #D33233;}</style>
+</head>
+<body>
+<div id="app" class="my-content" v-cloak>
+    <div class="my-div1">
+        <div class="my-li1" v-if="wechatNickname">
+            <div class="li1-1">微信昵称</div>
+            <div class="li1-2"><input type="text" maxlength="4" placeholder="请输入微信昵称" v-model="wechatNickname"></div>
+        </div>
+        <div class="my-li1">
+            <div class="li1-1">客户姓名<span>*</span></div>
+            <div class="li1-2"><input type="text" maxlength="4" placeholder="请输入客户姓名" v-model="name"></div>
+            <!-- <button type="button" class="select-prtofile-icon navigate-to-client-list" v-tap="{methods: navigateToClientList}"></button> -->
+        </div>
+        <div class="my-li1">
+            <div class="li1-1">客户手机号<span>*</span></div>
+            <div class="li1-2"><input type="number" maxlength="11" placeholder="请输入客户手机号" v-model="phone"></div>
+            <div v-show="isDisplayProfileList" class="mui-scroll-wrapper profile-list">
+                <div class="mui-scroll">
+                    <div
+                        v-for="(item, index) in searchProfileList"
+                        :key="index"
+                        class="profile-list__item"
+                        v-tap="{methods: selectProfile, item}"
+                    >
+                        <img :src="item.avatarUrl" class="profile-list__item-avatar">
+                        <p class="profile-list__item-info">
+                            <em class="info-primary name">{{ item.user_name }}</em>
+                            <span class="info-secondy">
+                                <span v-if="item.nickname" class="info-secondy__nickname">{{ item.nickname }}</span>
+                                <span class="info-secondy__phone">
+                                    <em class="info-secondy__phone-match">{{ formatPhoneToMatch(item.user_phone) }}</em>
+                                    <em class="info-secondy__phone-other">{{ formatPhoneToOther(item.user_phone) }}</em>
+                                </span>
+                            </span>
+                        </p>
+                    </div>
+                    <div v-show="isDisplayEmptySearchList" class="profile-list__empty">没有搜索到客户</div>
+                </div>
+            </div>
+        </div>
+        <div class="my-li1">
+            <div class="li1-1">客户性别<span>*</span></div>
+            <div class="li1-2-redio">
+                <div class="mui-input-row mui-radio mui-left">
+                    <label>先生</label>
+                    <input name="radio1" type="radio" value="1" v-model="sex"/>
+                </div>
+                <div class="mui-input-row mui-radio mui-left">
+                    <label>女士</label>
+                    <input name="radio1" type="radio" value="2" v-model="sex"/>
+                </div>
+            </div>
+        </div>
+    </div>
+	<div class="asf">
+		<van-cell title="选择店铺" is-link @click="listshow" :value="store_name" />
+		<!-- <van-popup v-model="listshow"  position="bottom">
+			<van-picker
+			  title="标题"
+			  show-toolbar
+			  :columns="columns"
+			  @confirm="listshow = false"
+			   @cancel="listshow = false"
+			/>
+		</van-popup> -->
+	</div>
+    <div class="building-list">
+        <div
+            v-for="(item, index) in buildingList"
+            :key="index"
+            class="my-div1"
+        >
+            <div class="loupna_box">
+                <div class="loupan_title">报备楼盘<span>*</span></div>
+                <div class="loupans" v-tap="{methods: selectedBuild}">
+                    <div class="my-tag-color" v-if="!item.name">请选择楼盘！</div>
+                    <div v-else class="building-name" v-cloak>{{ item.name }}</div>
+                    <i class="aui-iconfont aui-icon-right"></i>
+                </div>
+                <button class="close-iocn delete-building" v-tap="{methods: removeSelectBuilding, index}">x</button>
+            </div>
+            <div class="my-li2">
+                <div class="li1-1">预计带看时间<span>*</span></div>
+                <div class="li2-2" v-tap="{methods: setReviewBuildingTimer, index}">
+                    <div v-cloak :class="[item.time == ''? 'my-tag-color': '']">
+                        {{item.time == ''? '请选择预计带看时间': item.time}}
+                    </div>
+                    <i class="aui-iconfont aui-icon-right"></i>
+                </div>
+            </div>
+        </div>
+
+        <button type="button" class="add-building" v-tap="{methods: addEmptyBuilding}">添加报备楼栋</button>
+    </div>
+    <div class="my-div1">
+        <div class="li1-1" style="padding: 2vh 0;">描述<span></span></div>
+        <textarea placeholder="请输入描述" v-model="describe" style="height: 20vh;font-size:4vw;"></textarea>
+    </div>
+    <div class="my-btn" v-tap="{methods:onSave}">保存</div>
+    <!-- <div class="layer_box" v-show="layer_show">
+        <div class="layer_mask"></div>
+        <div class="layer_conter">
+            <div class="btn_box">
+                <div @click="cancel_btn">取消</div>
+                <div @click="confirm">确定</div>
+            </div>
+            <div class="list_box">
+                <div class="list_item">
+                    <label class="list_item_4" v-for="item in cityDict" @click="checkcity(item)">{{item}}</label>
+                </div>
+				<div class="list_item" v-for="item in loupanDict">
+                    <label>
+                        <input type="checkbox" @click="checkclikc(item.value)">
+                        {{item.text}}
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div> -->
+</div>
+</body>
+</html>
+<script src="../../common/vant/index.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    Vue.config.devtools = true;
+    new Vue({
+        el: '#app',
+        data: {
+            user_id: 0,
+            name:"",    //客户姓名
+            wechatNickname: '',
+            phone:"",    //客户手机号
+            sex:1,   //性别
+            loupan:"",   //报备楼盘
+            describe:"",    //描述
+            building_ids:"",   //报备楼盘id
+            daikan:"",   //带看时间
+			city:"龙岩",
+            value:[],
+            loupanDict:[],
+            layer_show:false,
+            liupantextlist:[],
+            liupantextshow:true,
+			columns:[],
+			cityDict:["厦门","泉州","漳州","龙岩"],
+            buildingList: [],
+            searchProfileList: [],
+            isDisplayProfileList: false,
+            pullToRefresh: null,
+            isDisplayEmptySearchList: false,
+			store_id:'',
+			store_name:''
+        },
+        mounted() {
+            if(!_auth||Object.keys(_auth).length==0){
+                _auth = get_auth()
+            }
+            this.$nextTick(function () {
+                var _this=this;
+                userPicker = new mui.PopPicker();
+                timepicker = new mui.DtPicker({});
+                this.getClientInfo();
+                this.initBuildingList();
+                this.initProfileListScroll();
+				this.getStoreName()
+            })
+        },
+        watch: {
+            phone(value) {
+                const isDisplayProfileList = value.length >= 5 && value.length < 11;
+                this.isDisplayProfileList = isDisplayProfileList;
+                if (isDisplayProfileList) {
+                    this.searchPhone();
+                }
+            },
+        },
+        methods:{
+			getStoreName(){
+				var _this=this;
+				ajax('agentAjax/getStoreName',{},function(res){
+			        if(res.success){
+						console.log(res.data)
+			            _this.columns=res.data;
+						_this.columns.forEach((item,index)=>{
+							item['value'] = item.id
+							item['text'] = item.name
+						})
+			        }
+			    });
+			},
+			listshow(){
+				 let self = this;
+				let goto = new mui.PopPicker({//通过new mui.PopPicker()初始化popPicker组件
+					layer: 1   //显示列数
+				});
+				goto.setData(this.columns);  //setData() 支持数据格式为: 数组
+				goto.show(function(e) {   //e 就是总数据的数组 显示picker
+					self.store_id = e[0].value
+					self.store_name = e[0].text
+				})
+			},
+            getClientInfo() {
+                const clientJson = window.sessionStorage.getItem('client');
+                if (clientJson) {
+                    const client = JSON.parse(clientJson);
+                    this.copyClientData(this, client);
+                }
+            },
+            initBuildingList() {
+                const buildingsJson = window.sessionStorage.getItem('selectBuildings');
+                if (buildingsJson) {
+                    this.buildingList = JSON.parse(buildingsJson);
+                }
+                if (this.buildingList.length <= 0) {
+                    this.addEmptyBuilding();
+                }
+            },
+            initProfileListScroll() {
+                const that = this;
+                mui('.profile-list').scroll();
+                this.pullToRefresh = mui('.profile-list').pullToRefresh({
+                    up: {
+                        auto: false,
+                        show: false,
+                        callback: function() {
+                            setTimeout(function() {
+                                that.searchPhone();
+                            }, 300)
+                        }
+                    }
+                });
+            },
+            onSave(){
+                var _this = this;
+                let warring = '';
+                if(_this.name == "") {
+                    warring = '客户姓名不能为空！';
+                }
+                if(_this.phone == "") {
+                    warring = '客户电话不能为空！';
+                }
+                const isSafe = this.checkSelectBuilding();
+                if (!isSafe) {
+                    warring = '报备楼盘信息不完整！';
+                }
+                if (warring) {
+                    mui.toast(warring);
+                    return false;
+                }
+                ajax('agentAjax/addBuildingReported', {
+                    user_id: _this.user_id,
+                    name: _this.name,
+                    phone: _this.phone,
+                    sex: _this.sex,
+                    building_info : _this.buildingList,
+                    describe: _this.describe,
+					store_id: _this.store_id
+                }, function(res){
+                    if(res.code==1){
+                        if(res.data){
+                            if(res.data.errmsg&&res.data.errmsg.length>0){
+                                var errorText="";
+                                for(var i in res.data.errmsg){
+                                    errorText+=res.data.errmsg[i]+'\n';
+                                }
+                                mui.alert(errorText);
+                            }else{
+                                _this.resetForm();
+                                mui.toast('报备成功！');
+                                _this.navigateToStorePage();
+                            }
+                        }
+                    }else{
+                        mui.toast(res.message);
+                    }
+                });
+            },
+            resetForm() {
+                this.name = "";
+                this.wechatNickname = '';
+                this.phone = "";
+                this.sex = 1;
+                this.describe = "";
+                this.buildingList = [];
+                this.user_id = 0;
+                this.saveClientInfo();
+                this.saveSelectedBuildInfo();
+                this.addEmptyBuilding();
+            },
+            selectedBuild(){ //楼盘选择事件
+                this.saveClientInfo();
+                this.saveSelectedBuildInfo();
+                setLocation(`pages/build/my_building.html?isSelected=true&is_my=1&redirect=${
+                    window.encodeURIComponent('pages/me/report')
+                }`);
+            },
+            setReviewBuildingTimer(options){ //预计带看时间
+                var _this=this;
+                const index = options.index;
+                timepicker.show(function(rs) {
+                    _this.buildingList[index].time = rs.text;
+                });
+            },
+            // 保存客户信息
+            saveClientInfo() {
+                const client = {};
+                this.copyClientData(client, this);
+                window.sessionStorage.setItem('client', JSON.stringify(client));
+            },
+            copyClientData(target, source) {
+                const keys = ['name', 'wechatNickname', 'phone', 'sex', 'user_id'];
+                keys.forEach(key => {
+                    target[key] = source[key];
+                });
+            },
+            saveSelectedBuildInfo() {
+                const list = this.buildingList.filter(building => building.building_id);
+                window.sessionStorage.setItem('selectBuildings', JSON.stringify(list));
+            },
+            onDaikan(){ //预计带看时间
+                var _this=this;
+                timepicker.show(function(rs) {
+                    _this.daikan=rs.text;
+                });
+            },
+			checkcity(value){
+				var _this=this;
+				_this.city = value;
+				ajax('agentAjax/getAgentBuilding',{city:_this.city},function(res){
+                    if(res.success){
+                        _this.loupanDict=res.data;
+                    }
+                });
+			},
+            // 选择楼盘
+            checkclikc(value){
+                var _this=this;
+                _this.liupantextshow = false
+                if(_this.value.indexOf(value)==-1){
+                    _this.value =  _this.value.concat(value)
+                }else{
+                    _this.value.splice(_this.value.indexOf(value),1)
+                }
+            },
+            // 取消选择楼盘
+            cancel_btn(){
+                var _this=this;
+                _this.layer_show = false
+                if(_this.value.length>0){
+                    _this.liupantextshow = false
+                }else{
+                    _this.liupantextshow = true
+                }
+            },
+            // 确定选择楼盘
+            confirm(){
+                var _this=this;
+                _this.liupantextlist = []
+                for(let i =0;i< _this.value.length;i++){
+                   _this.liupantextlist= _this.liupantextlist.concat(_this.loupanDict.find(item => item.value == _this.value[i]).text)
+
+                }
+                _this.building_ids = _this.value.join(",");
+                if(_this.value.length>0){
+                    _this.liupantextshow = false
+                }else{
+                    _this.liupantextshow = true
+                }
+                _this.layer_show = false
+                // console.log( _this.liupantextlist)
+            },
+            addEmptyBuilding() {
+                this.buildingList.push({
+                    id: '',
+                    text: '',
+                    timer: ''
+                });
+            },
+            checkSelectBuilding() {
+                let isSafe = true;
+                this.buildingList.forEach(item => {
+                    Object.keys(item).forEach(key => {
+                        if (!item[key]) {
+                            isSafe = false;
+                            return;
+                        }
+                    });
+                })
+                return isSafe;
+            },
+            removeSelectBuilding(options) {
+                const index = options.index;
+                this.buildingList.splice(index, 1);
+                this.saveSelectedBuildInfo();
+            },
+            navigateToClientList() {
+                setLocation('pages/me/my_clients.html');
+            },
+            navigateToStorePage() {
+                setLocation('pages/me/my_store.html');
+            },
+            searchPhone() {
+                const page = parseInt(this.searchProfileList.length / 10) + 1;
+                ajax('agentAjax/getUserList', {
+                    phone: this.phone,
+                    page,
+                }, res => {
+                    if (page == 1) {
+                        this.searchProfileList = res.data;
+                        this.isDisplayEmptySearchList = res.data.length == 0;
+                    } else {
+                        this.searchProfileList = this.searchProfileList.concat(res.data);
+                    }
+                    if (this.pullToRefresh) {
+                        this.pullToRefresh.endPullUpToRefresh(res.data.length < 10);
+                    }
+                })
+            },
+            formatPhoneToMatch(phone) {
+                const matchKey = phone.match(this.phone);
+                return matchKey? matchKey[0]: '';
+            },
+            formatPhoneToOther(phone) {
+                const otherKey = phone.split(this.phone);
+                return otherKey? otherKey[1]: '';
+            },
+            selectProfile(options) {
+                const profile = options.item;
+                this.copyClientData(this, {
+                    name: profile.user_name,
+                    wechatNickname: profile.nickName,
+                    phone: profile.user_phone,
+                    sex: profile.gender,
+                    user_id: profile.acid
+                });
+                this.isDisplayProfileList = false;
+            }
+        }
+    })
+</script>

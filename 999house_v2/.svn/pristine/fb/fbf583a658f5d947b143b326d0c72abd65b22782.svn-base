@@ -1,0 +1,149 @@
+<script>
+	// const host = "https://mo.999house.com";
+	const host = "https://act.999house.com";
+	// const host = "https://999house.test.com";
+	import {getUserLocationCity,localStore,getAllCitys} from './utils/module/mapLocation.js';
+	let that = null;
+	export default {
+		globalData: {
+			// 腾讯地图key
+			map_key: '2YQBZ-V22W3-QWE3V-3G2KA-YWVK5-X4BZR',
+			// 个人
+			// map_key: '6HYBZ-WI3C2-53DUM-CTGGX-P7S2Q-JIB57',
+			city_no: '350200', 
+			city_name: '厦门', 
+			userInfo: null,
+			token: "", //用于访问
+			sid: "",//用于访问
+			host: host,
+			h5Host: host+"/9house/pages",
+			host_api: host+"/miniwechat", 
+			imgHost: host+"/9house/static",
+			constList: {},
+			
+			whitePages: [
+			  "pages/index/index",
+			  "pages/index/location",
+			  "pages/authorize/index",
+			  "pages/discover/index",
+			  "pages/new_house/index",
+			  "pages/index/find_house",
+			  "pages/houses/index",
+			  "pages/houses/info",
+			  "pages/houses/sand",
+			  "pages/houses/banner_more",
+			  "pages/houses/loan",
+			  "pages/houses/loan_result",
+			  "pages/new_house/good_house",
+			  "pages/discover/news_detail",
+			  "pages/index/search",
+			  "pages/discover/search",
+			  "pages/my/index",
+			  "pages/map/my_map",
+			]
+		},
+		onLaunch: function() {
+			that = this;//全局赋值，避免其他页全局调用方法时页面this丢失
+			Promise.all([
+				// #ifdef MP-WEIXIN
+				getUserLocationCity(that),
+				// #endif
+				that.getConst(),
+				// #ifdef MP-WEIXIN
+				that.wxAuthLogin(0),
+				// #endif
+			]).then((res)=>{
+				//console.log(res,'Launch')
+				that.getCurrentCity({
+					city_no: res[0].city_no,
+					city_name: res[0].city_name,
+				})
+				if(res[2]&&res[2].info){
+					that.globalData.userInfo = res[2].info;
+					that.$api.getUserInfoByCache(res[2].info);
+				}
+				
+				uni.$emit('myLaunched', 'ok');//执行onLaunched事件
+			}).catch((err)=>{
+				console.log(err)
+				//reject(err);
+			})
+			
+		},
+		onShow: function() {
+			
+		},
+		onHide: function() {
+			console.log('App Hide')
+		},
+		methods:{
+			getCurrentCity(val=''){
+				if(val){
+					that.globalData.city_no = val.city_no;
+					that.globalData.city_name = val.city_name;
+					return val;
+				}else{
+					return {
+						city_no: that.globalData.city_no,
+						city_name: that.globalData.city_name
+					}
+				}
+			},
+			getUserLocationCity(){
+				return getUserLocationCity(that);
+			},
+			getAllCitys(){
+				return getAllCitys(that);
+			},
+			logout(){
+				that.globalData.userInfo = null;
+				that.$api.getToken(null);
+				that.$api.getSid(null);
+			},
+			wxAuthLogin(refresh=1){
+				let token = that.$api.getToken();
+				let userInfo = that.$api.getUserInfoByCache()
+				if(refresh==1||!token||!userInfo){
+					return that.$api.wxMiniAuthLogin(that);
+				}else{
+					//走缓存
+					return new Promise((resolve)=>{
+						resolve({
+							token,
+							info: userInfo
+						})
+					}) 
+				}
+			},
+			getConst(refresh=0){
+				let tag = localStore.localGet('u-tag');
+				if(!tag||refresh==1){
+					return new Promise((resolve)=>{
+						// 获取公共常用列表
+						that.$http.post('estates/getConst').then((res)=>{
+							if(res.code==1&&res.data){
+								resolve(res.data)
+								localStore.localSet('u-tag',res.data, 3600*2)
+								that.globalData.constList = res.data;
+							}else{
+								resolve('')
+								that.globalData.constList = {};
+							}
+						})
+					})
+				}else{
+					return new Promise((resolve)=>{
+						resolve(tag)
+						that.globalData.constList = tag;
+					})
+				}
+			},
+		},
+	}
+</script>
+ 
+<style lang="scss">
+	/*每个页面公共css */
+	@import "uview-ui/index.scss";
+	@import '@/common/css/iconfont.css';
+</style>

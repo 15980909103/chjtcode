@@ -1,0 +1,2 @@
+[2020-11-27T08:41:57+08:00][error] [10501]SQLSTATE[42S22]: Column not found: 1054 Unknown column 'u.nickname' in 'field list'[/mnt/e/project/999house_v2/vendor/topthink/think-orm/src/db/PDOConnection.php:722]
+[2020-11-27T08:42:01+08:00][error] [10501]SQLSTATE[42S22]: Column not found: 1054 Unknown column 'u.nickname' in 'field list'[/mnt/e/project/999house_v2/vendor/topthink/think-orm/src/db/PDOConnection.php:722]

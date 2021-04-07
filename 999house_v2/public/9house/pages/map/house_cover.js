@@ -1,0 +1,100 @@
+let House_zIndex=2;
+
+// 自定义楼盘标签 - 继承DOMOverlay
+function House(options) {
+	TMap.DOMOverlay.call(this, options);
+}
+
+House.prototype = new TMap.DOMOverlay();
+
+// 初始化
+House.prototype.onInit = function(options) {
+	this.map = options.map;
+	this.position = options.position;
+	this.content = options.content || '请输入楼盘内容';
+	this.price = options.count || '价格待定';
+	
+	if( typeof this.price == 'number' ){
+		this.price = this.price + '元/m²'
+	}
+
+	this.id = options.id;
+	this.item = options.item;
+};
+
+// 销毁时需解绑事件监听
+House.prototype.onDestroy = function() {
+	if (this.onClick) {
+		this.dom.removeEventListener('click',this.onClick);
+	}
+	this.removeAllListeners();
+};
+
+// 创建DOM元素，返回一个DOMElement，使用this.dom可以获取到这个元素
+House.prototype.createDOM = function() {
+	let tip = document.createElement("div");
+	let name = document.createElement("div");
+	let price = document.createElement("div");
+	
+	tip.className = 'my_House';
+	
+	tip.style.cssText = `
+		background: rgba(254, 130, 30, 1);
+		height: .6rem;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		box-sizing: border-box;
+		padding: 0 .26rem;
+		border-radius: .4rem;
+		font-size: .26rem;
+		color: #fff;
+		text-align: center;
+		position: absolute;
+		z-index: 1;
+		animation: fade-in;
+		animation-duration: .3s;  
+		-webkit-animation:fade-in .3s;
+	`;
+	
+	price.style.cssText = `
+		margin-left: .1rem;
+	`;
+	
+	name.innerHTML = this.content.length <= 5 ? this.content : this.content.slice(0,5)+'...';
+	price.innerHTML = this.price;
+	
+	tip.appendChild(name);
+	tip.appendChild(price);
+	
+	// click事件监听
+	this.onClick = (e) => {
+		// DOMOverlay继承自EventEmitter，可以使用emit触发事件
+		House_zIndex++;
+		this.dom.style.zIndex = House_zIndex;
+		this.emit('click');
+		
+		e&&e.stopPropagation&&e.stopPropagation();
+	};
+	
+	tip.addEventListener('click', this.onClick);
+	
+	return tip;
+};
+
+// 更新DOM元素，在地图移动/缩放后执行
+House.prototype.updateDOM = function(e) {
+	if (!this.map) {
+		return;
+	}
+	
+	// 经纬度坐标转容器像素坐标
+	let pixel = this.map.projectToContainer(this.position);
+	
+	// 使饼图中心点对齐经纬度坐标点
+	let left = pixel.getX() - this.dom.clientWidth / 2 + 'px';
+	let top = pixel.getY() - this.dom.clientHeight / 2 - this.dom.offsetHeight + 'px';
+	this.dom.style.transform = `translate(${left}, ${top})`;
+};
+
+window.House = House;

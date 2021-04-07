@@ -1,0 +1,142 @@
+.content{
+	width: 100%;
+	box-sizing: border-box;
+	padding: .56rem .32rem 0;
+}
+
+.allwrap{
+	width: 100%;
+	height: 1.3rem;
+}
+
+.content-title{
+	font-size: .38rem;
+	font-weight: bold;
+	line-height: .6rem;
+}
+
+.content-title span{
+	width: .7rem;
+	height: .34rem;
+	background-color: rgba(253, 66, 67, 1);
+	border-radius: .02rem;
+	color: #fff;
+	font-size: .24rem;
+	margin: .12rem .14rem 0 0;
+	line-height: .34rem;
+	text-align: center;
+	font-weight: 500;
+	float: left;
+}
+
+.content-title span::after{
+	content: '';
+	clear: both;
+}
+
+.content-time{
+	font-size: .26rem;
+	color: rgba(117, 117, 117, 1);
+	margin: .12rem 0 .26rem;
+}
+
+.content-info{
+	display: flex;
+	margin-bottom: .34rem;
+	font-size: .3rem;
+	color: rgba(33, 33, 33, 1);
+}
+
+.content-info img{
+	width: .4rem;
+	height: .4rem;
+	border-radius: 50%;
+	margin-right: .14rem;
+}
+
+.content-text{
+	width: 100%;
+	overflow: hidden;
+	font-size: .26rem;
+	color: rgba(77, 77, 77, 1);
+}
+
+.content-text img{
+	width: 100%;
+	margin: .2rem 0;
+}
+
+.content-read{
+	width: 100%;
+	font-size: .26rem;
+	color: rgba(173, 173, 173, 1);
+	padding: .32rem 0 .22rem;
+	border-bottom: 0.01rem solid rgba(224, 224, 224, 1);
+}
+
+.content-like{
+	display: flex;
+	justify-content: space-between;
+	align-items: center; 
+	font-size: .26rem;
+	color: rgba(87, 107, 149, 1);
+	vertical-align: bottom;
+}
+
+
+.talk-box{
+	margin-top: .4rem;
+	box-sizing: border-box;
+	padding: 0 .32rem;
+}
+
+.talk-title,
+.recommend-title{
+	width: 100%;
+	box-sizing: border-box;
+	font-size: .34rem;
+	padding-bottom: .36rem;
+}
+
+.talk-box .van-button{
+	width: 100%;
+	margin-top: .1rem;
+	margin-bottom: .7rem;
+}
+
+.talk-box .van-button .van-button__text{
+	font-size: .32rem;
+	color: rgba(134, 186, 122, 1);
+}
+
+.recommend{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.recommend-title{
+	box-sizing: border-box;
+	padding-left: .32rem;
+	padding-bottom: 0;
+}
+
+.recommend-btn{
+	width: 3rem;
+	margin-top: .1rem;
+	border: none;
+	font-size: .26rem;
+	color: rgba(162, 162, 162, 1);
+	/* padding-bottom: 1.3rem; */
+}
+
+.recommend-btn .iconjiantou{
+	margin-left: .06rem;
+	font-size: .24rem;
+}
+.talk-box-notext{
+	text-align: center;
+	width: 100%;
+	margin-top: 0.2rem;
+	margin-bottom: 0.4rem;
+}

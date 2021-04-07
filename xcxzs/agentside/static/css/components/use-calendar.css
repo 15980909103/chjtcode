@@ -1,0 +1,32 @@
+#calendar {
+  width: 100vw;
+  background-color: #fff;
+}
+#calendar-panel {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+#my-week {
+  width: 100vw;
+  height: 6vh;
+  color: #A6A7AA;
+  background-color: #FFF;
+  font-size: 4vw;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  z-index: 10;
+}
+.calendar-expand{background-color: #FFF;height: 5vh;line-height: 5vh;font-size: 4vw;border-top: 1px solid #F1F1F1;box-shadow:0 1vh 1vh #F1F1F1;position: relative;margin-top: 2vh;}
+.calendar-expand-today{font-size: 3.8vw;display: inline-block;width: 3.5vh;height: 3.5vh;line-height: 3.5vh;color: #FFF;background-color: #D53836;border-radius: 50%;position: absolute;left: 5vw;top:.75vh;}
+.calendar-expand-img{width: 8vw;height: 4vh;position: absolute;top:-3vh;left:46vw;}
+.calendar-expand-month{font-size: 3.8vw;display: inline-block;position:absolute;right: 5vw;}
+.calendar .i-tick{width:8vw;height:8vw;line-height: 8vw;display:inline-block;background-color: #D53936;color: #FFF;border-radius: 50%;}
+
+
+.calendar-expand-img.up {
+  transform: rotate(180deg);
+}

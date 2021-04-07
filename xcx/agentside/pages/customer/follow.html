@@ -1,0 +1,278 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>客户详情</title>
+    <link rel="stylesheet" type="text/css" href="../../static/css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/mui/css/mui.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/css/customer/customer_detail.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/css/swiper.min.css" />
+    <script type="text/javascript" src="../../static/js/jquery-2.0.0.min.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.min.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.pullToRefresh.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.pullToRefresh.material.js" ></script>
+    <script type="text/javascript" src="../../static/js/vue.min.js" ></script>
+    <script type="text/javascript" src="../../static/js/vue-tap.js" ></script>
+    <script type="text/javascript" src="../../static/js/public.js?v=2" ></script>
+    <script type="text/javascript" src="../../static/js/swiper.min.js" ></script>
+    <script type="text/javascript" src="../../static/js/echarts.min.js" ></script>
+    <style>.mui-pull-bottom-tips{display: none;}</style>
+</head>
+<body>
+<div id="app" class="my-content"  v-cloak>
+        <div class="mui-scroll">
+                <template>
+                    <div class="my-div3-type">
+                        <div class="my-div3-li">
+                            <div class="my-div3-line" :class="[reportedData.status_type>='1' && reportedData.status_type<='6'?'my-line-tick':'']"></div>
+                            <div class="div3-li-1" :class="[reportedData.status_type>='1' && reportedData.status_type<='6'?'my-round-tick':'']"></div>
+                            <div class="div3-li-2">报备</div>
+                        </div>
+                        <div class="my-div3-li">
+                            <div class="my-div3-line" :class="[reportedData.status_type>='2' && reportedData.status_type<='6'?'my-line-tick':'']"></div>
+                            <div class="div3-li-1" :class="[reportedData.status_type>='2' && reportedData.status_type<='6'?'my-round-tick':'']"></div>
+                            <div class="div3-li-2">带看</div>
+                        </div>
+                        <div class="my-div3-li">
+                            <div class="my-div3-line" :class="[reportedData.status_type>='3' && reportedData.status_type<='6'?'my-line-tick':'']"></div>
+                            <div class="div3-li-1" :class="[reportedData.status_type>='3' && reportedData.status_type<='6'?'my-round-tick':'']"></div>
+                            <div class="div3-li-2">成交</div>
+                        </div>
+                        <div class="my-div3-li">
+                            <div class="my-div3-line" :class="[reportedData.status_type>='4' && reportedData.status_type<='6'?'my-line-tick':'']"></div>
+                            <div class="div3-li-1" :class="[reportedData.status_type>='4' && reportedData.status_type<='6'?'my-round-tick':'']"></div>
+                            <div class="div3-li-2">确认业绩</div>
+                        </div>
+                        <div class="my-div3-li">
+                            <div class="my-div3-line" :class="[reportedData.status_type>='5' && reportedData.status_type<='6'?'my-line-tick':'']"></div>
+                            <div class="div3-li-1" :class="[reportedData.status_type>='5' && reportedData.status_type<='6'?'my-round-tick':'']"></div>
+                            <div class="div3-li-2">开票</div>
+                        </div>
+                        <div class="my-div3-li">
+                            <div class="my-div3-line" :class="[reportedData.status_type=='6'?'my-line-tick':'']"></div>
+                            <div class="div3-li-1" :class="[reportedData.status_type=='6'?'my-round-tick':'']"></div>
+                            <div class="div3-li-2">结佣</div>
+                        </div>
+                    </div>
+                    <div class="my-div3-btn" v-if="reportedData.status_type=='1'" v-tap="{methods:onTakeApply,reported_id:getQueryString('id')}">确认带看</div>
+                    <div class="my-reported-list">
+                        <div class="my-div3-list" v-for="(item,index) in reportedData.list" :class="[index==reportedData.list.length-1?'div3-tick':'']">
+                            <div class="div3-list-1">
+                                <div v-cloak>{{item.time2}}</div>
+                                <div v-cloak>{{item.time1}}</div>
+                            </div>
+                            <div class="div3-list-2">
+                                <div class="div3-list2-title" v-cloak>{{item.status_type_name}}</div>
+                                <div class="div3-list2-content">
+                                    <template v-if="index==0">
+                                        <div class="my-type1-1" v-cloak>{{reportedData.user_name}}（{{reportedData.user_gender}}）定在{{reportedData.take_time}}看房。联系电话：{{reportedData.user_phone}}</div>
+                                        <div class="my-type1-2" v-tap="{methods:onBuildDetail,id:reportedData.id}">
+                                            <img class="type1-2-img" :src="reportedData.pic" v-cloak/>
+                                            <div class="type1-2-content">
+                                                <div class="type1-2-1 aui-ellipsis-1" v-cloak>{{reportedData.name}}</div>
+                                                <div class="type1-2-2" v-cloak>{{reportedData.house_type}} | {{reportedData.city}} {{reportedData.area}}</div>
+                                                <div class="type1-2-3">楼盘负责人电话：<span v-cloak>{{reportedData.sales_telephone}}</span></div>
+                                            </div>
+                                        </div>
+                                    </template>
+                                    <template v-else>
+                                        <div class="my-base-text" v-cloak>{{item.content}}</div>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </template>
+            <div id='my-view6'>
+                <div class='view6-list' v-for="(item,index) in commentsInfo">
+                <!-- <div class='view6-list'> -->
+                    <img :src="item.headimgurl"/>
+                    <div class='view6-lis'>
+                        <div v-cloak class="name_like">
+                            {{item.nickname}}
+                            <div v-cloak class="times">
+                                {{item.create_time}}
+                            </div>
+                        </div>
+                        <div v-html="item.content" v-cloak></div>
+                        
+                    </div>
+                </div>
+                <div class='view6-all' v-if="commentsInfo.length==0 || commentsInfo == undefined" v-tap="{methods:onComments}">查看更多评论</div>
+            </div>
+            <div id='my-footer'>
+                <div class='footer1'><input class="my-focus" type='text' placeholder='请留下你的评论...' v-model="commentsText"/></div>
+                <div class='footer2' v-tap="{methods:onSend}">发送</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<style>
+    body{
+        background-color: #FFF;
+    }
+.scroll-content{
+    height: 100vh;
+}
+.view6-list{
+    width: 90vw;
+    padding: 2vh 0;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content:space-between;
+}
+#my-view6{
+    width: 100vw;
+    padding: 0 5vw 10vh;
+}
+.name_like{
+    display: flex;
+    justify-content:flex-start;
+}
+/* .like_img{
+    display: inline-block;
+    vertical-align: middle;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 0;
+} */
+.like_img{
+    color: #3C3C3C !important;
+    font-size: 4vw !important;
+}
+.reds{
+    color: #ff0000 !important;
+}
+.like_img img{
+    display: inline-block;
+    vertical-align: text-top;
+    width: 1rem !important;
+    height: 1rem !important;
+    border-radius: 0 !important;
+}
+.view6-list img{width: 10vw;height: 10vw;border-radius: 5vw;}
+.view6-list .view6-lis{width: 77vw;}
+.view6-lis div:nth-child(1){
+    font-size: 4.5vw;
+    font-weight: 600;
+    color: #589EE5;
+}
+.view6-lis div:nth-child(2){font-size: 4vw;color: #5C5C5C;padding: 1vw 0;}
+.view6-lis div:nth-child(3){font-size: 3.3vw;color: #999;}
+.view6-lis .reply{
+    font-size: 3.3vw !important;
+    color: #999 !important;
+    display: inline-block;
+    padding: 0 5px;
+    background: #f1f1f1;
+    border-radius: 20%;
+    font-weight: inherit;
+}
+.view6-all{text-align: center;font-size: 3.5vw;color: #999;padding: 2vh 0 4vh;}
+.times{
+    font-size: 3.3vw !important;
+    color: #999 !important;
+    margin-left: 0.5rem;
+}
+#my-footer{width: 100vw;height: 10vh;padding: 1.5vh 5vw;background-color: #FFF;position: fixed;left: 0;bottom: 0;display: flex;}
+#my-footer2{width: 100vw;height: 10vh;padding: 1.5vh 5vw;background-color: #FFF;position: fixed;left: 0;bottom: 0;display: flex;z-index: 999;}
+.footer1{width: 75vw;height: 7vh;}
+.footer1 input{width: 72vw;height: 7vh;background-color: #F7F7F7;border: 0; padding-left: 3vw;font-size: 4.3vw;}
+.footer2{width: 15vw;height: 7vh;line-height: 7vh;font-size:4.5vw;text-align: center;}
+</style>
+<script>
+        var myChart=null;
+        var myChart2=null;
+        new Vue({
+            el: '#app',
+            data: {
+                userInfo:{},    //客户信息
+                agentCustomerInfo:{},   //经纪人客户关系数据
+                browsingHistoryInfo:{}, //统计浏览次数
+                is_edit:false,  //是否显示用户修改
+                edit_name:"",   //修改的姓名
+                edit_phone:"",  //修改的手机号
+                is_genjin:false,    //是否显示跟进详情
+                current:0,  //当前索引
+                fwzj_index:'0',   //访问足迹索引
+                channel:[{title:'数据分析'},{title:'访问足迹'},{title:'跟进记录'}],
+                list:[{},{},{}],
+                fwzjData:[],    //访问足迹数据
+                followData:[],   //跟进记录数据
+                reportedData:{status_type:'1'},   //报备数据
+                commentsInfo:[], //评论
+                commentsText:'',
+                page:1
+            },
+            mounted: function () {
+            this.$nextTick(function () {
+                var _this=this;
+                ajax('agentAjax/getFollowData',{id:getQueryString('id')},function(res){
+                    // console.log(res)
+                    _this.reportedData=res.data;
+                })
+                ajax('agentAjax/getCustomerDetail',{id:getQueryString('id')},function(res){
+                    _this.followData=res.followData;
+                    _this.userInfo=res.userInfo;
+                    _this.fwzjData=res.fwzjData;
+                    _this.agentCustomerInfo=res.agentCustomerInfo;
+                    _this.browsingHistoryInfo=res.browsingHistoryInfo;
+                    _this.edit_name=res.agentCustomerInfo.user_name;
+                    _this.edit_phone=res.agentCustomerInfo.user_phone=='暂无'?'':res.agentCustomerInfo.edit_phone;
+                    //存本地数据 type 1:小程序客户    2:经纪人
+                    localStorage.setItem("9h_localStorage", JSON.stringify({type:'2',agent_id:res.agent_id,user_id:getQueryString('id'),time:new Date().getTime()}));
+                });
+                // 获取评论
+                ajax('agentAjax/getReportedComments',{
+                        reported_id:getQueryString('id'),
+                        page:1,
+                    },function(res){
+                    // console.log(res)
+                    _this.commentsInfo=res.data;
+                    _this.page++
+                })
+            })
+            },
+            methods:{
+                onTakeApply(event){  //带看申请跳转
+                    setLocation('pages/customer/take_apply.html?reported_id='+event.reported_id);
+                },
+                onBuildDetail(event){
+                    setLocation('pages/build/build_detail.html?id='+event.id);
+                },
+                onSend(){
+                    var _this=this;
+                    var commentsText=_this.commentsText;
+                    if(commentsText==""){
+                        mui.toast('请输入评论内容！');
+                        return false;
+                    }
+                    ajax('agentAjax/addReportedComments',{content:commentsText,reported_id:getQueryString('id')},function(res){
+                        if(res.success){
+                            mui.toast('评论成功！');
+                            _this.commentsText="";
+                            _this.commentsInfo=res.data.concat(_this.commentsInfo);
+                        }else{
+                            mui.toast('评论失败！');
+                        }
+                    });
+                },
+                onComments(){
+                    var _this=this;
+                    
+                    ajax('agentAjax/getReportedComments',{
+                        reported_id:getQueryString('id'),
+                        page:_this.page,
+                    },function(res){
+                        // console.log(res)
+                        _this.commentsInfo=_this.commentsInfo.concat(res.data);
+                        _this.page++
+                    })
+                }
+            }
+        })
+    </script>

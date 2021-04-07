@@ -1,0 +1,65 @@
+@import '/dist/aui.wxss';
+swiper{
+  height: 400rpx;
+}
+.img-titles {
+  width: 90vw;
+  padding: 1vw 5vw 1vw 5vw;
+  position: absolute;
+  top: 300rpx;
+  color: #FFF;
+  font-size: 4vw;
+  text-align: left;
+  font-weight: 600;
+  background: rgba(0,0,0,.7);
+  height: 12vw;
+  }
+.img-title{width:90vw;margin: 0 5vw;position: absolute;top:320rpx;color: #FFF;font-size: 4vw;text-align: center;font-weight: 600;}
+.wx-swiper-dots{position:relative;left: unset!important;right: 0;}
+swiper image{
+  width: 100%;
+  height: 400rpx;
+}
+/* 频道样式 */
+.swiper-view{
+  width: 100vw;
+  height: 100vh;
+}
+.scroll-H{
+  white-space: nowrap;
+  overflow: hidden;
+  width: 100%;
+  height: 80rpx;
+  background: #fff;
+  font-size: 32rpx;
+  z-index: 999;
+}
+.fixed{
+  position: fixed;
+  top: 0
+}
+.scroll-view-item-H{
+  display: inline-block;
+  line-height: 80rpx;
+  text-align: center;
+}
+.scroll-view-text{
+  margin: 0 4vw;
+  padding: 16rpx 0;
+}
+.image-item{
+  width: 100%;
+}
+.channel-active{
+  color: #dc3200;
+  position: relative;
+  border-bottom: 2px solid #dc3200;
+}
+image.portrait{
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: 50%;
+}
+.my-top80{width:100vw;height:80rpx;}
+.my-content{display: flex !important;flex-direction:column !important;justify-content:space-between !important;align-items:stretch !important;}
+.aui-info{display: block !important;}

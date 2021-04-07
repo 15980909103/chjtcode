@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>分享预览</title>
+		<link rel="stylesheet" href="../../common/vant/index.css"/>
+		<link rel="stylesheet" href="../../common/css/public.css?v=1.12"/>
+		<link rel="stylesheet" href="../../static/css/discover/share.css"/>
+		<style>
+			
+		</style>
+	</head>
+	<body>
+		<div id="app" v-cloak ref="DOM">
+			<top-bar title="分享预览"></top-bar>
+			<div class="swiper-container">
+				<div class="swiper-wrapper">
+					<div class="swiper-slide" v-for="( item, index ) in list" :key="index">
+						<template v-if="item.type == 0 || item.type == 1">
+							<div 
+								class="box" 
+								:class="[ 
+									item.type == 1 ? 'box1' : '',
+									active != index ? 'box-not-active' : ''
+								]" 
+								:ref="'box'+index"
+							>
+								<img :src="item.bg" class="box-bg">
+								<img src="../../static/houses/logo.png" class="logo" :class="[item.type == 0 ? 'logo1' : 'logo2']">
+								<div class="box-content">
+									<h4>{{ contentText(item.title,32) }}</h4>
+									<div>{{ contentText(item.content,215) }}</div>
+								</div>
+								<div class="box-info-box">
+									<div class="box-info">
+										<div class="box-info-head">
+											<img :src="$http.imgDirtoUrl(item.info.head)">
+											<h4>{{ item.info.name }}</h4>
+										</div>
+										<div class="box-info-nickname">
+											{{ item.info.nickName }}
+										</div>
+									</div>
+									<div class="box-qrcode" ref="qrcode"></div>
+									<div class="box-tip">扫码识别二维码阅读资讯</div>
+								</div>
+							</div>
+						</template>
+						<template v-else>
+							<div 
+								class="box box3" 
+								:class="[ active != index ? 'box-not-active' : '' ]" 
+								:ref="'box'+index" 
+							>
+								<img :src="item.bg" class="box-bg">
+								<div class="box-info-box">
+									<img :src="$http.imgDirtoUrl(item.info.head)">
+									<div class="box-info-head">
+										<h4>{{ item.info.name }}</h4>
+										<div class="box-info-nickname">
+											{{ item.info.nickName }}
+										</div>
+									</div>
+								</div>
+								<div class="box-content">
+									<h4>{{ contentText(item.title,32) }}</h4>
+									<div>{{ contentText(item.content,215) }}</div>
+								</div>
+								<div class="box3-wrap">
+									<div class="box-qrcode" ref="qrcode"></div>
+									<div class="box3-tip">
+										扫码识别二维码阅读资讯
+									</div>
+									<img src="../../static/houses/logo2.png" class="box3-logo">
+								</div>
+							</div>
+						</template>
+					</div>
+				</div>
+			</div>
+			<div class="pagination">
+				<span v-for="(item,index) in list" :key="index" :class="index == active ? 'pagination-active' : '' "></span>
+			</div>
+			
+			<div class="create-btn">
+				<van-button 
+				color="rgba(254, 130, 30, 1)" 
+				loading-type="spinner"
+				loading-text="海报生成中..."
+				:loading="createState"
+				@click="createPoster"
+				>
+					生成海报
+				</van-button>
+			</div>
+			
+			
+			<van-overlay class="wrapper" :show="showPic" @click="showPic = false">
+				<transition name="van-slide-down">
+					<img :src="chooseSrc" v-show="showPic" @click.stop>
+				</transition>
+				<transition name="van-slide-up">
+					<span class="wrapper-tip" v-show="showPic">
+						请长按图片保存海报
+					</span>
+				</transition>
+			</van-overlay>
+			<div id="container-user-site"></div>
+		</div>	
+	</body>
+</html>
+
+<script src="../../common/js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/rem.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/public.js?v=1.15" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/vant/index.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/qrcode.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/html2canvas.min.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=53da8183ca23918f2f81c79a5b2ede15&plugin=AMap.Geocoder"></script>
+<script type="module">
+	import { http, loginMixin } from '../../common/js/method/http.js?v=1.1';
+	Vue.use(http);
+	const myComponents = [
+		'../../components/common/topBar/index',
+		'/9house/common/swiper/swiper.min',
+	];
+	
+	$api.addComponents(myComponents)
+		.then(()=>{
+			
+			Vue.use(vant.Lazyload);
+			
+			const app = new Vue({
+				el: '#app',
+				data: {
+					id: 0,
+					mySwiper: 0,
+					active: 0,
+					list: [
+						/*  {
+							type: 0,
+							bg: '/9house/static/houses/banner1.png',
+							title: '',
+							content: '',
+							info: {
+								head: '',
+								name: '',
+								nickName: ''
+							},
+							qrUrl: '',
+							logo: ''
+						},
+						{
+							type: 1,
+							bg: '/9house/static/houses/banner1.png',
+							title: `慧娟汇顶科技撒谎的看见爱上打卡合适慧娟汇顶科技撒谎的看见爱上打卡合适的卡是看见爱上肯德基啊哈斯柯达哈的卡是看见爱上肯德基啊哈斯柯达哈`,
+							content: `慧娟汇顶科技撒谎的看见爱上打卡合适的卡是看见爱上肯德基啊哈斯柯达哈萨克的哈是肯定会撒肯德基哈萨克德哈卡师大会打开实打实合适的科技暗红色的看见爱上打卡机是的撒科技哈萨克较好的萨接电话卡开始接电话凯撒将回答看见啥色球而已慧娟汇顶科技撒谎的看见爱上打卡合适的卡是看见爱上肯德基啊哈斯柯达哈萨克的哈是肯定会撒肯德基哈萨克德哈卡师大会打开实打实合适的科技暗红色的看见爱上打卡机是的撒科技哈萨克较好的萨接电话卡开始接电话凯撒将回答看见啥色球而已慧娟汇顶科技撒谎的看见爱上打卡合适的卡是看见爱上肯德基啊哈斯柯达哈萨克的哈是肯定会撒肯德基哈萨克德哈卡师大会打开实打实合适的科技暗红色的看见爱上打卡机是的撒科技哈萨克较好的萨接电话卡开始接电话凯撒将回答看见啥色球而已慧娟汇顶科技撒谎的看见爱上打卡合适的卡是看见爱上肯德基啊哈斯柯达哈萨克的哈是肯定会撒肯德基哈萨克德哈卡师大会打开实打实合适的科技暗红色的看见爱上打卡机是的撒科技哈萨克较好的萨接电话卡开始接电话凯撒将回答看见啥色球而已慧娟汇顶科技撒谎的看见爱上打卡合适的卡是看见爱上肯德基啊哈斯柯达哈萨克的哈是肯定会撒肯德基哈萨克德哈卡师大会打开实打实合适的科技暗红色的看见爱上打卡机是的撒科技哈萨克较好的萨接电话卡开始接电话凯撒将回答看见啥色球而已慧娟汇顶科技撒谎的看见爱上打卡合适的卡是看见爱上肯德基啊哈斯柯达哈萨克的哈是肯定会撒肯德基哈萨克德哈卡师大会打开实打实合适的科技暗红色的看见爱上打卡机是的撒科技哈萨克较好的萨接电话卡开始接电话凯撒将回答看见啥色球而已`,
+							info: {
+								head: '/9house/static/logo.png',
+								name: '地产情报站',
+								nickName: '资深楼市分析师、调研专家 金牌房地产顾问'
+							},
+							qrUrl: 'https://blog.csdn.net/weixin_43837268/article/details/104019510',
+							logo: '/9house/static/logo.png'
+						},
+						{
+							type: 2,
+							bg: '/9house/static/houses/banner1.png',
+							title: `慧娟汇顶科技撒谎的看见爱上打卡合适慧娟汇顶科技撒谎的看见爱上打卡合适的卡是看见爱上肯德基啊哈斯柯达哈的卡是看见爱上肯德基啊哈斯柯达哈`,
+							content: `慧娟汇顶科技撒谎的看见爱上打卡合适的卡是看见爱上肯德基啊哈斯柯达哈萨克的哈是肯定会撒肯德基哈萨克德哈卡师大会打开实打实合适的科技暗红色的看见爱上打卡机是的撒科技哈萨克较好的萨接电话卡开始接电话凯撒将回答看见啥色球而已慧娟汇顶科技撒谎的看见爱上打卡合适的卡是看见爱上肯德基啊哈斯柯达哈萨克的哈是肯定会撒肯德基哈萨克德哈卡师大会打开实打实合适的科技暗红色的看见爱上打卡机是的撒科技哈萨克较好的萨接电话卡开始接电话凯撒将回答看见啥色球而已慧娟汇顶科技撒谎的看见爱上打卡合适的卡是看见爱上肯德基啊哈斯柯达哈萨克的哈是肯定会撒肯德基哈萨克德哈卡师大会打开实打实合适的科技暗红色的看见爱上打卡机是的撒科技哈萨克较好的萨接电话卡开始接电话凯撒将回答看见啥色球而已慧娟汇顶科技撒谎的看见爱上打卡合适的卡是看见爱上肯德基啊哈斯柯达哈萨克的哈是肯定会撒肯德基哈萨克德哈卡师大会打开实打实合适的科技暗红色的看见爱上打卡机是的撒科技哈萨克较好的萨接电话卡开始接电话凯撒将回答看见啥色球而已慧娟汇顶科技撒谎的看见爱上打卡合适的卡是看见爱上肯德基啊哈斯柯达哈萨克的哈是肯定会撒肯德基哈萨克德哈卡师大会打开实打实合适的科技暗红色的看见爱上打卡机是的撒科技哈萨克较好的萨接电话卡开始接电话凯撒将回答看见啥色球而已慧娟汇顶科技撒谎的看见爱上打卡合适的卡是看见爱上肯德基啊哈斯柯达哈萨克的哈是肯定会撒肯德基哈萨克德哈卡师大会打开实打实合适的科技暗红色的看见爱上打卡机是的撒科技哈萨克较好的萨接电话卡开始接电话凯撒将回答看见啥色球而已`,
+							info: {
+								head: '/9house/static/logo.png',
+								name: '地产情报站',
+								nickName: '资深楼市分析师、调研专家 金牌房地产顾问'
+							},
+							qrUrl: 'https://www.iconfont.cn/manage/index?spm=a313x.7781069.1998910419.12&manage_type=myprojects&projectId=2099285',
+							logo: '/9house/static/logo.png'
+						}, */
+					],
+					createState: false,
+					// 遮罩弹窗
+					chooseSrc: '',
+					showPic: false
+					
+				},
+				components: {
+					topBar
+				},
+				mixins: [loginMixin],
+				created() {
+					const that = this;
+					for(let i=0;i<3;i++){
+						let item = {
+							type: i,
+							bg: '/9house/static/houses/banner1.png',
+							title: '',
+							content: '',
+							info: {
+								head: '',
+								name: '',
+								nickName: ''
+							},
+							qrUrl: '',
+							logo: ''
+						}
+						that.list.push(item)
+					}
+
+					this.$nextTick(()=>{
+						this.mySwiper = new Swiper('.swiper-container', {
+							centeredSlides: true,
+							slidesPerView: 1.2,
+							initialSlide: 0,
+							on: {
+							    slideChangeTransitionStart: function(){
+									that.active = this.activeIndex;
+							    }
+							},
+						})
+						
+						// if( typeof(this.$refs.qrcode) == 'object' ){
+						//
+						// 	this.$refs.qrcode.map((item,index)=>{
+						// 		new QRCode(item, {
+						// 			text: that.list[index].qrUrl,
+						// 			colorDark : "#000000",
+						// 			colorLight : "#ffffff",
+						// 			correctLevel : QRCode.CorrectLevel.L
+						// 		});
+						// 	})
+						// } else {
+						// 	console.log(that.list[0].qrUrl,435345)
+						// 	new QRCode(this.$refs.qrcode, {
+						// 		text: that.list[0].qrUrl,
+						// 		colorDark : "#000000",
+						// 		colorLight : "#ffffff",
+						// 		correctLevel : QRCode.CorrectLevel.L
+						// 	});
+						// }
+						//
+						
+					})
+					this.id = this.$http.getUrlParamValue('id');
+					this.cate_id = this.$http.getUrlParamValue('cate_id');
+					this.pid = this.$http.getUrlParamValue('pid');
+					this.getInfo();
+				},
+				mounted() {
+					
+				},
+				methods:{
+					getInfo(){
+						let that = this;
+						let id = this.id;
+						that.$http.ajax({
+							data:{
+								id:id,
+								cate_id:this.cate_id,
+								pid:this.pid,
+							},
+							url:'/index/news/getShoreInfo'
+						}).then(res=>{
+							let data  = res.data;
+							if(res.code == 1){
+								let list  = that.list;
+								list.forEach(function (vaule,key) {
+									list[key].title 	= data.title;
+									list[key].content   = data.content;
+									list[key].info  	= data.info;
+									list[key].qrUrl 	= data.qrUrl;
+									list[key].logo 		= data.info.head;	
+								})
+								
+								that.list = list;
+							}
+							
+							that.$refs.qrcode.map((item,index)=>{
+								let qrcode = new QRCode(item, {
+									text: that.list[index].qrUrl,
+									colorDark : "#000000",
+									colorLight : "#ffffff",
+									correctLevel : QRCode.CorrectLevel.L
+								});
+							})
+							
+							// console.log(item.children[1].currentSrc);
+						}).catch(res=>{
+							that.$toast(res.msg);
+						});
+					},
+					createPoster() {
+						const that = this;
+						const id = 'box'+this.mySwiper.activeIndex;
+						window.pageYOffset = 0;	
+						window.pageXOffset = 0;	
+						this.createState = true;
+						
+						// console.log(that.$refs[id][0].offsetWidth)
+						
+						html2canvas(that.$refs[id][0],{
+						  allowTaint: true,
+						  useCORS: true,
+						  dpi: window.devicePixelRatio*96,
+						  height: that.$refs[id][0].offsetHeight, //注意 下面解决当页面滚动之后生成图片出现白边问题
+						  width: that.$refs[id][0].offsetWidth,  //注意 下面解决当页面滚动之后生成图片出现白边问题
+						}).then(canvas => {
+							that.chooseSrc = canvas.toDataURL("image/png", 1.0);
+
+							setTimeout(()=>{
+								that.createState = false;
+								that.showPic = true;
+							},600)
+						});
+						
+						
+					},
+					contentText(text,num){
+						const ellipsis = text.length > num ? '...' : '';
+						return text.slice(0,num) + ellipsis;
+					},
+				},
+			})
+		})	 
+</script>

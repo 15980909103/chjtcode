@@ -1,0 +1,28 @@
+<scroll-view class="scroll-release" scroll-y="{{scrollPosition.scrollY}}" bindscrolltolower="onGetDataInfo" enable-back-to-top>
+  
+  <block wx:if="{{list.length>0}}">
+    <view class='my-list' wx:for="{{list}}" wx:key="index">
+      <view class='my-time'>{{item.create_time}} 来自 二维码扫描</view>
+      <view class='my-card'>
+        <view class="my-card-list my-list-z my-animation {{item.user_top=='1'?'the-top':''}} {{item.show_options?'show-delet':''}}" data-index="{{index}}" data-id="{{item.agent_id}}" bindtouchstart="handletouchstart" bindtouchmove="handletouchmove" bindtouchend="handletouchend" bindtap='onDetailCard'>
+          <view class='my-img'><image src='{{item.headimgurl}}' class='my-img2'></image></view>
+          <view class='my-list2'>
+            <view class='my-li my-li1'>{{item.name}}</view>
+            <view class='my-li my-li2'>{{item.title?item.title+'|':''}} {{item.province?item.province+'-':''}}{{item.city?item.city+'-':''}}{{item.area?item.area:''}}</view>
+            <view class='my-li my-li3'>
+              <text wx:for="{{item.special_label}}" wx:key="idx" wx:for-index="idx" wx:for-item="val">{{val}}</text>
+            </view>
+          </view>
+        </view>
+        <view class='my-card-list my-list-f' data-index="{{index}}" bindtouchstart="opstart" bindtouchmove="opmove" bindtouchend="opend">
+          <view class='my-options my-del' data-index="{{index}}" data-id="{{item.id}}" bindtap='onDel'>删除</view>
+          <view class='my-options my-Place-top' data-index="{{index}}" data-id="{{item.id}}" bindtap='onTop'>置顶</view>
+        </view>
+        <view class='my-clear'></view>
+      </view>
+    </view>
+  </block>
+  <view wx:if="{{list.length==0&&pageShow==true}}">
+    <image style="width:100%;" src="{{domain_name}}agentside/static/image/empty.png"></image>
+  </view>
+</scroll-view>

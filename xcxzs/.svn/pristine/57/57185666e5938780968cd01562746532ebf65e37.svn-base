@@ -1,0 +1,2 @@
+[2020-11-13T08:56:33+08:00][error] [10501]SQLSTATE[42S02]: Base table or view not found: 1146 Table '9h_v2.9h_user_2' doesn't exist[/mnt/e/project/999house_v2/vendor/topthink/think-orm/src/db/PDOConnection.php:722]
+[2020-11-13T08:56:46+08:00][error] [10501]SQLSTATE[42S02]: Base table or view not found: 1146 Table '9h_v2.9h_user_2' doesn't exist[/mnt/e/project/999house_v2/vendor/topthink/think-orm/src/db/PDOConnection.php:722]

@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "楼盘信息",
+  "usingComponents": {
+    "van-tab": "/dist/tab/index",
+    "van-tabs": "/dist/tabs/index"
+  }
+}

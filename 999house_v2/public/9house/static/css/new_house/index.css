@@ -1,0 +1,128 @@
+.search{
+	width: 100%;
+	box-sizing: border-box;
+	padding: .4rem .32rem .2rem;
+	display: flex;
+	align-items: center;
+	position: sticky;
+	top: 0;
+	background-color: #fff;
+	z-index: 10;
+}
+
+.search-box{
+	/* width: 76%; */
+	flex: 1;
+	padding: 0;
+	font-size: .26rem;
+}
+
+.search-box .van-icon-search::before{
+	color: rgba(173, 173, 173, 1);
+}
+
+.search-map,
+.search-tip{
+	height: .68rem;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+}
+
+.search-map{
+	font-size: .3rem;
+	font-weight: bold;
+	padding: 0 .16rem .1rem .32rem;
+	color: rgba(254, 130, 30, 1);
+}
+
+.search-tip{
+	position: relative;
+	padding: 0 0 .04rem .16rem;
+	color: rgba(33, 33, 33, 1);
+}
+
+.search-tip .iconfont{
+	font-size: .35rem;
+	font-weight: bold;
+}
+
+.search-tip::after{
+	content: attr(data-badge);
+	position: absolute;
+	top: 0;
+	right: 0;
+	font-size: .24rem;
+	padding: .01rem .1rem;
+	color: #fff;
+	background-color: rgba(252, 77, 57, 1);
+	border-radius: 40%;
+	transform: translate(50%,-20%);
+}
+
+.box{
+	width: 100%;
+	display: flex;
+	overflow-x: scroll;
+	-webkit-overflow-scrolling: touch;
+	margin: .28rem 0 .3rem;
+}
+
+.box-wrap,
+.box-item{
+	width: 3.12rem;
+	height: 2.26rem;
+}
+
+.box-item{
+	box-sizing: border-box;
+	padding: .2rem;
+}
+
+.box-title{
+	font-size: .3rem;
+	font-weight: bold;
+	margin-bottom: .14rem;
+}
+
+.box-img-wrap{
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+}
+
+.box-img-wrap img{
+	flex: 1;
+	height: 1.3rem;
+}
+
+.box-img-wrap img:nth-child(2){
+	margin-left: .1rem;
+}
+
+.box-wrap{
+	padding-right: .2rem;
+}
+
+.box-wrap:nth-child(2n) .box-item{
+	background-color: rgba(245, 248, 255, 1);
+}
+
+.box-wrap:nth-child(2n-1) .box-item{
+	background-color: rgba(240, 245, 246, 1);
+}
+
+.box-wrap:first-child{
+	padding-left: .32rem;
+}
+
+.box-wrap:last-child{
+	padding-right: .32rem;
+}
+
+.drop{
+	position: sticky;
+	top: 1.2rem;
+	background-color: #fff;
+	z-index: 8;
+}

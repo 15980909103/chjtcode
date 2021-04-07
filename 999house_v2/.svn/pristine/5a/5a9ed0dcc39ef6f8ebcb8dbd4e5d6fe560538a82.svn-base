@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>首页</title>
+		<link rel="stylesheet" href="common/vant/index.css"/>
+		<link rel="stylesheet" href="common/css/public.css"/>
+		
+		<style>
+			
+			
+		</style>
+	</head>
+	<body>
+		<div id="app" v-cloak ref="DOM">
+			 
+			<!-- 头部 -->
+			<index-header :location="location"></index-header>
+			
+			<!-- 导航 -->
+			<index-nav></index-nav>
+			
+			<!-- banner -->
+			<index-banner></index-banner>
+			
+			<!-- 便捷模块 -->
+			<index-speedy></index-speedy>
+			
+			<!-- 活动专栏 -->
+			<index-activity></index-activity> 
+			
+			<!-- 地产研究院 -->
+			<index-estate></index-estate>
+			
+			<!-- 资讯/新房 -->
+			<index-news></index-news>
+			
+			<!-- 底部栏 -->
+			<common-tabbar :active="0"></common-tabbar>
+			
+			
+		</div>
+	</body>
+</html>
+
+<script src="common/js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script src="common/js/rem.js" type="text/javascript" charset="utf-8"></script>
+<script src="common/js/public.js" type="text/javascript" charset="utf-8"></script>
+<script src="common/vant/index.js" type="text/javascript" charset="utf-8"></script>
+<script src="common/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+<script>
+	let mySwiper;
+	
+	const myComponents = [
+		'common/swiper/swiper.min',
+		'components/index/header/index',
+		'components/index/nav/index',
+		'components/index/banner/index',
+		'components/index/speedy/index',
+		'components/index/activity/index',
+		'components/index/estate/index',
+		'components/common/tabbar/index',
+		'components/common/template/index',
+		'components/index/news/index',
+	];
+	
+	$api.addComponents(myComponents)
+		.then(()=>{
+			
+				Vue.use(vant.Lazyload);
+				 
+				Vue.component('commonTemplate', commonTemplate);
+				
+				var app = new Vue({
+					el: '#app',
+					data: {
+						// 选取位置
+						location: '厦门',
+						locationShow: false,
+					},
+					components: {
+						indexHeader,
+						indexNav,
+						indexBanner,
+						indexSpeedy,
+						indexActivity,
+						indexEstate,
+						commonTabbar,
+						indexNews,
+					},
+					created() {
+						this.getUserLocation();
+ 
+					},
+					mounted() {
+						// this.$nextTick(()=>{
+						// 	this.$refs.DOM.scrollTo(0,500)
+						// })
+					},
+					methods:{
+						// 获取位置
+						getUserLocation() {
+							const location = $api.localGet('u-location');
+							
+							if( location ){
+								this.location = location;
+							} else {
+								$api.localSet('u-location', this.location);
+							}
+						},
+						
+					},
+				})
+				
+				
+		});
+</script>

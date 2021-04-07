@@ -1,0 +1,2 @@
+[2020-11-18T16:04:11+08:00][error] [10500]数据表字段不存在:[cover_url][/mnt/e/project/999house_V2/vendor/topthink/think-orm/src/db/Builder.php:164]
+[2020-11-18T16:05:54+08:00][error] [10500]数据表字段不存在:[cover_url][/mnt/e/project/999house_V2/vendor/topthink/think-orm/src/db/Builder.php:164]

@@ -1,0 +1,571 @@
+/* 资讯/广告/视频 样式模板 */
+.all-template{
+	width: 100%;
+}
+
+.template{
+	width: 100%;
+	box-sizing: border-box;
+	padding: 34rpx 32rpx 12rpx;
+	display: flex;
+	flex-direction: column;
+	position: relative;
+}
+
+.template:not(:last-child)::after{
+	content: '';
+	width: 90%;
+	height: 1px;
+	background-color: rgba(240, 240, 240, 1);
+	position: absolute;
+	bottom: 0;
+}
+
+.template-name{
+	font-size: 34rpx;
+	font-weight: 800;
+	color: #000000 !important;
+}
+
+.template-title{
+	font-size: 30rpx;
+	font-weight: 800;
+	line-height: 45rpx;
+	color: rgba(33, 33, 33, 1);
+	text-align: justify;
+	text-justify: newspaper;
+	word-break: break-all;
+}
+
+.template-title ._span{
+	display: inline-block !important;
+	margin-top: 0 !important;
+	/* vertical-align: text-bottom; */
+}
+
+.template-title ._span ._span{
+	display: flex !important;
+	margin-right: 4rpx;
+}
+
+.template-title image{
+	width: 26rpx !important;
+	height: 30rpx !important;
+}
+
+.template-title-write{
+	height: 30rpx;
+	font-size: 20rpx;
+	color: #fff;
+	padding: 3rpx 10rpx !important;
+	background: #FD4243;
+	border-radius: 2rpx;
+	vertical-align: middle;
+	line-height: 30rpx;
+	margin-right: 20rpx;
+	text-align: center;
+}
+
+.template-news-1{
+	display: flex;
+	justify-content: space-between;
+}
+
+.template-news-1 .template-title{
+	width: 384rpx;
+	line-height: 45rpx;
+}
+
+.template-news-2 ._span,
+.template-news-3 ._span,
+.template-ad-1 ._span{
+	display: flex;
+	justify-content: flex-start;
+	margin-top: 24rpx;
+}
+
+.template-ad-1 ._span image{
+	width: 100%;
+	height: 386rpx;
+	border-radius: 4rpx;
+}
+
+.template-ad-video{
+	width: 100%;
+	height: 386rpx;
+	margin-top: 24rpx;
+	border-radius: 4rpx;
+}
+
+.template-news-2 ._span image{
+	width: 49%;
+	height: 253rpx;
+	border-radius: 4rpx;
+}
+
+.template-news-3 ._span image{
+	width: 218rpx;
+	height: 218rpx;
+	margin-right: 16rpx;
+	object-fit: cover;
+}
+
+.template-top-1-pic,
+.template-top image{
+	width: 218rpx;
+	height: 164rpx;
+	border-radius: 4rpx;
+}
+
+.template-bottom{
+	font-size: 24rpx;
+	color: rgba(173, 173, 173, 1);
+	margin-top: 36rpx;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.template-bottom image{
+	width: 36rpx;
+	height: 36rpx;
+	border-radius: 50%;
+	margin-right: 16rpx;
+}
+
+.template-bottom-left{
+	display: flex;
+	align-items: center;
+}
+
+.template-bottom-right{
+	display: flex;
+	align-items: center;
+}
+
+.template-bottom-news{
+	display: flex;
+	margin-bottom: 14rpx;
+}
+
+.template-bottom-news ._span:nth-child(2){
+	margin: 0 10rpx ;
+}
+
+.template-bottom-right .template-bottom-ad-del{
+	margin-left: 34rpx;
+}
+
+.template-bottom-tip{
+	height: 3rpx;
+	font-size: 22rpx;
+	padding: 13rpx;
+	box-sizing: border-box;
+	border-radius: 2rpx;
+	border: 1px solid #E0E0E0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	text-align: center;
+    line-height: 38rpx;
+    height: 38rpx;
+    max-width: 136rpx;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    word-break: break-all;
+}
+
+.template-bottom-ad-del{
+	width: 37rpx;
+	height: 24rpx;
+	background: #f8f8f8;
+	border: 4rpx;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.template-bottom-ad-del .iconfont{
+	font-size: 16rpx;
+}
+
+.template-bottom-houses-tip{
+	display: flex;
+	align-items: center;
+	margin-right: 34rpx;
+	color: rgba(33, 33, 33, 1);
+}
+
+.template-bottom-houses-tip image{
+	border-radius: 0;
+	margin-right: 8rpx;
+}
+
+.template-top-houses{
+	font-size: 28rpx;
+}
+
+.template-top-houses-name{
+	font-size: 30rpx;
+	color: #212121;
+	display: flex;
+	align-items: center;
+}
+
+.template-top-houses-name ._span{
+	font-size: 22rpx;
+	color: #ADADAD;
+	margin-left: 20rpx;
+	padding: 0 10rpx;
+	border-radius: 2px;
+	border: 1px solid #E0E0E0;
+	box-sizing: content-box;
+
+	text-align: center;
+    line-height: 38rpx;
+    height: 38rpx;
+    max-width: 136rpx;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    word-break: break-all;
+}
+
+.template-top-houses-name-tip{
+	border: none !important;
+	color: #fff !important;
+	padding-top: 1px!important;
+	padding-bottom: 1px!important;
+}
+
+.template-top-houses-price{
+	display: flex;
+	align-items: center;
+	color: #757575;
+	margin: 20rpx 0;
+}
+
+.template-top-houses-price view{
+	color: #FC4D39;
+}
+.template-top-houses-price view span{
+	font-size: 34rpx;
+}
+.template-top-houses-site{
+	margin: 0 20rpx 0 30rpx;
+	position: relative;
+}
+
+.template-top-houses-site:after{
+	content: '';
+	width:1rpx;
+	height: 40rpx;
+	background-color: #757575;
+	position: absolute;
+	right: -14%;
+	top: 22%;
+	transform: translate(50%,-50%);
+	transform: scale(0.5);
+	    transform-origin: 0 0;
+}
+
+.template2{
+	margin-bottom: 50rpx;
+}
+
+.template2-video{
+	/* width: 100vw; */
+	height: 330rpx;
+	overflow: scroll hidden;
+	-webkit-overflow-scrolling: touch;
+	display: flex;
+}
+
+.template2-title{
+	margin: 50rpx 0 24rpx 35rpx;
+}
+
+.template2-video-item{
+	width: 250rpx;
+	height: 330rpx;
+	margin-left: 35rpx;
+	/* background: green; */
+	border-radius: 4rpx;
+	position: relative;
+}
+
+.template2-video-item .template2-video-bg{
+	width: 250rpx;
+	height: 330rpx;
+	font-size: 26rpx;
+	text-align: center;
+	line-height: 100px;
+	overflow: hidden;
+}
+.template2-video-item .template2-video-bg image{
+	width: 100%;
+	height: 100%;;
+}
+
+/* 查看更多 */
+.template2-video-place{
+	width: 250rpx;
+	height: 330rpx;
+	font-size: 24rpx;
+}
+
+.template2-video-place div{
+	width: 250rpx;
+	height: 330rpx;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.template2-video-place-box{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding: 20rpx;
+}
+
+.template2-video-place image{
+	width: 90rpx;
+	height: 90rpx;
+	margin-bottom: 20rpx;
+}
+
+.template2-video-top{
+	height: 42rpx;
+	position: absolute;
+	top: 10rpx;
+	left: 10rpx;
+	font-size: 20rpx;
+	color: #fff;
+	display: flex;
+}
+
+.template2-video-top ._span{
+	height: 100%;
+	display: flex;
+	align-items: center;
+	padding: 0 12rpx;
+}
+
+.template2-video-top ._span:first-child{
+	background: #285EE4;
+	border-radius: 4rpx 0px 0px 4rpx;
+}
+
+.template2-video-top ._span:last-child{
+	background: rgba(0, 0, 0, .5);
+	border-radius: 0 4rpx 4rpx 0;
+}
+
+.template2-video-bottom{
+	width: 100%;
+	height: 50rpx;
+	font-size: 22rpx;
+	color: #FFFFFF;
+	position: absolute;
+	bottom: 0;
+	display: flex;
+	align-items: center;
+	text-indent: 10rpx;
+	background: rgba(0, 0, 0, .5);
+	border-radius: 0 0 4rpx 4rpx;
+}
+
+.template3-top{
+	display: flex;
+	/* height: 210rpx; */
+}
+
+.template3-top image{
+	width: 235rpx;
+	height: 178rpx;
+}
+
+.template3-top-right{
+	margin-left: 42rpx;
+	width: calc(100% - 105rpx);
+	flex: 1;
+}
+
+.template3-title{
+	font-size: 34rpx;
+	display: flex;
+	justify-content:space-between;
+	/* align-items: center; */
+	line-height: 40rpx;
+}
+
+.template3-title ._span{
+	color: #fff;
+	font-size: 26rpx;
+	width: 70rpx;
+	height: 36rpx;
+	margin-right: 16rpx;
+	/* background: linear-gradient(90deg, #6BCFFF 0%, #1EA5FE 100%); */
+	border-radius: 2rpx;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	line-height: 30rpx;
+}
+
+.template3-title image{
+	width: 94rpx;
+	height: 34rpx;
+	margin-right: 14rpx;
+}
+
+.template3-tip{
+	display: flex;
+	margin: 16rpx 0;
+}
+
+.template3-tip view{
+	font-size: 22rpx;
+	background-color: #EFF2F3;
+	color:#61749E ;
+	/* border: 1rpx solid #E0E0E0; */
+	border-radius: 2rpx;
+	padding: 0 14rpx;
+	display: flex;
+	text-align: center;
+	line-height: 30rpx;
+	height: 30rpx;
+	max-width: 120rpx;
+
+	overflow : hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1; /* 限制在一个块元素显示的文本的行数 */
+    -webkit-box-orient: vertical; /* 垂直排列 */
+    word-break: break-all;  /* 内容自动换行 */
+}
+
+.template3-tip view:nth-child(2){
+	margin: 0 15rpx;
+}
+
+.template3-site {
+	font-size: 24rpx;
+	color: rgba(117, 117, 117, 1);
+}
+
+.template3-site .template-top-houses-site{
+	margin-left: 0;
+}
+
+.template3-top-right .template-top-houses-price{
+	font-size: 28rpx
+}
+
+.template3-top-right .template-top-houses-price{
+	margin: 1rpx 0 0 0;
+}
+
+.template3-bottom{
+	color: rgba(33, 33, 33, 1);
+	font-size: 24rpx;
+	margin-top: 10rpx;
+	/* margin-left: 252rpx; */
+	display: flex;
+	align-items: center;
+	position: relative;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.template3-bottom-tip{
+	display: flex;
+	align-items: center;
+	margin-right: 30rpx;
+	margin-top: 10rpx;
+}
+
+/* .template3-bottom-tip:nth-child(1){
+	margin-top: 0;
+} */
+
+.template3-bottom-tip image{
+	width: 30rpx;
+	height: 30rpx;
+	margin-right: 10rpx;
+	border-radius: 2rpx;
+}
+
+.template3-bottom-vr ._span{
+	height: 30rpx;
+	font-size: 22rpx;
+	color: #fff;
+	background: linear-gradient(90deg, #FF813A 0%, #FE4533 100%);
+	border-radius: 2rpx;
+	padding: 0 10rpx;
+}
+
+.template3-bottom-apply{
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-top: 30rpx;
+}
+
+.template3-bottom-apply .van-button{
+	width: 149rpx;
+	height: 54rpx;
+	font-size: 26rpx;
+	padding: 0;
+}
+
+.template3-bottom-apply-box{
+	width: 490rpx;
+	display: flex;
+	flex-direction: column;
+	
+}
+
+.template3-bottom-apply-info{
+	color: rgba(252, 77, 57, 1);
+	font-size: 26rpx;
+	margin-bottom: 10rpx;
+}
+
+.template3-bottom-apply-info .iconfont{
+	font-size: 26rpx;
+	margin-right: 14rpx;
+}
+
+.template3-bottom-apply-people{
+	font-size: 22rpx;
+	color: rgba(173, 173, 173, 1);
+}
+
+.template3-bottom-apply-people ._span{
+	color: rgba(252, 77, 57, 1);
+}
+
+.template3-top-image-sale{
+	position: relative;
+}
+
+.template3-top-image-sale::after{
+	content: '津贴券';
+	color: #fff;
+	font-size: 20rpx;
+	width: 74rpx;
+	height: 30rpx;
+	border-radius: 0 0 14rpx 0;
+	background: linear-gradient(90deg, #FCA36A 0%, #FC4D39 100%);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	left: 0;
+	top: 0;
+}

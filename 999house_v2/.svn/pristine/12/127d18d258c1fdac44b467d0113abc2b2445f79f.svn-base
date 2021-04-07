@@ -1,0 +1,59 @@
+/* 用户点评 */
+.nav-comment{
+	margin: 0.24rem 0 0.36rem;
+}
+
+.nav-comment:last-child{
+	margin: 0.24rem 0 0;
+}
+
+.nav-comment-top{
+	display: flex;
+	align-items: center;
+}
+
+.nav-comment-top img{
+	width: 0.6rem;
+	height: 0.6rem;
+	border-radius: 50%;
+}
+
+.nav-comment-top span{
+	font-size: 0.26rem;
+	color: rgba(117, 117, 117, 1);
+	margin-left: 0.18rem;
+}
+
+.nav-comment-content{
+	font-size: 0.26rem;
+	margin: 0.18rem 0 0;
+}
+
+.nav-comment-time{
+	color: rgba(173, 173, 173, 1);
+	font-size: .22rem;
+	margin-top: .18rem;
+}
+
+.nav-comment-bottom{
+	display: flex;
+	position: relative;
+	margin-top: .18rem;
+}
+
+.nav-comment-bottom .van-tag{
+	position: absolute;
+	right: 0.1rem;
+	bottom: 0.1rem;
+	font-size: 0.22rem;
+}
+
+.nav-comment-bottom img{
+	width: 2.18rem;
+	height: 2.18rem;
+	margin-right: 0.16rem;
+}
+
+.nav-comment-bottom img:nth-child(3){
+	margin-right: 0;
+}

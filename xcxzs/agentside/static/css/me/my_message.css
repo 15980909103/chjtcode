@@ -1,0 +1,22 @@
+.my-content{width: 100vw;min-height: 100vh;background-color: #FFF;}
+[v-cloak] {display: none;}
+.my-scroll-li{width: 100vw;border-bottom: 1px solid #eee;padding: 2vh 5vw;display: flex;justify-content:space-between;align-items:center;border-bottom: 1vh solid #F7F7F7;}
+.my-scroll-li-1{display: flex;align-items:center;}
+.my-scroll-li-2{position: relative;}
+.my-scroll-li-1 img{width: 7vw;height: 7vw;}
+.my-scroll-li-1 div{margin-left: 3vw;font-size: 4vw;}
+.my-badge1{position: relative;left:0;top:0;}
+.scroll-content{width: 100vw;height: 91vh;top: 9vh;background-color: #F7F7F7;}
+
+.mui-table-view-cell{background-color: #FFF;padding: 1.5vh 5vw;}
+.my-li-content{width: 90vw;display: flex;justify-content:space-between;}
+.my-li1{width: 15vw;position: relative;}
+.my-li1-img{width: 15vw;height: 15vw;}
+.my-badge2{position: absolute;top:-.3rem;left: 12vw;}
+.my-li2{width: 51vw;margin:0 2vw;display: flex;flex-direction:column;justify-content:space-between;}
+.my-li2 div:nth-child(1){font-size: 4.5vw;}
+.my-li2 div:nth-child(2){font-size: 3.8vw;color: #ACACAC;}
+.my-li3{width: 20vw;font-size: 3.5vw;color: #ACACAC;text-align: right;}
+.mui-table-view-cell:after{position: absolute;right: 0;bottom: 0;left: 0;}
+.my-yidu{color:#FFF;background-color: #C1C1C1;padding:0 5vw !important;}
+.my-del{color:#FFF;background-color: #D22527;padding:0 5vw !important;}

@@ -1,0 +1,33 @@
+.title-box,
+.title-like{
+margin-top: 0.4rem;
+box-sizing: border-box;
+padding: 0 0.32rem 0 0.32rem;
+display: flex;
+justify-content: space-between;
+align-items: center;
+font-size: 0.34rem;
+color: #212121;
+}
+
+.title-tip{
+height: 100%;
+display: flex;
+align-items: center;
+}
+
+.title-tip div{
+height: 100%;
+color: rgba(134, 186, 122, 1);
+font-size: 0.28rem;
+margin-left: 0.44rem;
+}
+
+.title-tip span{
+font-size: 0.28rem;
+margin-left: 0.12rem;
+}
+
+.title-like{
+margin-top: 0.7rem;
+}

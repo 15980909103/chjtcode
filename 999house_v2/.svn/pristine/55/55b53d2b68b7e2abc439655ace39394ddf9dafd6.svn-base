@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>活动详情</title>
+		<link rel="stylesheet" href="../../common/vant/index.css"/>
+		<link rel="stylesheet" href="../../common/css/public.css"/>
+		<style>
+			.box{
+				width: 100%;
+				box-sizing: border-box;
+				padding: 0 .32rem;
+			}
+			
+			.nav-apply{
+				width: 100%;
+				height: 1.78rem;
+				box-sizing: border-box;
+				padding: 0.24rem 0.3rem 0.15rem;
+				margin: 0.4rem 0 .48rem;
+				background-color: rgba(255, 249, 242, 1);
+			}
+			
+			.nav-apply-title{
+				font-size: 0.26rem;
+				font-weight: bold;
+			}
+			
+			.nav-apply-box{
+				display: flex;
+				justify-content: space-between;
+				align-items: flex-end;
+			}
+			
+			.nav-apply-tip{
+				font-size: 0.26rem;
+				color: rgba(173, 173, 173, 1);
+				margin: 0.16rem 0;
+			}
+			
+			.nav-apply-box{
+				font-size: 0.22rem;
+				color: rgba(173, 173, 173, 1);
+			}
+			
+			.nav-apply-day{
+				color: rgba(252, 77, 57, 1);
+				margin-right: 0.2rem;
+			}
+			
+			.van-button{
+				width: 100%;
+				height: .88rem;
+				border-radius: .04rem;
+			}
+			
+			.rule-title{
+				font-size: .38rem;
+				font-weight: bold;
+				margin: 1rem 0 .2rem;
+			}
+			
+			.rule-text{
+				font-size: .3rem;
+				line-height: .56rem;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app" v-cloak ref="DOM">
+			<div class="box">
+				<div class="nav-apply">
+					<div class="nav-apply-title van-ellipsis">
+						{{ apply.title }}
+					</div>
+					<div class="nav-apply-box">
+						<div class="nav-apply-left">
+							<span class="nav-apply-tip">
+								{{ apply.tip }}
+							</span>
+							<div>
+								<span class="nav-apply-day">
+									距离结束剩余{{ apply.day }}天
+								</span>
+								<span class="nav-apply-people">
+									{{ apply.people }}人已报名
+								</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<van-button 
+					type="default"
+					:color="color"
+					:disabled="applyStatus == '立即报名' ? false : true"
+					loading-text="报名中..."
+					:loading="upStatus"
+					@click="userApply"
+				>
+					{{ applyStatus }}
+				</van-button>
+				<div class="rule">
+					<span class="rule-title">
+						报名须知
+					</span>
+					<span class="rule-text">
+						1、活动时间：2020.10.10-2020.12.30<br/>
+						2、适用范围：二期16栋、32栋、34栋<br/>
+						3、服务承认：报名成功后工作人员将在24小时内 联系您确认报名<br/>
+						4、看房地址：湖里区湖里大道兴商路127号售楼处<br/>
+					</span>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
+
+<script src="../../common/js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/rem.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/public.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/vant/index.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+<script>
+	Vue.use(vant.Lazyload);
+	 
+	const app = new Vue({
+		el: '#app',
+		data: {
+			apply: {
+				title: '总价430万起买世贸大三房带精装修读一中集美校区',
+				tip: '89平大三房复式阁楼',
+				day: '21',
+				people: '34'
+			},
+			color: 'linear-gradient(90deg, #FFA640 0%, #FE8D35 100%)',
+			applyStatus: '立即报名',
+			upStatus: false
+			
+		},
+		components: {
+		
+		},
+		created() {
+			
+		},
+		mounted() {
+			
+		},
+		methods:{
+			userApply() {
+				this.upStatus = true;
+				
+				setTimeout(()=>{
+					this.$toast('报名成功');
+					this.upStatus = false;
+					this.applyStatus = '已报名'
+					this.color = 'rgba(173, 173, 173, 1)';
+				},2000)
+			}
+			
+		},
+	})
+	
+</script>

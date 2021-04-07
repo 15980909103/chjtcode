@@ -1,0 +1,22 @@
+{
+  "navigationBarTitleText": "楼盘详情",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "uni-nav-bar": "/components/uni-nav-bar/uni-nav-bar",
+    "u-swiper": "/uview-ui/components/u-swiper/u-swiper",
+    "u-button": "/uview-ui/components/u-button/u-button",
+    "u-tag": "/uview-ui/components/u-tag/u-tag",
+    "u-icon": "/uview-ui/components/u-icon/u-icon",
+    "u-sticky": "/uview-ui/components/u-sticky/u-sticky",
+    "u-tabs": "/uview-ui/components/u-tabs/u-tabs",
+    "u-index-list": "/uview-ui/components/u-index-list/u-index-list",
+    "u-index-anchor": "/uview-ui/components/u-index-anchor/u-index-anchor",
+    "u-modal": "/uview-ui/components/u-modal/u-modal",
+    "u-popup": "/uview-ui/components/u-popup/u-popup",
+    "surface": "/components/houses/surface",
+    "news": "/components/common/template_information",
+    "comment": "/components/houses/comment",
+    "nearby-map": "/components/map/nearby",
+    "common-template": "/components/common/template_newHouse"
+  }
+}

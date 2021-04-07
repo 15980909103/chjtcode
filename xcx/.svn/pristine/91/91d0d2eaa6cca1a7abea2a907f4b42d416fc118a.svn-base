@@ -1,0 +1,168 @@
+<import src="../../../wxParse/wxParse.wxml"/>
+<scroll-view id="my-scroll" scroll-y scroll-top="{{scroll_top}}" scroll-with-animation enable-back-to-top>
+  <view id="my-view1" class='van-multi-ellipsis--l2'>{{articleInfo.title}}</view>
+  <view id="my-view2"><image wx:if="{{articleInfo.logo}}" src="{{domain_name+articleInfo.logo}}"></image><text>{{articleInfo.author}}</text></view>
+  <view id='my-view3'><template is="wxParse" data="{{wxParseData:spaceData.nodes}}"/></view>
+  <view id='my-view4'>
+    <view>{{articleInfo.create_time}}</view>
+    <view>阅读 {{articleInfo.read_num}}</view>
+  </view>
+  <view id='my-view5' wx:if="{{agentInfo.name}}">
+    <view class='f-img'><image src='{{agentInfo.headimgurl}}'></image></view>
+    <view class='f-name'>
+      <view class='f-name-1 van-ellipsis'>{{agentInfo.name}}</view>
+      <view class='f-name-2 van-ellipsis'>{{agentInfo.storename}}</view>
+    </view>
+    <view class='f-btn1' bindtap='onCall'>电话联系</view>
+    <view class='f-btn2'>微聊</view>
+  </view>
+  <view id='my-view7'>
+    <view class='view7-title'>—— 广告 ——</view>
+    <image wx:if="{{advertisingImg}}" src='{{domain_name+advertisingImg}}'></image>
+  </view>
+  <!-- <view id="my-zixun">
+    <view class='my-h2'>
+      <view class='my-h2-1'>新闻推荐</view>
+    </view>
+    <scroll-view scroll-x class='zx-scroll'>
+      <view class='my-zx-lists' style="width:{{zx_width}}vw;">
+        <view class='my-zx-list' wx:for="{{zxList}}" wx:key="index" data-id="{{item.id}}" bindtap='onArticleDetail'>
+          <image src='{{domain_img+item.cover}}'></image>
+          <view class='van-multi-ellipsis--l2'>{{item.title}}</view>
+        </view>
+      </view>
+    </scroll-view>
+  </view> -->
+  <!-- 评论 -->
+    <view id='my-view6'>
+    <view class='my-h2 my-border-bottom'>
+      <view class='my-h2-1'>精彩评论</view>
+      <!-- <view class='my-h2-2' bindtap='setFocus'>写评论 <van-icon name="arrow" size="3vw"/></view> -->
+    </view>
+    <view class='view6-list' wx:if="{{comments.length>0}}" wx:for="{{comments}}" wx:key="index">
+      <image src="{{item.avatarUrl}}"></image>
+      <view class='view6-lis'>
+        <view class='name_like'>
+          {{item.nickName}}
+          <view class="like_img reds" wx:if="{{item.is_reply}}" data-id='{{item.id}}' data-status='0' bindtap="like_btn">
+              <image src='../../../image/like_act.png'></image>
+              <!-- <image src="../../static/image/like_act.png" alt=""></image> -->
+              {{item.praise_num}}
+          </view>
+          <view class="like_img" wx:if="{{!item.is_reply}}" data-id='{{item.id}}' data-status='1' bindtap="like_btn">
+          <image src='../../../image/like.png'></image>
+              <!-- <image src="../../static/image/like.png" alt=""></image> -->
+              {{item.praise_num}}
+          </view>
+        </view>
+        <view>{{item.content}}</view>
+        <view>
+          {{item.create_time}}
+          <view class='reply' data-index='{{index}}'  data-nickName='{{item.nickName}}'  data-id='{{item.id}}'  bindtap='onReply'>
+            {{item.replyNum}}回复
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class='layer_box' wx:if="{{replyshow}}">
+    <view class='layer_mask' catchtap='noshow'></view>
+    <view class='layer_conter'>
+      <view class='view6-list' wx:if="{{comments[indexss]}}">
+        <image src="{{comments[indexss].avatarUrl}}"></image>
+        <view class='view6-lis'>
+          <view class='name_like'>
+            {{comments[indexss].nickName}}
+            <view class="like_img reds" wx:if="{{comments[indexss].is_reply}}" data-id='{{comments[indexss].id}}' data-status='0' bindtap="like_btn">
+                <image src='../../../image/like_act.png'></image>
+                {{comments[indexss].praise_num}}
+            </view>
+            <view class="like_img" wx:if="{{!comments[indexss].is_reply}}" data-id='{{comments[indexss].id}}' data-status='1' bindtap="like_btn">
+            <image src='../../../image/like.png'></image>
+                {{comments[indexss].praise_num}}
+            </view>
+          </view>
+          <view>{{comments[indexss].content}}</view>
+          <view>
+            {{comments[indexss].create_time}}
+            <view class='reply' data-index='{{index}}' data-nickName='{{item.nickName}}' data-id='{{item.id}}'  bindtap='onReply'>
+              {{comments[indexss].replyNum}}回复
+            </view>
+          </view>
+        </view>
+      </view>
+      <view wx:if="{{commentsDetailInfo.length}}" class='allreplay'>全部回复</view>
+
+      <scroll-view scroll-y class='reply_allbox' bindscrolltolower="fetchMoreReplay">
+        <view class='view6-list' wx:for="{{commentsDetailInfo}}" wx:key="index">
+          <image src="{{item.avatarUrl}}"></image>
+          <view class='view6-lis'>
+            <view class='name_like'>
+              {{item.nickName}}
+              <view class="like_img reds" wx:if="{{item.is_reply}}" data-id='{{item.id}}' data-status='0' bindtap="like_btn">
+                  <image src='../../../image/like_act.png'></image>
+                  <!-- <image src="../../static/image/like_act.png" alt=""></image> -->
+                  {{item.praise_num}}
+              </view>
+              <view class="like_img" wx:if="{{!item.is_reply}}" data-id='{{item.id}}' data-status='1' bindtap="like_btn">
+              <image src='../../../image/like.png'></image>
+                  <!-- <image src="../../static/image/like.png" alt=""></image> -->
+                  {{item.praise_num}}
+              </view>
+            </view>
+            <view><text wx:if="item.nickName!=item.replyName">回复 {{item.replyName}} </text> {{item.content}}</view>
+            <view>
+              {{item.create_time}}
+              <view class='reply' data-popoPlaceholder='{{item.nickName}}' data-popoReplyid='{{item.id}}' bindtap='onReplyEdetail'>
+                {{item.replyNum}}回复
+              </view>
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+
+
+
+
+      <view id='my-footer2'>
+        <view class='footer1'><input type='text' placeholder="{{'回复: '+popoPlaceholder}}" value='{{commentsTextss}}' focus='{{focus}}' bindinput='setInputs'></input></view>
+        <view class='footer2' bindtap='onSendMessage'>发送</view>
+      </view>
+    </view>
+  </view>
+  <!-- <view id="my-loupan" wx:if="{{is_agent}}">
+    <view class='my-h2'>
+      <view class='my-h2-1'>经纪人楼盘</view>
+      <view class='my-h2-2' bindtap='onBuilding'>查看全部 <van-icon name="arrow" size="3vw"/></view>
+    </view>
+    <view class="my-lp-lists">
+      <view class='my-lp-list' wx:for="{{lpList}}" wx:key="index" bindtap='onHouseDetail'>
+        <view class='my-lpimg'>
+          <image class='my-lp-ig' src='https://ss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=2093749695,2396731265&fm=58'></image>
+        </view>
+        <view class='my-lp-center'>
+          <view class='my-lp-c1'><view class="my-c-1-1 van-ellipsis">玉山燕子东园中什么阁</view></view>
+          <view class='my-lp-c2'>公寓 | 浦东 惠南</view>
+          <view class='my-lp-c4'>
+            <view>在售</view>
+            <view>闪电结佣</view>
+            <view>电商优惠</view>
+            <view>带看卷</view>
+            <view>九房验真</view>
+          </view>
+          <view class='my-lp-c3'>58000元/m² </view>
+        </view>
+      </view>
+    </view>
+  </view> -->
+  <view class='hright-10'></view>
+  <view wx:if="{{userInfo}}" id='my-footer'>
+    <view class='footer1'><input type='text' placeholder='请留下你的评论...' value='{{commentsText}}' bindinput='setInput'></input></view>
+    <view class='footer2' bindtap='onSend'>发送</view>
+  </view>
+</scroll-view>
+<!-- <view class='button_box' wx:if="{{userinfoshow}}">
+  <view class='btn_title'>欢迎使用</view>
+  <button class='my-button' open-type="getUserInfo" bindgetuserinfo="onUser">确认授权</button>
+</view> -->

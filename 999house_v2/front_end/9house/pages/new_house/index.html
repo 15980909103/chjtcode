@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>新房</title>
+		<link rel="stylesheet" href="../../common/vant/index.css"/>
+		<link rel="stylesheet" href="../../common/css/public.css"/>
+		<style>
+			.search{
+				width: 100%;
+				box-sizing: border-box;
+				padding: 0 .32rem;
+				display: flex;
+				align-items: center;
+				position: sticky;
+				top: 0;
+				background-color: #fff;
+				z-index: 10;
+			}
+			
+			.search-box{
+				width: 76%;
+				padding: .4rem 0 .2rem;
+				font-size: .26rem;
+			}
+			
+			.search-box .van-icon-search::before{
+				color: rgba(173, 173, 173, 1);
+			}
+			
+			.search-map,
+			.search-tip{
+				height: .68rem;
+				display: flex;
+				justify-content: flex-end;
+				align-items: center;
+			}
+			
+			.search-map{
+				font-size: .3rem;
+				font-weight: bold;
+				padding: 0 .16rem .1rem .32rem;
+				color: rgba(254, 130, 30, 1);
+			}
+			
+			.search-tip{
+				position: relative;
+				padding: 0 0 .04rem .16rem;
+				color: rgba(33, 33, 33, 1);
+			}
+			
+			.search-tip .iconfont{
+				font-size: .35rem;
+				font-weight: bold;
+			}
+			
+			.search-tip::after{
+				content: attr(data-badge);
+				position: absolute;
+				top: 0;
+				right: 0;
+				font-size: .24rem;
+				padding: .01rem .1rem;
+				color: #fff;
+				background-color: rgba(252, 77, 57, 1);
+				border-radius: 40%;
+				transform: translate(50%,-20%);
+			}
+			
+			.box{
+				width: 100%;
+				display: flex;
+				overflow-x: scroll;
+				-webkit-overflow-scrolling: touch;
+				margin-top: .28rem;
+			}
+			
+			.box-wrap,
+			.box-item{
+				width: 3.12rem;
+				height: 2.26rem;
+			}
+			
+			.box-item{
+				box-sizing: border-box;
+				padding: .2rem;
+			}
+			
+			.box-title{
+				font-size: .3rem;
+				font-weight: bold;
+				margin-bottom: .14rem;
+			}
+			
+			.box-img-wrap{
+				width: 100%;
+				display: flex;
+				justify-content: space-between;
+			}
+			
+			.box-img-wrap img{
+				width: 1.3rem;
+				height: 1.3rem;
+			}
+			
+			.box-wrap{
+				padding-right: .2rem;
+			}
+			
+			.box-wrap:nth-child(2n) .box-item{
+				background-color: rgba(245, 248, 255, 1);
+			}
+			
+			.box-wrap:nth-child(2n-1) .box-item{
+				background-color: rgba(240, 245, 246, 1);
+			}
+			
+			.box-wrap:first-child{
+				padding-left: .32rem;
+			}
+			
+			.box-wrap:last-child{
+				padding-right: .32rem;
+			}
+			
+			.drop{
+				margin-top: .3rem;
+				position: sticky;
+				top: 1.2rem;
+				background-color: #fff;
+				z-index: 8;
+			}
+			
+			.drop .van-dropdown-menu__bar{
+				box-shadow: none;
+			}
+			
+			.drop .van-dropdown-item__content{
+				max-height: none;
+			}
+			
+			.drop .van-dropdown-menu__title--active{
+				font-size: .28rem;
+				color: rgba(254, 130, 30, 1);
+			}
+			
+			/* 更多 */
+			.drop-more{
+				width: 100%;
+				height: 7.16rem;
+				position: relative;
+			}
+			
+			.drop-more-item{
+				padding: .3rem .34rem;
+				box-sizing: border-box;
+			}
+			
+			.drop-more-item:last-child{
+				padding-bottom: 1.28rem;
+			}
+			
+			
+			.drop-more-title{
+				margin-bottom: .24rem;
+				font-size: .3rem;
+			}
+			
+			.drop-more-box{
+				display: flex;
+				flex-wrap: wrap;
+			}
+			
+			.drop-more-tip{
+				width: 2.06rem;
+				height: .64rem;
+				background-color: rgba(250, 250, 250, 1);
+				margin-bottom: .24rem;
+				line-height: .64rem;
+				text-align: center;
+			}
+			
+			.drop-more-tip:nth-child(3n-1){
+				margin: 0 .32rem;
+			}
+			
+			.drop-more-tip-active{
+				background-color: rgba(254, 130, 30, 1);
+				color: #fff;
+			}
+			
+			.drop-more-wrap{
+				height: 6.66rem;
+				overflow-y: scroll;
+				-webkit-overflow-scrolling: touch;
+			}
+			
+			.drop-btn{
+				width: 100%;
+				height: 1.28rem;
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				background-color: #fff;
+				border-top: 1px solid rgba(240, 240, 240, 1);
+			}
+			
+			.drop-del{
+				margin-right: .26rem;
+			}
+			
+			.drop-btn-item{
+				width: 3.28rem;
+				height: .88rem;
+				font-size: .3rem;
+			}
+			
+			.drop-price{
+				width: 100%;
+				height: 7.16rem;
+				position: relative;
+			}
+			
+			.drop-price-box{
+				width: 100%;
+				height: 5.3rem;
+				display: flex;
+			}
+			
+			.drop-price-left{
+				width: 3.43rem;
+				border-right: 1px solid rgba(240, 240, 240, 1);
+			}
+			
+			.drop-price-right{
+				width: 4.06rem;
+			}
+			
+			.drop-price-left,
+			.drop-price-right{
+				height: 5.18rem;
+				overflow-y: scroll;
+				-webkit-overflow-scrolling: touch;
+			}
+			
+			.drop-price-right span{
+				width: 100%;
+				height: 100%;
+				text-indent: none;
+				overflow-y: scroll;
+				-webkit-overflow-scrolling: touch;
+			}
+			
+			.drop-price-item{
+				width: 100%;
+				height: 1.04rem;
+				border-bottom: 0.01rem solid rgba(240, 240, 240, 1);
+				box-sizing: border-box;
+				padding-left: .4rem;
+				line-height: 1.04rem;
+				font-size: .32rem;
+			}
+			
+			.drop-price-item-active{
+				color: rgba(254, 130, 30, 1);
+			}
+			
+			.drop-price-input{
+				width: 100%;
+				height: 1.93rem;
+				position: absolute;
+				bottom: 0;
+				border-top: 1px solid rgba(240, 240, 240, 1);
+				box-sizing: border-box;
+				padding: .25rem .32rem .28rem;
+			}
+			
+			.drop-price-input-title{
+				font-size: .32rem;
+			}
+			
+			.drop-price-input-wrap{
+				display: flex;
+				justify-content: space-between;
+				margin-top: .1rem;
+			}
+			
+			.drop-price-input-box{
+				display: flex;
+				align-items: center;
+			}
+			
+			.drop-price-input-wrap .van-cell{
+				width: 1.58rem;
+				height: .64rem;
+				padding: 0;
+				border: 1px solid #E0E0E0;
+			}
+			
+			.drop-price-input-wrap .van-field__control{
+				height: .64rem;
+				text-align: center;
+			}
+			
+			.drop-price-input-interval{
+				height: .02rem;
+				width: .3rem;
+				background-color: rgba(117, 117, 117, 1);
+				margin: 0 .12rem;
+			}
+			
+			.drop-price-btn{
+				width: 2.36rem;
+				height: .88rem;
+			}
+			
+			.drop-type{
+				width: 100%;
+				height: 7.16rem;
+				position: relative;
+				box-sizing: border-box;
+				padding: 0 .32rem;
+			}
+			
+			.drop-type-wrap{
+				height: 5.88rem;
+				overflow-y: scroll;
+				-webkit-overflow-scrolling: touch;
+			}
+			
+			.drp-type-box{
+				width: 100%;
+				height: 1.06rem;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				font-size: .32rem;
+				border-bottom: 0.01rem solid rgba(240, 240, 240, 1);
+			}
+			
+			.drp-type-box .iconnewxuanzhongduoxuan{
+				color: rgba(254, 130, 30, 1);
+			}
+			
+			.other-tip{
+				width: 100%;
+				display: flex;
+				box-sizing: border-box;
+				padding: .1rem .32rem .3rem;
+			}
+			
+			.other-tip-item{
+				width: 1.5rem;
+				height: .54rem;
+				font-size: .26rem;
+				background-color: rgba(245, 248, 254, 1);
+				border-radius: .02rem;
+				box-sizing: border-box;
+				margin-right: .29rem;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+			
+			.other-tip-item:last-child{
+				margin-right: 0;
+			}
+			
+			.other-tip-item-active{
+				background-color: rgba(255, 238, 224, 1);
+				color: rgba(254, 130, 30, 1);
+				border: 1px solid #FE821E;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<div id="app" v-cloak ref="DOM">
+			
+			<div class="search">
+				<van-search class="search-box" disabled placeholder="请输入搜索关键词"></van-search>
+				<span class="search-map">地图</span>
+				<div class="search-tip" :data-badge="badge">
+					<span class="iconfont iconxiaoxi-4"></span>
+				</div>
+			</div>
+			
+			<div class="box">
+				<div class="box-wrap" v-for="(item,index) in boxList" :key="index" >
+					<div class="box-item">
+						<span class="box-title">{{ item.name }}</span>
+						<div class="box-img-wrap">
+							<template v-for="(img,key) in item.img">
+								<img :src="img"  :key="key" v-if="key<2">
+							</template>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="drop">
+				<van-dropdown-menu>
+					<van-dropdown-item :title="siteTitle" ref="site">
+						<common-area :height="7.16" :list="siteList" @close="siteClose" @sure="siteSure" ref="area"></common-area>
+					</van-dropdown-item>
+					
+					<van-dropdown-item :title="priceTitle" @closed="priceClosed" ref="price">
+						<div class="drop-price">
+							<div class="drop-price-box">
+								<div class="drop-price-left">
+									<div 
+										class="drop-price-item" 
+										:class="[ priceActive.left == index ? 'drop-price-item-active' : '' ]"
+										v-for="(item,index) in priceList" 
+										:key="index" 
+										@click="priceChoose('left',index)"
+									>
+										{{ item.name }}
+									</div>
+								</div>
+								<div class="drop-price-right">
+									<template v-for="(item,index) in priceList">
+										<span :key="index" v-if="priceActive.left == index">
+											<div
+												class="drop-price-item" 
+												:class="[ priceActive.right.indexOf(key) != -1 ? 'drop-price-item-active' : '' ]"
+												v-for="(money,key) in item.list" 
+												:key="key"
+												@click="priceChoose('right',key)"
+											>
+												{{ money.name }}
+											</div>
+										</span>
+									</template>
+								</div>
+							</div>
+							<div class="drop-price-input">
+								<span class="drop-price-input-title">自定义(万元)</span>
+								<div class="drop-price-input-wrap">
+									<div class="drop-price-input-box">
+										<van-field v-model="priceMin" placeholder="最低价" type="digit"></van-field>
+										<span class="drop-price-input-interval"></span>
+										<van-field v-model="priceMax" placeholder="最高价" type="digit"></van-field>
+									</div>
+									<van-button type="default" color="rgba(254, 130, 30, 1)"  class="drop-price-btn" @click="priceSure">确定</van-button>
+								</div>
+							</div>
+						</div>
+					</van-dropdown-item>
+					
+					<van-dropdown-item :title="typeTitle" ref="type">
+						<div class="drop-type">
+							<div class="drop-type-wrap" >
+								<div class="drp-type-box" v-for="(item,index) in typeList" :key="index" @click="typeChange(index)">
+									<span :class="[ typeChoose == index ? 'drop-price-item-active' : '' ]">{{ item.name }}</span>
+									<i class="iconfont " :class="[ typeChoose == index ? 'iconnewxuanzhongduoxuan' : 'iconweixuanzhong' ]"></i>
+								</div>
+							</div>
+							<div class="drop-btn">
+								<van-button plain type="primary" class="drop-del drop-btn-item" @click="typeDel">重置</van-button>
+								<van-button type="default" color="rgba(254, 130, 30, 1)"  class="drop-btn-item" @click="typeSure">确定</van-button>
+							</div>
+						</div>
+					</van-dropdown-item>
+					
+					<van-dropdown-item :title="moreTitle" @closed="moreClosed" ref="more">
+						<div class="drop-more">
+							<div class="drop-more-wrap">
+								<div class="drop-more-item" v-for="(item,index) in moreList" :key="index">
+									<h4 class="drop-more-title">{{ item.title }}</h4>
+									<div class="drop-more-box">
+										<span 
+											class="drop-more-tip" 
+											:class="moreChoose.indexOf(tip.id) != -1 ? 'drop-more-tip-active' : '' "
+											v-for="(tip,key) in item.list" 
+											:key="key"
+											@click="chooseMore(tip.id)"
+										>
+											{{ tip.name }}
+										</span>
+									</div>
+								</div>
+							</div>
+							<div class="drop-btn">
+								<van-button plain type="primary" class="drop-del drop-btn-item" @click="moreDel">重置</van-button>
+								<van-button type="default" color="rgba(254, 130, 30, 1)"  class="drop-btn-item" @click="moreSure">确定</van-button>
+							</div>
+						</div>
+					</van-dropdown-item>
+				</van-dropdown-menu>
+				
+				<div class="other-tip">
+					<div 
+						class="other-tip-item" 
+						:class="[ tipChoose == index ? 'other-tip-item-active' : '' ]"
+						v-for="(item,index) in tipList" 
+						:key="index" 
+						@click="chooseTip(index)"
+					>
+						{{ item.name }}
+					</div>
+				</div>
+			</div>
+		
+			
+			
+			<common-template :list="list"></common-template>
+		</div>
+	</body>
+</html>
+
+<script src="../../common/js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/rem.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/public.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/vant/index.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+<script>
+	const myComponents = [
+		'../../components/common/area/index',
+		'../../components/common/template/index',
+	];
+	
+	$api.addComponents(myComponents)
+		.then(()=>{
+			
+			Vue.use(vant.Lazyload);
+			 
+			const app = new Vue({
+				el: '#app',
+				data: {
+					badge: 20,
+					boxList: [
+						{
+							name: '品质好房',
+							img: ['/9house/static/logo.png','/9house/static/logo.png']
+						},
+						{
+							name: '优惠活动',
+							img: ['/9house/static/logo.png','/9house/static/logo.png','/9house/static/logo.png']
+						},
+						{
+							name: '人气榜',
+							img: ['/9house/static/logo.png','/9house/static/logo.png','/9house/static/logo.png']
+						},
+						{
+							name: '热搜榜',
+							img: ['/9house/static/logo.png','/9house/static/logo.png']
+						}
+					],
+					
+					value: 0,
+					switch1: false,
+					switch2: false,
+					option: [
+						{ text: '全部商品', value: 0 },
+						{ text: '新款商品', value: 1 },
+						{ text: '活动商品', value: 2 },
+					],
+					
+					// 地区筛选
+					siteTitle: '区域',
+					siteList: [
+						{
+							name: '城区',
+							list: [
+								{
+									name: '不限',
+									list: []
+								},
+								{
+									name: '市内城区',
+									list: [
+										{
+											name: '不限',
+										},
+										{
+											name: '松柏',
+										},
+										{
+											name: '河西里',
+										},
+										{
+											name: '外国语学校',
+										},
+										{
+											name: '公园小学及周边',
+										},
+									]
+								},
+								{
+									name: '思明',
+									list: [
+										{
+											name: '不限',
+										},
+										{
+											name: '松柏',
+										},
+										{
+											name: '河西里',
+										},
+										{
+											name: '外国语学校',
+										},
+										{
+											name: '公园小学及周边',
+										},
+										{
+											name: '观音山',
+										},
+										{
+											name: '软件园',
+										},
+										{
+											name: '未来海岸北师大',
+										},
+										{
+											name: '不限',
+										},
+										{
+											name: '不限',
+										},
+									]
+								},
+								{
+									name: '湖里',
+									list: [
+										{
+											name: '不限',
+										},
+									]
+								},
+								{
+									name: '集美',
+									list: [
+										{
+											name: '不限',
+										},
+									]
+								},
+								{
+									name: '海沧',
+									list: [
+										{
+											name: '不限',
+										},
+									]
+								},
+								{
+									name: '翔安',
+									list: [
+										{
+											name: '不限',
+										},
+									]
+								},
+								{
+									name: '同安',
+									list: [
+										{
+											name: '不限',
+										},
+									]
+								},
+								{
+									name: '城市周边',
+									list: [
+										{
+											name: '不限',
+										},
+									]
+								},
+								{
+									name: '漳州',
+									list: [
+										{
+											name: '不限',
+										},
+									]
+								},
+							]
+						},
+						{
+							name: '地铁',
+							list: [
+								{
+									name: '一号线',
+									list: [
+										{
+											name: '不限',
+										},
+									]
+								},
+								{
+									name: '二号线',
+									list: [
+										{
+											name: '不限',
+										},
+									]
+								},
+							]
+						}
+					],
+					// 价格筛选
+					priceActive: {
+						left: 0,
+						right: []
+					},
+					priceActiveSure: {
+						left: 0,
+						right: []
+					},
+					priceMin: '',
+					priceMax: '',
+					priceTitle: '价格',
+					priceList: [
+						{
+							name: '单价',
+							list: [
+								{
+									id: 1,
+									name: '不限',
+								},
+								{
+									id: 2,
+									name: '1万以下',
+								},
+								{
+									id: 3,
+									name: '1-2万',
+								},
+								{
+									id: 4,
+									name: '2-4万',
+								},
+								{
+									id: 5,
+									name: '4-5万',
+								},
+								{
+									id: 6,
+									name: '5-6万',
+								},
+								{
+									id: 7,
+									name: '7-8万',
+								}
+							]
+						},{
+							name: '总价',
+							list: [
+								{
+									id: 1,
+									name: '不限',
+								},
+								{
+									id: 2,
+									name: '1万',
+								},
+								{
+									id: 3,
+									name: '2万',
+								},
+								{
+									id: 4,
+									name: '4万',
+								},
+								{
+									id: 5,
+									name: '5万',
+								},
+								{
+									id: 6,
+									name: '6万',
+								},
+								{
+									id: 7,
+									name: '8万',
+								}
+							]
+						}
+					],
+					// 户型筛选
+					typeTitle: '户型',
+					typeChoose: 0,
+					typeChooseSure: 0,
+					typeList: [
+						{ 
+							id: 1,
+							name: '不限'
+						},
+						{
+							id: 2,
+							name: '一室'
+						},
+						{
+							id: 3,
+							name: '两室'
+						},
+						{
+							id: 4,
+							name: '三室'
+						},
+						{
+							id: 4,
+							name: '四室'
+						},
+						{
+							id: 5,
+							name: '四室及以上'
+						}
+					],
+					// 更多筛选
+					moreTitle: '更多',
+					moreChoose: [],
+					moreChooseSure: [],
+					moreList: [
+						{
+							title: '面积',
+							list: [
+								{ 
+									id: 1,
+									name: '50m²以下'
+								},
+								{
+									id: 2,
+									name: '50-70m²'
+								},
+								{
+									id: 3,
+									name: '70-90m²'
+								},
+								{
+									id: 4,
+									name: '90-110m²'
+								},
+								{
+									id: 5,
+									name: '110-130m²'
+								},
+								{
+									id: 6,
+									name: '130-150m²'
+								},
+								{
+									id: 7,
+									name: '150-200m²'
+								},
+								{
+									id: 8,
+									name: '200m²以上'
+								}
+							]
+						},
+						{
+							title: '类型',
+							list: [
+								{ 
+									id: 9,
+									name: '住宅'
+								},
+								{
+									id: 10,
+									name: '别墅'
+								},
+								{
+									id: 11,
+									name: '商业'
+								},
+								{
+									id: 12,
+									name: '写字楼'
+								},
+								{
+									id: 13,
+									name: '底商'
+								}
+							]
+						},
+						{
+							title: '特色',
+							list: [
+								{ 
+									id: 14,
+									name: 'VR看房'
+								},
+								{
+									id: 15,
+									name: '优惠楼盘'
+								},
+								{
+									id: 16,
+									name: '品牌房企'
+								},
+								{
+									id: 17,
+									name: '地铁沿线'
+								},
+								{
+									id: 18,
+									name: '公交直达'
+								},
+								{
+									id: 19,
+									name: '小户型'
+								},
+								{
+									id: 20,
+									name: '现房'
+								},
+								{
+									id: 21,
+									name: '低单价'
+								}
+							]
+						}
+					],
+					// 外部筛选
+					tipChoose: -1,
+					tipList: [
+						{
+							id: 0,
+							name: '新房'
+						},
+						{
+							id: 1,
+							name: '在售'
+						},
+						{
+							id: 3,
+							name: '优惠楼盘'
+						},
+						{
+							id: 4,
+							name: '近期开盘'
+						}
+					],
+					// 数据
+					list: [
+						{
+							// 8-新房（数据和类型4-广告楼盘有图 雷同）
+							id: 14,
+							type: 8,
+							info: {
+								name: '世贸湖边首府',
+								tip: ['售完','住宅','热楼盘','装修交付'],
+								price: 34000,
+								site: '湖里 软件园',
+								area: 108,
+								lab: [
+									{ type: 0, name: '入围护理人气楼盘榜', img: '/9house/static/logo.png' },
+									{ type: 0, name: '享9.5折', img: '/9house/static/logo.png' },
+									{ type: 0, name: '777', img: '/9house/static/logo.png' },
+									{ type: 0, name: '888', img: '/9house/static/logo.png' }
+								]
+							},
+							img:  ['/9house/static/logo.png','/9house/static/logo.png','/9house/static/logo.png','/9house/static/logo.png','/9house/static/logo.png']
+						},
+						{
+							// 8-新房（数据和类型4-广告楼盘有图 雷同）
+							id: 15,
+							type: 8,
+							info: {
+								name: '世贸湖边首府',
+								tip: ['售完','住宅','热楼盘','装修交付'],
+								price: 34000,
+								site: '湖里 软件园',
+								area: 108,
+								lab: [
+									{ type: 0, name: '入围护理人气楼盘榜', img: '/9house/static/logo.png' },
+									{ type: 0, name: '享9.5折', img: '/9house/static/logo.png' },
+									{ type: 0, name: '777', img: '/9house/static/logo.png' },
+									{ type: 0, name: '888', img: '/9house/static/logo.png' }
+								]
+							},
+							img:  ['/9house/static/logo.png','/9house/static/logo.png','/9house/static/logo.png','/9house/static/logo.png','/9house/static/logo.png']
+						},
+						{
+							id: 16,
+							type: 4,
+							info: {
+								name: '建发养云',
+								tip: ['售完','住宅','热楼盘','装修交付'],
+								price: 34000,
+								site: '湖里 软件园',
+								area: 108,
+								lab: [
+									{ type: 0, name: '入围护理人气楼盘榜', img: '/9house/static/logo.png' },
+									{ type: 0, name: '享9.5折', img: '/9house/static/logo.png' },
+									{ type: 0, name: '777', img: '/9house/static/logo.png' },
+									{ type: 0, name: '888', img: '/9house/static/logo.png' }
+								]
+							},
+							title: '「样板间」看海无遮挡，大面宽，四房三厅二卫',
+							img:  ['/9house/static/logo.png','/9house/static/logo.png','/9house/static/logo.png','/9house/static/logo.png','/9house/static/logo.png']
+						},
+						{
+							// 8-新房（数据和类型4-广告楼盘有图 雷同）
+							id: 17,
+							type: 8,
+							info: {
+								name: '世贸湖边首府',
+								tip: ['售完','住宅','热楼盘','装修交付'],
+								price: 34000,
+								site: '湖里 软件园',
+								area: 108,
+								lab: [
+									{ type: 0, name: '入围护理人气楼盘榜', img: '/9house/static/logo.png' },
+									{ type: 0, name: '享9.5折', img: '/9house/static/logo.png' },
+									{ type: 0, name: '777', img: '/9house/static/logo.png' },
+									{ type: 0, name: '888', img: '/9house/static/logo.png' }
+								]
+							},
+							img:  ['/9house/static/logo.png','/9house/static/logo.png','/9house/static/logo.png','/9house/static/logo.png','/9house/static/logo.png']
+						},
+					]
+				},
+				components: {
+					commonArea,
+					commonTemplate
+				},
+				created() {
+
+					// this.$nextTick(()=>{
+					// 	this.$refs.DOM.scrollTo(0,3500)
+					// })
+
+				},
+				mounted() {
+
+				},
+				methods:{
+					siteClose() {
+						this.$refs.site.toggle();
+					},
+					siteSure(text) {
+						this.siteTitle = text == '不限' ? '区域' : text;
+						
+						this.siteClose();
+					},
+					chooseMore( id ) {
+						const indexOf = this.moreChoose.indexOf(id);
+						
+						if( indexOf == -1 ){
+							this.moreChoose.push(id);
+						} else {
+							this.moreChoose.splice(indexOf,1);
+						}
+					},
+					moreDel() {
+						this.moreTitle = '更多';
+						this.moreChoose = this.moreChooseSure = [];
+						this.$refs.more.toggle();
+					},
+					moreSure() {
+						if( this.moreChoose.length == 0 ){
+							this.moreTitle = '更多';
+						} else {
+							this.moreTitle = `筛选(${this.moreChoose.length})`;
+						}
+
+						this.moreChooseSure = this.$api.deepClone(this.moreChoose) ;
+						
+						this.$refs.more.toggle();
+					},
+					moreClosed() {
+						this.moreChoose = this.$api.deepClone(this.moreChooseSure);
+					},
+					priceChoose( key, index ) {
+						
+						if( key == 'left' && this.priceActive[key] != index ){
+							this.$set(this.priceActive, key, index);
+							this.$set(this.priceActive, 'right', []);
+						} else {
+							const num = this.priceActive[key].indexOf(index);
+							
+							if( num != -1 ){
+								this.priceActive[key].splice(num,1);
+							} else {
+								this.priceActive[key].push(index);
+							}
+						}
+					},
+					priceSure() {
+						if( this.priceMin && this.priceMax ){
+							if( Number(this.priceMin) > 0 && Number(this.priceMax) > 0 && ( Number(this.priceMax) > Number(this.priceMin) ) ){
+								this.priceTitle = `${this.priceMin}万-${this.priceMax}万`;
+								
+								this.priceActive.right = this.priceActiveSure.right = [];
+								this.priceMin = this.priceMax = '';
+							} else {
+								this.$toast('请输入正确价格');
+								
+								return;
+							}
+						} else {
+							if( this.priceActive.right.length > 0 ){
+								this.priceTitle = '';
+								this.priceActive.right.map( item=>{
+									this.priceTitle += this.priceList[this.priceActive.left].list[item].name +',';
+								})
+								
+								this.priceActiveSure.right = this.$api.deepClone(this.priceActive.right);
+							} else {
+								this.priceTitle = '价格';
+								this.priceActive.right = this.priceActiveSure.right = [];
+							}
+						}
+						
+						this.$refs.price.toggle();
+					},
+					priceClosed() {
+						this.priceActive.right = this.$api.deepClone(this.priceActiveSure.right);
+					},
+					typeChange(index) {
+						this.typeChoose = index;
+					},
+					typeClosed() {
+						this.typeChoose = this.typeChooseSure;
+					},
+					typeDel() {
+						this.typeChoose = this.typeChooseSure = 0;
+						this.$refs.type.toggle();
+					},
+					typeSure() {
+						this.typeChooseSure = this.typeChoose;
+						this.typeTitle = this.typeList[this.typeChoose].name == '不限' ? '户型' : this.typeList[this.typeChoose].name;
+						this.$refs.type.toggle();
+					},
+					chooseTip(index) {
+						if( index == this.tipChoose ){
+							this.tipChoose = -1;
+						} else {
+							this.tipChoose = index;
+						}
+					}
+				},
+			})
+			
+		})
+	
+</script>

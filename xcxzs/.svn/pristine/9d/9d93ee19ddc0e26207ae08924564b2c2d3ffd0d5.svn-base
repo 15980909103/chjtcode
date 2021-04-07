@@ -1,0 +1,797 @@
+[2021-01-20T17:10:46+08:00][error] [1]Uncaught think\exception\ErrorException: syntax error, unexpected '=' in /mnt/e/project/fenxiao_v2/.env on line 4
+ in /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php:42
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php(42): parse_ini_file()
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(412): think\Env->load()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#5 {main}
+  thrown
+[2021-01-20T17:10:46+08:00][error] [1]Uncaught think\exception\ErrorException: syntax error, unexpected '=' in /mnt/e/project/fenxiao_v2/.env on line 4
+ in /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php:42
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php(42): parse_ini_file()
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(412): think\Env->load()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#5 {main}
+  thrown
+[2021-01-20T17:10:46+08:00][error] [1]Uncaught think\exception\ErrorException: syntax error, unexpected '=' in /mnt/e/project/fenxiao_v2/.env on line 4
+ in /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php:42
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php(42): parse_ini_file()
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(412): think\Env->load()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#5 {main}
+  thrown
+[2021-01-20T17:10:46+08:00][error] [1]Uncaught think\exception\ErrorException: syntax error, unexpected '=' in /mnt/e/project/fenxiao_v2/.env on line 4
+ in /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php:42
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php(42): parse_ini_file()
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(412): think\Env->load()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#5 {main}
+  thrown
+[2021-01-20T17:10:46+08:00][error] [1]Uncaught think\exception\ErrorException: syntax error, unexpected '=' in /mnt/e/project/fenxiao_v2/.env on line 4
+ in /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php:42
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php(42): parse_ini_file()
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(412): think\Env->load()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#5 {main}
+  thrown
+[2021-01-20T17:10:46+08:00][error] [1]Uncaught think\exception\ErrorException: syntax error, unexpected '=' in /mnt/e/project/fenxiao_v2/.env on line 4
+ in /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php:42
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php(42): parse_ini_file()
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(412): think\Env->load()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#5 {main}
+  thrown
+[2021-01-20T17:10:46+08:00][error] [1]Uncaught think\exception\ErrorException: syntax error, unexpected '=' in /mnt/e/project/fenxiao_v2/.env on line 4
+ in /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php:42
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php(42): parse_ini_file()
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(412): think\Env->load()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#5 {main}
+  thrown
+[2021-01-20T17:10:46+08:00][error] [1]Uncaught think\exception\ErrorException: syntax error, unexpected '=' in /mnt/e/project/fenxiao_v2/.env on line 4
+ in /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php:42
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php(42): parse_ini_file()
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(412): think\Env->load()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#5 {main}
+  thrown
+[2021-01-20T17:10:46+08:00][error] [1]Uncaught think\exception\ErrorException: syntax error, unexpected '=' in /mnt/e/project/fenxiao_v2/.env on line 4
+ in /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php:42
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php(42): parse_ini_file()
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(412): think\Env->load()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#5 {main}
+  thrown
+[2021-01-20T17:10:46+08:00][error] [1]Uncaught think\exception\ErrorException: syntax error, unexpected '=' in /mnt/e/project/fenxiao_v2/.env on line 4
+ in /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php:42
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php(42): parse_ini_file()
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(412): think\Env->load()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#5 {main}
+  thrown
+[2021-01-20T17:10:46+08:00][error] [1]Uncaught think\exception\ErrorException: syntax error, unexpected '=' in /mnt/e/project/fenxiao_v2/.env on line 4
+ in /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php:42
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php(42): parse_ini_file()
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(412): think\Env->load()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#5 {main}
+  thrown
+[2021-01-20T17:10:46+08:00][error] [1]Uncaught think\exception\ErrorException: syntax error, unexpected '=' in /mnt/e/project/fenxiao_v2/.env on line 4
+ in /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php:42
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php(42): parse_ini_file()
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(412): think\Env->load()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#5 {main}
+  thrown
+[2021-01-20T17:10:46+08:00][error] [1]Uncaught think\exception\ErrorException: syntax error, unexpected '=' in /mnt/e/project/fenxiao_v2/.env on line 4
+ in /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php:42
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php(42): parse_ini_file()
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(412): think\Env->load()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#5 {main}
+  thrown
+[2021-01-20T17:10:46+08:00][error] [1]Uncaught think\exception\ErrorException: syntax error, unexpected '=' in /mnt/e/project/fenxiao_v2/.env on line 4
+ in /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php:42
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php(42): parse_ini_file()
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(412): think\Env->load()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#5 {main}
+  thrown
+[2021-01-20T17:10:46+08:00][error] [1]Uncaught think\exception\ErrorException: syntax error, unexpected '=' in /mnt/e/project/fenxiao_v2/.env on line 4
+ in /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php:42
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php(42): parse_ini_file()
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(412): think\Env->load()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#5 {main}
+  thrown
+[2021-01-20T17:10:46+08:00][error] [1]Uncaught think\exception\ErrorException: syntax error, unexpected '=' in /mnt/e/project/fenxiao_v2/.env on line 4
+ in /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php:42
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php(42): parse_ini_file()
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(412): think\Env->load()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#5 {main}
+  thrown
+[2021-01-20T17:10:46+08:00][error] [1]Uncaught think\exception\ErrorException: syntax error, unexpected '=' in /mnt/e/project/fenxiao_v2/.env on line 4
+ in /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php:42
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php(42): parse_ini_file()
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(412): think\Env->load()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#5 {main}
+  thrown
+[2021-01-20T17:14:59+08:00][error] [1]Uncaught think\exception\ErrorException: Undefined offset: 59091 in /mnt/e/project/fenxiao_v2/config/swoole.php:92
+Stack trace:
+#0 /mnt/e/project/fenxiao_v2/config/swoole.php(92): think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Config.php(92): include('/mnt/e/project/...')
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Config.php(73): think\Config->parse()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(511): think\Config->load()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(420): think\App->load()
+#5 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#6 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#7 {main}
+  thrown[/mnt/e/project/fenxiao_v2/config/swoole.php:92]
+[2021-01-20T17:14:59+08:00][error] [1]Uncaught think\exception\ErrorException: Undefined offset: 59091 in /mnt/e/project/fenxiao_v2/config/swoole.php:92
+Stack trace:
+#0 /mnt/e/project/fenxiao_v2/config/swoole.php(92): think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Config.php(92): include('/mnt/e/project/...')
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Config.php(73): think\Config->parse()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(511): think\Config->load()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(420): think\App->load()
+#5 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#6 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#7 {main}
+  thrown[/mnt/e/project/fenxiao_v2/config/swoole.php:92]
+[2021-01-20T17:14:59+08:00][error] [1]Uncaught think\exception\ErrorException: Undefined offset: 59091 in /mnt/e/project/fenxiao_v2/config/swoole.php:92
+Stack trace:
+#0 /mnt/e/project/fenxiao_v2/config/swoole.php(92): think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Config.php(92): include('/mnt/e/project/...')
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Config.php(73): think\Config->parse()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(511): think\Config->load()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(420): think\App->load()
+#5 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#6 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#7 {main}
+  thrown[/mnt/e/project/fenxiao_v2/config/swoole.php:92]
+[2021-01-20T17:14:59+08:00][error] [1]Uncaught think\exception\ErrorException: Undefined offset: 59091 in /mnt/e/project/fenxiao_v2/config/swoole.php:92
+Stack trace:
+#0 /mnt/e/project/fenxiao_v2/config/swoole.php(92): think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Config.php(92): include('/mnt/e/project/...')
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Config.php(73): think\Config->parse()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(511): think\Config->load()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(420): think\App->load()
+#5 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#6 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#7 {main}
+  thrown[/mnt/e/project/fenxiao_v2/config/swoole.php:92]
+[2021-01-20T17:14:59+08:00][error] [1]Uncaught think\exception\ErrorException: Undefined offset: 59091 in /mnt/e/project/fenxiao_v2/config/swoole.php:92
+Stack trace:
+#0 /mnt/e/project/fenxiao_v2/config/swoole.php(92): think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Config.php(92): include('/mnt/e/project/...')
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Config.php(73): think\Config->parse()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(511): think\Config->load()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(420): think\App->load()
+#5 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#6 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#7 {main}
+  thrown[/mnt/e/project/fenxiao_v2/config/swoole.php:92]
+[2021-01-20T17:14:59+08:00][error] [1]Uncaught think\exception\ErrorException: Undefined offset: 59091 in /mnt/e/project/fenxiao_v2/config/swoole.php:92
+Stack trace:
+#0 /mnt/e/project/fenxiao_v2/config/swoole.php(92): think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Config.php(92): include('/mnt/e/project/...')
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Config.php(73): think\Config->parse()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(511): think\Config->load()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(420): think\App->load()
+#5 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#6 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#7 {main}
+  thrown[/mnt/e/project/fenxiao_v2/config/swoole.php:92]
+[2021-01-20T17:14:59+08:00][error] [1]Uncaught think\exception\ErrorException: Undefined offset: 59091 in /mnt/e/project/fenxiao_v2/config/swoole.php:92
+Stack trace:
+#0 /mnt/e/project/fenxiao_v2/config/swoole.php(92): think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Config.php(92): include('/mnt/e/project/...')
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Config.php(73): think\Config->parse()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(511): think\Config->load()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(420): think\App->load()
+#5 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#6 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#7 {main}
+  thrown[/mnt/e/project/fenxiao_v2/config/swoole.php:92]
+[2021-01-20T17:14:59+08:00][error] [1]Uncaught think\exception\ErrorException: Undefined offset: 59091 in /mnt/e/project/fenxiao_v2/config/swoole.php:92
+Stack trace:
+#0 /mnt/e/project/fenxiao_v2/config/swoole.php(92): think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Config.php(92): include('/mnt/e/project/...')
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Config.php(73): think\Config->parse()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(511): think\Config->load()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(420): think\App->load()
+#5 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#6 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#7 {main}
+  thrown[/mnt/e/project/fenxiao_v2/config/swoole.php:92]
+[2021-01-20T17:15:00+08:00][error] [1]Uncaught think\exception\ErrorException: Undefined offset: 59091 in /mnt/e/project/fenxiao_v2/config/swoole.php:92
+Stack trace:
+#0 /mnt/e/project/fenxiao_v2/config/swoole.php(92): think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Config.php(92): include('/mnt/e/project/...')
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Config.php(73): think\Config->parse()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(511): think\Config->load()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(420): think\App->load()
+#5 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#6 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#7 {main}
+  thrown[/mnt/e/project/fenxiao_v2/config/swoole.php:92]
+[2021-01-20T17:15:00+08:00][error] [1]Uncaught think\exception\ErrorException: Undefined offset: 59091 in /mnt/e/project/fenxiao_v2/config/swoole.php:92
+Stack trace:
+#0 /mnt/e/project/fenxiao_v2/config/swoole.php(92): think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Config.php(92): include('/mnt/e/project/...')
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Config.php(73): think\Config->parse()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(511): think\Config->load()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(420): think\App->load()
+#5 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#6 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#7 {main}
+  thrown[/mnt/e/project/fenxiao_v2/config/swoole.php:92]
+[2021-01-20T17:15:00+08:00][error] [1]Uncaught think\exception\ErrorException: Undefined offset: 59091 in /mnt/e/project/fenxiao_v2/config/swoole.php:92
+Stack trace:
+#0 /mnt/e/project/fenxiao_v2/config/swoole.php(92): think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Config.php(92): include('/mnt/e/project/...')
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Config.php(73): think\Config->parse()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(511): think\Config->load()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(420): think\App->load()
+#5 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#6 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#7 {main}
+  thrown[/mnt/e/project/fenxiao_v2/config/swoole.php:92]
+[2021-01-20T17:15:00+08:00][error] [1]Uncaught think\exception\ErrorException: Undefined offset: 59091 in /mnt/e/project/fenxiao_v2/config/swoole.php:92
+Stack trace:
+#0 /mnt/e/project/fenxiao_v2/config/swoole.php(92): think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Config.php(92): include('/mnt/e/project/...')
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Config.php(73): think\Config->parse()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(511): think\Config->load()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(420): think\App->load()
+#5 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#6 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#7 {main}
+  thrown[/mnt/e/project/fenxiao_v2/config/swoole.php:92]
+[2021-01-20T17:15:00+08:00][error] [1]Uncaught think\exception\ErrorException: Undefined offset: 59091 in /mnt/e/project/fenxiao_v2/config/swoole.php:92
+Stack trace:
+#0 /mnt/e/project/fenxiao_v2/config/swoole.php(92): think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Config.php(92): include('/mnt/e/project/...')
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Config.php(73): think\Config->parse()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(511): think\Config->load()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(420): think\App->load()
+#5 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#6 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#7 {main}
+  thrown[/mnt/e/project/fenxiao_v2/config/swoole.php:92]
+[2021-01-20T17:15:00+08:00][error] [1]Uncaught think\exception\ErrorException: Undefined offset: 59091 in /mnt/e/project/fenxiao_v2/config/swoole.php:92
+Stack trace:
+#0 /mnt/e/project/fenxiao_v2/config/swoole.php(92): think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Config.php(92): include('/mnt/e/project/...')
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Config.php(73): think\Config->parse()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(511): think\Config->load()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(420): think\App->load()
+#5 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#6 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#7 {main}
+  thrown[/mnt/e/project/fenxiao_v2/config/swoole.php:92]
+[2021-01-20T17:15:00+08:00][error] [1]Uncaught think\exception\ErrorException: Undefined offset: 59091 in /mnt/e/project/fenxiao_v2/config/swoole.php:92
+Stack trace:
+#0 /mnt/e/project/fenxiao_v2/config/swoole.php(92): think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Config.php(92): include('/mnt/e/project/...')
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Config.php(73): think\Config->parse()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(511): think\Config->load()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(420): think\App->load()
+#5 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#6 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#7 {main}
+  thrown[/mnt/e/project/fenxiao_v2/config/swoole.php:92]
+[2021-01-20T17:15:00+08:00][error] [1]Uncaught think\exception\ErrorException: Undefined offset: 59091 in /mnt/e/project/fenxiao_v2/config/swoole.php:92
+Stack trace:
+#0 /mnt/e/project/fenxiao_v2/config/swoole.php(92): think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Config.php(92): include('/mnt/e/project/...')
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Config.php(73): think\Config->parse()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(511): think\Config->load()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(420): think\App->load()
+#5 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#6 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#7 {main}
+  thrown[/mnt/e/project/fenxiao_v2/config/swoole.php:92]
+[2021-01-20T17:15:00+08:00][error] [1]Uncaught think\exception\ErrorException: Undefined offset: 59091 in /mnt/e/project/fenxiao_v2/config/swoole.php:92
+Stack trace:
+#0 /mnt/e/project/fenxiao_v2/config/swoole.php(92): think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Config.php(92): include('/mnt/e/project/...')
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Config.php(73): think\Config->parse()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(511): think\Config->load()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(420): think\App->load()
+#5 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#6 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#7 {main}
+  thrown[/mnt/e/project/fenxiao_v2/config/swoole.php:92]
+[2021-01-20T17:15:09+08:00][error] [1]Uncaught think\exception\ErrorException: Redis::connect(): php_network_getaddresses: getaddrinfo failed: Name or service not known in /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php(10): Redis->connect()
+#2 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(262): Smf\ConnectionPool\Connectors\PhpRedisConnector->connect()
+#3 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(118): Smf\ConnectionPool\ConnectionPool->createConnection()
+#4 /mnt/e/project/fenxiao_v2/app/common/websocket/BroadcastProcess.php(277): Smf\ConnectionPool\ConnectionPool->borrow()
+#5 /mnt/e/project/fenxiao_v2/app/common/websocket/BroadcastProcess.php(98): app\common\websocket\BroadcastProcess->runWithRedis()
+#6 {main}
+
+Next RedisException: php_network_getaddresse[/mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10]
+[2021-01-20T17:15:09+08:00][error] [1]Uncaught think\exception\ErrorException: Redis::connect(): php_network_getaddresses: getaddrinfo failed: Name or service not known in /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php(10): Redis->connect()
+#2 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(262): Smf\ConnectionPool\Connectors\PhpRedisConnector->connect()
+#3 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(118): Smf\ConnectionPool\ConnectionPool->createConnection()
+#4 /mnt/e/project/fenxiao_v2/app/common/websocket/BroadcastProcess.php(277): Smf\ConnectionPool\ConnectionPool->borrow()
+#5 /mnt/e/project/fenxiao_v2/app/common/websocket/BroadcastProcess.php(98): app\common\websocket\BroadcastProcess->runWithRedis()
+#6 {main}
+
+Next RedisException: php_network_getaddresse[/mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10]
+[2021-01-20T17:15:09+08:00][error] [1]Uncaught think\exception\ErrorException: Redis::connect(): php_network_getaddresses: getaddrinfo failed: Name or service not known in /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php(10): Redis->connect()
+#2 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(262): Smf\ConnectionPool\Connectors\PhpRedisConnector->connect()
+#3 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(118): Smf\ConnectionPool\ConnectionPool->createConnection()
+#4 /mnt/e/project/fenxiao_v2/app/common/websocket/BroadcastProcess.php(277): Smf\ConnectionPool\ConnectionPool->borrow()
+#5 /mnt/e/project/fenxiao_v2/app/common/websocket/BroadcastProcess.php(98): app\common\websocket\BroadcastProcess->runWithRedis()
+#6 {main}
+
+Next RedisException: php_network_getaddresse[/mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10]
+[2021-01-20T17:15:09+08:00][error] [1]Uncaught think\exception\ErrorException: Redis::connect(): php_network_getaddresses: getaddrinfo failed: Name or service not known in /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php(10): Redis->connect()
+#2 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(262): Smf\ConnectionPool\Connectors\PhpRedisConnector->connect()
+#3 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(118): Smf\ConnectionPool\ConnectionPool->createConnection()
+#4 /mnt/e/project/fenxiao_v2/app/common/websocket/BroadcastProcess.php(277): Smf\ConnectionPool\ConnectionPool->borrow()
+#5 /mnt/e/project/fenxiao_v2/app/common/websocket/BroadcastProcess.php(98): app\common\websocket\BroadcastProcess->runWithRedis()
+#6 {main}
+
+Next RedisException: php_network_getaddresse[/mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10]
+[2021-01-20T17:15:10+08:00][error] [1]Uncaught think\exception\ErrorException: Redis::connect(): php_network_getaddresses: getaddrinfo failed: Name or service not known in /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php(10): Redis->connect()
+#2 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(262): Smf\ConnectionPool\Connectors\PhpRedisConnector->connect()
+#3 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(118): Smf\ConnectionPool\ConnectionPool->createConnection()
+#4 /mnt/e/project/fenxiao_v2/app/common/websocket/BroadcastProcess.php(277): Smf\ConnectionPool\ConnectionPool->borrow()
+#5 /mnt/e/project/fenxiao_v2/app/common/websocket/BroadcastProcess.php(98): app\common\websocket\BroadcastProcess->runWithRedis()
+#6 {main}
+
+Next RedisException: php_network_getaddresse[/mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10]
+[2021-01-20T17:15:10+08:00][error] [1]Uncaught think\exception\ErrorException: Redis::connect(): php_network_getaddresses: getaddrinfo failed: Name or service not known in /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php(10): Redis->connect()
+#2 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(262): Smf\ConnectionPool\Connectors\PhpRedisConnector->connect()
+#3 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(118): Smf\ConnectionPool\ConnectionPool->createConnection()
+#4 /mnt/e/project/fenxiao_v2/app/common/websocket/BroadcastProcess.php(277): Smf\ConnectionPool\ConnectionPool->borrow()
+#5 /mnt/e/project/fenxiao_v2/app/common/websocket/BroadcastProcess.php(98): app\common\websocket\BroadcastProcess->runWithRedis()
+#6 {main}
+
+Next RedisException: php_network_getaddresse[/mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10]
+[2021-01-20T17:15:10+08:00][error] [1]Uncaught think\exception\ErrorException: Redis::connect(): php_network_getaddresses: getaddrinfo failed: Name or service not known in /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php(10): Redis->connect()
+#2 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(262): Smf\ConnectionPool\Connectors\PhpRedisConnector->connect()
+#3 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(118): Smf\ConnectionPool\ConnectionPool->createConnection()
+#4 /mnt/e/project/fenxiao_v2/app/common/websocket/BroadcastProcess.php(277): Smf\ConnectionPool\ConnectionPool->borrow()
+#5 /mnt/e/project/fenxiao_v2/app/common/websocket/BroadcastProcess.php(98): app\common\websocket\BroadcastProcess->runWithRedis()
+#6 {main}
+
+Next RedisException: php_network_getaddresse[/mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10]
+[2021-01-20T17:15:10+08:00][error] [1]Uncaught think\exception\ErrorException: Redis::connect(): php_network_getaddresses: getaddrinfo failed: Name or service not known in /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php(10): Redis->connect()
+#2 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(262): Smf\ConnectionPool\Connectors\PhpRedisConnector->connect()
+#3 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(118): Smf\ConnectionPool\ConnectionPool->createConnection()
+#4 /mnt/e/project/fenxiao_v2/app/common/websocket/BroadcastProcess.php(277): Smf\ConnectionPool\ConnectionPool->borrow()
+#5 /mnt/e/project/fenxiao_v2/app/common/websocket/BroadcastProcess.php(98): app\common\websocket\BroadcastProcess->runWithRedis()
+#6 {main}
+
+Next RedisException: php_network_getaddresse[/mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10]
+[2021-01-20T17:15:10+08:00][error] [1]Uncaught think\exception\ErrorException: Redis::connect(): php_network_getaddresses: getaddrinfo failed: Name or service not known in /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php(10): Redis->connect()
+#2 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(262): Smf\ConnectionPool\Connectors\PhpRedisConnector->connect()
+#3 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(118): Smf\ConnectionPool\ConnectionPool->createConnection()
+#4 /mnt/e/project/fenxiao_v2/app/common/websocket/BroadcastProcess.php(277): Smf\ConnectionPool\ConnectionPool->borrow()
+#5 /mnt/e/project/fenxiao_v2/app/common/websocket/BroadcastProcess.php(98): app\common\websocket\BroadcastProcess->runWithRedis()
+#6 {main}
+
+Next RedisException: php_network_getaddresse[/mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10]
+[2021-01-20T17:15:10+08:00][error] [1]Uncaught think\exception\ErrorException: Redis::connect(): php_network_getaddresses: getaddrinfo failed: Name or service not known in /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php(10): Redis->connect()
+#2 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(262): Smf\ConnectionPool\Connectors\PhpRedisConnector->connect()
+#3 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(118): Smf\ConnectionPool\ConnectionPool->createConnection()
+#4 /mnt/e/project/fenxiao_v2/app/common/websocket/BroadcastProcess.php(277): Smf\ConnectionPool\ConnectionPool->borrow()
+#5 /mnt/e/project/fenxiao_v2/app/common/websocket/BroadcastProcess.php(98): app\common\websocket\BroadcastProcess->runWithRedis()
+#6 {main}
+
+Next RedisException: php_network_getaddresse[/mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10]
+[2021-01-20T17:15:10+08:00][error] [1]Uncaught think\exception\ErrorException: Redis::connect(): php_network_getaddresses: getaddrinfo failed: Name or service not known in /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php(10): Redis->connect()
+#2 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(262): Smf\ConnectionPool\Connectors\PhpRedisConnector->connect()
+#3 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(118): Smf\ConnectionPool\ConnectionPool->createConnection()
+#4 /mnt/e/project/fenxiao_v2/app/common/websocket/BroadcastProcess.php(277): Smf\ConnectionPool\ConnectionPool->borrow()
+#5 /mnt/e/project/fenxiao_v2/app/common/websocket/BroadcastProcess.php(98): app\common\websocket\BroadcastProcess->runWithRedis()
+#6 {main}
+
+Next RedisException: php_network_getaddresse[/mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10]
+[2021-01-20T17:15:10+08:00][error] [1]Uncaught think\exception\ErrorException: Redis::connect(): php_network_getaddresses: getaddrinfo failed: Name or service not known in /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php(10): Redis->connect()
+#2 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(262): Smf\ConnectionPool\Connectors\PhpRedisConnector->connect()
+#3 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(118): Smf\ConnectionPool\ConnectionPool->createConnection()
+#4 /mnt/e/project/fenxiao_v2/app/common/websocket/BroadcastProcess.php(277): Smf\ConnectionPool\ConnectionPool->borrow()
+#5 /mnt/e/project/fenxiao_v2/app/common/websocket/BroadcastProcess.php(98): app\common\websocket\BroadcastProcess->runWithRedis()
+#6 {main}
+
+Next RedisException: php_network_getaddresse[/mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10]
+[2021-01-20T17:15:12+08:00][error] [1]Uncaught think\exception\ErrorException: Redis::connect(): php_network_getaddresses: getaddrinfo failed: Name or service not known in /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php(10): Redis->connect()
+#2 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(262): Smf\ConnectionPool\Connectors\PhpRedisConnector->connect()
+#3 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(118): Smf\ConnectionPool\ConnectionPool->createConnection()
+#4 /mnt/e/project/fenxiao_v2/app/common/websocket/BroadcastProcess.php(277): Smf\ConnectionPool\ConnectionPool->borrow()
+#5 /mnt/e/project/fenxiao_v2/app/common/websocket/BroadcastProcess.php(98): app\common\websocket\BroadcastProcess->runWithRedis()
+#6 {main}
+
+Next RedisException: php_network_getaddresse[/mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10]
+[2021-01-20T17:15:12+08:00][error] [1]Uncaught think\exception\ErrorException: Redis::connect(): php_network_getaddresses: getaddrinfo failed: Name or service not known in /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php(10): Redis->connect()
+#2 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(262): Smf\ConnectionPool\Connectors\PhpRedisConnector->connect()
+#3 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(118): Smf\ConnectionPool\ConnectionPool->createConnection()
+#4 /mnt/e/project/fenxiao_v2/app/common/websocket/BroadcastProcess.php(277): Smf\ConnectionPool\ConnectionPool->borrow()
+#5 /mnt/e/project/fenxiao_v2/app/common/websocket/BroadcastProcess.php(98): app\common\websocket\BroadcastProcess->runWithRedis()
+#6 {main}
+
+Next RedisException: php_network_getaddresse[/mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10]
+[2021-01-20T17:15:12+08:00][error] [1]Uncaught think\exception\ErrorException: Redis::connect(): php_network_getaddresses: getaddrinfo failed: Name or service not known in /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php(10): Redis->connect()
+#2 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(262): Smf\ConnectionPool\Connectors\PhpRedisConnector->connect()
+#3 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(118): Smf\ConnectionPool\ConnectionPool->createConnection()
+#4 /mnt/e/project/fenxiao_v2/app/common/websocket/BroadcastProcess.php(277): Smf\ConnectionPool\ConnectionPool->borrow()
+#5 /mnt/e/project/fenxiao_v2/app/common/websocket/BroadcastProcess.php(98): app\common\websocket\BroadcastProcess->runWithRedis()
+#6 {main}
+
+Next RedisException: php_network_getaddresse[/mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10]
+[2021-01-20T17:15:12+08:00][error] [1]Uncaught think\exception\ErrorException: Redis::connect(): php_network_getaddresses: getaddrinfo failed: Name or service not known in /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php(10): Redis->connect()
+#2 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(262): Smf\ConnectionPool\Connectors\PhpRedisConnector->connect()
+#3 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(118): Smf\ConnectionPool\ConnectionPool->createConnection()
+#4 /mnt/e/project/fenxiao_v2/app/common/websocket/BroadcastProcess.php(277): Smf\ConnectionPool\ConnectionPool->borrow()
+#5 /mnt/e/project/fenxiao_v2/app/common/websocket/BroadcastProcess.php(98): app\common\websocket\BroadcastProcess->runWithRedis()
+#6 {main}
+
+Next RedisException: php_network_getaddresse[/mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10]
+[2021-01-20T17:15:12+08:00][error] [1]Uncaught think\exception\ErrorException: Redis::connect(): php_network_getaddresses: getaddrinfo failed: Name or service not known in /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php(10): Redis->connect()
+#2 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(262): Smf\ConnectionPool\Connectors\PhpRedisConnector->connect()
+#3 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(118): Smf\ConnectionPool\ConnectionPool->createConnection()
+#4 /mnt/e/project/fenxiao_v2/app/common/websocket/BroadcastProcess.php(277): Smf\ConnectionPool\ConnectionPool->borrow()
+#5 /mnt/e/project/fenxiao_v2/app/common/websocket/BroadcastProcess.php(98): app\common\websocket\BroadcastProcess->runWithRedis()
+#6 {main}
+
+Next RedisException: php_network_getaddresse[/mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10]
+[2021-01-20T17:15:12+08:00][error] [1]Uncaught think\exception\ErrorException: Redis::connect(): php_network_getaddresses: getaddrinfo failed: Name or service not known in /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php(10): Redis->connect()
+#2 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(262): Smf\ConnectionPool\Connectors\PhpRedisConnector->connect()
+#3 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(118): Smf\ConnectionPool\ConnectionPool->createConnection()
+#4 /mnt/e/project/fenxiao_v2/app/common/websocket/BroadcastProcess.php(277): Smf\ConnectionPool\ConnectionPool->borrow()
+#5 /mnt/e/project/fenxiao_v2/app/common/websocket/BroadcastProcess.php(98): app\common\websocket\BroadcastProcess->runWithRedis()
+#6 {main}
+
+Next RedisException: php_network_getaddresse[/mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10]
+[2021-01-20T17:15:12+08:00][error] [1]Uncaught think\exception\ErrorException: Redis::connect(): php_network_getaddresses: getaddrinfo failed: Name or service not known in /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php(10): Redis->connect()
+#2 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(262): Smf\ConnectionPool\Connectors\PhpRedisConnector->connect()
+#3 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(118): Smf\ConnectionPool\ConnectionPool->createConnection()
+#4 /mnt/e/project/fenxiao_v2/app/common/websocket/BroadcastProcess.php(277): Smf\ConnectionPool\ConnectionPool->borrow()
+#5 /mnt/e/project/fenxiao_v2/app/common/websocket/BroadcastProcess.php(98): app\common\websocket\BroadcastProcess->runWithRedis()
+#6 {main}
+
+Next RedisException: php_network_getaddresse[/mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10]
+[2021-01-20T17:15:12+08:00][error] [1]Uncaught think\exception\ErrorException: Redis::connect(): php_network_getaddresses: getaddrinfo failed: Name or service not known in /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php(10): Redis->connect()
+#2 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(262): Smf\ConnectionPool\Connectors\PhpRedisConnector->connect()
+#3 /mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(118): Smf\ConnectionPool\ConnectionPool->createConnection()
+#4 /mnt/e/project/fenxiao_v2/app/common/websocket/BroadcastProcess.php(277): Smf\ConnectionPool\ConnectionPool->borrow()
+#5 /mnt/e/project/fenxiao_v2/app/common/websocket/BroadcastProcess.php(98): app\common\websocket\BroadcastProcess->runWithRedis()
+#6 {main}
+
+Next RedisException: php_network_getaddresse[/mnt/e/project/fenxiao_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10]
+[2021-01-20T17:16:06+08:00][error] [1]Uncaught think\exception\ErrorException: syntax error, unexpected '!' in /mnt/e/project/fenxiao_v2/.env on line 7
+ in /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php:42
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php(42): parse_ini_file()
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(412): think\Env->load()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#5 {main}
+  thrown
+[2021-01-20T17:16:06+08:00][error] [1]Uncaught think\exception\ErrorException: syntax error, unexpected '!' in /mnt/e/project/fenxiao_v2/.env on line 7
+ in /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php:42
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php(42): parse_ini_file()
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(412): think\Env->load()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#5 {main}
+  thrown
+[2021-01-20T17:16:06+08:00][error] [1]Uncaught think\exception\ErrorException: syntax error, unexpected '!' in /mnt/e/project/fenxiao_v2/.env on line 7
+ in /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php:42
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php(42): parse_ini_file()
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(412): think\Env->load()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#5 {main}
+  thrown
+[2021-01-20T17:16:06+08:00][error] [1]Uncaught think\exception\ErrorException: syntax error, unexpected '!' in /mnt/e/project/fenxiao_v2/.env on line 7
+ in /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php:42
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php(42): parse_ini_file()
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(412): think\Env->load()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#5 {main}
+  thrown
+[2021-01-20T17:16:06+08:00][error] [1]Uncaught think\exception\ErrorException: syntax error, unexpected '!' in /mnt/e/project/fenxiao_v2/.env on line 7
+ in /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php:42
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php(42): parse_ini_file()
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(412): think\Env->load()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#5 {main}
+  thrown
+[2021-01-20T17:16:06+08:00][error] [1]Uncaught think\exception\ErrorException: syntax error, unexpected '!' in /mnt/e/project/fenxiao_v2/.env on line 7
+ in /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php:42
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php(42): parse_ini_file()
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(412): think\Env->load()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#5 {main}
+  thrown
+[2021-01-20T17:16:06+08:00][error] [1]Uncaught think\exception\ErrorException: syntax error, unexpected '!' in /mnt/e/project/fenxiao_v2/.env on line 7
+ in /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php:42
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php(42): parse_ini_file()
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(412): think\Env->load()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#5 {main}
+  thrown
+[2021-01-20T17:16:06+08:00][error] [1]Uncaught think\exception\ErrorException: syntax error, unexpected '!' in /mnt/e/project/fenxiao_v2/.env on line 7
+ in /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php:42
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php(42): parse_ini_file()
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(412): think\Env->load()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#5 {main}
+  thrown
+[2021-01-20T17:16:06+08:00][error] [1]Uncaught think\exception\ErrorException: syntax error, unexpected '!' in /mnt/e/project/fenxiao_v2/.env on line 7
+ in /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php:42
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php(42): parse_ini_file()
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(412): think\Env->load()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#5 {main}
+  thrown
+[2021-01-20T17:16:06+08:00][error] [1]Uncaught think\exception\ErrorException: syntax error, unexpected '!' in /mnt/e/project/fenxiao_v2/.env on line 7
+ in /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php:42
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php(42): parse_ini_file()
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(412): think\Env->load()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#5 {main}
+  thrown
+[2021-01-20T17:16:06+08:00][error] [1]Uncaught think\exception\ErrorException: syntax error, unexpected '!' in /mnt/e/project/fenxiao_v2/.env on line 7
+ in /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php:42
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php(42): parse_ini_file()
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(412): think\Env->load()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#5 {main}
+  thrown
+[2021-01-20T17:16:06+08:00][error] [1]Uncaught think\exception\ErrorException: syntax error, unexpected '!' in /mnt/e/project/fenxiao_v2/.env on line 7
+ in /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php:42
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php(42): parse_ini_file()
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(412): think\Env->load()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#5 {main}
+  thrown
+[2021-01-20T17:16:06+08:00][error] [1]Uncaught think\exception\ErrorException: syntax error, unexpected '!' in /mnt/e/project/fenxiao_v2/.env on line 7
+ in /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php:42
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php(42): parse_ini_file()
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(412): think\Env->load()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#5 {main}
+  thrown
+[2021-01-20T17:16:07+08:00][error] [1]Uncaught think\exception\ErrorException: syntax error, unexpected '!' in /mnt/e/project/fenxiao_v2/.env on line 7
+ in /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php:42
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php(42): parse_ini_file()
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(412): think\Env->load()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#5 {main}
+  thrown
+[2021-01-20T17:16:07+08:00][error] [1]Uncaught think\exception\ErrorException: syntax error, unexpected '!' in /mnt/e/project/fenxiao_v2/.env on line 7
+ in /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php:42
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php(42): parse_ini_file()
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(412): think\Env->load()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#5 {main}
+  thrown
+[2021-01-20T17:16:07+08:00][error] [1]Uncaught think\exception\ErrorException: syntax error, unexpected '!' in /mnt/e/project/fenxiao_v2/.env on line 7
+ in /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php:42
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php(42): parse_ini_file()
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(412): think\Env->load()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#5 {main}
+  thrown
+[2021-01-20T17:16:08+08:00][error] [1]Uncaught think\exception\ErrorException: syntax error, unexpected '!' in /mnt/e/project/fenxiao_v2/.env on line 7
+ in /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php:42
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php(42): parse_ini_file()
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(412): think\Env->load()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#5 {main}
+  thrown
+[2021-01-20T17:16:08+08:00][error] [1]Uncaught think\exception\ErrorException: syntax error, unexpected '!' in /mnt/e/project/fenxiao_v2/.env on line 7
+ in /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php:42
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php(42): parse_ini_file()
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(412): think\Env->load()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#5 {main}
+  thrown
+[2021-01-20T17:16:08+08:00][error] [1]Uncaught think\exception\ErrorException: syntax error, unexpected '!' in /mnt/e/project/fenxiao_v2/.env on line 7
+ in /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php:42
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php(42): parse_ini_file()
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(412): think\Env->load()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#5 {main}
+  thrown
+[2021-01-20T17:16:08+08:00][error] [1]Uncaught think\exception\ErrorException: syntax error, unexpected '!' in /mnt/e/project/fenxiao_v2/.env on line 7
+ in /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php:42
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php(42): parse_ini_file()
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(412): think\Env->load()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#5 {main}
+  thrown
+[2021-01-20T17:16:08+08:00][error] [1]Uncaught think\exception\ErrorException: syntax error, unexpected '!' in /mnt/e/project/fenxiao_v2/.env on line 7
+ in /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php:42
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php(42): parse_ini_file()
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(412): think\Env->load()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#5 {main}
+  thrown
+[2021-01-20T17:16:08+08:00][error] [1]Uncaught think\exception\ErrorException: syntax error, unexpected '!' in /mnt/e/project/fenxiao_v2/.env on line 7
+ in /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php:42
+Stack trace:
+#0 [internal function]: think\initializer\Error->appError()
+#1 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/Env.php(42): parse_ini_file()
+#2 /mnt/e/project/fenxiao_v2/vendor/topthink/framework/src/think/App.php(412): think\Env->load()
+#3 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/WithApplication.php(73): think\App->initialize()
+#4 /mnt/e/project/fenxiao_v2/vendor/topthink/think-swoole/src/concerns/InteractsWithServer.php(97): think\swoole\Manager->prepareApplication()
+#5 {main}
+  thrown

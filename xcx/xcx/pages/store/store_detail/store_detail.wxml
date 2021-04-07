@@ -1,0 +1,95 @@
+<scroll-view scroll-y class='my-scroll' bindscrolltolower="onGetDataInfo">
+  <view id='my-header'>
+    <view class='my-img-name'>
+      <view class='my-col1'><image class="my-col1-img" src='{{dataInfo.headimgurl}}'></image></view>
+      <view class='my-col2'>
+        <view class='my-col2-1'>{{dataInfo.name}}</view>
+        <view class='my-col2-2'>{{storeInfo.storename}}</view>
+        <view class='my-col2-3'>主营：{{storeInfo.province}}-{{storeInfo.city}}-{{storeInfo.area}}</view>
+        <view class='my-col2-4'>电话：{{dataInfo.phone}}</view>
+      </view>
+      <view class='my-col3'><image src='/image/icon_mingpian_shouye.png' bindtap='onGoHome'></image></view>
+    </view>
+    <view class='my-tag'>
+      <view class='my-tag-1'>
+        <text wx:for="{{dataInfo.special_label}}" wx:key="idx" wx:for-index="idx" wx:for-item="val">{{val}}</text>
+      </view>
+      <view class='my-tag-2' bindtap='onQrcode'><image src='/image/icon_erweima.png'></image></view>
+    </view>
+  </view>
+  <!-- <view id='my-number'>
+    <view class='my-num-list'>
+      <view class='my-nl-title'>房源</view>
+      <view class='my-nl-num'>{{fyNum}}</view>
+    </view>
+    <view class='my-num-l'></view>
+    <view class='my-num-list'>
+      <view class='my-nl-title'>客户</view>
+      <view class='my-nl-num'>{{khNum}}</view>
+    </view>
+    <view class='my-num-l'></view>
+    <view class='my-num-list'>
+      <view class='my-nl-title'>浏览量</view>
+      <view class='my-nl-num'>{{lllNum}}</view>
+    </view>
+  </view> -->
+  <view id="my-zixun">
+    <view class='my-h2'>
+      <view class='my-h2-1'>资讯头条</view>
+      <view class='my-h2-2' bindtap='onHeadlines'>查看全部 <van-icon name="arrow" size="3vw"/></view>
+    </view>
+    <scroll-view scroll-x class='zx-scroll'>
+      <view class='my-zx-lists' style="width:{{zx_width}}vw;">
+        <view class='my-zx-list' wx:for="{{zxList}}" wx:key="index" data-id="{{item.id}}" bindtap='onArticleDetail'>
+          <image src='{{domain_img+item.cover}}'></image>
+          <view class='van-multi-ellipsis--l2'>{{item.title}}</view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+  <view id="my-loupan">
+    <view class='my-h2'>
+      <view class='my-h2-1'>经纪人楼盘</view>
+      <view class='my-h2-2' bindtap='onBuilding'>查看全部 <van-icon name="arrow" size="3vw"/></view>
+    </view>
+    <view class="my-lp-lists">
+      <view class='my-lp-list' wx:for="{{lpList}}" wx:key="index" data-id="{{item.building_id}}" bindtap='onHouseDetail'>
+        <view class='my-lpimg'>
+          <image class='my-lp-ig' src='{{domain_img+item.pic}}'></image>
+          <view class='my-huo'><image src='/image/icon-renqizhi.png'></image> {{item.views_number}}</view>
+        </view>
+        <view class='my-lp-center'>
+          <view class='my-lp-c1'><view class="my-c-1-1 van-ellipsis">{{item.name}}</view><view class='my-c-1-2'>{{item.sales_status}}</view></view>
+          <view class='my-lp-c2'>{{item.house_type}} | {{item.city}} {{item.area}}</view>
+          <view class='my-lp-c3'>{{item.fold}}元/m²</view>
+        </view>
+      </view>
+    </view>
+    <view wx:if="{{lengshow}}">
+      <image mode='widthFix' src='../../../image/empty_img.png'></image>
+    </view>
+  </view>
+</scroll-view>
+<view id="my-footer">
+  <view class='f-img'><image src='{{dataInfo.headimgurl}}'></image></view>
+  <view class='f-name'>
+    <view class='f-name-1 van-ellipsis'>{{dataInfo.uname}}</view>
+    <view class='f-name-2 van-ellipsis'>{{storeInfo.storename}}</view>
+  </view>
+  <view class='f-btn1' bindtap='onCall'>电话联系</view>
+  <view class='f-btn2' data-title='{{dataInfo.name}}' bindtap='onTalkChat'>微聊</view>
+</view>
+<van-popup show="{{show}}" position="bottom" bind:close="onClose">
+<view id="my-popup">
+  <view class="pop-title">分享</view>
+  <view class="pop-content">
+    <view class="pop-list"><button class='my-zhuanfa' open-type="share"></button><image src='/image/weixin1.png'></image><view>微信好友</view></view>
+    <view class="pop-list" bindtap='onPosters'><image src='/image/weixin2.png'></image><view>名片海报</view></view>
+  </view>
+  <view class="pop-btn" bindtap='onClose'>取消</view>
+</view>
+</van-popup>
+<!-- <view class='button_box' wx:if="{{userinfoshow}}">
+  <view class='btn_title'>欢迎使用</view>
+  <button class='my-button' open-type="getUserInfo" bindgetuserinfo="onUser">确认授权</button>
+</view> -->

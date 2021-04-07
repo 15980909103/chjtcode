@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "浏览记录",
+  "usingComponents": {
+    "u-empty": "/uview-ui/components/u-empty/u-empty",
+    "common-new-house": "/components/common/template_newHouse"
+  }
+}

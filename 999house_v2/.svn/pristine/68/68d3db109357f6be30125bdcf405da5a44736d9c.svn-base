@@ -1,0 +1,98 @@
+<template>
+	<view>
+		<nearby-map :site="siteInfo"></nearby-map>
+	</view>
+</template>
+
+<script>
+	import nearbyMap from '@/components/map/nearby';
+	
+	export default {
+		data() {
+			return {
+				siteInfo: {}
+			}
+		},
+		components: {
+			nearbyMap
+		},
+		onLoad() {
+			this.siteInfo = {
+				lng: 118.109132,
+				lat: 24.524931
+			}
+		},
+		onShow() {
+	
+		},
+		methods: {
+			getRegeo() {
+				uni.showLoading({
+					title: '获取信息中'
+				});
+				
+				// 高德
+				// this.amapPlugin.getRegeo({
+				// 	success: (data) => {
+				// 		this.addressName = data[0].name;
+				// 		uni.hideLoading();
+				// 	}
+				// });
+				
+				// 腾讯
+				
+			},
+			getWeather() {
+				uni.showLoading({
+					title: '获取信息中'
+				});
+				
+				// 高德
+				// this.amapPlugin.getWeather({
+				// 	success: (data) => {
+				// 		console.log(data);
+				// 		for (const key in data) {
+				// 			console.log(key);
+				// 			if (key !== 'liveData') {
+				// 				this.weather.data.push({
+				// 					name: 'div',
+				// 					children: [{
+				// 						type: 'text',
+				// 						text: data[key].text + '：' + data[key].data
+				// 					}]
+				// 				});
+				// 			}
+				// 		}
+				// 		uni.hideLoading();
+				// 		this.weather.hasData = true;
+				// 	},
+				// 	fail: (data) =>{
+				// 		console.log(data,998)
+				// 	}
+				// });
+				
+				// 腾讯
+			}
+		}
+	}
+</script>
+
+<style>
+	view {
+		display: block;
+	}
+
+	.page {
+		display: flex;
+		flex: 1;
+		justify-content: center;
+		flex-direction: column;
+		width: 750upx;
+		text-align: center;
+	}
+
+
+	.btn-list button {
+		margin: 20upx;
+	}
+</style>

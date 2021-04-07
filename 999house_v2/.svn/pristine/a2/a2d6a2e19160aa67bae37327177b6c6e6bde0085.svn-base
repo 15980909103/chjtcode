@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>好房推荐</title>
+		<link rel="stylesheet" href="../../common/vant/index.css"/>
+		<link rel="stylesheet" href="../../common/css/public.css"/>
+		<style>
+			.ad_top{
+				width: 100%;
+				height: 3.2rem;
+			}
+			
+			.tabs{
+				display: flex;
+				justify-content: center;
+				margin-top: 0.14rem;
+			}
+			
+			.van-tabs__nav{
+				width: 6.08rem;
+				height: 0.94rem;
+			}
+			
+			.van-tabs__wrap{
+				display: flex;
+				justify-content: center;
+			}
+			
+			.van-tab{
+				font-size: 0.3rem;
+				color: rgba(255, 255, 255, .5);
+			}
+			
+			.van-tab--active{
+				font-size: 0.34rem;
+				font-weight: bold;
+			}
+			
+			.van-tabs__line{
+				width: 0.24rem;
+				bottom: 20px;
+			}
+			
+			.live-box{
+				width: 6.86rem;
+				height: 2.89rem;
+				background-color: #fff;
+				border-radius: 0.04rem;
+			}
+			
+			.live-swipe{
+				height: 100%;
+				font-size: 0.26rem;
+			}
+			
+			.van-tabs__content{
+				margin-top: 0.24rem;
+			}
+			
+			.live-swipe-wrap{
+				display: flex;
+				justify-content: center;
+				
+			}
+			
+			.live-swipe-item{
+				width: 3.06rem;
+				height: 2.2rem;
+				background-repeat: no-repeat;
+				background-size: 100% 100%;
+				margin-top: 0.2rem;
+				position: relative;
+			}
+			
+			.live-swipe-item:nth-child(2){
+				margin-left: 0.34rem;
+			}
+			
+			.live-swipe-title{
+				width: 100%;
+				box-sizing: border-box;
+				padding: 0.04rem 0.16rem;
+				background: rgba(0,0,0,.4);
+				color: #fff;
+				position: absolute;
+				bottom: 0;
+			}
+			
+			.van-swipe__indicators{
+				bottom: 8px;
+			}
+			
+			.van-swipe__indicator{
+				background-color: rgba(254, 114, 71, 1) !important;
+				opacity: .9;
+			}
+			
+			.van-swipe__indicator--active{
+				width: 0.24rem;
+				border-radius: 0.05rem;
+				opacity: 1;
+			}
+			
+			.live-swipe-tip{
+				font-size: 0.24rem;
+				height: 0.33rem;
+				border-radius: 0.04rem;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				position: absolute;
+				top: 0.16rem;
+				left: 0.16rem;
+				color: #fff;
+			}
+			
+			.live-swipe-tip1{
+				width: 1.2rem;
+				background: #ED3335;
+				overflow: hidden;
+			}
+			
+			.live-swipe-tip1 img{
+				width: 0.26rem;
+				height: 0.26rem;
+			}
+			
+			.live-swipe-tip1 span{
+				margin-left: 0.08rem;
+				line-height: 0.1rem;
+			}
+			
+			.live-swipe-tip2{
+				background-color: rgba(0, 0, 0, .4);
+			}
+			
+			.live-swipe-tip2-title{
+				width: 1.04rem;
+				background-color: rgba(40, 94, 228, 1);
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+			
+			.live-swipe-tip2-title .iconfont{
+				margin: 0.04rem 0.08rem 0 0;
+				font-size: 0.22rem;
+			}
+			
+			.live-swipe-tip2-time{
+				padding: 0 0.1rem;
+			}
+			
+			.list-box{
+				width: 6.86rem;
+				margin: 0.3rem 0;
+				background-color: #fff;
+				
+			}
+			
+			.list-tip{
+				width: 100%;
+				padding: 0.4rem 0 0.2rem;
+				display: flex;
+				overflow-x: scroll;
+				-webkit-overflow-scrolling: touch;
+			}
+			
+			.list-tip-item{
+				width: 1.5rem;
+				height: 0.54rem;
+				margin-left: 0.26rem;
+				
+			}
+			
+			.list-tip-item div{
+				width: 1.5rem;
+				height: 0.54rem;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				background-color: rgba(245, 248, 254, 1);
+				border-radius: 0.02rem;
+				box-sizing: border-box;
+			}
+			
+			.list-tip-item:last-child{
+				padding-right: 0.26rem;
+			}
+			
+			.tip-active{
+				background-color: rgba(255, 238, 224, 1);
+				color: rgba(254, 130, 30, 1);
+				border: 1px solid #FE821E;
+			}
+			
+			.tabs .van-tabs__wrap{
+				border-bottom: none;
+				display: none;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<div id="app" v-cloak :style="{background: bgColor}">
+			
+			<img :src="adTop" class="ad_top" v-if="adTop">
+			
+			<div class="tabs">
+				<van-tabs
+					v-model="active"
+					color="rgba(255, 255, 255, .7)"
+					background="rgba(0,0,0,.22)"
+					title-active-color="rgba(255, 255, 255, .7)"
+					@change="tabsChange"
+				>
+					<van-tab v-for="(items,index) in tabList" :title="items.name" :key="index">
+						
+						<!-- 直播 -->
+						<div class="live-box" v-show="items.live && items.live.length > 0">
+							<van-swipe class="live-swipe" :autoplay="3000" indicator-color="white">
+								<van-swipe-item class="live-swipe-wrap" v-for="(live,num) in items.live" :key="num">
+									
+									<div 
+										class="live-swipe-item" 
+										:style="{backgroundImage: 'url('+ liveItem.img +')'}"
+										v-for="(liveItem,key) in live.list" 
+										:key="key"
+									>
+										<template v-if="liveItem.type == 0">
+											<div class="live-swipe-tip live-swipe-tip1">
+												<img src="../../static/logo.png">
+												<span>直播中</span>
+											</div>
+										</template>
+										<template v-else>
+											<div class="live-swipe-tip live-swipe-tip2">
+												<div class="live-swipe-tip2-title">
+													<span class="iconfont icon17shijian"></span>预约
+												</div>
+												<div class="live-swipe-tip2-time">
+													{{liveItem.time}}
+												</div>
+											</div>
+										</template>
+										
+									
+										<span class="live-swipe-title van-multi-ellipsis--l2">
+											{{liveItem.title}}
+										</span>
+									</div>
+									
+								</van-swipe-item>
+							</van-swipe>
+						</div>
+						
+						<!-- 列表 -->
+						<div class="list-box">
+							
+							<div class="list-tip">
+								<div class="list-tip-item" v-for="(tip,num) in items.tip" :key="num">
+									<div @click="chooseTip(tip.id)" :class="[tipChoose.indexOf(tip.id) != -1 ? 'tip-active' : '']">
+										{{tip.name}}
+									</div>
+								</div>
+							</div>
+							
+							<van-list
+							  v-model="loading"
+							  :finished="finished"
+							  finished-text="没有更多了"
+							  @load="onLoad"
+							>
+								<common-template :list="items.list"></common-template>
+							</van-list>
+						</div>
+						
+						
+						
+					</van-tab>
+				</van-tabs>
+			</div>
+			
+			
+			
+			
+		</div>
+	</body>
+</html>
+
+<script src="../../common/js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/rem.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/public.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/vant/index.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+<script>
+	const myComponents = [
+		'../../components/common/template/index',
+	];
+	
+	$api.addComponents(myComponents)
+		.then(()=>{
+			
+			Vue.use(vant.Lazyload);
+			 
+			Vue.component('commonTemplate', commonTemplate);
+			
+			const app = new Vue({
+				el: '#app',
+				data: {
+					bgColor: 'rgba(254, 114, 71, 1)',
+					adTop: '../../static/logo.png',
+					
+					active: 0,
+					loading: false,
+					finished: false,
+					
+					tabList: [
+						{
+							name: '新房',
+							live:[
+								{
+									list: [
+										{
+											type: 0,
+											img: '../../static/logo.png',
+											title: '建发云享沙盘讲解'
+										},
+										{
+											type: 1,
+											img: '../../static/logo.png',
+											title: '集美新城新盘，稀有78 平精装三房',
+											time: '9月12日 18:00'
+										}
+									]
+								},
+								{
+									list: [
+										{
+											type: 0,
+											img: '../../static/logo.png',
+											title: '建发云享沙盘讲解'
+										},
+										{
+											type: 1,
+											img: '../../static/logo.png',
+											title: '集美新城新盘，稀有78 平精装三房',
+											time: '9月12日 18:00'
+										}
+									]
+								},
+								{
+									list: [
+										{
+											type: 0,
+											img: '../../static/logo.png',
+											title: '建发云享沙盘讲解'
+										},
+										{
+											type: 1,
+											img: '../../static/logo.png',
+											title: '集美新城新盘，稀有78 平精装三房',
+											time: '9月12日 18:00'
+										}
+									]
+								}
+							],
+							tip: [
+								{
+									id: 0,
+									name: '低价盘',
+								},
+								{
+									id: 1,
+									name: '优选户型',
+								},
+								{
+									id: 2,
+									name: '在售盘',
+								},
+								{
+									id: 3,
+									name: '近期开盘',
+								},
+								{
+									id: 4,
+									name: '烂尾盘',
+								}
+							],
+							list: [
+								{
+									// 9-好房推荐楼盘视频（类似7-楼盘视频）
+									id: 13,
+									type: 9,
+									info: {
+										name: '东海山庄',
+										tip: ['尾盘','住宅','热楼盘','装修交付'],
+										price: 34000,
+										site: '湖里 软件园',
+										area: 108,
+									},
+									title: '「样板间」看海无遮挡，大面宽，四房三厅二卫',
+									url: '../../static/logo.png'
+								},
+								{
+									// 10-好房推荐楼盘有图（类似8-新房（数据和类型4-广告楼盘有图 雷同））
+									id: 14,
+									type: 10,
+									info: {
+										name: '世贸湖边首府',
+										tip: ['售完','住宅','热楼盘','装修交付'],
+										price: 34000,
+										site: '湖里 软件园',
+										area: 108,
+										lab: [
+											{ type: 0, name: '入围护理人气楼盘榜', img: '../../static/logo.png' },
+											{ type: 0, name: '享9.5折', img: '../../static/logo.png' },
+											{ type: 0, name: '777', img: '../../static/logo.png' },
+											{ type: 0, name: '888', img: '../../static/logo.png' }
+										]
+									},
+									title: '66666',
+									img:  ['../../static/logo.png','../../static/logo.png','../../static/logo.png','../../static/logo.png']
+								},
+								{
+									// 10-好房推荐楼盘有图（类似8-新房（数据和类型4-广告楼盘有图 雷同））
+									id: 14,
+									type: 10,
+									info: {
+										name: '世贸湖边首府',
+										tip: ['售完','住宅','热楼盘','装修交付'],
+										price: 34000,
+										site: '湖里 软件园',
+										area: 108,
+										lab: [
+											{ type: 0, name: '入围护理人气楼盘榜', img: '../../static/logo.png' },
+											{ type: 0, name: '享9.5折', img: '../../static/logo.png' },
+											{ type: 0, name: '777', img: '../../static/logo.png' },
+											{ type: 0, name: '888', img: '../../static/logo.png' }
+										]
+									},
+									title: '建面约90平户型：4室2厅2卫',
+									img:  ['../../static/logo.png','../../static/logo.png']
+								},
+								{
+									// 10-好房推荐楼盘有图（类似8-新房（数据和类型4-广告楼盘有图 雷同））
+									id: 14,
+									type: 10,
+									info: {
+										name: '世贸湖边首府',
+										tip: ['售完','住宅','热楼盘','装修交付'],
+										price: 34000,
+										site: '湖里 软件园',
+										area: 108,
+										lab: [
+											{ type: 0, name: '入围护理人气楼盘榜', img: '../../static/logo.png' },
+											{ type: 0, name: '享9.5折', img: '../../static/logo.png' },
+											{ type: 0, name: '777', img: '../../static/logo.png' },
+											{ type: 0, name: '888', img: '../../static/logo.png' }
+										]
+									},
+									title: '建面约90平户型：4室2厅2卫',
+									img:  ['../../static/logo.png']
+								},
+							]
+						},
+					],
+					activeList: 0,
+					tipChoose: [],
+				},
+				created() {
+					// this.tabsChange();
+				},
+				methods:{
+					// 切换资讯/新房
+					tabsChange() {
+						// this.activeList = this.tabList[this.active];
+						console.log(this.activeList)
+					},
+					chooseTip(id) {
+						
+						const site = this.tipChoose.indexOf(id);
+						
+						
+						if( site != -1 ){
+							this.tipChoose.splice(site,1);
+						} else {
+							this.tipChoose.push(id);
+						}
+					},
+					
+					onLoad() {
+						// 异步更新数据
+						// setTimeout 仅做示例，真实场景中一般为 ajax 请求
+						setTimeout(() => {
+							
+					
+							// 加载状态结束
+							// this.loading = false;
+							console.log('1')
+					
+							// this.finished = true;
+							console.log('2')
+						}, 1000);
+					},
+				},
+			})
+		})
+	
+	
+</script>

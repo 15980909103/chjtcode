@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+		<title>地图</title>
+		<link rel="stylesheet" href="../../common/vant/index.css" />
+		<link rel="stylesheet" href="../../common/css/public.css?v=1.19" />
+		<style>
+			#container{
+				width: 100vw;
+				height: calc(100vh - 0.88rem - 48px) ;
+				z-index: 1;
+				touch-action: none;
+				position: relative;
+			}
+			
+			#container div div div div a{
+				display:none !important; 
+			}
+			
+			.logo-text{ 
+				display:none !important; 
+			}
+			
+			.my_House:after{
+				content: '';
+				position: absolute;
+				left: 50%;
+				bottom: 0;
+				transform: translate(-50%,100%);
+				border-right: .12rem solid transparent;
+				border-left: .12rem solid transparent;
+				border-top: .14rem solid rgba(254, 130, 30, 1);
+			}
+			
+			.house_active{
+				background-color: rgba(121, 183, 107, 1) !important;
+			}
+			
+			.house_active:after{
+				content: '';
+				position: absolute;
+				left: 50%;
+				bottom: 0;
+				transform: translate(-50%,100%);
+				border-right: .12rem solid transparent;
+				border-left: .12rem solid transparent;
+				border-top: .14rem solid rgba(121, 183, 107, 1);
+			}
+			
+			/* 自定义覆盖物淡入动画 */
+			@keyframes fade-in {  
+			    0% {opacity: 0;} 
+			    100% {opacity: 1;}
+			}  
+			
+			@-webkit-keyframes fade-in {
+			    0% {opacity: 0;}  
+			    100% {opacity: 1;}  
+			}  
+			
+			/* 选中楼盘显示 */
+			.house-btn{
+				font-size: .3rem;
+				color: rgba(33, 33, 33, 1);
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				padding: .32rem 0;;
+				margin: 0 .32rem;
+				font-weight: 600;
+				box-sizing: border-box;
+				border-top: 1px solid rgba(235, 235, 235, 1);
+			}
+			
+			.house-btn span{
+				margin-left: .14rem;
+			}
+			
+			.container-icon{
+				position: absolute;
+				right: .32rem;
+				z-index: 1001;
+			}
+			
+			.container-icon-operate{
+				top: .5rem;
+			}
+			
+			.container-icon-operate .container-icon-item:not(:last-child){
+				margin-bottom: .28rem;
+			}
+			
+			.container-icon-site{
+				top: 8.83rem;
+			}
+			
+			.container-icon-item{
+				width: .8rem;
+				height: .8rem;
+				font-size: .22rem;
+				color: rgba(33, 33, 33, 1);
+				font-weight: 600;
+				background-color: #fff;
+				border-radius: .08rem;
+				border: 1px solid #D5D5D5;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+			}
+			
+			.container-icon-operate .container-icon-item:not(:first-child) .iconfont,
+			.container-icon-site .iconfont{
+				font-size: .38rem
+			}
+			
+			.container-icon-operate .container-icon-item:not(:first-child) span{
+				margin-top: -.04rem;
+			}
+			
+			.container-icon-item .iconfont{
+				margin-top: .08rem;
+			}
+			
+			.loading{
+				width: 100px;
+				height: 100px;
+				background-color: rgba(0,0,0,.5);
+				border-radius: .08rem;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%,-50%);
+				z-index: 1002;
+			}
+			
+			.loading .van-loading__text{
+				margin-top: 12px;
+				color: #fff !important;
+			}
+			
+			/* 可视范围 */
+			.range{
+				height: 100vh;
+				width: 100vw;
+				box-sizing: border-box;
+				padding-top: 1.84rem;
+			}
+			
+			.van-popup__close-icon--top-left{
+				top: .44rem;
+				transform: translate(0,-50%);
+				position: fixed;
+			}
+			
+			.range-top{
+				height: .88rem;
+				font-size: .28rem;
+				line-height: .28rem;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+			
+			.sizer{
+				touch-action: none;
+			}
+			
+			.show-area{
+				position: relative;
+				z-index: 9999;
+			}
+			
+			.range-fixed{
+				width: 100%;
+				position: fixed;
+				top: 0;
+				left: 0;
+				z-index: 1;
+				background-color: #fff;
+				border-bottom: 1.5px solid rgba(224, 224, 224, 1);
+			}
+			
+		</style>
+	</head>
+
+	<body>
+		<div id="app" v-cloak ref="DOM">
+			<!-- 顶部栏目 -->
+			<top-bar title="新房"></top-bar>
+			<!-- 筛选 -->
+			<common-sizer 
+				:show-area="!rangeSelectShow" 
+				class="sizer"
+				:class="rangeSelectShow ? 'show-area' : ''"
+				v-if="selectShow" 
+				@result="chooseResult" 
+				ref="sizer" 
+			></common-sizer>
+			<!-- 地图 -->
+			<div id="container" @click.stop>
+				<div class="container-icon container-icon-operate">
+					<div class="container-icon-item" @click.stop="showRangeHouse">
+						<i class="iconfont iconliebiao"></i><span>列表</span>
+					</div>
+					<div class="container-icon-item" @click.stop>
+						<i class="iconfont icon901"></i><span>搜索</span>
+					</div>
+				</div>
+				<div class="container-icon container-icon-site">
+					<div class="container-icon-item" @click.stop="getUserSite">
+						<i class="iconfont iconmubiao"></i><span>定位</span>
+					</div>
+				</div>
+			</div>
+			<!-- 选中楼盘显示 -->
+			<van-popup
+				v-model="infoShow" 
+				position="bottom" 
+				@close="infoClose"
+			>
+				<common-template v-if="infoList[infoId]" :list="infoList[infoId]"></common-template>
+
+				<div class="house-btn">
+					<i class="iconfont icon000"></i>
+					<span>周边配套</span>
+				</div>
+			</van-popup>
+			
+			<!-- 可视范围楼盘展示 -->
+			<van-popup
+			  v-model="rangeShow"
+			  closeable
+			  close-icon="arrow-down"
+			  close-icon-position="top-left"
+			  position="bottom"
+			  :lock-scroll="false"
+			  :style="{ height: '100%' }"
+			  @opened="rangeOpent" 
+			  @close="rangeClose"
+			>	
+				<div class="range">
+					<div class="range-fixed">
+						<!-- <div class="range" v-if="rangeData.length > 0"> -->
+							<div class="range-top">
+								可视范围内共<span>{{ rangeData.length }}</span>套
+							</div>
+							<van-dropdown-menu>
+								<template v-for="(item,k) in rangeOption">
+									<van-dropdown-item
+										v-model="rangeActive" 
+										disabled 
+										:options="item"
+										:title-class="!(['区域','价格','户型','更多'].includes(item[0].text)) ? 'text-active' : 'text-none'"
+									>
+									</van-dropdown-item>
+								</template>
+							</van-dropdown-menu>
+					</div>
+				
+					<common-template :list="rangeData"></common-template>
+				</div>
+			</van-popup>
+			
+			<div class="loading" v-show="loading">
+				<van-loading type="spinner" color="#fff" :vertical="true">
+					获取定位中...
+				</van-loading>
+			</div>
+		</div>
+	</body>
+
+</html>
+
+<!-- 高德地图定位组件 -->
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=53da8183ca23918f2f81c79a5b2ede15&plugin=AMap.CitySearch"></script> 
+<script src="https://map.qq.com/api/gljs?v=1.exp&key=2YQBZ-V22W3-QWE3V-3G2KA-YWVK5-X4BZR"></script>
+<script src="../../common/js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/rem.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/vant/index.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/public.js?v=1.19" type="text/javascript" charset="utf-8"></script>
+<!-- 自定义覆盖物 -->
+<script src="./circle_cover.js?v=1.19" type="text/javascript" charset="utf-8"></script>
+<script src="./house_cover.js?v=1.19" type="text/javascript" charset="utf-8"></script>
+<script src="./marker_cover.js?v=1.19" type="text/javascript" charset="utf-8"></script>
+<script type="module">
+	import { http } from '../../common/js/method/http.js?v=1.19';
+	
+	const myComponents = [
+		'../../components/common/topBar/index',
+		'../../components/common/area/index',
+		'../../components/common/sizer/index',
+		'../../components/common/template/index',
+	];
+	
+	$api.addComponents(myComponents)
+		.then(() => {
+			
+			Vue.use(http);
+			Vue.use(vant.Lazyload);
+			Vue.component('commonArea', commonArea);
+			Vue.component('commonTemplate', commonTemplate);
+			
+			const app = new Vue({
+				el: '#app',
+				data: {
+					// 筛选
+					selectShow: true,
+					
+					// 用户定位信息
+					loading: false,
+					userPosition: '',
+					userSiteImg:'',
+					
+					// 暂时可视范围楼盘列表
+					rangeShow: false,
+					rangeSelectShow: false, 
+					rangeData: [],							//	可视范围数据
+					rangeActive: 0,
+					rangeOption: {							//	模拟下拉框
+						0: [{ text: '价格', value: 0 }],
+						1: [{ text: '户型', value: 0 }],
+						2: [{ text: '更多', value: 0 }]
+					},
+					
+					// 地图
+					city_no: 0,
+					cityCenter: '',		//	城市中心点
+					cityShow: '',		//	城市初始可视区域
+					mapEl: null,
+					zoom: 10.3,			//	初始地图缩放级别，支持3～20。
+					cityData: '',		//	城市区级数据
+					houseData: '',		//	城市楼盘数据
+					donutList: [],		//	区级覆盖物数组
+					houseList: [],		//	楼盘覆盖物数组
+					
+					// 选中展示楼盘信息
+					infoShow: false,
+					infoId: -1,			//	选中的楼盘id
+					infoList: {},		//	楼盘详情列表
+				},
+				components: {
+					topBar,
+					commonSizer
+				},
+				watch: {
+					houseData( newV ){
+						if( newV ){
+							this.initRangeData();
+						} else {
+							this.rangeData = [];
+						}
+					}
+				},
+				created() {
+					this.init();
+				},
+				mounted() {
+					
+				},
+				methods: {
+					init() {
+						// 获取tag标签
+						this.$http.publicFun();
+						
+						this.getSite();
+						
+						// 以城市为中心点 => 显示区域信息
+						this.getCity(res=>{
+							console.log(res)
+							// const lat = (res.bounds.northEast.lat + res.bounds.southWest.lat)/2;
+							// const lng = (res.bounds.northEast.lng + res.bounds.southWest.lng)/2;
+							this.city_no = res.adcode;
+							
+							// this.initMap({
+							// 	lat: lat,
+							// 	lng: lng
+							// });
+							
+							this.initMap(res);
+							
+							this.getAreaList({
+								type: 'area',
+								is_count: 1,
+								city_no: res.adcode,
+							}, res=>{
+								// console.log(res.data)
+								if( res.data && Object.keys(res.data).length > 0 ){
+									if( !this.cityData ){
+										this.cityData = res.data;
+									}
+									
+									(this.donutList.length == 0) && this.initAreaCircle();
+								}
+							})
+							
+							this.getMapList({
+								city_no: res.adcode
+							}, res=>{
+								if( res.data && res.data.length > 0 ){
+									if( !this.houseData ){
+										this.houseData = res.data;
+									}
+								}
+							})
+						})
+					},
+					// 高德地图获取城市定位
+					getCity(call) {
+						const that = this;
+						//实例化城市查询类
+						var citysearch = new AMap.CitySearch();
+						//自动获取用户IP，返回当前城市
+						citysearch.getLocalCity(function(status, result) {
+							if (status === 'complete' && result.info === 'OK') {
+								if (result && result.city && result.bounds) {
+									call && call(result);
+								}
+							} else {
+								console.log(result);
+								that.$toast('城市定位失败');
+							}
+						});
+					},
+					// 高德地图获取用户精准定位
+					getSite(call) {
+						const that = this;
+						
+						// 精准定位
+						AMap.plugin('AMap.Geolocation', function() {
+							var geolocation = new AMap.Geolocation({
+								enableHighAccuracy: true,//是否使用高精度定位，默认:true
+								timeout: 10000,          //超过10秒后停止定位，默认：5s
+							});
+		
+							geolocation.getCurrentPosition(function(status,result){
+								if(status=='complete'){
+									onComplete(result)
+								}else{
+									onError(result)
+								}
+							});
+						});
+						//解析定位结果
+						function onComplete(data) {
+							that.userPosition = data.position;
+							console.log(data,'精准定位');
+							call && call(data);
+							
+							// 为true说明正在等待用户定位
+							if( that.loading == true ){
+								that.getUserSite();
+							}
+						}
+						//解析定位错误信息
+						function onError(data) {
+							console.log(data);
+							that.$toast('定位失败');
+						}
+					},
+					initMap(res) {
+						const lat = (res.bounds.northEast.lat + res.bounds.southWest.lat)/2;
+						const lng = (res.bounds.northEast.lng + res.bounds.southWest.lng)/2;
+						const center = new TMap.LatLng(lat, lng);
+						
+						this.cityCenter = center;
+	
+						//定义map变量，调用 TMap.Map() 构造函数创建地图
+						this.mapEl = new TMap.Map(document.getElementById('container'), {
+							center: center,//设置地图中心点坐标
+							viewMode: '2D',
+							// zoom: this.zoom,   //设置地图缩放级别
+							showControl: false
+						});
+						
+						let sw = new TMap.LatLng(res.bounds.southWest.lat, res.bounds.southWest.lng);
+						let ne = new TMap.LatLng(res.bounds.northEast.lat, res.bounds.northEast.lng);
+						this.cityShow = new TMap.LatLngBounds(sw, ne);
+						
+						this.mapEl.fitBounds(this.cityShow);
+						
+						this.mapEvent();
+					},
+					mapEvent() {
+						const that = this;
+						
+						this.mapEl.on('zoom', (e)=>{
+							this.zoom = e.target.getZoom();
+							this.getBounds();
+						})
+						
+						this.mapEl.on('panend', (e)=>{
+							this.getBounds();
+						})
+					},
+					// 根据缩放/可视范围 显示相应覆盖物
+					getBounds() {
+						this.$api.debounce(()=>{
+							const zoom = this.zoom;
+			
+							if( zoom < 13.5 ){
+								this.cityData && this.initAreaCircle();
+								
+								( this.houseList.length > 0 ) && this.delHouseTip();
+							} else {
+								let data = this.mapEl.getBounds();
+								
+								this.houseData && this.addHouseTip(this.initHouseTip(data));
+								
+								(this.donutList.length > 0) && this.delAreaCircle();
+							}
+							
+							this.initRangeData();
+						},200);
+					},
+					// 添加区级圈 
+					initAreaCircle() {
+						if( !this.donutList || this.donutList.length > 0 ) return;
+
+						const data = this.cityData;
+
+						for( let i in data ){
+							const site = data[i].lnglat.split(',');
+							
+							// LatLng.lat 取值应在 [-85.051128, 85.051128] 区间内
+							// LatLng.lng 取值应在 [-180, 180] 区间内
+							if( site[1]<=85.051128 && site[1]>=-85.051128 && site[0]<=180 && site[0]>=-180 && data[i].count > 0){
+								const obj = {
+									map: this.mapEl,
+									position: new TMap.LatLng(site[1], site[0]),
+									content: data[i].cname,
+									count: data[i].count
+								}
+								
+								this.donutList.push(new Donut(obj));
+							}
+						}
+									
+						this.donutList.forEach((donut, index) => {
+							donut.on('click', (e) => {
+			
+								this.mapEl.easeTo({
+									center: donut.position,
+									zoom: 13.5
+								});
+							});
+						});
+					},
+					delAreaCircle() {
+						this.donutList.map( (item,index)=>{
+							item.destroy();
+						});
+						
+						this.donutList = [];
+					},
+					// 过滤楼盘数据
+					initHouseTip(option) {
+						let that = this;
+						const data = this.houseData;
+						const houseItem = [];
+						const houseId = [];
+						const optionSw = option._sw;
+						const optionNe = option._ne;
+
+						this.houseList.length>0 && this.houseList.map( (item,index,arr)=>{
+							let lat = item.position.lat;
+							let lng = item.position.lng;
+							
+							if( !(lat > optionSw.lat && lat < optionNe.lat && lng > optionSw.lng && lng < optionNe.lng) ){
+								item.destroy();
+								arr.splice(index,1);
+							} else {
+								houseId.push(item.id);
+							}
+						})
+	
+						data&&data.map( item=>{
+							let lat = item.lnglat.lat;
+							let lng = item.lnglat.lng;
+							
+							// LatLng.lat 取值应在 [-85.051128, 85.051128] 区间内
+							// LatLng.lng 取值应在 [-180, 180] 区间内
+							if( lat<=85.051128 && lat>=-85.051128 && lng<=180 && lng>=-180){
+								// 可视范围过滤
+								if( lat >= optionSw.lat && lat <= optionNe.lat && lng >= optionSw.lng && lng <= optionNe.lng ){
+									  const position = new TMap.LatLng(item.lnglat.lat, item.lnglat.lng);
+									  
+									  const obj = {
+									  	map: this.mapEl,
+									  	position: position,
+									  	content: item.name,
+									  	count: item.price,
+									  	id: item.id,
+										item: item
+									  }
+
+									  houseItem.push(obj);
+								}
+							}
+						})
+						
+						return {
+							houseItem: houseItem,	//	已过滤数据
+							houseId: houseId    	//	可视范围内已存在楼盘标签(减少渲染)
+						}
+					},
+					// 添加楼盘标签
+					addHouseTip({houseItem, houseId}) {
+						houseItem.map( item=>{
+							if( !houseId.includes(item.id) ){
+								this.houseList.push(new House(item));
+							}
+						})
+						
+						this.houseList.forEach((house, index, arr) => {
+							house.on('click', () => {
+								if( this.infoId != house.id ){
+									arr.map( item=>{
+										if( item.id == this.infoId ){
+											item.dom.classList.remove('house_active');
+										}
+									})
+								}
+								
+								this.infoId = house.id;
+								house.dom.classList.add('house_active');
+					
+								this.mapEl.easeTo({
+									center: house.position,
+									zoom: 17.5
+								});
+						
+								this.getInfo(house.item);
+							});
+						});
+					},
+					delHouseTip() {
+						this.houseList.map( (item,index)=>{
+							item.destroy();
+						})
+						
+						this.houseList = [];
+					},
+					// 更新可视楼盘数据
+					initRangeData() {
+						const bounds = this.mapEl.getBounds();
+						const data = this.initHouseTip(bounds).houseItem;
+						this.rangeData = [];
+						
+						if( data.length > 0 ){
+							const arr = [];
+							
+							data.map( item=>{
+								arr.push(item.item);
+							})
+						
+							this.rangeData = this.$api.createHouseList({list: arr});
+						} else {
+							this.rangeData = [];
+						}
+					},
+					// 显示可视范围楼盘
+					showRangeHouse() {
+						if( this.rangeData.length > 0 ){
+							this.rangeShow = true;
+						} else {
+							this.$toast('可视范围内没有房源喔~');
+						}
+					},
+					// 标题筛选联动
+					changeRangeChoose() {
+						const selectEl = this.$refs.sizer.$el.childNodes[0].childNodes;
+					
+						selectEl.forEach( (item, index)=>{
+							if( selectEl.length == 4 && index == 0 ) return;
+							
+							const key = selectEl.length == 4 ? index - 1 : index;
+							
+							this.$set(this.rangeOption[key][0], 'text', item.outerText);
+						})
+					},
+					rangeOpent() {
+						this.rangeSelectShow = true;
+					},
+					rangeClose() {
+						this.rangeSelectShow = false;
+					},
+					// 显示用户当前定位点击
+					getUserSite() {
+						if( !this.userPosition ){
+							this.loading = true;
+						} else {
+							const that = this;
+							const position = new TMap.LatLng(that.userPosition.lat, that.userPosition.lng);
+							
+							that.loading = false;
+							
+							//	初始化定位marker
+							if( !that.userSiteImg ){
+								that.userSiteImg = new Marker({
+									map: that.mapEl,
+									position: position,
+									style: {
+										"width": '.35rem',
+										"height": '.5rem',
+										"src": '../../static/map/site.png',
+									},
+								})
+							}
+							
+							this.mapEl.easeTo({
+								center: position,
+								zoom: 17.5
+							});
+						}
+					},
+					// 获取城市区数据
+					getAreaList(data,call) {
+						this.$http.ajax({
+							method: 'GET',
+							data: data,
+							url: '/index/city/getAreaList',
+						}).then(res => {
+							call(res);
+						})
+					},
+					// 获取城市楼盘数据
+					getMapList(data,call) {
+						this.$http.ajax({
+							method: 'GET',
+							data: data,
+							url: '/index/estates/getMapList',
+						}).then(res => {
+							call(res);
+						})
+					},
+					// 获取选中楼盘数据
+					getInfo( item ) {
+						this.infoShow = true;
+						// 防止重复请求
+						if( Object.keys(this.infoList).length > 0 && this.infoList[item.id] ) return;
+						
+						this.infoList[item.id] = this.$api.createHouseList({list:{0:item}});
+					},
+					// 返回筛选id列表
+					chooseResult(e) {
+						const obj = {};
+						let have_site = false;	//	是否有区域筛选（区域筛选情况下缩放至区域中心）
+						
+						// 将筛选数据处理成接口需要格式
+						for( let i in e ){
+							switch(i){
+								case 'site':
+									if( !e[i] ) break;
+				
+									if( typeof e[i] == 'string' ){
+										if( e[i] == 0 && !e.siteCenter.type ) break;
+										
+										if( e.siteCenter.type == 'area' ){
+											obj.area_no = e[i];
+										} else {
+											obj.subway = e[i];
+										}
+									} else {
+										if( e[i].length == 0 && !e.siteCenter.type ) break;
+										
+										if( e.siteCenter.type == 'area' ){
+											obj.area_no = e.siteCenter.pid;
+											obj.business_no = e[i];
+										} else {
+											obj.subway = e.siteCenter.pid;
+											obj.sites = e[i];
+										}
+									}
+									
+									have_site = true;
+									
+									break;
+								case 'price':
+									if( (e[i] instanceof Array) ) break;
+									
+									obj.price_type = e[i].type;
+									obj.price = e[i].val;
+									
+									break;
+								case 'type':
+									if( typeof e[i] !== 'object' || e[i][0] == 0 ) break;
+									
+									obj.rooms = e[i];
+								
+									break;
+								case 'more':
+									
+									for( let k in e[i] ){
+										if( e[i][k].length > 0 ){
+											obj[k] = e[i][k];
+										}
+									}
+								
+									break;
+							}
+						}
+						
+						// 删除自定义覆盖物
+						this.delAreaCircle();
+						this.delHouseTip();
+						
+						this.getAreaList({
+							type: 'area',
+							is_count: 1,
+							city_no: this.city_no,
+							...obj
+						}, res=>{
+							if( res.data && Object.keys(res.data).length > 0 ){
+								let count = 0;
+								this.cityData = res.data;
+								
+								for( let i in res.data ){
+									count = count + res.data[i].count;
+								}
+								
+								if( count == 0 ){
+									this.houseData = '';
+									this.$toast('该条件下搜寻不到楼盘，请试试别的条件');
+									return;
+								}
+								
+								this.getMapList({
+									city_no: this.city_no,
+									...obj
+								}, list=>{
+									if( list.data && list.data.length > 0 ){
+										this.houseData = list.data;
+										
+										if( have_site ){	//	有区域/地铁定位 --> 直接显示楼盘
+											for( let i in this.cityData ){
+												if( this.cityData[i].count > 0 ){
+													const site = this.cityData[i].lnglat.split(',');
+													this.initAreaCircle();
+									
+													this.mapEl.easeTo({
+														center: new TMap.LatLng(site[1], site[0]),
+														zoom: 13.5
+													});
+													
+													return;
+												}
+											}
+										} else {	//	无区域	-->	 可视范围不变
+											// this.mapEl.fitBounds(this.cityShow);  //  从区级开始显示
+											this.getBounds();	//	防止在可视范围内筛选不触发移动或点击导致函数不调用
+										}
+									}
+								})
+							}
+						})
+						
+						this.changeRangeChoose();
+					},
+					// 选中楼盘弹窗关闭
+					infoClose() {
+						this.houseList.map( item=>{
+							if( item.id == this.infoId ){
+								item.dom.classList.remove('house_active');
+							}
+						})
+					}
+				},
+			})
+
+		})
+</script>

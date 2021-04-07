@@ -1,0 +1,115 @@
+#my-feedback {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+#my-feedback .title {
+  font-size: 1rem;
+  color: #333;
+  white-space: nowrap;
+}
+
+#my-feedback .my-title2.title,
+#my-feedback .upload-title {
+  margin-top: 1rem;
+}
+
+#my-feedback .font-gray {
+  color: #666;
+}
+
+#my-feedback .my-ta-content {
+  margin-top: .75rem;
+  position: relative;
+}
+
+#my-feedback .my-textarea {
+  margin-bottom: 0;
+  height: 22vh;
+  max-height: 248px;
+  font-size: .875rem;
+}
+
+#my-feedback .my-num {
+  position: absolute;
+  right: .5rem;
+  bottom: 0;
+  font-size: .75rem;
+  color: #999;
+}
+
+#my-feedback .upload-title {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+
+#my-feedback .upload-title .title2 {
+  font-size: .75rem;
+}
+
+#my-feedback .my-scroll {
+  margin-top: .75rem;
+  width: 100%;
+  min-height: 28.4vw;
+  background-color: #F7F7F7;
+}
+
+#my-feedback .my-scroll-content {
+  width: 100%;
+  min-height: 28vw;
+  padding: 4vw 5vw;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#my-feedback .my-image-view {
+  margin-top: .5rem;
+  margin-right: 1rem;
+  position: relative;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+#my-feedback .my-image-view:nth-child(-n+3) {
+  margin-top: 0;
+}
+
+#my-feedback .my-image-view:nth-child(3n) {
+  margin-right: 0;
+}
+
+#my-feedback .my-scroll .image {
+  width: 20vw;
+  height: 20vw;
+  object-fit: cover;
+}
+
+#my-feedback .my-scroll .image.hasTop {
+  margin-top: .5rem;
+}
+
+#my-feedback .my-scroll .close {
+  width: 5vw;
+  height: 5vw;
+  position: absolute;
+  right: -2.5vw;
+  top: -2.5vw;
+}
+
+#my-feedback .button {
+  margin-top: .75rem;
+  width: 100%;
+  color: #D12527;
+  font-size: 1.125rem;
+  line-height: 2em;
+  text-align: center;
+  border: 1px solid #D12527;
+  border-radius: .5rem;
+  background-color: #fff;
+}
+
+#my-feedback .my-btn-success {
+  background-color: #D12527;
+  color: #fff;
+}

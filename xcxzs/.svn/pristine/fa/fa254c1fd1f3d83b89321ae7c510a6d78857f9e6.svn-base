@@ -1,0 +1,474 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>楼盘详情</title>
+    <link rel="stylesheet" type="text/css" href="../../static/css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/mui/css/mui.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/css/build/build_detail.css" />
+    <script type="text/javascript" src="../../static/js/jquery-2.0.0.min.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.min.js" ></script>
+    <!-- <script type="text/javascript" src="../../static/js/vue.min.js" ></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script type="text/javascript" src="../../static/js/vue-tap.js" ></script>
+    <script type="text/javascript" src="../../static/js/js/public.js?v=2" ></script>
+    <script type="text/javascript" src="../../static/js/jweixin-1.4.0.js" ></script>
+    <script type="text/javascript" src="../../static/js/coverViewImage.js" ></script>
+    <script type="text/javascript" src="../../mixins/qqMap.js" ></script>
+    <script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&key=7VABZ-GKERX-R5K4U-ZNGQ6-6Z5B7-BZFC7"></script>
+</head>
+<body>
+<div id="app" class="my-content" v-cloak>
+    <div class="mui-slider my-swiper">
+        <div class="mui-slider-group">
+            <div class="mui-slider-item" v-for="item in shuffleInfo">
+                <img v-cloak :src="DOMAINIMAGE+item.img" class="slide-image"/>
+            </div>
+        </div>
+        <div class="swiper_index">{{floorIndex+1}}&nbsp;/&nbsp;{{shuffleInfo.length}}</div>
+        <!-- <div class="mui-slider-indicator">
+            <div class="mui-indicator" :class="[index==0?'mui-active':'']" v-for="(item2,index) in shuffleInfo"></div>
+        </div> -->
+    </div>
+    <div id="my-view1">
+        <div class="view1-1"><div class='view1-title aui-ellipsis-1' v-cloak>{{buildingInfo.name}}</div><div class="view1-zs" v-cloak>{{buildingInfo.sales_status}}</div></div>
+        <div class="view1-2" v-tap="{methods:onCalculator}"><img src='../../static/image/icon-fangdaijisuanqi.png'/></div>
+    </div>
+    <div id='my-view2'>
+        <div class='view2-li'>
+            <div class="view2-title" v-cloak>{{buildingInfo.fold}}元/m²</div>
+            <div class='view2-tag'>参考均价</div>
+        </div>
+        <div class='view2-l'></div>
+        <div class='view2-li'>
+            <div class="view2-title" v-cloak>{{buildingInfo.commission}}<!--元--></div>
+            <div class='view2-tag'>佣金</div>
+        </div>
+        <div class='view2-l'></div>
+        <div class='view2-li'>
+            <div class="view2-title" v-cloak>{{buildingInfo.house_type}}</div>
+            <div class='view2-tag'>类型</div>
+        </div>
+    </div>
+    <div id='my-view3'>
+        <div class='view3-li'>开盘时间：<span class='view3-val' v-cloak>{{buildingInfo.kaipang_time}}</span></div>
+        <div class='view3-li'>类型：<span class='view3-val' v-cloak>{{buildingInfo.house_type_str}}</span></div>
+        <div class='view3-li'>楼层：<span class='view3-val' v-cloak>{{buildingInfo.louchen}}/{{buildingInfo.floor_height}}层</span></div>
+        <div class='view3-li'>装修：<span class='view3-val' v-cloak>{{buildingInfo.decoration}}</span></div>
+        <div class='view3-li'>建筑面积：<span class='view3-val' v-cloak>{{buildingInfo.total_construction_area}}</span></div>
+        <div class='view3-li'>产权年限：<span class='view3-val' v-cloak v-if="doorInfo[0]">{{doorInfo[0].year_number}}</span><span v-else>0</span> </div>
+        <div class='view3-li2'>
+            <span class='view3-ad'>
+                <span class="view3-label">楼盘地址：</span>
+                <span class='view3-address' v-tap="{methods:onLocation}" v-cloak>{{buildingInfo.address}}</span>
+            </span>
+            <a class="view3-dt" href="#my-view6">
+                <img src='../../static/image/icon-artical-map.png'/><div>地图</div>
+            </a>
+        </div>
+        <div class='more-house' v-tap="{methods:onHouseInfo,index:'0'}">更多房源信息</div>
+    </div>
+    <div v-if="false" id='my-view4'>
+        <div class='view4-li' v-tap="{methods:onMessage,tag:'kp'}"><img src='../../static/image/icon-artical-notice1.png'/><div>开盘通知</div></div>
+        <div class='view4-l'></div>
+        <div class='view4-li' v-tap="{methods:onMessage,tag:'jj'}"><img src='../../static/image/icon-artical-notice2.png'/><div>降价通知</div></div>
+    </div>
+    <div class="report-rules" v-tap="{methods: goToReportRulesPage}">
+        <span>报备规则</span>
+        <i class="aui-iconfont aui-icon-right"></i>
+    </div>
+    <!-- <div id="my-div9">
+        <div class="div9-content">
+            <div class="div9-li1">
+                <div class="div9-li1-1">购房返现卡</div>
+                <div class="div9-li1-2 aui-ellipsis-1">最高返￥4999（3698651人已领取）</div>
+            </div>
+            <div class="div9-li2">
+                <div class="div9-li2-tl"></div>
+                <div class="div9-li2-bl"></div>
+                <div class="div9-li2-btn">立即领取</div>
+            </div>
+        </div>
+    </div> -->
+    <div id='my-view5'>
+        <div class='my-h2'>
+            <div class='my-h2-1'>主力户型</div>
+            <div class='my-h2-2' v-tap="{methods:onModelList}">查看全部 <i class="aui-iconfont aui-icon-right"></i></div>
+        </div>
+        <div class='view5-center' @scroll="scrollHouseType">
+            <div class="house-type-pictrue">
+                <div
+                    class='view5-li'
+                    v-for="item in doorInfo"
+                    v-tap="{methods:onModelDetail,id:item.id}"
+                >
+                    <img :src='DOMAINIMAGE+item.pic' v-cloak/>
+                    <div class='view5-col1'>
+                        <div class='view5-row1' v-cloak>{{item.title}}</div>
+                        <div class='view5-row2' v-cloak>{{item.sales_status}}</div>
+                        <div class='view5-row3' v-cloak>{{item.house_type}}</div>
+                    </div>
+                    <div class='view5-col2' v-cloak>建面{{item.construction_area}}m²朝向{{item.orientation}}</div>
+                    <div class='view5-col3' v-cloak>约{{item.price_total}}</div>
+                </div>
+            </div>
+            <div v-if="doorInfoshow">
+                <p>暂无消息</p>
+            </div>
+        </div>
+    </div>
+    <div id='my-view6'>
+        <div class='my-h2'>
+            <div class='my-h2-1'>位置周边</div>
+            <div class='my-h2-2' v-tap="{methods:onHouseInfo,index:'4'}">查看全部 <i class="aui-iconfont aui-icon-right"></i></div>
+        </div>
+        <div class='view6-nav'>
+            <div class="view6-nav-li" :class="[index==locationIndex?'my-tick':'']" v-for="(item,index) in mapInfo" v-tap="{methods:onLocation,index:index}" v-cloak>
+                {{item.title}}({{item.data.length}})
+            </div>
+        </div>
+        <div id="view6-map"></div>
+        <div class='view6-list' v-if="mapInfo[locationIndex]">
+            <div class='view6-list-li' v-for="(item,index) in mapInfo[locationIndex].data" v-if="index<3">
+                <div class='view6-li-1 aui-ellipsis-1' v-cloak>{{item.title}}</div>
+                <div class='view6-li-2'><img src='../../static/image/icon-artical-map2.png'/><div v-cloak>{{item.distance}}m</div></div>
+            </div>
+            <div class='view6-btn' v-tap="{methods:onHouseInfo,index:'4'}">点开查看更多</div>
+        </div>
+    </div>
+    <div id='my-view7'>
+        <div class='my-h2'>
+            <div class='my-h2-1'>楼栋信息</div>
+        </div>
+        <div class='view7-loudong'>
+            <img :src='buildingInfo.floor_img?buildingInfo.floor_img:"/upload/static/empty.png"'/>
+            <div class='view7-floor' :style="'top:'+item.f_top+'%;left:'+item.f_left+'%;'" v-for="item in floorInfo" v-cloak>{{item.title}}</div>
+        </div>
+        <div v-if="floorInfo.length > 0" class='view7-btn' v-tap="{methods:onBuildingList}">查看详细楼栋信息</div>
+    </div>
+    <!-- <div id='my-view8'>
+        <div class='my-h2' style='border-bottom:1px solid #eee;'>
+            <div class='my-h2-1'>楼盘推荐</div>
+        </div>
+        <div class='my-lp-list' v-for="(item,index) in lpList">
+            <div class='my-lpimg' v-tap="{methods:onBuildDetail,id:item.id}">
+                <img class='my-lp-ig' :src='item.pic' v-cloak/>
+                <div class='my-huo' v-cloak><img src="../../static/image/icon-renqizhi.png"/> {{item.views_number}}</div>
+            </div>
+            <div class='my-lp-center' v-tap="{methods:onBuildDetail,id:item.id}">
+                <div class='my-lp-c1'><div class="my-c-1-1 aui-ellipsis-1" v-cloak="">{{item.name}}</div></div>
+                <div class='my-lp-c2' v-cloak>{{item.house_type}} | {{item.city}} {{item.area}}</div>
+                <div class='my-lp-c3' v-cloak>{{item.fold}}元/m²</div>
+                <div class='my-lp-c4'>
+                    <div class="my-style1" v-cloak>{{item.sales_status}}</div>
+                    <div v-cloak :class="[val=='闪电结佣'?'my-style2':'',val=='电商优惠'?'my-style3':'',val=='带看券'?'my-style4':'',val=='九房验真'?'my-style5':'']" v-for="val in item.flag">{{val}}</div>
+                </div>
+            </div>
+            <div class="my-btn">
+                <div class="ykt" v-if="item.is_status=='1'" v-cloak v-tap="{methods:onBuildingStart,tag:'2',index:index,status:'0',id:item.id}">已开通</div>
+                <div class="kt" v-else v-cloak v-tap="{methods:onBuildingStart,tag:'2',index:index,status:'1',id:item.id}">开通</div>
+            </div>
+        </div>
+    </div> -->
+    <div id="my-footer">
+        <div class="footer__operating">
+            <div class='f-img' v-tap="{methods:onBuildPoster}">
+                <div class='f-name-1'><img src="../../static/image/icon-nav-zhuanfa.png"/></div>
+                <div class='f-name-2'>转发</div>
+            </div>
+            <div class='f-name' v-tap="{methods:onIsFocus}">
+                <div class='f-name-1' v-cloak>
+                    <img src="../../static/image/icon-nav-guanzhu2.png" v-if="agentBuildingInfo.is_focus=='1'" />
+                    <img src="../../static/image/icon-nav-guanzhu.png" v-else/>
+                </div>
+                <div class='f-name-2' :class="[agentBuildingInfo.is_focus=='1'?'f-name-2-tick':'']" v-cloak>{{agentBuildingInfo.is_focus=='1'?'已开通':'开通'}}</div>
+            </div>
+        </div>
+        <!--<div class='f-btn3' v-if="agentBuildingInfo.status=='1'" v-cloak v-tap="{methods:onBuildingStart,tag:'1',index:'0',status:'0',id:getQueryString('id')}">已开通该楼盘</div>
+        <div class='f-btn1' v-else v-cloak v-tap="{methods:onBuildingStart,tag:'1',index:'0',status:'1',id:getQueryString('id')}">开通楼盘</div>-->
+        <div class='chatroom footer__button' v-tap="{methods:openChatroomPage}" :style="!authType ? btnWidth : ''">微聊</div>
+        <div class='f-btn2 footer__button' v-tap="{methods:onReport,building_id:buildingInfo.id,name:buildingInfo.name}" v-if="authType">报备客户</div>
+    </div>
+    <div class="zdy-pop" v-show="message.is_message" style="display: none;">
+        <div class="my-mask"></div>
+        <div id="my-pop">
+            <div class='pop-title' v-cloak>{{message.tag=='kp'?'开盘提醒':'降价提醒'}}<img src='../../static/image/icon-close.png' v-tap="{methods:onClose}"/></div>
+            <div class='pop-message' v-cloak>{{message.tag=='kp'?'开盘':'降价'}}前第一时间提醒您，不错失好房源</div>
+            <div class='pop-btn' v-if="message.tag=='kp'" v-tap="{methods:onNotice}">确定提醒</div>
+            <div class='pop-btn' v-if="message.tag=='jj'" v-tap="{methods:onNotice}">确定提醒</div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    Vue.config.devtools = true;
+    new Vue({
+        el: '#app',
+        mixins: [qqMapMixins],
+        data: {
+            message:{is_message: false, tag:""}, //开盘或降价通知
+            current: 0, //当前轮播图索引
+            shuffleInfo:[],  //轮播图数据
+            buildingInfo:{},    //楼盘信息
+            doorInfo:[],  //主力户型信息
+            floorInfo: [],  //楼栋信息
+            agentBuildingInfo:{},   //经纪人与楼盘对应信息
+            circularize:{},   //经纪人与楼盘通知信息
+            lpList: [], //楼盘
+            locationIndex: 0,  //选择的索引
+            mapInfo: [],  //周边位置数据
+            doorInfoshow:false,
+            floorIndex:0,
+            DOMAINIMAGE,
+            agentId: 0,
+            authType: false,
+            btnWidth: {width: '57.08%'}
+        },
+        mounted: function () {
+            this.authType = this.authStatus();
+ 
+            this.$nextTick(function () {
+                var _this=this;
+                //获取楼盘详情页数据
+                ajax('buildingAjax/getBuildingDetail',{id:getQueryString('id')},function(res){
+                    res = res.data
+                    _this.shuffleInfo=res.shuffleInfo;
+                    _this.buildingInfo=res.buildingInfo;
+                    if(res.doorInfo.length>0){
+                        _this.doorInfoshow=false
+                    }else if(res.doorInfo.length==0||!!res.doorInfo){
+                        _this.doorInfoshow=true
+                    }
+                    _this.doorInfo=res.doorInfo;
+                    _this.mapInfo=res.mapInfo;
+                    _this.floorInfo=res.floorInfo;
+                    _this.lpList=res.lpList;
+                    _this.agentBuildingInfo=res.agentBuildingInfo;
+                    _this.circularize=res.circularize;
+                    _this.agentId = res.agent_id;
+                    //初始化分享
+                    ajax('publicAjax/getShare',{},function(res2){
+                        if(!res2.data||!res2.data.appId){
+                            return
+                        }
+                        wx.config({
+                            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                            appId: res2.data.appId, // 必填，公众号的唯一标识
+                            timestamp: res2.data.timestamp, // 必填，生成签名的时间戳
+                            nonceStr: res2.data.nonceStr, // 必填，生成签名的随机串
+                            signature: res2.data.signature,// 必填，签名
+                            jsApiList: ['checkJsApi','onMenuShareTimeline','onMenuShareAppMessage'] // 必填，需要使用的JS接口列表
+                        });
+                        wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
+                            wx.onMenuShareAppMessage({
+                                title: res.buildingInfo.name, // 分享标题
+                                desc: res.buildingInfo.address, // 分享描述
+                                link: DOMAINNAME + 'agentside/pages/build/build_poster.html?id='+getQueryString('id')+'&agent_id='+res.agent_id,
+                                imgUrl: DOMAINNAME+res.buildingInfo.pic, // 分享图标
+                                success: function () {
+                                    myAddShare('3','0',getQueryString('id'));
+                                },
+                                cancel:function(){}
+                            });
+                            wx.onMenuShareTimeline({
+                                title: res.buildingInfo.name, // 分享标题
+                                desc: res.buildingInfo.address, // 分享描述
+                                link: DOMAINNAME + 'agentside/pages/build/build_poster.html?id='+getQueryString('id')+'&agent_id='+res.agent_id,
+                                imgUrl: DOMAINNAME+res.buildingInfo.pic, // 分享图标
+                                success: function () {
+                                    myAddShare('3','0',getQueryString('id'));
+                                },
+                                cancel:function(){}
+                            });
+                        });
+                    });
+                    _this.setMap();
+                });
+                // 获取轮播图列表index
+                document.querySelector('.mui-slider').addEventListener('slide', function(event) {
+                    _this.floorIndex=event.detail.slideNumber;
+                    console.log(_this.floorIndex)
+                });
+            });
+        },
+        methods:{
+            authStatus(){
+                let auth = get_auth();
+                return (auth.type == 0 || auth.type == 1) ? true : false;
+            },
+            setMap() {
+                var coordinate = this.buildingInfo.coordinate.split(",");
+                this.initMap({lat: coordinate[0], lng: coordinate[1]}, 'view6-map', {
+                    draggable: false,
+                    scrollwheel: false,
+                    disableDoubleClickZoom: true,
+                    keyboardShortcuts: false,
+                    mapTypeControl: false
+                });
+                qq.maps.event.addListener(this.map, 'click', () => {
+                    this.onHouseInfo({index: '4'})
+                });
+                this.displayMarkers({data:this.mapInfo[0].data,itemType:'bus'});
+            },
+            //开盘降价通知
+            onMessage(event){
+                var message=this.message;
+                message.is_message = true;
+                message.tag = event.tag;
+                this.message=message;
+            },
+            onClose() { //关闭遮罩层
+                var message=this.message;
+                message.is_message=false;
+                this.message=message;
+            },
+            // 周边位置切换nav
+            onLocation(options){
+                this.onHouseInfo({index: '4'})
+                // this.locationIndex=options.index;
+            },
+            onCalculator(){ //跳转房贷计算器
+                setLocation('pages/build/calculator.html');
+            },
+            onHouseInfo(options){   //跳转楼盘详情
+                var index=options.index;
+                setLocation('pages/build/house_info.html?index='+index+'&id='+getQueryString('id'));
+            },
+            onModelList(){  //跳转户型详情
+                if (this.doorInfo.length == 0) {
+                    return ;
+                }
+                // setLocation('pages/build/model_list.html?id='+getQueryString('id'));
+                if(this.floorInfo[0]&&this.floorInfo[0].id){
+                    setLocation('pages/build/building_detail.html?id='+ this.floorInfo[0].id);
+                }
+            },
+            onBuildingList(){   //跳转楼栋信息
+                setLocation('pages/build/building_list.html?id='+getQueryString('id'));
+            },
+            onBuildPoster(){    //跳转楼栋海报
+                setLocation('pages/build/build_poster.html?id='+getQueryString('id'));
+            },
+            onBuildDetail(event){
+                setLocation('pages/build/build_detail.html?id='+event.id);
+            },
+            onModelDetail(event){
+                this.openCoverView(event.event.target.src);
+                // setLocation('pages/build/model_detail.html?id='+event.id);
+            },
+            onReport(event){ //报备楼盘
+                if(!this.agentBuildingInfo || !this.agentBuildingInfo.agent_id){
+                    // mui.alert("您还没有开通该楼盘的报备，请先开通该楼盘的报备",'提示','确定',function(){ });
+                    // return
+                }
+                if(this.agentBuildingInfo.status!=1){
+                    // mui.alert("您对该楼盘的报备已被禁用",'提示','确定',function(){ });
+                    // return
+                }
+                window.sessionStorage.removeItem('client');
+                window.sessionStorage.setItem('selectBuildings', JSON.stringify([{
+                    building_id: event.building_id,
+                    name: event.name,
+                    time: '',
+                }]))
+                setLocation('pages/me/report.html');
+            },
+            openChatroomPage(){ //微聊
+                setLocation('customer.html');
+            },
+            onNotice(event){     //开盘/降价提醒
+                var _this=this;
+                var tag = this.message.tag;
+                if (tag =='kp')
+                    var notice = this.circularize.kaipan_notice == '0' ? 1 : 0;
+                else
+                    var notice = this.circularize.jianjia_notice == '0' ? 1 : 0;
+                //修改开盘/降价提醒
+                ajax('buildingAjax/updateNotice',{ id: getQueryString('id'), tag: tag, notice: notice },function(res){
+                    if(res.success){
+                        _this.onClose();
+                        var circularize = _this.circularize;
+                        if (tag == 'kp')
+                            circularize.kaipan_notice = notice;
+                        else
+                            circularize.jianjia_notice = notice;
+                        _this.circularize=circularize;
+                        mui.toast('修改成功！');
+                    }else{
+                        mui.toast('修改失败！');
+                    }
+                });
+            },
+            //楼盘开通事件
+            onBuildingStart(event){
+                var _this=this;
+                var id=event.id;
+                var status=event.status;
+                var tag=event.tag;  //1当前楼盘   2循环遍历的楼盘
+                var index=event.index;
+                if(status=="0"){
+                    mui.toast('该楼盘已开通！');
+                    return false;
+                }
+                mui.confirm('确认开通该楼盘？', '提示', ['确认', '取消'], function(e) {
+                    if (e.index == 0) {
+                        //楼盘开通事件
+                        ajax('buildingAjax/setBuildingStatus',{id:id},function(res){
+                            if(res.success){
+                                mui.toast('修改成功！');
+                                if(tag=='1'){
+                                    var agentBuildingInfo=_this.agentBuildingInfo;
+                                    agentBuildingInfo.status=status;
+                                    _this.agentBuildingInfo=agentBuildingInfo;
+                                }else{
+                                    var lpList=_this.lpList;
+                                    lpList[index].is_status=status;
+                                    _this.lpList=lpList;
+                                }
+                            }else{
+                                mui.toast('保存失败！');
+                            }
+                        });
+                    }
+                });
+            },
+            onIsFocus(){    //关注事件
+                var _this=this;
+                var is_focus=_this.agentBuildingInfo.is_focus=="1"? '0': '1';
+                //楼盘关注和取消关注事件
+                ajax('buildingAjax/setFocus',{id:getQueryString('id'),is_focus:is_focus},function(res){
+                    if(res.success){
+                        mui.toast(`${is_focus=="0"? '取消': '开通'}成功！`);
+                        var agentBuildingInfo=_this.agentBuildingInfo;
+                        agentBuildingInfo.is_focus = is_focus;
+                        if (!agentBuildingInfo.agent_id) {
+                            agentBuildingInfo.status = 1;
+                            agentBuildingInfo.agent_id = _this.agentId;
+                        }
+                        _this.agentBuildingInfo = agentBuildingInfo;
+                    }else{
+                        mui.toast('开通失败！');
+                    }
+                });
+            },
+            scrollHouseType(e) {
+                const scrollLeft = e.target.scrollLeft;
+                const viewWidth = e.target.offsetWidth;
+                const scrollWidth = e.target.children[0].offsetWidth;
+                const loc = scrollWidth - viewWidth - scrollLeft;
+                // if (loc < 50) {
+                    // to down...
+                // }
+            },
+            openCoverView(src) {
+                openViewImage({src});
+            },
+            goToReportRulesPage() {
+                setLocation(`pages/build/report_rules.html?building_id=${getQueryString('id')}`);
+            }
+        }
+    })
+</script>

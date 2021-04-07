@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>楼盘详情</title>
+		<link rel="stylesheet" href="../../common/vant/index.css"/>
+		<link rel="stylesheet" href="../../common/css/public.css"/>
+		<style>
+			
+			.wrap{
+				box-sizing: border-box;
+				padding: 0 0.32rem;
+			}
+			
+			.title{
+				font-size: 0.36rem;
+				box-sizing: border-box;
+				padding: 0 0 0.26rem;
+				padding-top: 0.3rem;
+			}
+			
+			.title-first{
+				padding-top: 0.42rem;
+			}
+			
+			.box{
+				box-sizing: border-box;
+				border-bottom: 0.01rem solid rgba(224, 224, 224, 1);
+			}
+			
+			.box:last-child{
+				border-bottom: none;
+			}
+			
+			.box-info{
+				display: flex;
+				margin-bottom: 0.3rem;
+				font-size: 0.3rem;
+				color: rgba(117, 117, 117, 1);
+			}
+			
+			.box-time{
+				display: flex;
+				font-size: 0.3rem;
+				color: rgba(117, 117, 117, 1);
+				flex-direction: column;
+			}
+			
+			.box-time-title{
+				margin-bottom: 0.3rem;
+			}
+			
+			.box-info div{
+				width: 1.21rem;
+				height: 0.42rem;
+				text-align: justify;
+				overflow: hidden;
+			}
+			
+			.box-info div:after{
+			  content: '';
+			  display: inline-block; 
+			  padding-left: 100%;
+			}
+			
+			.info-text{
+				width: 72%;
+				margin-left: 0.38rem;
+				color: rgba(11, 15, 18, 1);
+				display: flex;
+				align-items: flex-end;
+			}
+			
+			.open{
+				width: 100%;
+				font-size: 0.26rem;
+				margin-bottom: 0.3rem;
+			}
+			
+			.open-title{
+				height: 0.74rem;
+				font-size: 0.3rem;
+				color: rgba(33, 33, 33, 1);
+				background-color: rgba(245, 248, 254, 1);
+				display: flex;
+				border: 0.01rem solid rgba(235, 235, 235, 1);
+			}
+			
+			.open-text{
+				display: flex;
+				box-sizing: border-box;
+				font-size: 0.26rem;
+				border-width: 0 0.01rem 0.01rem;
+				color: rgba(117, 117, 117, 1);
+				border-color: rgba(235, 235, 235, 1);
+				border-style: solid;
+			}
+			
+			.open-text div{
+				box-sizing: border-box;
+				padding: 0.2rem;
+			}
+			
+			.open-title div,
+			.open-text div{
+				width: 50%;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				border-right: 0.01rem solid rgba(235, 235, 235, 1);
+			}
+			
+			.open-title div:last-child,
+			.open-text div:last-child{
+				border-right: none;
+			}
+			
+			.open-item{
+				display: flex;
+				flex-direction: column;
+			}
+			
+			.open-item p{
+				margin-bottom: 0.08rem;
+			}
+			
+			.talk{
+				font-size: 0.24rem;
+				color: rgba(189, 189, 189, 1);
+				box-sizing: border-box;
+				padding: 0.20rem 0.32rem;
+				background-color: rgba(246, 246, 246, 1);
+			}
+			
+			.talk-top{
+				font-weight: 500;
+				color: rgba(117, 117, 117, 1);
+				display: flex;
+				align-items: center;
+				margin-bottom: 0.1rem;
+			}
+			
+			.talk-top .iconfont{
+				color: rgba(70, 70, 70, 1);
+				font-size: 0.36rem;
+				margin-right: 0.06rem;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<div id="app" v-cloak ref="DOM">
+			<van-tabs class="tabs" v-model="active" scrollspy sticky color="rgba(254, 130, 30, 1)" @change="tabChange">
+				<van-tab v-for="(item,index) in list" :title="item.name" :key="index">
+					<div class="wrap" v-if="index < 5">
+						
+						<h4 class="title" :class="[ index == 0 ? 'title-first' : '' ]">
+							{{ item.name }}
+						</h4>
+						
+						<div class="box">
+							<template v-for="(list,key) in item.list">
+								<template v-if=" list.type == 0 ">
+									<div class="box-info" :key="key">
+										<div>{{ list.name }}</div>
+										<span>：</span>
+										<p class="info-text">
+											{{ list.list }}
+										</p>
+									</div>
+								</template>
+								<template v-else>
+									<div class="box-time" :key="key">
+										<div class="box-time-title">{{ list.name }}</div>
+										<div class="open">
+											<div class="open-title">
+												<div v-for="(name,keys) in list.nameList" :key="keys">
+													{{ name }}
+												</div>
+											</div>
+											<div class="open-text" v-for="(myItem,keys) in list.list" :key="keys">
+												<template v-if=" list.type == 1 ">
+													<div>{{ myItem.time }}</div>
+													<div class="open-item"><p v-for="(tower,num) in myItem.tower" :key="num">{{ tower }}</p></div>
+												</template>
+												<template v-else>
+													<div>{{ myItem.num }}</div>
+													<div>{{ myItem.time }}</div>
+													<div>{{ myItem.house }}</div>
+												</template>
+											</div>
+										</div>
+									</div>
+								</template>
+							</template>
+						</div>
+					</div>
+				</van-tab>
+			</van-tabs>
+			<div class="talk">
+				<div class="talk-top">
+					<span class="iconfont iconicon_anquan"></span>免责声明
+				</div>
+				<div class="talk-text">
+					楼盘信息由开发商提供，最终以政府部门登记备案为准，请谨慎核查。
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
+
+<script src="../../common/js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/rem.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/public.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/vant/index.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+<script>
+	Vue.use(vant.Lazyload);
+	 
+	
+	const app = new Vue({
+		el: '#app',
+		data: {
+			active: 0,
+			list: [
+				{
+					name: '基本信息',
+					list: [
+						{
+							type: 0,
+							name: '楼盘名称',
+							list: '世贸湖边首府'
+						},
+						{
+							type: 0,
+							name: '区域',
+							list: '厦门湖里区软件园周边'
+						},
+						{
+							type: 0,
+							name: '楼盘地址',
+							list: '湖里区观日西路127号'
+						},
+						{
+							type: 0,
+							name: '销售状态',
+							list: '在售'
+						},
+						{
+							type: 0,
+							name: '开发商',
+							list: '厦门世贸天成地产有限公司'
+						},
+						{
+							type: 0,
+							name: '交房时间',
+							list: '2020-03-12'
+						},
+						{
+							type: 0,
+							name: '售楼电话',
+							list: '0596-2263049'
+						},
+						{
+							type: 1,
+							name: '开盘时间',
+							nameList: ['开盘时间','开盘楼栋'],
+							list: [
+								{
+									time: '2020-10-12',
+									tower: ['5栋：1层-12层','12栋：1层-15层']
+								},
+								{
+									time: '2020-12-04',
+									tower: ['5栋：13层-24层','4栋：1层-15层','1-5号别墅区']
+								},
+								{
+									time: '2021-02-14',
+									tower: ['4栋：16层-24层','12栋：16层-24层']
+								}
+							]
+						}
+					]
+				},
+				{
+					name: '预售许可证',
+					list: [
+						{
+							type: 2,
+							name: '开盘时间',
+							nameList: ['预售许可证','发证时间','登记楼栋'],
+							list: [
+								{
+									num: '第20200075',
+									time: '2020-02-20',
+									house: '2#,4#,5#'
+								},
+								{
+									num: '第20200075',
+									time: '2020-02-20',
+									house: '2#,4#,5#'
+								},
+								{
+									num: '第20200075',
+									time: '2020-02-20',
+									house: '2#,4#,5#'
+								}
+							]
+						}
+					]
+				},
+				{
+					name: '建筑信息',
+					list: [
+						{
+							type: 0,
+							name: '大小户型',
+							list: '约86-120m高层复式'
+						},
+						{
+							type: 0,
+							name: '规划户数',
+							list: '1020户'
+						},
+						{
+							type: 0,
+							name: '项目类型',
+							list: '住宅、商业'
+						},
+						{
+							type: 0,
+							name: '建筑类型',
+							list: '高层(复式、平层)、商业、车位'
+						},
+						{
+							type: 0,
+							name: '总占地面积',
+							list: '54320m²'
+						},
+						{
+							type: 0,
+							name: '总建筑面积',
+							list: '159000m²'
+						},
+						{
+							type: 0,
+							name: '楼层状况',
+							list: '高层19-34F/叠拼6-8F'
+						},
+						{
+							type: 0,
+							name: '层 高',
+							list: '叠拼约5.8-6m、高层约2.9m'
+						},
+						{
+							type: 0,
+							name: '装修情况',
+							list: '叠拼约5.8-6m、高层约2.9m'
+						},
+						{
+							type: 0,
+							name: '项目进度',
+							list: '- -'
+						},
+						{
+							type: 0,
+							name: '公 摊',
+							list: '- -'
+						}
+					]
+				},
+				{
+					name: '物业参数',
+					list: [
+						{
+							type: 0,
+							name: '物业公司',
+							list: '世贸天成'
+						},
+						{
+							type: 0,
+							name: '物业类型',
+							list: '高层、商铺、车位'
+						},
+						{
+							type: 0,
+							name: '物业费',
+							list: '0.2%'
+						},
+						{
+							type: 0,
+							name: '容积率',
+							list: '2.08 (容积率越低，居民的舒适度 越高)'
+						},
+						{
+							type: 0,
+							name: '绿化率',
+							list: '≥30%（绿化率越高越好）'
+						},
+						{
+							type: 0,
+							name: '车位数',
+							list: '1200'
+						},
+						{
+							type: 0,
+							name: '车位比',
+							list: '1：0.5'
+						}
+					]
+				},
+				{
+					name: '配套信息',
+					list: [
+						{
+							type: 0,
+							name: '物业公司',
+							list: '世贸天成'
+						},
+						{
+							type: 0,
+							name: '物业类型',
+							list: '高层、商铺、车位'
+						},
+						{
+							type: 0,
+							name: '物业费',
+							list: '0.2%'
+						},
+						{
+							type: 0,
+							name: '容积率',
+							list: '2.08 (容积率越低，居民的舒适度 越高)'
+						},
+						{
+							type: 0,
+							name: '绿化率',
+							list: '≥30%（绿化率越高越好）'
+						},
+						{
+							type: 0,
+							name: '车位数',
+							list: '1200'
+						},
+						{
+							type: 0,
+							name: '车位比',
+							list: '1:0.5'
+						}
+					]
+				},
+				{
+					name: '周边位置'
+				}
+			]
+		},
+		components: {
+		
+		},
+		created() {
+		
+			// this.$nextTick(()=>{
+			// 	this.$refs.DOM.scrollTo(0,3500)
+			// })
+			
+			
+		},
+		mounted() {
+			
+		},
+		methods:{
+			tabChange(e) {
+				if( e == 5 ){
+					console.log('周边位置')
+				}
+			},
+			
+		},
+	})
+	
+</script>

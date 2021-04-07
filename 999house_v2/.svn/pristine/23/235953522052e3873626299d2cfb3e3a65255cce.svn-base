@@ -1,0 +1,37 @@
+<template>
+	<view style="background-color: #F5F5F5;">
+		<index-activity v-if="show" :id='activity_id'></index-activity>
+		<!-- <index-activity></index-activity> -->
+	</view>
+</template>
+
+<script>
+	// const app = getApp()
+	import indexActivity from '@/components/activityItem/indexActivity.vue'
+	// import { http, loginMixin } from '@/utils/http.js';
+	export default {
+		data() {
+			return {
+				show:false,
+				id:''
+			}
+		},
+		// mixins: [loginMixin],
+		components:{
+			indexActivity
+		},
+		onLoad(e) {
+			this.activity_id = e.activity_id
+			let that = this
+			//this.$api.wxLogin()
+			this.show = true
+		}
+		// methods: {
+			
+		// }
+	}
+</script>
+
+<style>
+
+</style>

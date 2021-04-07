@@ -1,0 +1,39 @@
+<!-- <van-cell is-link url="" border="{{false}}" bindtap='onSystem'>
+  <view slot="title">
+    <image class='icon' src='/image/icon-chat-notical.png'></image>
+    <view class="van-cell-text">系统通知</view>
+  </view>
+  <view slot="">
+    <van-tag color="#ff5e00" round type="danger" wx:if="{{systemNum>0}}">{{systemNum}}</van-tag>
+  </view>
+</van-cell> -->
+<view>
+  <view wx:if="{{list.length>0}}" class='card'>
+    <van-swipe-cell right-width="{{142}}" wx:for="{{list}}" wx:key="index">
+      <view class="aui-list aui-media-list" data-agent_id='{{item.agent_id}}' data-user_id='{{item.user_id}}' data-title='{{item.name}}' bindtap='linkChat'>
+        <view class="aui-list-item aui-list-item-middle">
+            <view class="aui-media-list-item-inner">
+                <view class="aui-list-item-media">
+                    <view class="aui-badge my-badge2" wx:if="{{item.unread_num>0}}">{{item.unread_num}}</view>
+                    <image src='{{item.headimgurl}}'></image>
+                </view>
+                <view class="aui-list-item-inner">
+                    <view class="aui-list-item-text">
+                      <view class="aui-list-item-title aui-font-size-14 aui-ellipsis-1">{{item.name}}</view>
+                      <view class="aui-list-item-right" wx:if="{{item.unread_content!=''}}">{{item.create_time}}</view>
+                    </view>
+                    <view class="aui-list-item-text aui-ellipsis-1 aui-margin-t-10">{{item.unread_content}}</view>
+                </view>
+            </view>
+        </view>
+      </view>
+      <view class='swipe-right' slot="right">
+        <view class='default' data-index='{{index}}' data-agent_id='{{item.agent_id}}' bindtap='read'>标为已读</view>
+        <view class='delete' data-id='{{item.id}}' data-index='{{index}}' data-agent_id='{{item.agent_id}}' bindtap='del'>删除</view>
+      </view>
+    </van-swipe-cell>
+  </view>
+  <view wx:if="{{list.length==0&&pageShow==true}}">
+    <image style="width:100%;" src="{{domain_name}}agentside/static/image/empty.png"></image>
+  </view>
+</view>

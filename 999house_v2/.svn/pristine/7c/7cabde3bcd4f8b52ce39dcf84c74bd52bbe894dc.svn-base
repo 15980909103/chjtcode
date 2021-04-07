@@ -1,0 +1,234 @@
+<?php
+namespace app\index\controller;
+
+use app\common\base\UserBaseController;
+use app\common\MyConst;
+use app\server\admin\Admin;
+use app\server\admin\ArticleTag;
+use app\server\admin\Banner;
+use app\server\admin\City;
+use app\server\admin\CityPriceLog;
+use app\server\admin\Column;
+use app\server\admin\ConsultingComments;
+use app\server\admin\InformationVideo;
+use app\server\admin\News;
+use app\server\estates\Estatesnew;
+use app\server\index\Adv;
+use app\server\marketing\CouponActivity;
+use app\server\marketing\Subject;
+use app\server\user\User;
+use app\websocket\BobingStore;
+use Swoole\Coroutine\WaitGroup;
+use think\App;
+use think\Config;
+use think\contract\Arrayable;
+use think\initializer\BootService;
+use function Co\run;
+
+class ActivityCouponController extends UserBaseController
+{
+    //获取首页数据
+     public function index(){
+        $id       = $this->request->post('activity_id');
+        $user_id  = $this->userId;
+        if( empty($id) ){
+            return $this->error('活动不能为空');
+        }
+
+        $where['status'] = 1;
+        $where['id']     = $id;
+        $field = 'gzh_qrcode,kf_qrcode,page_title,page_keywords,page_desc,name,region_no';
+        $activity_info = (new Subject())->getInfo($where,$field)['result'];
+//        $activity_info['context_rule'] = html_entity_decode($activity_info['context_rule']);
+        if(empty($activity_info)){
+            return  $this->error('参数错误');
+        }
+        $list     = (new CouponActivity())->getListByActivityId($id);
+        $new_list =[];
+        foreach ($list as $k => $v){
+             $key  = date('Y/m/d',$v['start_time']).'-'.date('Y/m/d',$v['end_time']);
+             $v['coupon_num'] = $v['coupon_surplus_num'];//优惠券剩余数量
+             $v['sum'] = $v['coupon_send_unm'];//优惠券总数量
+
+             $new_list[$key][] = $v;
+
+        }
+        //判断活动是否过期 过期显示到最后
+         foreach ($new_list as $k=> $v){
+
+            if($v[0]['end_time'] < time()){
+                $arr = $v;
+                unset($new_list[$k]);
+                $new_list[$k] = $arr;
+            }
+         }
+        $adv_flag = MyConst::COUPON_ACTIVITY;
+//        var_dump($adv_flag);return;
+        $where  = [
+            'flag'          => $adv_flag,
+            'region_no'     => $activity_info['region_no'],
+        ];
+        $adv_flag_info = (new Adv())->getFlagAdlist($where);
+        $user_info     = (new User())->getUserInfo([['id','=',$user_id]])['result'];
+        $unionid       = $user_info['unionid'];
+        $is_follw    =  (new User)->isFollwInfo($activity_info['region_no'],$unionid)['result'];
+        $is_receive_coupon  =  (new CouponActivity())->isReceiveCoupon($user_id,$id)['result']; //用户是否领取过优惠
+         $user = [];
+         if($is_receive_coupon  && $is_follw['subscribe'] ==1){
+             $user['is_receive']  = 1;
+         }else{
+             $user['is_receive']  = 0;
+         }
+        $user['user_avatar'] =  $user_info['headimgurl'];
+        $user['user_name']   =   $user_info['nickname'];
+        $result = [
+          'act_inof'    => $activity_info,
+          'adv_list'    => $adv_flag_info,
+          'coupon_list' => $new_list,
+          'user_info'   => $user,
+          'is_follw'=>$is_follw['subscribe'] ==1 ? 1:0,
+          'is_receive_coupon'=>$is_receive_coupon ? 1:0,
+        ];
+        $this->success($result);
+
+     }
+
+     public function getCouponInfo(){
+         $id           = $this->request->post('cop_id');
+         $act_id       = $this->request->post('activity_id');
+         $user_id      = $this->userId;
+         if(empty($id) || empty($act_id)){
+             return $this->error('参数错误');
+         }
+         $where['status'] = 1;
+         $where['id']     = $act_id;
+         $field = 'gzh_qrcode,kf_qrcode,context_rule,page_title,page_keywords,page_desc,name,region_no';
+         $activity_info = (new Subject())->getInfo($where,$field)['result'];
+         $activity_info['context_rule'] = html_entity_decode($activity_info['context_rule']);
+
+         $inof  = (new CouponActivity)->getCouponInfo($id);
+
+         if($inof['code'] == 0 || empty($inof['result'])){
+             return  $this->error('获取二维码失败');
+         }
+
+         $url  = "user_id={$user_id}&subject_id={$act_id}&coupon_id={$id}&store_id={$inof['result']['shop_id']}";
+         $aes_key  = MyConst::COUPON_ACTIVITY;
+         $aes_met  = 'AES-128-CBC';
+         $url      = openssl_encrypt($url,$aes_met,$aes_key,0);
+         $url      = 'code='.$url;
+         $adv_flag = MyConst::COUPON_ACTIVITY;
+         $where  = [
+             'flag'          => $adv_flag,
+             'region_no'     => $activity_info['region_no'],
+         ];
+         $adv_flag_info = (new Adv())->getFlagAdlist($where);
+         $inof  = $inof['result'];
+         unset($inof['shop_id']);
+         unset($inof['id']);
+         unset($inof['update_time']);
+         unset($inof['create_time']);
+
+         $inof['end_time'] = date('Y-m-d',$inof['end_time']);
+         $inof['start_time'] = date('Y-m-d',$inof['start_time']);
+         $inof['coupon_num'] = $inof['coupon_surplus_num'];//优惠券剩余数量
+         $inof['sum'] = $inof['coupon_send_unm'];//优惠券总数量
+
+
+         $user_info     = (new User())->getUserInfo([['id','=',$user_id]])['result'];
+         $unionid       = $user_info['unionid'];
+
+         $is_follw    =  (new User)->isFollwInfo($activity_info['region_no'],$unionid)['result'];
+
+         $is_receive_coupon  =  (new CouponActivity())->isReceiveCoupon($user_id,$id)['result']; //用户是否领取过优惠
+         $user = [];
+         if($is_receive_coupon  && $is_follw['subscribe'] ==1){
+             $is_receive  = 1;
+         }else{
+             $is_receive  = 0;
+         }
+         $user['user_avatar'] = $user_info['headimgurl'] ;
+         $user['user_name']   =  $user_info['nickname'];
+
+         if(!empty($inof['enble_contextrule'])){//是否启用独立的优惠券规则说明
+             $activity_info['context_rule'] = $inof['context_rule'];
+         }
+         $data     = [
+             'url'            => $url,
+             'activity_info'  => $activity_info,
+             'adv_list'       => $adv_flag_info,
+             'info'           => $inof,
+             'is_receive'     => $is_receive ,//用户资格
+             'is_follw'       => $is_follw['subscribe'] ==1 ? 1:0,
+             'is_receive_coupon'=> $is_receive_coupon ? 1:0
+            ];
+
+         $this->success($data);
+
+     }
+     //查询用户是否有资格
+     public function checkQualifications(){
+         $user_id         = $this->userId;
+         $activity_id  = $this->request->post('activity_id');
+         if(empty($user_id  || empty($activity_id)))
+         $where['status'] = 1;
+         $where['id']     = $activity_id;
+         $field = 'gzh_qrcode,kf_qrcode,page_title,page_keywords,page_desc,name,region_no';
+         $activity_info = (new Subject())->getInfo($where,$field)['result'];
+         $user_info     = (new User())->getUserInfo([['id','=',$user_id]])['result'];
+         $unionid       = $user_info['unionid'];
+
+         $is_follw    =  (new User)->isFollwInfo($activity_info['region_no'],$unionid)['result'];
+
+         $is_receive_coupon  =  (new CouponActivity())->isReceiveCoupon($user_id,$activity_id)['result']; //用户是否领取过优惠
+         if($is_receive_coupon  && $is_follw['subscribe'] ==1){
+             $is_receive  = 1;
+         }else{
+             $is_receive  = 0;
+         }
+         $this->success(['is_receive' => $is_receive,'is_follw'=>$is_follw['subscribe'] ==1 ? 1:0,'is_receive_coupon'=>$is_receive_coupon ? 1:0]);
+     }
+
+    /**
+     * 获取领取记录
+     */
+      public function getQualificationsRecord(){
+          $user_id           = $this->userId;
+          $activity_id       = $this->request->post('activity_id');
+          $date              = $this->request->post('date');
+          if(!empty($date)){
+              $start_time        = $date.'-1 00:00:00';
+              $end_tiem          = date('Y-m-d', strtotime("$start_time +1 month -1 day"));
+              $start_time        = strtotime($start_time);
+              $end_tiem          = strtotime($end_tiem);
+          }else{
+              $start_time        = null;
+              $end_tiem          = null;
+          }
+
+
+          $server  = new CouponActivity;
+          $list    = $server->getQualificationsRecord($user_id,$activity_id,$start_time,$end_tiem);
+          if($list['code'] ==0){
+              $this->success([]);
+          }
+
+          $start_date   = $list['result'];
+          $new_list =[];
+          foreach ($start_date as $k => &$v){
+              $key = date('Y-m',$v['write_off_time']);
+              $new_list[$key][] = $v;
+          }
+          $data['list'] = $new_list;
+
+          $field = 'gzh_qrcode,kf_qrcode,context_rule,page_title,page_keywords,page_desc,name,region_no';
+          $activity_info= (new Subject())->getInfo([
+              'status' => 1,
+              'id' => $activity_id,
+          ],$field)['result'];
+          $data['activity_info'] = $activity_info;
+          $this->success($data);
+
+     }
+
+}

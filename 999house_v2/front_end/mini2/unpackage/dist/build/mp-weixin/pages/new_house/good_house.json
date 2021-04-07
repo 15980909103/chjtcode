@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "好房推荐",
+  "usingComponents": {
+    "u-empty": "/uview-ui/components/u-empty/u-empty",
+    "common-new-house": "/components/common/template_newHouse",
+    "common-information": "/components/common/template_information"
+  }
+}

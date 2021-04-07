@@ -1,0 +1,28 @@
+<?php
+declare (strict_types = 1);
+
+namespace app\task;
+
+
+use app\common\base\DelayQueueTaskBase;
+
+class CheckProtection extends DelayQueueTaskBase
+{
+    static $i=0;
+
+    /**
+     * @param $data
+     * @param $task
+     * @return bool
+     */
+    public function run($data, $task){
+        echo PHP_EOL.'dorun'.PHP_EOL;
+
+        \Co::sleep(3);
+        self::$i++;
+        print_r(self::$i);
+        //print_r($data);
+        echo PHP_EOL.'dorun end'.PHP_EOL;
+        return true;
+    }
+}

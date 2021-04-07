@@ -1,0 +1,46 @@
+<template>
+	<view class="wrap">
+		<common-sizer @result="chooseResult" :default_data='default_data' :more-data="list"></common-sizer>
+	</view>
+</template>
+
+<script> 
+	import commonSizer from "@/components/common/commonSizer";
+	export default {
+		data() {
+			return {
+				default_data:{ },
+				list: []
+			}
+		},
+		components: {
+			commonSizer
+		},
+		onLoad(option) {
+			
+			
+			// console.log(this.list)
+			// console.log(this)
+			// console.log(this.$api)
+		},
+		onShow() {
+			
+		},
+		onHide() {
+			
+		},
+		onUnload() {
+
+		},
+		methods: {
+			chooseResult() {
+				
+			},
+		
+		}
+	}
+</script>
+
+<style lang="scss" scoped>
+	
+</style>

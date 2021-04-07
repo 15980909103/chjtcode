@@ -1,0 +1,51 @@
+<scroll-view scroll-y class='swiper-view' bindscrolltolower="scrollBottom" bindscrolltoupper="scrollTop">
+  <swiper indicator-dots indicator-color='#999999' indicator-active-color='#fff'>
+    <block wx:for="{{imgUrls}}" wx:key="index">
+      <swiper-item>
+        <view class='img-titles van-ellipsis'>{{item.title}}</view>
+        <image src="{{item.img}}" mode='aspectFill'/>
+      </swiper-item>
+    </block>
+  </swiper>
+  <scroll-view scroll-with-animation scroll-into-view="{{scrollInto}}" class="scroll-H {{scrollY ? 'fixed' : ''}}" scroll-x>
+    <block wx:for="{{channel}}" wx:key="index">
+      <view id='current{{index}}' bindtap='currentChange' data-current='{{index}}' class="scroll-view-item-H"><text class="scroll-view-text {{index == current?'channel-active':''}}">{{item.title}}</text></view>
+    </block>
+  </scroll-view>
+  <swiper current="{{current}}" class='swiper-view' circular bindchange="currentChange">
+    <block wx:for="{{channel}}" wx:key="index">
+      <swiper-item class="aui-list aui-media-list">
+        <scroll-view class="swiper-view" scroll-y="{{scrollY}}" data-index="{{index}}" data-cid="{{item.id}}" data-page="{{item.page}}" bindscrolltolower="getArticleData" bindscrolltoupper="scrollTop" upper-threshold="0">
+          <view class="{{scrollY ? 'my-top80' : ''}}"></view>
+          <block wx:for="{{list[index]}}" wx:key="idx" wx:for-index="idx" wx:for-item="val" wx:if="list.length>0">
+            <view class="aui-list-item" data-id="{{val.id}}" bindtap='onArticleDetail'>
+              <view class="aui-media-list-item-inner">
+                <view class="aui-list-item-inner aui-padded-r-10 my-content">
+                  <view class="aui-list-item-text">
+                    <view class="aui-list-item-title aui-font-size-14 aui-ellipsis-2" style='line-height:160%'>{{val.title}}</view>
+                  </view>
+                  <view class="aui-info aui-padded-b-0">
+                      <view class="aui-info-item aui-font-size-12">
+                        <!--<image src="{{domain_img+val.aimg}}" class='float-left portrait'></image>-->
+                        <image src="{{domain_name}}/upload/default/default_head.png" class='float-left portrait'></image>
+                        <view class="aui-margin-l-5 float-left">{{val.aname}} ·</view>
+                        <view class="aui-margin-l-5 float-left">{{val.area}} ·</view>
+                        <view class="aui-margin-l-5 float-left">{{val.release_time}} ·</view>
+                        <view class="aui-margin-l-5 float-left">{{val.comments_num}}评论</view>
+                      </view>
+                  </view>
+                </view>
+                <view class="aui-list-item-media">
+                    <image class='img-one' src="{{val.cover}}"></image>
+                </view>
+              </view>
+            </view>
+          </block>
+          <view wx:if="{{channel.length > 0 && channel[index].isEmpty}}">
+            <image mode='widthFix' src='../../../image/empty_img.png'></image>
+          </view>
+        </scroll-view>
+      </swiper-item>
+    </block>
+  </swiper>
+</scroll-view>

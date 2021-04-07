@@ -1,0 +1,384 @@
+<template>
+  <div class="mapmange_container">
+    <div class="mapmange_content">
+      <el-form :inline="true" :model="searchData" class="form-serch">
+
+        <el-form-item>
+          <mycity-select :city_no.sync='searchData.region_no' :unlimitedCity='true' :isMy='true' model='3' siteAreasUrl='city/siteAreas'></mycity-select>
+        </el-form-item>
+
+         <el-form-item label="选择新房" prop="forid">
+                <el-col :span="12">
+                  <span @click="changeInnerShow">
+                    <el-input style="width:100%;display:none;"  v-model="searchData.forid" placeholder="请选择新房"></el-input>
+                    <el-input style="width:100%" :disabled='true'  v-model="searchData.forname" placeholder="请选择新房"></el-input>
+                  </span>
+                </el-col>
+                <el-col :span="4" style="text-align: right;">
+                  <el-button  @click="clearInner">清空</el-button>
+                </el-col>
+            </el-form-item>
+            <estates-new :region_no='searchData.region_no' :show.sync='innerVisible' @innerFormData='innerFormData'></estates-new>
+
+        <el-form-item label="类别选择">
+          <el-cascader
+            :options="categoryList"
+            v-model="searchData.cate_id"
+            :props="{
+                     value:'id',
+                     label:'name'
+                    }"
+            :show-all-levels="false"
+          ></el-cascader>
+        </el-form-item>
+
+        <el-form-item>
+          <el-input v-model="searchData.name" placeholder="请输入文章名称" prefix-icon="el-icon-search"></el-input>
+        </el-form-item>
+        <el-form-item label="状态">
+          <el-select v-model="searchData.status" placeholder="请选择">
+            <el-option label="全部" value="-1"></el-option>
+            <el-option label="已启用" value="1"></el-option>
+            <el-option label="已禁用" value="0"></el-option>
+            <el-option label="草稿" value="2"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="时间">
+           <el-date-picker
+            style="width:100%"
+            v-model="searchTime"
+            value-format="yyyy-MM-dd" format="yyyy-MM-dd"
+            type="daterange"
+            range-separator="-"
+            start-placeholder="开始日期"
+            end-placeholder="结束日期">
+          </el-date-picker>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" icon="el-icon-search" @click="onSerch">查询</el-button>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="danger" icon="el-icon-circle-plus-outline" @click="openPage({url:'/news/videoedit' })">新增</el-button>
+        </el-form-item>
+      </el-form>
+
+      <!-- ========================================================= -->
+      <el-table :data="tableData" style="width: 100%">
+        <el-table-column prop="id" label="ID" width="80" align="center"></el-table-column>
+        <el-table-column prop="icon" label="封面图" width="150" align="center">
+          <template slot-scope="scope">
+             <img style="width:110px; height:110px;" :src="getRealImgUrl(scope.row.cover_url)"/>
+          </template>
+        </el-table-column>
+        <el-table-column prop="name" label="名称" width="190" align="center"></el-table-column>
+        <el-table-column label="统计信息" align="center">
+          <template slot-scope="scope">
+            <el-popover trigger="hover" placement="top">
+              <span>
+                <div>真实阅读数：<el-tag class="count" effect="plain" size="mini">{{(scope.row && scope.row.num_read_real)? format9999Num(scope.row.num_read_real): 0}}</el-tag></div>
+                <div>真实收藏数：<el-tag class="count" effect="plain" size="mini">{{(scope.row && scope.row.num_collect_real)? format9999Num(scope.row.num_collect_real): 0}}</el-tag></div>
+                <div>真实转发数：<el-tag class="count" effect="plain" size="mini">{{(scope.row && scope.row.num_share_real)? format9999Num(scope.row.num_share_real): 0}}</el-tag></div>
+                <div>真实点赞数：<el-tag class="count" effect="plain" size="mini">{{(scope.row && scope.row.num_thumbup_real)? format9999Num(scope.row.num_thumbup_real): 0}}</el-tag></div>
+              </span>
+              <div slot="reference" class="name-wrapper">
+                <span>
+                  <div>阅读数：<el-tag class="count" effect="plain" size="mini">{{(scope.row && scope.row.num_read)? format9999Num(scope.row.num_read): 0}}</el-tag></div>
+                  <div>收藏数：<el-tag class="count" effect="plain" size="mini">{{(scope.row && scope.row.num_collect)? format9999Num(scope.row.num_collect): 0}}</el-tag></div>
+                  <div>转发数：<el-tag class="count" effect="plain" size="mini">{{(scope.row && scope.row.num_share)? format9999Num(scope.row.num_share): 0}}</el-tag></div>
+                  <div>点赞数：<el-tag class="count" effect="plain" size="mini">{{(scope.row && scope.row.num_thumbup)? format9999Num(scope.row.num_thumbup): 0}}</el-tag></div>
+                </span>
+              </div>
+            </el-popover>
+          </template>
+        </el-table-column>
+
+
+        <el-table-column prop="create_time" label="发布时间" width="150" align="center">
+          <template slot-scope="scope">
+             {{formatDate(scope.row.create_time)}}
+          </template>
+        </el-table-column>
+
+        <el-table-column label="状态" width="80" align="center">
+          <template slot-scope="scope">
+            <el-switch @change='(val)=>{switchChange(scope.row.id,val,scope.row.p_cate_id)}' v-model="scope.row.status" :active-value="1" :inactive-value="0" ></el-switch>
+          </template>
+        </el-table-column>
+
+        <el-table-column label="状态" width="80" align="center">
+          <template slot-scope="scope">
+            <el-tag v-if      = "scope.row.status1 == 2" type="info" >草稿 </el-tag>
+            <el-tag v-if      = "scope.row.status1 == 1"  type="success" >已发布 </el-tag>
+            <el-tag v-if      = "scope.row.status1 == 0"  type="danger" >未发布 </el-tag>
+          </template>
+        </el-table-column>
+
+
+        <el-table-column label="排序" width="120" align="center">
+          <template slot-scope="scope">
+             <el-input v-model="scope.row.sort" @change="(val)=>{sortChange(scope.row.id,val,scope.row.p_cate_id)}" placeholder="越大越靠前" size="medium"></el-input>
+          </template>
+        </el-table-column>
+
+        <el-table-column label="操作"  align="center">
+          <template slot-scope="scope">
+            <el-button type="primary" size="mini" @click="openPage({url:'/news/videoedit',data:{id:scope.row.id}})">编辑</el-button>
+            <el-button type="danger" size="mini" @click="doDel(scope.row.id,scope.row.p_cate_id)">删除</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <!-- ========================================================= -->
+
+      <!-- ============分页=============== -->
+      <pagination-box :pagination="pagination" @pageChange="pageChange" ></pagination-box>
+    </div>
+  </div>
+</template>
+<script>
+var util = require("@/utils/util.js");
+import paginationBox from '@/components/common/pagination.vue';
+import MycitySelect from '@/components/common/MycitySelect.vue';
+import EstatesNew from '@/components/InnerTable/EstatesNew.vue';
+export default {
+  components: {
+      'pagination-box': paginationBox,
+      'mycity-select': MycitySelect,
+      'estates-new': EstatesNew,
+	},
+  data() {
+    return {
+      searchData: {//  搜索数据
+        cate_id:[13,'all'],
+        name: "",
+        status: "-1",//全部
+      },
+      categoryList:[],
+      searchTime:[],
+      page_loading : false,
+      innerVisible: false,
+      tableData: [],
+      // cate_id:['all','全部'],
+      pagination: {}, //分页数据
+    };
+  },
+   watch:{
+     searchTime(newVal){
+              if(newVal){
+                this.searchData.startdate = newVal[0]
+                this.searchData.enddate = newVal[1]
+              }else{
+                this.searchData.startdate = ''
+                this.searchData.enddate = ''
+              }
+        }
+  },
+  created: function(){
+    this.getCategoryList()
+    this.getList(this.searchData)
+  },
+  methods: {
+     changeInnerShow(){
+      if(!this.searchData.region_no){
+        this.$message({
+          type: 'error',
+          message: '请先选择城市'
+        });
+        return
+      }
+      this.innerVisible = true
+    },
+     innerFormData(e){
+      console.log(e)
+      this.searchData.forid = e.id
+      this.searchData.forname = e.name
+      console.log(this.searchData)
+    },
+      clearInner(){
+     
+      this.searchData.forname = '';
+      this.searchData.forid = 0;
+    },
+    getList(searchdata={}){
+      var that = this
+      if(that.page_loading){
+          return
+      }
+      that.page_loading = true
+
+      util.requests("post", {
+          url: "news/getListVoide",
+          data: searchdata
+      }).then(res => {
+          that.page_loading = false
+          if(res.code==1){
+            that.setDataArr({
+              tableData : res.data.list,
+              pagination : {
+                page : res.data.current_page,
+                pagecount : res.data.last_page,
+                pagesize : Math.ceil(res.data.total / res.data.last_page)
+              }
+            })
+          }else{
+            util.Message.error(res.msg);
+          }
+      });
+    },
+    onSerch() {
+      //console.log("查询",this.searchData);
+
+      this.getList(this.searchData)
+    },
+    //分页操作
+    pageChange: function(page) {
+      let post_data = Object.assign({},this.searchData);
+      post_data.page = page;
+      this.getList(post_data)
+    },
+
+    getCategoryList(){
+      var that = this
+
+      util.requests("post", {
+          url: "news/getCategoryListAll",
+          data:{pid:[13]}
+      }).then(res => {
+          if(res.code==1){
+            that.setDataArr({
+              categoryList : res.data,
+            })
+            let arr = new Array()
+            arr['id']   = 'all'
+            arr['name'] = "全部"
+            that.categoryList.unshift(arr);
+          }else{
+            util.Message.error(res.msg);
+          }
+      });
+    },
+    getRealImgUrl(url){
+      return this.$getRealImgUrl(url)
+    },
+    format9999Num(val){
+      if(val){
+        if(val>9999){
+          val = '9999 +'
+        }
+        return val
+      }else{
+        return 0
+      }
+    },
+    formatDate(val){
+     return util.DataFun.getFormatDate(val,2)
+    },
+
+    doDel(id,p_cate_id){
+      var that = this
+      that.$confirm('是否删除此条记录?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        if(that.page_loading){
+            return
+        }
+        that.page_loading = true
+        util.requests("post", {
+            url: "news/delVideo",
+            data: {id: id,p_cate_id:p_cate_id}
+          }).then(res => {
+            that.page_loading = false
+            if(res.code==1){
+              that.onSerch()
+              util.Message.success('操作成功');
+            }else{
+              util.Message.error(res.msg);
+            }
+        });
+      }).catch(() => {
+         //console.log('取消')
+      });
+    },
+    sortChange(id,val,p_cate_id){
+      var that = this
+      if (parseFloat(val).toString() == 'NaN') {
+        util.Message.error('排序必须是数字');
+  　　　return false;
+  　　}
+
+      if(that.page_loading){
+          return
+      }
+      that.page_loading = true
+
+      util.requests("post", {
+          url: "news/changeSortVideo",
+          data: {id: id,sort: val,p_cate_id:p_cate_id}
+        }).then(res => {
+          that.page_loading = false
+          if(res.code==1){
+            that.onSerch()
+            util.Message.success('操作成功');
+          }else{
+            util.Message.error(res.msg);
+          }
+      });
+    },
+    switchChange(id,val,p_cate_id){
+      //console.log(id,val)
+      var that = this
+      if(that.page_loading){
+          return
+      }
+      that.page_loading = true
+
+      util.requests("post", {
+          url: "news/enableVideo",
+          data: {id: id,status: val,p_cate_id:p_cate_id}
+        }).then(res => {
+          that.page_loading = false
+          if(res.code==1){
+            that.onSerch()
+            util.Message.success('操作成功');
+          }else{
+            util.Message.error(res.msg);
+          }
+      });
+    },
+
+
+    openPage: util.openPage
+  }
+};
+</script>
+<style lang="scss" scoped>
+.mapmange_container {
+  min-height: calc(100vh - 50px);
+  background: #f0f2f5;
+  padding-top: 20px;
+  .mapmange_content {
+    background: #fff;
+    min-height: calc(100vh - 90px);
+    border-radius: 2px;
+    padding: 20px 10px;
+    .form-serch {
+      text-align: right;
+      .el-input {
+        width: 300px;
+      }
+      .el-select {
+        width: 150px;
+      }
+    }
+  }
+  .count{
+    width: 50px;
+    margin-bottom: 5px;
+  }
+  .pagination {
+    margin-top: 20px;
+    text-align: right;
+  }
+}
+</style>

@@ -1,0 +1,149 @@
+//app.js
+const EventBusClass = require('./utils/eventbus')
+require('./utils/mixins/basemixin.js')
+const hostd = "http://act.999house.com"
+import {requests, getToken, getSid} from './utils/requests.js';
+App({
+  onLaunch: function () {
+   
+  },
+  globalData: {
+    userInfo: null,
+    token: "", //用于访问
+    sid: "",//用于访问
+    h5Host: hostd+"/9house/pages",
+    host: hostd+"/9house/index",
+    hostd: hostd,
+    imgHost: hostd+"/static/images/",
+    EventBusClass: EventBusClass.Int,
+    teacher_id:0, //扫码的临时分销商
+    whitePages: [
+      "pages/index/index",
+      "pages/login/index",
+    ]
+  },
+  /**
+ * /**
+ * 授权登陆
+ * 
+ * @param {*} appObj 从app.js调用时,appObj需要传this
+ * @param {*} postdata 额外的请求数据
+ */
+wxAuthLogin : function( appObj = getApp(), postdata={} ){ 
+	if(!appObj){
+		console.log('请设置appObj')
+		return
+	}
+  let that = this
+	console.log("=======授权登陆检测========");
+    var promise = new Promise((resolve, reject) => {
+			/* if (appObj.globalData.userInfo) {
+				resolve(appObj.globalData.userInfo);
+			}else{ */
+				wx.showLoading();
+				wx.login({
+					success: function (res) {
+						if(res.code){
+							var code=res.code;
+							//获取微信用户信息
+							that.authLoginForUserInfo(appObj,code, postdata).then(function(rs){
+								if(rs.code==1){
+									resolve({response:rs.data})
+									appObj.globalData.token = rs.data.token
+									appObj.globalData.sid = rs.data.sid
+									//appObj.globalData.userInfo = rs.data.userinfo.info
+								}else{
+									reject('登录授权失败');
+								}
+							})
+						}else{
+							reject('登录授权失败');
+						}
+					},
+					fail: function (res) {
+						// fail
+						reject('登录授权失败');
+					},
+					complete: function (res) {
+						// complete
+						wx.hideLoading();
+					}
+				});
+			//}
+    });
+    return promise;
+  },
+  /**
+ * 授权登陆获取微信授权用户信息,进行用户注册
+ * //根据code//授权码,获取用户信息 
+ * @param {*} appObj 
+ * @param {*} code 
+ */
+authLoginForUserInfo:function(appObj = getApp(), code, postdata={} ){
+	var url = 'public/oauthLogin'
+	if(postdata.url){
+		url = postdata.url
+		delete postdata.url
+	}
+	if(!postdata.hasOwnProperty('_$resetSid')){
+		postdata._$resetSid = 1
+	}
+    return new Promise((resolve, reject) => {
+			//////////////
+			if(!code){
+				reject('缺少code')
+				return
+			}	
+			//var url = 'public/oauthLogin'
+			wx.getSetting({
+				success: function(resp){
+					if(resp.authSetting['scope.userInfo']) {
+						wx.getUserInfo({
+              				lang: "zh_CN",
+							success: function (r) {
+								//console.log(r)
+								if(postdata._$resetSid==1){
+									//重置头部携带的token和sid
+									getToken(null)
+									getSid(null)
+								}
+								
+								requests({
+									host: appObj.globalData.host,
+									url: url,
+									data: {
+										code: code,
+										encryptedData: r.encryptedData,
+										iv: r.iv,
+										...postdata
+									},success: function (res) {
+									wx.hideLoading();
+									console.log(">>>>>>>>>授权登陆返回");
+									res=res.data
+
+									resolve(res)
+									},fail: function (e) {
+										wx.hideLoading();
+									}
+								})
+							},
+							fail:function(res){
+								reject(res)
+								//人工授权
+								showAuthLoginModal();
+							}
+						})  
+					}else{
+						reject('用户未点击授权')
+						showAuthLoginModal(); //用户信息授权
+					}
+				},
+				fail:function(resp){
+					reject(resp)
+					showAuthLoginModal(); //用户信息授权
+				}  
+			})
+      //////////////
+    })
+  }
+})

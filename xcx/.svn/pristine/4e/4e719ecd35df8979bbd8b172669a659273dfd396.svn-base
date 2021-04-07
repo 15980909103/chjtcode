@@ -1,0 +1,1015 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>我的网店</title>
+    <!-- <link rel="stylesheet" type="text/css" href="../../static/css/aui.css" /> -->
+	<link rel="stylesheet" href="../../common/vant/index.css"/>
+    <!-- <link rel="stylesheet" type="text/css" href="../../static/mui/css/mui.min.css" /> -->
+    <link rel="stylesheet" type="text/css" href="../../static/calendar/calendar-master.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="../../static/css/me/my_store.css" /> -->
+    <link rel="stylesheet" type="text/css" href="../../static/css/me/my_store_new.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/css/swiper.min.css" />
+    <style>.mui-pull-bottom-tips{display: none;}</style>
+</head>
+<body>
+<div id="app" class="my-content">
+    <div id="search" class="search">
+		<van-search v-model.lazy="searchText" placeholder="请输入搜索关键词" />
+        <!-- <div class="mui-input-row mui-search">
+            <input
+              type="search"
+              class="mui-input-clear"
+              :placeholder="inputPlaceholder"
+              v-model.lazy="searchText"
+              @keyup.enter="searchName"
+              @focus="focusInput"
+            >
+        </div> -->
+    </div>
+	<div class="tabs">
+		<div class="tab_list">
+			<div class="tab_item" :class="item.type == tab_active?'active':''" v-for="(item,index) in tab_list" :key="index" @click="tabclick(item)">
+				<img :src="imgurls(item)" />
+				{{item.name}}
+			</div>
+			<!-- <div class="tab_item">
+				<img src="../../static/image/processed.png" />
+				已处理
+			</div>
+			<div class="tab_item">
+				<img src="../../static/image/shop.png" />
+				网店
+			</div>
+			<div class="tab_item">
+				<img src="../../static/image/copyto.png" />
+				抄送
+			</div>
+			<div class="tab_item">
+				<img src="../../static/image/shop.png" />
+				我的店铺
+			</div>
+			<div class="tab_item">
+				<img src="../../static/image/attache.png" />
+				我的专员
+			</div> -->
+		</div>
+		<div class="tabs_screen">
+			<div class="screen_list">
+				<van-dropdown-menu style="width: 100%;">
+					<template v-for="(item,index) in channel" v-if="item.tabShow.indexOf(tab_active) !== -1">
+						<van-dropdown-item  
+						class="screen_item"  
+						:title="item.text" 
+						:ref="item.type"
+						@open="handler(item.incident)"
+						>
+						<!-- @open="{{item.incident}}" -->
+							<template v-if="item.text == '全部'">
+								<div class="select_box">
+									<van-checkbox-group v-model="allState" direction="horizontal" ref="checkboxGroup">
+										<div class="select_item" v-for="(ins,kes) in  statuslist" :key="kes">
+											{{ins.text}}
+											 <van-checkbox :name="ins.id" shape="square" ref="checkboxes" checked-color="#D22A2C"/>
+										</div>
+									</van-checkbox-group>
+									<div class="select_btn">
+										<div class="all_div">
+											<van-checkbox v-model="checkeall" shape="square" checked-color="#D22A2C">全部</van-checkbox>
+										</div>
+										<van-button type="info" @click="allnoshow">确定</van-button>
+									</div>
+								</div>
+							</template>
+							<template v-if="item.text == '时间'">
+								<div id="my-div2">
+									<van-calendar
+									  title="日历"
+									  :poppable="false"
+									  :min-date="minDate"
+									  :show-confirm="false"
+									  :style="{ height: '500px' }"
+									  @select="timeselect"
+									/>
+								</div>
+							</template>
+							<template v-if="item.text == '状态'&& tab_active == 4">
+								<div class="select_box">
+									<van-checkbox-group v-model="result" direction="horizontal">
+										<div class="select_item" v-for="(ins,kes) in copyto">
+											{{ins.text}}
+											 <van-checkbox :name="ins.id" shape="square" ref="checkboxes" checked-color="#D22A2C"/>
+										</div>
+									</van-checkbox-group>
+									<div class="select_btn">
+										<div class="all_div">
+											<van-checkbox v-model="checkeall" shape="square" checked-color="#D22A2C">全部</van-checkbox>
+										</div>
+										<van-button type="info">确定</van-button>
+									</div>
+								</div>
+							</template>
+							<template v-if="item.text == '排序'">
+								<van-radio-group v-model="result" checked-color="#D22A2C">
+								  <van-cell-group>
+								    <van-cell
+								      v-for="(item, index) in sortlist"
+								      clickable
+								      :key="index"
+								      :title="item.text"
+									  style="text-align: left;"
+								      @click="radiotoggle(item)"
+								    >
+								      <template #right-icon>
+								        <van-radio :name="item.value" v-model="order_by"/>
+								      </template>
+								    </van-cell>
+								  </van-cell-group>
+								</van-radio-group>
+							</template>
+							<template v-if="item.text == '店铺'">
+								<div></div>
+							</template>
+						</van-dropdown-item>
+					</template>
+				</van-dropdown-menu>
+				<!-- <div class="screen_item" v-for="(item,index) in channel" @click="item.incident" v-show="item.jurisdiction.indexOf(permission) != -1">
+					{{item.text}}
+					<van-icon name="arrow-down" />
+				</div> -->
+			</div>
+		</div>
+	</div>
+    <div id="my-div3">
+		<div class="scroll-content">
+			<div class="scroll-list">
+				<template>
+				   <!-- <div class="empty" v-show="isDisplayEmpty(item.data, item.isInit)" style="width:100%;height:auto;">
+						<img src="../../static/image/empty.png">
+					</div>
+					<div class="choose-more-box" v-show="isDisplayEmpty(item.data, item.isInit) ? false : true">
+						<button 
+							type="button" 
+							class="mui-btn" 
+							@tap="copyList"
+							data-loading-text="复制中..."
+						>
+							{{copyText}}
+						</button>
+					</div> -->
+					
+					<div 
+						v-for="(info, key) in modules"
+						:key="key"
+						:class="['input-row',info.examine_type == '-2'? 'failure': '']"
+					>
+						<input 
+							name="checkbox" 
+							type="checkbox" 
+							class="checkbox" 
+							v-if="showChooseMargin != 0"
+							@change="inputChange"
+							:id="info.id"
+						>
+						<label :class="['profile-card', info.examine_type == '-2'? 'failure': '']"
+							v-tap="{methods: navigateToRecordDetail, id: info.id}"> 
+							<template v-if="permission != 1 && permission != 8">
+								<!-- 单人 -->
+								<div class="profile-card__header">
+									<template v-if="(permission == 3 || permission == 6)">
+										<!-- 组长 -->
+										<span
+											:class="[
+												'profile-card__approve-label',
+												info.top_info=='审批'? 'font-red-color': 'font-blue-color'
+											]"
+										>
+											{{ info.top_info }}
+										</span>
+									</template>
+									<template v-else>
+										<!-- 店员/组员 -->
+									   <img
+											:src="info.customer_img"
+											class="profile-card__header-avatar"
+										>
+										<span class="profile-card__header-nikename">{{info.customer_name }}</span>
+									</template>
+									<!-- <span class="profile-card__header-timer">{{ info.update_time }}</span> -->
+								</div>
+							</template>
+							<template v-if="permission == 1 || permission == 3 || permission == 6 || permission == 8">
+								<!-- 店员/组长 -->
+								<div class="profile-card__approve">
+									<template v-if="info.top_info !== '审批'">
+										<!-- 组长审核没有左边这个人 -->
+										<div class="profile-card__approve-profile examine">
+											<template v-if="permission != 8">
+												<span class="avatar">
+													<img :src="permission == 1? info.customer_img: info.examine_img">
+													<!-- <span class="type">{{ permission == 1? info.customer_position : info.examine_position }}</span> -->
+												</span>
+												<span class="name">{{ permission == 1? info.customer_name : info.examine_name }}</span>
+											</template>
+											<template v-else>
+												<span class="avatar">
+													<img :src="info.headimgurl">
+													<span v-if="info.position" class="type">{{ info.position }}</span>
+												</span>
+												<span class="name">{{ info.nickname }}</span>
+											</template>
+											
+										</div>
+									</template>
+									<!-- <div class="profile-card__approve-profile">
+										<template v-if="permission != 8">
+												<span class="avatar">
+													<img :src="info.headimgurl">
+													<span v-if="info.position" class="type">{{ info.position }}</span>
+												</span>
+												<span class="name">{{ info.nickname }}</span>
+											</template>
+											<template v-else-if="info.examine_img && info.examine_name">
+												<span class="avatar">
+													<img :src="info.examine_img">
+													<span class="type">{{ info.examine_position }}</span> 
+												</span>
+												<span class="name">{{ info.examine_name }}</span>
+											</template>
+									</div> -->
+								</div>
+							</template>
+							<div class="profile-card__body">
+								<div class="profile-card__body-cover">
+									<img :src="info.cover" v-cloak>
+								</div>
+								<div class="profile-card__body-info">
+									<p class="info-line name">
+										<em>{{info.name}}</em>
+									</p>
+									<p class="info-line">{{info.house_type}} | {{info.city}} {{info.area}}</p>
+									<!-- <p class="info-line status">
+										<span :class="[true? 'doing': 'watting']">{{info.sales_status}}</span>
+										<span
+											v-for="(flag, flagIndex) in info.flag"
+											:key="flagIndex"
+											:class="getClass(flag)"
+										>
+											{{flag}}
+										</span>
+									</p> -->
+									<p class="info-line price">
+										<em>{{info.fold}}元/㎡</em>
+										<span class="info-line">佣金{{info.commission}}元</span>
+									</p>
+								</div>
+								<img v-if="info.examine_type == '-2'" class="failure-icon" src="../../static/image/failure-icon.png">
+								<div class="profile-card__body-status">
+									<div
+										:class="[
+											'profile-card__body-status-tip',
+											getBuildingStatusClass(info)
+										]"
+										:data-label="info.status_str"
+									>
+										{{ info.status_str }}
+									</div>
+									<div v-if="permission == 1 || permission == 8" class="profile-card__body-timer">
+										{{ info.update_time }}
+									</div>
+								</div>
+							</div>
+							<div class="profile-card__tail">
+								<p>
+									<span>已报备120天，</span>
+									请尽快联系客户带看
+								</p>
+							</div>
+						</label>
+						<van-empty v-if="modules.length == 0" image="error" description="暂无数据" />
+					</div>
+				</template>
+			</div>
+		</div>
+    </div>
+	<van-popup v-model="popupshow" position="bottom">
+		<div class="popup_btn">
+			<div class="cancel">取消</div>
+			<div class="">选择成员</div>
+			<div class="confirm">确认</div>
+		</div>
+		<div class="popup_conte">
+			<div class="popup_store">
+				当前店铺：湖里万达店
+				<span>替换</span>
+			</div>
+			<!-- <van-search v-model="searchText" placeholder="请输入搜索关键词" /> -->
+			<div>
+				<van-field v-model="searchText" label="" placeholder="搜索店员名字" />
+			</div>
+			<!-- <div class="member">
+				<div class="member_title">成员列表
+					<van-checkbox v-model="checkeall" shape="square" checked-color="#D22A2C">全选</van-checkbox>
+				</div>
+				<div class="check_list">
+					<van-checkbox-group v-model="result" checked-color="#FE821E">
+						<van-checkbox name="a">
+							<img src="../../static/image/attache_active.png" />
+							<p>测试人员</p>
+						</van-checkbox>
+						<van-checkbox name="a1">
+							<img src="../../static/image/attache_active.png" />
+							<p>测试人员1</p>
+						</van-checkbox>
+					</van-checkbox-group>
+				</div>
+			</div> -->
+			<div class="check_shop_box">
+				<div class="check_shop_title">
+					<p>共有4家店铺</p>
+					<van-checkbox v-model="checkeall" shape="square" checked-color="#D22A2C">全选</van-checkbox>
+					
+				</div>
+				<van-checkbox-group v-model="result">
+				  <van-cell-group>
+				    <van-cell
+				      v-for="(item, index) in ShopList"
+				      clickable
+				      :key="item"
+				      :title="item.text"
+				      @click="toggle(index)"
+				    >
+				      <template #right-icon>
+				        <van-checkbox :name="item.value" ref="checkboxes" />
+				      </template>
+				    </van-cell>
+				  </van-cell-group>
+				</van-checkbox-group>
+			</div>
+		</div>
+	</van-popup>
+    <div class="commit-profile" v-if="(this.permission == 0) || (this.permission == 1)">
+        <img src="../../static/image/float-baobei.png" v-tap="{methods: navigateToReport}">
+    </div>
+    <div class="copy-alert" v-show="copyInfo != ''" style="display: none" ref="copyAlert">
+       <div class="copy-wrap">
+           <div class="copy-title">复制内容</div>
+           <div class="copy-content">
+               <textarea id="input" v-model="copyInfo" readonly></textarea>
+           </div>
+           <div class="copy-btn-wrap"><span @tap="initCopy">退出</span><span @tap="copyInfoF">复制</span></div>
+       </div>
+    </div>
+</div>
+</body>
+</html>
+ <script type="text/javascript" src="../../static/js/jquery-2.0.0.min.js" ></script>
+    <!-- <script type="text/javascript" src="../../static/mui/js/mui.min.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.pullToRefresh.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.pullToRefresh.material.js" ></script> -->
+    <!-- <script type="text/javascript" src="../../static/js/vue.min.js" ></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+	<script src="../../common/vant/index.js" type="text/javascript" charset="utf-8"></script>
+    <script type="text/javascript" src="../../mixins/listenInputClear.js" ></script>
+    <script type="text/javascript" src="../../static/js/vue-tap.js" ></script>
+    <script type="text/javascript" src="../../static/js/public.js" ></script>
+    <script type="text/javascript" src="../../static/js/swiper.min.js" ></script>
+    <script type="text/javascript" src="../../static/calendar/calendar-master.js" ></script>
+	<script src="../../static/js/rem.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    Vue.config.devtools = true;
+    var isclick= true;
+    var calendar=null;
+    var is_init=true;
+    var weekTd2="";
+    var pullToRefresh=[];   //下拉加载document
+    var vm=new Vue({
+        el: '#app',
+        mixins: [listenInputClear],
+        data: {
+            searchText: '',
+			tab_active:'',
+			result:[],
+			allState:[], // 全部栏目状态选择
+            expandText:'',
+            selectMonth:"三月份",   //当前月份
+			checkeall:false,
+			minDate: new Date(2018, 0, 1),
+			popupshow:false,//店铺选择
+			order_by:'',
+			StateList:[],
+			tab_list:[],
+			// [
+			// 	{
+			// 		name:'已发起', // tab名
+			// 		imgurl:'../../static/image/pending.png', //tab图标
+			// 		incident:'getSortData', // tab点击事件
+			// 		jurisdiction:[0,1,2,3,5,6,7,8], // tabx显示权限 0-店员1-店长2-项目经理（项目组员）3-项目主管（项目组长）5-渠道专员（渠道组员）6-渠道总监（渠道组长）7-项目总监（项目负责人)8-总负责人（区域负责人）
+			// 	},
+			// 	{
+			// 		name:'已处理',
+			// 		imgurl:'../../static/image/processed.png',
+			// 		incident:'getSortData',
+			// 		jurisdiction:[0,1,2,3,5,6,7,8]
+			// 	},
+			// 	{
+			// 		name:'网店',
+			// 		imgurl:'../../static/image/shop.png',
+			// 		incident:'getSortData',
+			// 		jurisdiction:[0,1,]
+			// 	},
+			// 	{
+			// 		name:'抄送',
+			// 		imgurl:'../../static/image/copyto.png',
+			// 		incident:'getSortData',
+			// 		jurisdiction:[1,2,3,5,6,7,8]
+			// 	},
+			// 	{
+			// 		name:'我的店铺',
+			// 		imgurl:'../../static/image/shop.png',
+			// 		incident:'getSortData',
+			// 		jurisdiction:[5,6]
+			// 	},
+			// 	{
+			// 		name:'我的专员',
+			// 		imgurl:'../../static/image/attache.png',
+			// 		incident:'getSortData',
+			// 		jurisdiction:[6] 
+			// 	}
+			// ],
+            toggleData:{
+                year: '',
+                month: '',
+                day: ''
+            },   //当前选中的日期
+			value1:'1',
+			ShopList:[],
+			sortlist:[
+				{
+					value:'asc',
+					text:'正序'
+				},
+				{
+					value:'desc',
+					text:'倒序'
+				}
+			],
+			copyto:[
+				{
+					id:	0,
+					text: '未读',
+				},{
+					id:	1,
+					text: '已读',
+				}
+			],
+			nowDate:'', // 选中时间
+			statuslist:[{
+				id:	1,
+				text: '报备 ',
+			},{
+				id:	2,
+				text: '带看',
+			},{
+				id:	3,
+				text: '成交',
+			},{
+				id:	4,
+				text: '确认业绩 ',
+			},{
+				id:	5,
+				text: '开票',
+			},{
+				id:	6,
+				text: '结佣',
+			}],
+			processedlist:[{
+				id:	'examine',
+				text: '已处理',
+			},{
+				id:	'invalid',
+				text: '失效',
+			}],
+			result: [],
+            channel: [ //栏目列表
+                {
+					jurisdiction:[1,2,3,5,6,7,8], // 栏目显示权限 0-店员1-店长2-项目经理（项目组员）3-项目主管（项目组长）5-渠道专员（渠道组员）6-渠道总监（渠道组长）7-项目总监（项目负责人)8-总负责人（区域负责人）
+					tabShow:[1,2,3,4,5],
+					text:'全部', // 栏目名
+					type:'all',
+					incident:'', // 栏目点击事件
+					list:[]
+				},
+				{
+					jurisdiction:[1,2,3,5,6,7,8],
+					tabShow:[4],
+					text:'店铺',
+					type:'shop',
+					incident:'popupshows', 
+					list:[]
+				},
+				{
+					jurisdiction:[1,2,3,5,6,7,8],
+					text:'状态',
+					tabShow:[4],
+					type:'state',
+					incident:'', 
+					list:[]
+				},
+				{
+					jurisdiction:[1,2,3,5,6,7,8],
+					tabShow:[1,2,3,4,5],
+					text:'时间',
+					type:'time',
+					incident:'', 
+					list:[]
+				},
+				{
+					jurisdiction:[1,2,3,5,6,7,8],
+					tabShow:[1,2,3,4,5],
+					text:'排序',
+					type:'sort',
+					incident:'', 
+					list:[]
+				},
+            ],
+            modules: [
+				{
+					"id": "193",
+					"status_type": "2",
+					"examine_type": "1",
+					"status_str": "带看中",
+					"is_read": 0,
+					"nickname": "小施",
+					"headimgurl": "/upload/default/man_head.png",
+					"position": "店长",
+					"customer_name": "CC",
+					"customer_img": "/upload/default/man_head.png",
+					"customer_position": "客户",
+					"name": "康乐新村",
+					"cover": "/upload/building/202007150910118505.jpg",
+					"house_type": "普通住宅",
+					"city": "厦门市",
+					"area": "湖里区",
+					"sales_status": "在售",
+					"fold": "222222.00",
+					"commission": "2222.00",
+					"flag": [],
+					"update_time": "2021.01.06",
+					"isSelf": 1
+				}, {
+					"id": "175",
+					"status_type": "2",
+					"examine_type": -2,
+					"status_str": "带看中",
+					"is_read": 0,
+					"nickname": "小施",
+					"headimgurl": "/upload/default/man_head.png",
+					"position": "店长",
+					"customer_name": "已",
+					"customer_img": "/upload/default/man_head.png",
+					"customer_position": "客户",
+					"name": "康乐新村",
+					"cover": "/upload/building/202007150910118505.jpg",
+					"house_type": "普通住宅",
+					"city": "厦门市",
+					"area": "湖里区",
+					"sales_status": "在售",
+					"fold": "222222.00",
+					"commission": "2222.00",
+					"flag": [],
+					"update_time": "2020.12.31",
+					"isSelf": 1
+				}, {
+					"id": "115",
+					"status_type": "2",
+					"examine_type": -2,
+					"status_str": "带看失效",
+					"is_read": 0,
+					"nickname": "小孔",
+					"headimgurl": "/upload/default/man_head.png",
+					"position": "店员",
+					"customer_name": "孔成",
+					"customer_img": "/upload/default/man_head.png",
+					"customer_position": "客户",
+					"name": "东芳山庄",
+					"cover": "/upload/building/202007160936473313.jpg",
+					"house_type": "普通住宅",
+					"city": "厦门市",
+					"area": "思明区",
+					"sales_status": "在售",
+					"fold": "66666.00",
+					"commission": "1111.00",
+					"flag": [],
+					"update_time": "2020.08.27",
+					"isSelf": 0
+				},{
+					"id": "152",
+					"status_type": "6",
+					"examine_type": "1",
+					"status_str": "结佣中",
+					"is_read": 0,
+					"nickname": "小施",
+					"headimgurl": "/upload/default/man_head.png",
+					"position": "店长",
+					"customer_name": "嘉华",
+					"customer_img": "/upload/default/man_head.png",
+					"customer_position": "客户",
+					"name": "嘉华新园",
+					"cover": "/upload/building/202010130246068617.jpg",
+					"house_type": "",
+					"city": "龙岩市",
+					"area": "新罗区",
+					"sales_status": "在售",
+					"fold": "222.00",
+					"commission": "1.00",
+					"flag": ["闪电结佣"],
+					"update_time": "2020.10.13",
+					"isSelf": 0
+				}], //当前可用模块
+            current: 0, //当前频道
+            currentchild:'0',  //分享选中索引
+            calendar_active:false,
+            approve_active:false,
+            swiperIndex: 0,
+
+            isDisplayCalendar: true,
+            isReverseList: false,
+            owner: null,
+            permission: 1,
+            isRefresh: true, // 没有单独记录页数所以以这个标识刷新
+            listPage: 1,    //  数据页数(根据滑动判断，切换后还原为1)
+            isDisplayApproveSelected: false,
+            filterApprove: 0,
+            searchMember: [],
+            ApproveOptionsLabel: ['全部', '审批', '审核'],
+            selectType: '1',
+            isFetchSelectDate: false,
+
+            copyText: '一键复制',
+            copyStatus: false,
+            showChooseMargin: 0,
+            copyData: [],   
+            copyInfo: '',
+        },
+		computed: {
+		    inputPlaceholder() {
+		        let text = '';
+		        if (!this.storeType) {
+		            text = '客户'
+		        } else if (this.permission == 2) {
+		            text = '经纪人';
+		        } else {
+		            text = '组员';
+		        }
+		
+		        return `请输入${text}名字`;
+		    },
+		},
+		watch:{
+			tab_active(val){
+				// this.fetchListData()
+				console.log(val)
+				this.statuslist = []
+				if(val == 3){
+					this.statuslist = this.processedlist
+					console.log(2222)
+				}else{
+					console.log(2323)
+					this.statuslist = [{
+						id:	1,
+						text: '报备 ',
+					},{
+						id:	2,
+						text: '带看',
+					},{
+						id:	3,
+						text: '成交',
+					},{
+						id:	4,
+						text: '确认业绩 ',
+					},{
+						id:	5,
+						text: '开票',
+					},{
+						id:	6,
+						text: '结佣',
+					}]
+				}
+			},
+			checkeall(val){
+				this.$refs.checkboxGroup[0].toggleAll(val);
+				console.log(this.$refs)
+			}
+		},
+		mounted(){
+			this.getUserInfo();
+			this.getStoreName() 
+			this.getStoreinfo()
+			this.$nextTick(function () {
+			 //    this.getUserInfo();
+				// this.getStoreName() 
+				// this.getStoreinfo()
+				
+			    if (this.storeType == 'approve') {
+			        document.title = '我的审批';
+			    }
+			})
+		},
+		methods:{
+			// 时间格式转换
+			formatDate(date) {
+			  return `${date.getFullYear()}/${date.getMonth() + 1}/${date.getDate()}`;
+			},
+			
+			imgurls(item){
+				let url =""
+				if(item.type == 1 ||item.type == 2){
+					url = '../../static/image/tab_1.png'
+					if(this.tab_active == 1||this.tab_active == 2){
+						url = '../../static/image/tab_1_active.png'
+					}
+				}
+				if(item.type ==3){
+					url = '../../static/image/tab_2.png'
+					if(this.tab_active == 3){
+						url = '../../static/image/tab_2_active.png'
+					}
+				}
+				if(item.type == 4){
+					if(item.select == ''){
+						url = '../../static/image/tab_4.png'
+						if(this.tab_active == 4){
+							url = '../../static/image/tab_4_active.png'
+						}
+					}else if(item.select == 'create-store'){
+						url = '../../static/image/tab_3.png'
+						if(this.tab_active == 4){
+							url = '../../static/image/tab_3_active.png'
+						}
+					}else if(item.select == 'subordinate-store'){
+						url = '../../static/image/tab_5.png'
+						if(this.tab_active == 4){
+							url = '../../static/image/tab_5_active.png'
+						}
+					}
+				}
+				if(item.type == 5){
+					url = '../../static/image/tab_3.png'
+					if(this.tab_active == 5){
+						url = '../../static/image/tab_5_active.png'
+					}
+				}
+				return url
+			},
+			// 获取店铺
+			getStoreName(){
+				var _this=this;
+				ajax('agentAjax/getStoreName',{},function(res){
+			        if(res.code== '1'){
+						// console.log(res.data)
+			            _this.ShopList=res.data;
+						_this.ShopList.forEach((item,index)=>{
+							item['value'] = item.id
+							item['text'] = item.name
+						})
+			        }
+			    });
+			},
+			// 获取店铺员工
+			getStoreinfo(){
+				var _this=this;
+				let pare = {
+					store_id:'28'
+				}
+				ajax('agentAjax/bindStoreInfo',{...pare},function(res){
+			        if(res.code== '1'){
+						// console.log(res.data)
+			            
+			        }
+			    });
+			},
+			//获取 列表数据
+			fetchListData(item){
+				this.modules= []
+				if(this.tab_active == 1){
+					// 发起
+					url = 'ReportNew/getLaunch'
+					this.initiate(item)
+				}else if(this.tab_active == 2 || this.tab_active == 4){
+					//待处理/抄送
+					url = 'ReportNew/getList'
+					this.getList(item)
+					
+				}else if(this.tab_active ==3){
+					//已处理
+					url = 'ReportNew/getDealList'
+					this.getDealList(item)
+				}
+				// ajax(url, {
+				// 	list_type: this.tab_active ==
+				//         page,
+				//         page_size: 10,
+				//         nowDate: date,
+				//         name: this.searchText,
+				//         data_type: isShareList? 1: 2,
+				//         select_type: this.selectType,
+				//         is_self: this.filterApprove,
+				//         search_ids: this.searchMember,
+				//         order_by: this.isReverseList? 'asc': 'desc',
+				//         type: this.isShopLeader
+				//             ? (this.current == 0? Number(this.currentchild) + 1: this.current)
+				//             : this.modules[this.current].type
+				//     }, res => {
+				//     }
+				// )
+			},
+			getList(item){
+				let pear = {
+					list_type: this.tab_active == 2? 1:2,
+					copy_type: '', // 'create-store':'subordinate-store'
+					type: this.allState,
+					store:'',
+					agent:'',
+					is_read:'',
+					nowDate:this.nowDate,
+					order_by: this.order_by,
+					page:this.listPage,
+					page_size: 10,
+				}
+				if(item.type==4&&(item.select == '' || item.select == 'create-store')){
+					pear.copy_type = 'create-store'
+				}else if(item.select == 'subordinate-store'){
+					pear.copy_type = 'subordinate-store'
+				}
+				ajax('ReportNew/getList', { ...pear }, res => {
+						if(res.code == 1){
+							this.modules = res.data
+						}
+				    }
+				)
+			},
+			getDealList(item){
+				let pear = {
+					list_type: this.tab_active == 2? 1:2,
+					copy_type: '', // 'create-store':'subordinate-store'
+					type: this.allState,
+					store:'',
+					agent:'',
+					is_read:'',
+					nowDate:this.nowDate,
+					order_by: this.order_by,
+					page:this.listPage,
+					page_size: 10,
+				}
+				if(item.type==4&&(item.select == '' || item.select == 'create-store')){
+					pear.copy_type = 'create-store'
+				}else if(item.select == 'subordinate-store'){
+					pear.copy_type = 'subordinate-store'
+				}
+				ajax('ReportNew/getDealList', {...pear}, res => {
+						if(res.code == 1){
+							this.modules = res.data
+						}
+				    }
+				)
+			},
+			initiate(){
+				ajax('ReportNew/getLaunch', {
+					type: this.allState+'',
+					nowDate:this.nowDate,
+					order_by: this.order_by,
+					page:this.listPage,
+					page_size: 10,
+				    }, res => {
+						if(res.code == 1){
+							this.modules = res.data
+						}
+				    }
+				)
+			},
+			toggle(index) {
+				this.$refs.checkboxes[index].toggle();
+			},
+			handler(fun) {
+				if(fun){
+					this[fun]()
+				}
+			},
+			popupshows(){
+				this.popupshow = !this.popupshow
+			},
+			initPage() {
+				this.$nextTick(() => {
+				
+				    this.initCalendar();
+				})
+			},
+			// 全部状态选择
+			allnoshow(){
+				this.$refs.all[0].toggle();
+				this.fetchListData()
+			},
+			// 时间选择
+			timeselect(value){
+				console.log('time',value)
+				this.nowDate = this.formatDate(value)
+				this.$refs.time[0].toggle();
+				this.fetchListData()
+			},
+			// 排序选择
+			radiotoggle(item){
+				console.log(item)
+				this.order_by = item.value
+				this.$refs.sort[0].toggle();
+				this.fetchListData()
+			},
+			tabclick(item){
+				this.tab_active = item.type
+				this.fetchListData(item)
+			},
+			getUserInfo() {
+			    ajax('userAjax/getMeData', null, res => {
+					console.log('_auth', sessionStorage.getItem("_auth"))
+			        if (res.success) {
+						
+			            // tabbar可用模块
+			            // if (this.storeType) {
+			            //     const authMode = res._auth.auth_report_types || [];
+			            //     const channelNames = Object.keys(this.channel);
+			            //     const modules = [];
+			            //     res._auth.auth_report_types.forEach(item => {
+			            //         const key = channelNames[item - 1];
+			            //         modules.push(this.channel[key]);
+			            //     })
+			            //     this.modules = modules;
+			            // } else {
+			            //     this.modules = this.channel;
+			            // }
+						
+			            const type = res.data.userInfo.typename;
+			            const types = ['店员', '店长', '项目组员', '项目组长', '', '渠道组员', '渠道组长', '项目负责人','区域负责人'];
+			            // this.permission = types.findIndex(typeName => typeName == type);
+			            // console.log(type,this.permission)
+			            // if (this.permission < 0) {
+			            //     setLocation('index.html');
+			            //     return ;
+			            // }
+			            // this.initPage();
+			        }
+			    });
+				this.tab_list = JSON.parse(sessionStorage.getItem("_auth"))
+				this.statuslist.forEach((item,index)=>{
+					
+				})
+				this.tab_active = this.tab_list[0].type
+				this.fetchListData()
+			},
+			inputChange(){
+				
+			},
+			focusInput(){
+				
+			},
+			getBuildingStatusClass(building) {
+			    switch(building.examine_type) {
+			        case '-2': return 'gray'; // 失效
+			        case '-1': return 'red'; // 驳回
+			        case '1': return 'blue'; // 进行
+			        case '2': return 'orange'; // 完成
+			        default: return 'blue';
+			    }
+			},
+			navigateToReport() {
+			    window.sessionStorage.removeItem('client');
+			    window.sessionStorage.removeItem('selectBuildings');
+			    setLocation('pages/me/report.html');
+			},
+			isDisplayEmpty(list, isInit=false) {
+			    return !isInit && (list ==undefined || list.length == 0);
+			},
+			navigateToRecordDetail(options) {
+			    setLocation(`pages/customer/record_detail.html?id=${options.id}`);
+			},
+			initCopy(){
+			    this.copyInfo = '';
+			    this.showChooseMargin = 0;
+			    this.copyText = '一键复制'
+			    this.copyData = [];
+			    this.copyStatus = false;
+			    this.showChooseMargin = 0;
+			},
+			copyInfoF(){
+			    let input = document.getElementById("input");
+			    input.select(); // 选中文本
+			    document.execCommand("copy"); // 执行浏览器复制命令
+			    this.initCopy();
+			    this.$nextTick(()=>{
+			        mui.toast('复制成功',{ duration:'short', type:'div' });
+			    });
+			}
+		}
+	})
+</script>

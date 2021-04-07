@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>登录</title>
+		<link rel="stylesheet" href="../../common/vant/index.css"/>
+		<link rel="stylesheet" href="../../common/css/public.css"/>
+		<style>
+			.login{
+				width: 100%;
+				box-sizing: border-box;
+				padding: .32rem;
+			}
+			
+			.login-title{
+				font-size: .5rem;
+				margin-top: .2rem;
+			}
+			
+			.login-tip{
+				font-size: .3rem;
+				color: rgba(117, 117, 117, 1);
+				margin: .16rem 0 .7rem;
+			}
+			
+			.login .van-cell{
+				padding: 10px 0;
+				font-size: .3rem;
+			}
+			
+			.login .van-button--primary{
+				width: 2rem;
+				border: none;
+				font-size: .3rem;
+				color: rgba(173, 173, 173, 1);
+				text-align: center;
+			}
+			
+			.msg-btn-active{
+				color: rgba(254, 130, 30, 1) !important;
+			}
+			
+			.submit .van-button{
+				margin: .6rem 0 .4rem;
+				
+				font-size: .38rem;
+				background-color: rgba(254, 130, 30, 1);
+				border-color: rgba(254, 130, 30, 1);
+			}
+			
+			.login-text{
+				font-size: .26rem;
+				color: rgba(173, 173, 173, 1);
+			}
+			
+			.login-text span{
+				color: rgba(254, 130, 30, 1);
+			}
+			
+		</style>
+	</head>
+	<body>
+		<div id="app" v-cloak ref="DOM">
+			<div class="login">
+				<h4 class="login-title">
+					手机快捷登录
+				</h4>
+				<span class="login-tip">
+					未注册的手机号将自动创建九房账号
+				</span>
+				
+				<van-form @submit="onSubmit">
+					<van-field
+					  v-model="phone"
+					  type="tel"
+					  center
+					  clearable
+					  maxlength="11"
+					  name="phone"
+					  placeholder="请输入手机号"
+					  :rules="[{ required: true, message: '请填写手机号' }]"
+					>
+						<template #button>
+							<van-button 
+								plain 
+								size="small" 
+								type="primary"
+								native-type="button"
+								:class="[ !msgDisabled ? 'msg-btn-active' : '' ]"
+								:disabled="msgDisabled"
+								 @click="getMsg"
+							 >
+								{{ msgText }}
+							 </van-button>
+						</template>
+					</van-field>
+					
+					<van-field
+						v-model="msg"
+						type="digit"
+						center
+						clearable
+						name="msg"
+						maxlength="6"
+						placeholder="请输入验证码"
+						:rules="[{ required: true, message: '请填写验证码' }]"
+					/></van-field>
+					
+					<div class="submit">
+						<van-button block type="info" native-type="submit">登录</van-button>
+					</div>
+				</van-form>
+				<div class="login-text">
+					登录即代表您同意<span>《九房隐私协议》</span>及<span>《九房使用协议》</span>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
+
+<script src="../../common/js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/rem.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/public.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/vant/index.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+<script type="module">
+	import { http, loginMixin } from '../../common/js/method/http.js';
+	
+	Vue.use(vant.Lazyload);
+	Vue.use(http);
+	 
+	const app = new Vue({
+		el: '#app',
+		data: {
+			phone: '',
+			msg: '',
+			msgText: '获取验证码',
+			msgDisabled: false
+		},
+		components: {
+			
+		},
+		mixins: [loginMixin],
+		created() {
+			// console.log(this.$http.request())
+		},
+		mounted() {
+		
+		},
+		methods:{
+			onSubmit(values) {
+			  console.log('submit', values);
+			},
+			getMsg() {
+				this.msgDisabled = true;
+				this.msgText = 60;
+
+				setInterval(()=>{
+					if( this.msgText != 1 ){
+						this.msgText -= 1;
+					} else {
+						this.msgDisabled = false;
+						this.msgText = '获取验证码';
+					}
+				},1000)
+				
+		
+			}
+			
+		},
+	})
+	
+</script>

@@ -1,0 +1,5 @@
+.header_box{
+	height: 3.6rem;
+	position: relative;
+	
+}

@@ -1,0 +1,85 @@
+/* 地产研究院 */
+.estate{
+	width: 100%;
+	padding: 0 0.32rem;
+	box-sizing: border-box;
+}
+
+.estate-title{
+	font-size: 0.34rem;
+	font-weight: 600;
+	color: #212121;
+	margin-bottom: 0.34rem;
+}
+
+.estate-wrap{
+	width: 100%;
+	height: 2.48rem;
+	display: flex;
+	margin-bottom: 0.7rem;
+	background: #F7FCFF;
+}
+
+.estate-left{
+	width: 1.6rem;
+	height: 100%;
+	color: #fff;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	box-sizing: border-box;
+	padding-left: 0.18rem;
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+}
+
+.estate-left-title{
+	font-size: 0.28rem;
+	margin-bottom: 0.08rem;
+	font-weight: 600;
+}
+
+.estate-left-text{
+	font-size: 0.22rem;
+}
+
+.estate-right{
+	width: 5.26rem;
+	height: 100%;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.estate-item{
+	width: 50%;
+	height: 50%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	box-sizing: border-box;
+	padding: 0.10rem 0 0 0.56rem;
+}
+
+.estate-item-title{
+	font-size: 0.38rem;
+	font-weight: 600;
+	color: #212121;
+}
+
+.estate-item-title span{
+	font-size: 0.26rem;
+}
+
+.estate-item-text{
+	margin-top: 0.1rem;
+	font-size: 0.22rem;
+	color: rgba(117, 117, 117, 1);
+}
+
+.estate-percent{
+	margin-left: 0.2rem;
+}
+
+.estate-percent span{
+	font-size: 0.2rem
+}

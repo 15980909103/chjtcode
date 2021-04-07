@@ -1,0 +1,1 @@
+<view class="content"><web-view webview-styles="{{webviewStyles}}" src="{{h5Host+'/houses/hot_news.html?'+t_version+'&id='+id+'&typeId='+typeId}}"></web-view></view>

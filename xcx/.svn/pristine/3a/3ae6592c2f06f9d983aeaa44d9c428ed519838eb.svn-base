@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>店铺二维码</title>
+    <link rel="stylesheet" type="text/css" href="../../static/css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/mui/css/mui.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/css/me/erweima_store.css" />
+    <script type="text/javascript" src="../../static/js/jquery-2.0.0.min.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.min.js" ></script>
+    <script type="text/javascript" src="../../static/js/vue.min.js" ></script>
+    <script type="text/javascript" src="../../static/js/vue-tap.js" ></script>
+    <script type="text/javascript" src="../../static/js/public.js" ></script>
+    <script type="text/javascript" src="../../static/js/html2canvas.js" ></script>
+    <script type="text/javascript" src="../../static/js/canvas2image.js" ></script>
+    <script type="text/javascript" src="../../static/js/qrcode.min.js" ></script>
+    <style>
+        .mui-pull-bottom-tips{display: none;}
+    </style>
+</head>
+<body>
+<div id="app" class="my-content">
+    <div class="invite_code_box">
+        <div class="inviter">
+            <img :src="agentInfo.headimgurl">
+            <p>{{agentInfo.name||agentInfo.nickname}}邀请你加入{{storeInfo.title}}</p>
+        </div>
+        <div id="qrcode" v-cloak></div>
+        <!-- <img class="my-erweima" :src="storeInfo.qr_code" alt="暂无图片" v-cloak> -->
+    </div>
+</div>
+</body>
+</html>
+<script>
+    timeOutEvent=0;
+    new Vue({
+        el: '#app',
+        data: {
+            storeInfo:{},
+            agentInfo:{}
+        },
+        mounted: function () {
+        this.$nextTick(function () {
+            var _this=this;
+            ajax('agentAjax/getStoreQrcode',{},function(res){
+                if(res.success){
+                    _this.storeInfo=res.data;
+                    _this.agentInfo=res.agentInfo;
+
+                    new QRCode("qrcode", {
+                        text: `${DOMAINNAME}agentside/pages/me/join_store.html?store_id=${res.data.store_id}`,
+                        width: 160,
+                        height: 160,
+                        colorDark : "#000000",
+                        colorLight : "#ffffff",
+                    });
+                }else{
+                    mui.toast(res.message);
+                }
+            });
+        })
+        },
+        methods:{
+
+        }
+    });
+    function longPress(){
+        mui.confirm('保存至相册', '提示', ['确认', '取消'], function(e) {
+            if (e.index == 0) {
+                console.log(111);
+            }
+        });
+    }
+</script>

@@ -1,0 +1,14 @@
+.my-content{width: 100vw;height: 100vh;overflow: hidden;position: relative;}
+.my-img{width: 100vw;height: 100vh;border: 0;}
+.my-name{width: 100vw;height: 10vw;line-height: 10vw;position: absolute;top: 22.133333333333vw;left: 0;font-size: 6vw;font-weight: 600;text-align: center;z-index: 10;}
+.my-headimgurl{width:100vw;height:57.333333333333vw;position: absolute;top: 32.666666666667vw;left: 0;text-align: center;}
+.my-headimgurl image{width:66.666666666667vw;height:57.333333333333vw;}
+.my-info{width:66.666666666667vw;height:24.666666666667vw;position: absolute;top: 90vw;left: 16.666666666667vw;display: flex;align-items:center;}
+.my-info .view{width:44.666666666667vw;color: #3D3D3D;font-size: 4.2vw;line-height: 6vw;}
+.my-qrcode{width: 23vw;height: 23vw;position: absolute;top: -9vw;right: 0;}
+.my-qrcode image{width: 22vw;height: 22vw;z-index: 10;border-radius: 12vw;border: 1vw solid #FFF;}
+.my-qrcode view{color: #999;font-size: 3vw;text-align: center;}
+.my-signature{width: 100vw;position: absolute;top: 140vw;text-align: center;color: #FFF;font-weight: 600;}
+.my-signature view{position: relative;z-index: 20;}
+.my-signature text{background-color: #8C74E6;padding: 0 3.5vw;color:#8C74E6;position: relative;top: -3.5vw;}
+.my-canvas{width: 100vw;height: 100vh;position: absolute;top: 0;left: 0;z-index: 50;}

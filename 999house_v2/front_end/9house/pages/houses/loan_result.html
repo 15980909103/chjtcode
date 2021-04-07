@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title></title>
+		<link rel="stylesheet" href="../../common/vant/index.css"/>
+		<link rel="stylesheet" href="../../common/css/public.css"/>
+		<style>
+			.card{
+				box-sizing: border-box;
+				padding: .5rem .32rem 0;
+			}
+			
+			.van-tabs__wrap{
+				background-color: rgba(245, 245, 245, 1);
+			}
+			
+			.van-tabs__nav--card{
+				margin: 0;
+				border: none;
+				background-color: rgba(245, 245, 245, 1);
+				justify-content: space-between;
+			}
+			
+			.van-tabs--card>.van-tabs__wrap,
+			.van-tabs__nav--card{
+				height: .94rem;
+			}
+			
+			.van-tabs__nav--card .van-tab.van-tab--active{
+				background-color: rgba(254, 130, 30, 1);
+			}
+			
+			.van-tabs__nav--card .van-tab{
+				flex: none;
+				width: 3.22rem;
+				border-right: none;
+				color: rgba(33, 33, 33, 1);
+				font-size: .35rem;
+			}
+			
+			.tab  .van-tab:last-child::after{
+				content: "";
+				border-width: .98rem .4rem .94rem .4rem;
+				border-style: solid;
+				border-color: rgba(254, 130, 30, 1) transparent transparent transparent;
+				position:absolute;
+				left: 0;
+				top:0;
+				border-radius: 0;
+				transform: translate(-50%,0);
+			}
+			
+			.tab2  .van-tab:first-child::after{
+				content: "";
+				border-width: .95rem .4rem 1rem .4rem;
+				border-style: solid;
+				border-color: transparent transparent rgba(254, 130, 30, 1) transparent;
+				position:absolute;
+				right: 0;
+				bottom:0;
+				border-radius: 0;
+				transform: translate(50%,0);
+			}
+			
+			.card-wrap{
+				height: 6.4rem;
+				border-radius: 0.08rem;
+				box-shadow: 0 0.02rem 0.18rem 0 #EDEDED;
+				overflow: hidden;
+			}
+			
+			.card-content{
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+			}
+			
+			.card-title{
+				font-size: .28rem;
+				margin: .74rem 0 .2rem 0;
+			}
+			
+			.card-price{
+				font-size: .7rem;
+				margin-bottom: .54rem;
+			}
+			
+			.card-box{
+				width: 100%;
+				display: flex;
+			}
+			
+			.card-box div{
+				flex: 1;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+			}
+			
+			.card-box div span:first-child{
+				color: rgba(173, 173, 173, 1);
+				font-size: .24rem;
+			}
+			
+			.card-item{
+				font-size: .34rem;
+				margin-top: .1rem;
+			}
+			
+			.card-content .van-button{
+				width: 6.06rem;
+				height: .88rem;
+				font-size: .34rem;
+				margin-top: .7rem;
+				border-color: #e0e0e0;
+			}
+			
+			.item-title{
+				font-size: .26rem;
+				line-height: .42rem;
+				margin: .32rem 0;
+			}
+			
+			.item-title span{
+				color: rgba(254, 130, 30, 1);
+			}
+			
+			.due-box{
+				padding-bottom: 2.4rem;
+			}
+			
+			.due{
+				width: 100%;
+				height: .78rem;
+				box-sizing: border-box;
+				padding-left: .32rem;
+				display: flex;
+				align-items: center;
+				font-size: .26rem;
+			}
+			
+			.due-year{
+				width: .9rem;
+			}
+			
+			.due-item{
+				width: 1.5rem;
+			}
+			
+			.due-all{
+				width: 1.78rem;
+			}
+			
+			.due-title{
+				font-size: .3rem !important;
+				font-weight: bold;
+			}
+			
+			.due-color{
+				background-color: rgba(248, 248, 247, 1);
+			}
+			
+			.due-group{
+				flex: 1;
+			}
+			
+			.due-box2 .due-year{
+				padding-right: .2rem;
+			}
+			
+			.adviser{
+				width: 100%;
+				height: .98rem;
+				position: fixed;
+				bottom: 0;
+				background-color: #fff;
+				box-shadow: 0px -0.02rem .1rem 0px rgba(230, 230, 230, 0.5);
+				display: flex;
+			}
+			
+			.adviser-info{
+				width: 2.9rem;
+				display: flex;
+				align-items: center;
+			}
+			
+			.adviser-info img{
+				width: .7rem;
+				height: .7rem;
+				border-radius: 50%;
+				margin: 0 .16rem 0 .32rem;
+			}
+			
+			.adviser-info div{
+				display: flex;
+				flex-direction: column;
+			}
+			
+			.adviser-name{
+				font-size: .26rem;
+				font-weight: bold;
+				margin-bottom: .04rem;
+			}
+			
+			.adviser-tip{
+				font-size: .22rem;
+				color: rgba(173, 173, 173, 1);
+			}
+			
+			.adviser .van-button{
+				height: 100%;
+				width: 2.3rem;
+				border: none;
+				border-radius: 0;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<div id="app" v-cloak ref="DOM">
+			<div class="card">
+				<van-tabs type="card" v-model="active" class="card-wrap" :class="[ active == 0 ? 'tab2' : 'tab' ]">
+					<van-tab class="card-content" v-for="(item,index) in cardList" :key="index" :title="item.name">
+						
+						<span class="card-title">
+							{{ index == 0 ? '每月' : '首月' }}月供参考(元)
+						</span>
+						<h4 class="card-price">
+							{{ item.refund }}
+						</h4>
+						<div class="card-box">
+							<div>
+								<span>贷款总额(万元)</span>
+								<span class="card-item">
+									{{ item.loans }}万
+								</span>
+							</div>
+							<div>
+								<span>利息总额(万元)</span>
+								<span class="card-item">
+									{{ item.interest }}万
+								</span>
+							</div>
+							<div>
+								<span>贷款总额(万元)</span>
+								<span class="card-item">
+									{{ item.year }}年
+								</span>
+							</div>
+						</div>
+						<van-button type="default">重新计算</van-button>
+					</van-tab>
+				</van-tabs>
+				
+				<span class="item-title">
+					<span>{{ active == 0 ? '每月还款金额不变' : `每月还款金额递减${cardList[1].reduce}元` }}</span>
+					，其中还款的本金{{ active == 0 ? '不变' : '逐月递增' }}，利息逐月递减，计算结果仅供参考。
+				</span>
+			</div>
+			<div class="due-box" :class="[ type == 2 ? 'due-box2' : '' ]">
+				<div class="due due-title due-color">
+					<span class="due-year">期数</span>
+					<template  v-if="type != 2">
+						<span class="due-item">月供总额</span>
+						<span class="due-item">月供本金</span>
+						<span class="due-item">月供利息</span>
+						<span class="due-all">剩余本金</span>
+					</template>
+					<template v-else>
+						<span class="due-group">总还款金额</span>
+						<span class="due-group">商贷还款</span>
+						<span class="due-group">公积金还款</span>
+					</template>
+				</div>
+				<template v-for="(item,index) in cardList[active].list">
+					<div class="due" :class="[ index%2 == 1 ? 'due-color' : '' ]" :key="index">
+						<span class="due-year">{{ index+1 }}</span>
+						<template  v-if="type != 2">
+							<span class="due-item">{{ item.submit }}</span>
+							<span class="due-item">{{ item.principal }}</span>
+							<span class="due-item">{{ item.interest }}</span>
+							<span class="due-all">{{ item.surplus }}</span>
+						</template>
+						<template v-else>
+							<span class="due-group">{{ item.due }}</span>
+							<span class="due-group">{{ item.trade }}</span>
+							<span class="due-group">{{ item.fund }}</span>
+						</template>
+					</div>
+				</template>
+			</div>
+			<div class="adviser">
+				<div class="adviser-info">
+					<img :src="adviser.head">
+					<div>
+						<span class="adviser-name">{{ adviser.name }}</span>
+						<span class="adviser-tip">职业顾问</span>
+					</div>
+				</div>
+				<van-button type="default" color="linear-gradient(90deg, #B7C881 0%, #87B673 100%)" @click="findAdviser">在线问</van-button>
+				<a :href="'tel:' + adviser.phone">
+					<van-button type="default" color="linear-gradient(90deg, #FFA640 0%, #FE8D35 100%)">打电话</van-button>
+				</a>
+			</div>
+		</div>
+	</body>
+</html>
+
+<script src="../../common/js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/rem.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/public.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/vant/index.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+<script>
+	Vue.use(vant.Lazyload);
+	 
+	const app = new Vue({
+		el: '#app',
+		data: {
+			type: 0,
+			active: 0,
+			cardList: [
+				{
+					name: '等额本息',
+					refund: 4622.22,
+					loans: 99,
+					interest: 67.4,
+					year: 30,
+					list: [
+						{
+							submit: 8250.19,
+							principal: 2050.19,
+							interest: 6200.00,
+							surplus: 1597949.81,
+							
+							due: 8250.19,
+							trade: 2010.98,
+							fund: 2611.24
+						}
+					]
+				},
+				{
+					name: '等额本金',
+					refund: 4652.22,
+					loans: 150,
+					interest: 12.4,
+					year: 20,
+					reduce: 40.58,
+					list: [
+						{
+							submit: 9999.19,
+							principal: 2050.19,
+							interest: 6200.00,
+							surplus: 1597949.81,
+							
+							due: 8250.19,
+							trade: 2010.98,
+							fund: 2611.24
+						}
+					]
+				}
+			],
+			adviser: {
+				id: 998,
+				name: '佳佳',
+				head: '/9house/static/logo.png',
+				phone: 18850288888
+			}
+			
+		},
+		components: {
+		
+		},
+		
+		created() {
+			this.setTitle();
+			
+			const join = {
+				submit: 8250.19,
+				principal: 2050.19,
+				interest: 6200.00,
+				surplus: 1597949.81,
+				
+				due: 8250.19,
+				trade: 2010.98,
+				fund: 2611.24
+			};
+
+			for( let i=0; i<29; i++ ){
+				this.cardList[0].list.push(join);
+				this.cardList[1].list.push(join);
+			}
+		},
+		mounted() {
+			
+		},
+		methods:{
+			setTitle() {
+				const option = $api.funcUrlDel().option;
+				
+				document.title = option.title;
+				
+				this.type = option.type;
+			},
+			findAdviser() {
+				console.log(this.adviser.id)
+			}
+		},
+	})
+	
+</script>

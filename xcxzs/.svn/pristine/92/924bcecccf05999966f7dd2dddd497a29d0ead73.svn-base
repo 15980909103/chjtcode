@@ -1,0 +1,10 @@
+[2021-01-21T18:52:04+08:00][error] [1]Uncaught think\exception\ErrorException: Undefined property: app\common\lib\DelayQueue::$queueKeys in /mnt/e/project/fenxiao_v2/app/common/lib/DelayQueue.php:94
+Stack trace:
+#0 /mnt/e/project/fenxiao_v2/app/common/lib/DelayQueue.php(94): think\initializer\Error->appError()
+#1 {main}
+  thrown[/mnt/e/project/fenxiao_v2/app/common/lib/DelayQueue.php:94]
+[2021-01-21T18:52:33+08:00][error] [1]Uncaught think\exception\ErrorException: Invalid argument supplied for foreach() in /mnt/e/project/fenxiao_v2/app/common/lib/DelayQueue.php:94
+Stack trace:
+#0 /mnt/e/project/fenxiao_v2/app/common/lib/DelayQueue.php(94): think\initializer\Error->appError()
+#1 {main}
+  thrown[/mnt/e/project/fenxiao_v2/app/common/lib/DelayQueue.php:94]

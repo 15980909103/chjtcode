@@ -1,0 +1,74 @@
+/* apply alert */
+.apply_alert .van-popup{
+	width: 6.44rem;
+	height: 6.19rem;
+	background-color: #fff;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	box-sizing: border-box;
+	padding: 0 .48rem;
+}
+
+.apply_alert .van-popup__close-icon--top-right{
+	top: .3rem;
+	right: .3rem;
+	font-size: .3rem;
+	color: rgba(117, 117, 117, 1);
+}
+
+.apply_alert .van-popup h4{
+	font-size: .4rem;
+	margin: .6rem 0 .4rem;
+}
+
+.apply_alert .van-popup .van-cell{
+	height: .82rem;
+	font-size: .28rem;
+	border: 1px solid #E0E0E0;
+	margin-bottom: .3rem;
+}
+
+.apply_alert_phone{
+	padding: 10px 0 10px 16px;
+}
+
+.apply_alert_msg{
+	font-size: .28rem;
+	color: rgba(219, 30, 30, 1);
+	background-color: #fff;
+	border: none;
+}
+
+.apply_alert_project{
+	font-size: .24rem;
+	display: flex;
+	color: rgba(173, 173, 173, 1);
+}
+
+.apply_alert_project .iconfont{
+	font-size: .2rem;
+	margin-right: .23rem;
+	margin-top: .08rem;
+}
+
+.apply_alert_project  .iconnewxuanzhongduoxuan{
+	color: rgba(219, 30, 30, 1);
+}
+
+.apply_alert_project .iconweixuanzhong{
+	color: rgba(173, 173, 173, 1);
+}
+
+.apply_alert_project{
+	margin-bottom: .44rem;
+}
+
+.apply_alert_project i{
+	color: rgba(29, 33, 81, 1);
+}
+
+.apply_alert_submit{
+	width: 5.5rem;
+	height: .78rem;
+}

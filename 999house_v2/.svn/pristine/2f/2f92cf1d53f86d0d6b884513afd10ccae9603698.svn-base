@@ -1,0 +1,69 @@
+.swipe-item{
+	width: 100%;
+	height: 4.2rem;
+}
+
+.swipe-item img{
+	width: 100%;
+	height: 100%;
+}
+
+.custom-indicator{
+	position: absolute;
+	left: 50%;
+	bottom: 0.21rem;
+	color: #fff;
+	font-size: 0.2rem;
+	display: flex;
+	transform: translate(-50%,0);
+}
+
+.custom-indicator div{
+	padding: 0.08rem 0.27rem;
+	background-color: rgba(0, 0, 0, .5);
+	border-radius: 0.19rem;
+}
+
+.custom-indicator div:nth-child(2){
+	margin: 0 0.28rem;
+}
+
+.wrap{
+	padding: 0.26rem 0.32rem 0.68rem;
+	box-sizing: border-box;
+}
+
+.info-title{
+	font-size: 0.34rem;
+	margin-bottom: 0.2rem;
+}
+
+.info-box{
+	font-size: 0.3rem;
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+}
+
+.info-content{
+	width: 50%;
+	padding: 0.14rem 0;
+}
+
+.info-content span{
+	margin-right: .2rem;
+	color: rgba(117, 117, 117, 1);
+}
+
+.info-line{
+	margin: .2rem 0;
+	height: .01rem;
+	width: 100%;
+	/* background-color: rgba(235, 235, 235, 1); */
+	border-bottom: 1px solid #EBEBEB;
+}
+
+.house-title{
+	font-size: 0.3rem;
+	margin-top: 0.7rem;
+}

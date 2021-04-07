@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>楼盘海报</title>
+    <link rel="stylesheet" type="text/css" href="../../static/css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/mui/css/mui.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/css/build/build_poster.css" />
+    <script type="text/javascript" src="../../static/js/jquery-2.0.0.min.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.min.js" ></script>
+    <script type="text/javascript" src="../../static/js/vue.min.js" ></script>
+    <script type="text/javascript" src="../../static/js/vue-tap.js" ></script>
+    <script type="text/javascript" src="../../static/js/public.js" ></script>
+    <script type="text/javascript" src="../../static/js/jweixin-1.4.0.js" ></script>
+</head>
+<body>
+<div id="app" class="my-content">
+    <div class="poster-content">
+        <img class="my-bj-img" :src="buildingInfo.pic" alt="暂无图片" v-cloak/>
+        <div class="my-bj-img2 my-filter" :style="'background-image: url('+buildingInfo.pic+')'"></div>
+        <div class="my-zhuyao">
+            <div class="my-div5">
+                <img class="div5-1" :src="qrCode" v-cloak/>
+                <div class="div5-2">长按识别更多</div>
+            </div>
+            <div class="my-div4">
+                <div class="div4-1" v-cloak>{{buildingInfo.sales_status}}</div>
+                <div class="div4-2" v-cloak>{{buildingInfo.house_type}}</div>
+            </div>
+            <div class="my-div3">
+                <div class="div3-1 aui-ellipsis-1" v-cloak>{{buildingInfo.name}}</div>
+                <div class="div3-2" v-cloak>{{buildingInfo.fold}}元/m²</div>
+            </div>
+            <div class="my-div2">
+                <div v-cloak>授权开发商：{{buildingInfo.developers}}</div>
+                <div v-cloak>地址：{{buildingInfo.address}}</div>
+            </div>
+            <div class="my-div1">
+                <img class="my-div1-1" :src="agentInfo.headimgurl" />
+                <div class="my-div1-2">
+                    <div v-cloak>经纪人：{{agentInfo.name}}</div>
+                    <div v-cloak>电话：{{agentInfo.phone}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            agentInfo:{},   //经纪人信息
+            buildingInfo:{},   //楼盘信息
+            qrCode:""   //二维码
+        },
+        mounted: function () {
+        this.$nextTick(function () {
+            var _this=this;
+            //获取楼盘海报信息
+            var agent_id=getQueryString('agent_id')==null?0:getQueryString('agent_id');
+            ajax('publicAjax/getBuildPoster',{id:getQueryString('id'),agent_id:agent_id},function(res){
+                _this.agentInfo=res.agentInfo;
+                _this.buildingInfo=res.buildingInfo;
+                _this.qrCode=res.qrCode;
+                //初始化分享
+                ajax('publicAjax/getShare',{},function(res2){
+                    wx.config({
+                        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                        appId: res2.data.appId, // 必填，公众号的唯一标识
+                        timestamp: res2.data.timestamp, // 必填，生成签名的时间戳
+                        nonceStr: res2.data.nonceStr, // 必填，生成签名的随机串
+                        signature: res2.data.signature,// 必填，签名
+                        jsApiList: ['checkJsApi','onMenuShareTimeline','onMenuShareAppMessage'] // 必填，需要使用的JS接口列表
+                    });
+                    wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
+                        wx.onMenuShareAppMessage({
+                            title: res.buildingInfo.name, // 分享标题
+                            desc: res.buildingInfo.address, // 分享描述
+                            link: DOMAINNAME + 'agentside/pages/build/build_poster.html?id='+getQueryString('id')+'&agent_id='+res.agentInfo.id,
+                            imgUrl: DOMAINNAME+res.buildingInfo.pic, // 分享图标
+                            success: function () {
+                                myAddShare('3','0',getQueryString('id'));
+                            },
+                            cancel:function(){}
+                        });
+                        wx.onMenuShareTimeline({
+                            title: res.buildingInfo.name, // 分享标题
+                            desc: res.buildingInfo.address, // 分享描述
+                            link: DOMAINNAME + 'agentside/pages/build/build_poster.html?id='+getQueryString('id')+'&agent_id='+res.agentInfo.id,
+                            imgUrl: DOMAINNAME+res.buildingInfo.pic, // 分享图标
+                            success: function () {
+                                myAddShare('3','0',getQueryString('id'));
+                            },
+                            cancel:function(){}
+                        });
+                    });
+                });
+            });
+        })
+        },
+        methods:{
+
+        }
+    })
+</script>

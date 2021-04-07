@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>楼盘点评</title>
+		<link rel="stylesheet" href="../../common/vant/index.css"/>
+		<link rel="stylesheet" href="../../common/css/public.css?v=1.18"/>
+		<link rel="stylesheet" href="../../static/css/houses/comment.css"/>
+		<style>
+			
+		</style>
+	</head>
+	<body>
+		<div id="app" v-cloak ref="DOM">
+			<div class="box">
+				<div class="tip">
+					<template v-for="(item,index) in list.tip">
+						<van-tag 
+							type="primary" 
+							size="large" 
+							:color="color[index].bg"
+							:text-color="color[index].color"
+							:key="index"
+							@click="changeTag(index)"
+						>
+							{{ item.name }}
+						</van-tag>
+					</template>
+				</div>
+				<houses-comment v-if='showComment' :list="list.list" :type="type" :time="true"></houses-comment>
+			</div>
+			
+			<div class="btn">
+				<van-button type="default"  color="rgba(254, 130, 30, 1)" @click="goComment">点评楼盘 分享心得</van-button>
+			</div>
+			<div id="container-user-site"></div>
+		</div>
+	</body>
+</html>
+
+<script src="../../common/js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/rem.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/public.js?v=1.18" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/vant/index.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/wxsdk.js.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=53da8183ca23918f2f81c79a5b2ede15&plugin=AMap.Geocoder"></script>
+<script type="module">
+	import { http, loginMixin } from '../../common/js/method/http.js?v=1.18';
+	
+	Vue.use(http);
+
+	const myComponents = [
+		'../../components/houses/template_comment/index',
+	];
+	
+	
+	$api.addComponents(myComponents)
+		.then(()=>{
+			Vue.use(vant.Lazyload);
+			 
+			const app = new Vue({
+				el: '#app',
+				data: {
+					showComment: false,
+					estate_id: 0,
+					color: [],
+					type: 0,
+					list: {
+						tip: [
+							{
+								type: 0,
+								name: '全部评论'
+							},
+							{
+								type: 2,
+								name: '有图'
+							},
+							// {
+							// 	type: 3,
+							// 	name: '实看用户'
+							// }
+						],
+						// type: 0-所有 1-有图，2-实看
+						list: [
+							// {
+							// 	type: [0],
+							// 	head: '../../static/logo.png',
+							// 	name: '海的声音',
+							// 	say: '去看了样板房，89平的4房户型很好，简直了！',
+							// 	img: [],
+							// 	time: '2020年8月12日'
+							// },
+						]
+					}
+				},
+				components: {
+					housesComment
+				},
+				mixins: [loginMixin],
+				created() {
+					this.estate_id = $api.funcUrlDel().option.id;
+					this.initColor();
+					// this.$nextTick(()=>{
+					// 	this.$refs.DOM.scrollTo(0,3500)
+					// })
+					
+					this.getTalk(1);
+				},
+				mounted() {
+					
+				},
+				methods:{
+					initColor() {
+						let arr = [];
+						
+						this.list.tip.map( (item,index)=>{
+							if( index == 0 ){
+								arr.push({
+									bg: 'rgba(240, 255, 236, 1)',
+									color: 'rgba(121, 183, 107, 1)'
+								})
+							} else {
+								arr.push({
+									bg: 'rgba(247, 247, 247, 1)',
+									color: 'rgba(117, 117, 117, 1)'
+								})
+							}
+						})
+						
+						this.color = [...arr];
+					},
+					changeTag(index) {
+						if( this.color[index].bg == 'rgba(247, 247, 247, 1)' ){
+							
+							this.color.map( (item,num)=>{
+								if( item.bg == 'rgba(240, 255, 236, 1)' ){
+									this.$set(this.color,num,{
+										bg: 'rgba(247, 247, 247, 1)',
+										color: 'rgba(117, 117, 117, 1)'
+									});
+								}
+							});
+							
+							this.$set(this.color,index,{
+								bg: 'rgba(240, 255, 236, 1)',
+								color: 'rgba(121, 183, 107, 1)'
+							});
+							
+							this.type = this.list.tip[index].type;
+							this.getTalk(1)
+						}
+					},
+					// 楼盘评论
+					getTalk(reset = 1) {
+						let id = this.estate_id;
+						let is_img = this.type //1没有图片 2有图片的评论 如果不传或者传 0就是说明全部的
+	
+						let data = { };
+						if(reset==1){
+							data = {
+								id: id,
+								page: 1,
+								pageSize: 100,
+								is_img: is_img,
+							}
+						}
+
+						this.$http.ajax({
+							method: 'GET',
+							url: '/index/comment/propertyReviewsList',
+							data: data,
+						}).then( res=>{
+							let data = res.data.list?res.data.list:[];
+							const newData = [];
+							// console.log(data);
+							
+							data.map(item=>{
+								const obj = {};
+								obj.id = item.id;
+								obj.head = this.$http.testUrl(item.user_avatar);
+								obj.name = item.user_name;
+								obj.say = item.content;
+								obj.time = this.$api.timeFormat(item.create_time,'yyyy年mm月dd日');
+								obj.img = item.img;
+								
+								newData.push(obj);
+							})
+							
+							this.$set(this.list, 'list',  newData);
+							this.showComment = true;
+						}).catch(()=>{
+							this.showComment = true;
+						})
+					},
+					goComment() {
+						if( !this.$http.isLogin()){
+							this.$http.hrefMobileLogin();
+							return;
+						}
+						this.$api.goPage('houses/send_comment.html',{ id: this.estate_id })
+					}
+				},
+			})
+			
+			
+			
+		})
+	
+</script>

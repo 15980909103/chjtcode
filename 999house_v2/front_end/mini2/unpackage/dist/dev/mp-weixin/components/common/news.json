@@ -1,0 +1,8 @@
+{
+  "component": true,
+  "usingComponents": {
+    "u-tabs": "/uview-ui/components/u-tabs/u-tabs",
+    "common-information": "/components/common/template_information",
+    "common-newhouse": "/components/common/template_newHouse"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "requires": true,
+  "lockfileVersion": 1,
+  "dependencies": {
+    "jweixin-module": "^1.6.0"
+  },
+  "name": "mini2",
+  "version": "1.0.0",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

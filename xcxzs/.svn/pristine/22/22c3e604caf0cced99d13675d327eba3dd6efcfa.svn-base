@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>我的消息</title>
+    <link rel="stylesheet" type="text/css" href="../../static/css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/mui/css/mui.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/css/me/my_message.css" />
+    <script type="text/javascript" src="../../static/js/jquery-2.0.0.min.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.min.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.pullToRefresh.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.pullToRefresh.material.js" ></script>
+    <script type="text/javascript" src="../../static/js/vue.min.js" ></script>
+    <script type="text/javascript" src="../../static/js/vue-tap.js" ></script>
+    <script type="text/javascript" src="../../static/js/public.js" ></script>
+    <style>.mui-pull-bottom-tips{display: none;}</style>
+</head>
+<body>
+<div id="app" class="my-content">
+    <!-- <div class="my-scroll-li" v-tap="{methods:onSystemInforms}">
+        <div class="my-scroll-li-1"><img src="../../static/image/icon-chat-notical.png"><div>系统通知</div></div>
+        <div class="my-scroll-li-2"><div class="aui-badge my-badge1" v-cloak v-if="systemNum>0">{{systemNum}}</div><i class="aui-iconfont aui-icon-right"></i></div>
+    </div> -->
+    <div class="mui-scroll-wrapper scroll-content"  >
+        <div class="mui-scroll">
+            <div class="mui-table-view-cell" v-if="list.lenght>0" v-for="(item,index) in list">
+                <div class="mui-slider-right mui-disabled">
+                    <a class="mui-btn my-yidu" data-tag="yd" :data-index="index">标为已读</a>
+                    <a class="mui-btn my-del" data-tag="sc" :data-index="index">删除</a>
+                </div>
+                <div class="mui-slider-handle">
+                    <div class="mui-table-cell">
+                        <div class="my-li-content" v-tap="{methods:onChat,title:item.nickName,agent_id:item.agent_id,user_id:item.user_id}">
+                            <div class="my-li1">
+                                <div class="aui-badge my-badge2" v-cloak v-if="item.unread_num>0">{{item.unread_num}}</div>
+                                <img class="my-li1-img" :src="item.avatarUrl" v-cloak/>
+                            </div>
+                            <div class="my-li2">
+                                <div v-cloak>{{item.nickName}}</div>
+                                <div class="aui-ellipsis-2" v-cloak v-if="item.unread_content!=''">{{item.unread_content}}</div>
+                            </div>
+                            <div class="my-li3" v-cloak>{{item.create_time}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="empty" v-show="list.length=0||!!list" style="width:100%;min-height: 20vh;">
+                <img src="../../static/image/empty.png" alt="">
+            </div>
+        </div>
+    </div>
+    
+</div>
+</body>
+</html>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            systemNum:0,
+            list:[]
+        },
+        mounted: function () {
+        this.$nextTick(function () {
+            var _this=this;
+            ajax('agentAjax/getChatList',{},function(res){
+                _this.systemNum=res.data.systemNum;
+                if(res.data.data){
+                    _this.list=res.data.data;
+                }
+            });
+            mui('.scroll-content').scroll({
+                scrollY: true, //是否竖向滚动
+                scrollX: false, //是否横向滚动
+                startX: 0, //初始化时滚动至x
+                startY: 0, //初始化时滚动至y
+                indicators: false, //是否显示滚动条
+                deceleration:0.0005, //阻尼系数,系数越小滑动越灵敏
+                bounce: true //是否启用回弹
+            });
+            mui('.mui-scroll').on('tap', '.mui-btn', function(event) {
+                var elem = this;
+                var li = elem.parentNode.parentNode;
+                var tag=$(this).data('tag');
+                var index=$(this).data('index');
+                var list=_this.list;
+                if(tag=='yd'){
+                    ajax('agentAjax/updateYd',{user_id:list[index].user_id},function(res){
+                        if(res.success){
+                            list[index].unread_num='0';
+                            _this.list=list;
+                        }
+                    });
+                    mui.swipeoutClose(li);
+                }else if(tag=='sc'){
+                    mui.confirm('确认删除？', '提示', ['确认', '取消'], function(e) {
+                        if (e.index == 0) {
+                            ajax('agentAjax/deleteMessageList',{id:list[index].id,user_id:list[index].user_id},function(res){
+                                if(res.success){
+                                    list.splice(index,1);
+                                    _this.list=list;
+                                }
+                            });
+                            mui.swipeoutClose(li);
+                        }
+                    });
+                }
+            });
+        })
+        },
+        methods:{
+            onChat(event){   //跳转聊天详情
+                localStorage.setItem("9h_localStorage", JSON.stringify({type:'2',agent_id:event.agent_id,user_id:event.user_id,time:new Date().getTime()}));
+                setLocation('pages/me/chat.html?title='+event.title);
+            },
+            onSystemInforms(){  //系统通知跳转
+                setLocation('pages/me/system_informs.html');
+            }
+        }
+    })
+</script>

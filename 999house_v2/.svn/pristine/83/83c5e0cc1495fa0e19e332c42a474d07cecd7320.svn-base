@@ -1,0 +1,125 @@
+<!--pages/my/my_focus.wxml-->
+<view >
+    <van-tabs class="tab" sticky active="{{active}}">
+        <van-tab title="{{nav.title}}" wx:for="{{lists}}" wx:for-item="nav" wx:for-index="index">
+           
+
+<!--					<van-list-->
+<!--							wx:model="loading"-->
+<!--							:finished="item.list.length == 0"-->
+<!--							finished-text="没有更多了"-->
+<!--					>-->
+<!-- {{index}} -->
+            <view wx:if="{{fields}}">
+                <view wx:if="{{index != 1}}">
+                    <view class="all-template">
+                        <view
+                            class="template" 
+                            wx:for="{{nav.list}}" 
+                            wx:for-item="item"
+                            bindtap="goDetil"
+                            data-item="item">
+                            <view class="template3">
+                                <view class="template3-top">
+                                    <view :class="[ item.type == 11 ? 'template3-top-img-sale' : '' ]">
+                                        <image wx:lazy="$http.imgDirtoUrl(item.img[0])" class="template3-top-img" />
+                                    </view>
+                                    <view class="template3-top-right">
+                                        <view class="template3-title">
+                                            <view 
+                                                wx:if=" item.info.tip[0] != '人气榜' && item.info.tip[0] != '热搜榜'"
+                                            >
+                                            <!-- :class="[
+                           5                         item.info.tip[0] == '在售' ? 'houses-bg-blue' : '',
+                                                    item.info.tip[0] == '待售' ? 'houses-bg-orange' : '',
+                                                    item.info.tip[0] == '售完' ? 'houses-bg-purple' : '',
+                                                    item.info.tip[0] == '尾盘' ? 'houses-bg-blue2' : ''
+                                                ]" -->
+                                                {{item.info.tip[0]}}
+                                            </view>
+                                            <template wx:else>
+                                                <image :src="item.info.tip[0] == '热搜榜' ? '../../static/new_house/hot.png' : '../../static/new_house/popular.png'"/>
+                                            </template>
+                                            {{item.info.name}}
+                                        </view>
+                                        <view class="template3-tip">
+                                            <template wx:for="{{item.info.tip}}" wx:for-item="tip" wx:for-index="num">
+                                                <view wx:if="num != 0&&tip" :key="num">
+                                                    {{tip}}
+                                                </view>
+                                            </template>
+                                        </view>
+                                        <view class="template3-site">
+                                            <text class="template-top-houses-site">{{item.info.site}}</text>
+                                            <text>建面{{item.info.area}}m²</text>
+                                        </view>
+                                        <view class="template-top-houses-price">
+                                            <view wx:if="item.info.price>0">
+                                                <text>{{item.info.price}}</text>元/m²
+                                            </view>
+                                            <view wx:else>
+                                                价格待定
+                                            </view>
+                                        </view>
+                                    </view>
+                                </view>
+                                <template wx:if="item.type == 8">
+                                    <view class="template3-bottom">
+                                        <template wx:for="(house,houseIndex) in item.info.lab">
+                                            <view class="template3-bottom-tip" :key="houseIndex" wx:if="houseIndex < 2 && house.type == 0">
+                                                <image src="/9house/static/index/hot.png"/>
+                                                <view class="van-ellipsis">{{house.name}}</view>
+                                            </view>
+                                            <!--template3-bottom-vr--> 
+                                            <view class="template3-bottom-tip" :key="houseIndex" wx:if="houseIndex < 2 && house.type == 1">
+                                                <image src="/9house/static/index/sale.png"/>
+                                                <view class="van-ellipsis">{{house.name}}</view>
+                                            </view>
+                                        </template>
+                                    </view>
+                                </template>
+                                <template wx:else-if="item.type == 11">
+                                    <view class="template3-bottom-apply">
+                                        <view class="template3-bottom-apply-box">
+                                            <view class="template3-bottom-apply-info van-ellipsis"><i class="iconfont iconxingzhuang1"></i>{{ item.apply.title }}</view>
+                                            <view class="template3-bottom-apply-people"><view>{{ item.apply.people }}</view>人已报名</view>
+                                        </view>
+                                        <van-button 
+                                            round 
+                                            type="info"
+                                            :color="item.apply.state == 0 ? 'linear-gradient(90deg, #FFA640 0%, #FE8D35 100%)' : 'rgba(173, 173, 173, 1)' "
+                                            :disabled ="item.apply.state == 0 ? false : true"
+                                            bind:tap="$emit('apply',item.id)"
+                                        >
+                                            {{ item.apply.state == 0 ? '立即报名' : '已报名' }}
+                                        </van-button>
+                                    </view>
+                                </template>
+                            </view>    
+                        </view>
+                    </view>
+                </view>
+                <view wx:else>
+                    <view class="news">
+                        <view class="news-box" wx:for="{{nav.list}}" wx:for-item="news" wx:for-index="key">
+                            <image src="{{news.image[0]}}"/>
+                            <view class="news-right">
+                                <text class="news-title van-multi-ellipsis--l2">{{ news.title }}
+                                </text>
+                                <view class="news-info">
+                                    <image src="{{news.author.head}}"/>
+                                    <text>{{ news.author.name }}</text>
+                                </view>
+                            </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <template wx:else>
+                <van-empty image="error" description="暂无数据"/>
+            </template>
+
+<!--					</van-list>-->
+        </van-tab>
+    </van-tabs>
+</view>

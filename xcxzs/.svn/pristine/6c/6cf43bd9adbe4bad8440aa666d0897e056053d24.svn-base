@@ -1,0 +1,9 @@
+APP_DEBUG = true
+[APP]
+DEFAULT_TIMEZONE = Asia/Shanghai
+[REDIS]
+host = '127.0.0.1'
+password = '999houseredis!@#'
+port = 59091
+[LANG]
+default_lang = zh-cn

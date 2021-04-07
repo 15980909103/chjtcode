@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>个人页面</title>
+    <link rel="stylesheet" type="text/css" href="./static/css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="./static/mui/css/mui.min.css" />
+    <link rel="stylesheet" type="text/css" href="./static/css/me.css" />
+    <script type="text/javascript" src="./static/js/jquery-2.0.0.min.js" ></script>
+    <script type="text/javascript" src="./static/mui/js/mui.min.js" ></script>
+    <script type="text/javascript" src="./static/js/vue.min.js" ></script>
+    <script type="text/javascript" src="./static/js/vue-tap.js" ></script>
+    <script type="text/javascript" src="./static/js/public.js?v=2" ></script>
+</head>
+<body>
+<div id="app" class="my-content">
+    <div id="my-div1">
+        <div class='my-img-name'>
+            <div class='my-col1' v-tap="{methods:onGoPage,url:'pages/me/edit.html'}">
+                <div class='my-col1-1'>
+                    <img class="my-col1-img" :src='userInfo.headimgurl' v-cloak />
+                </div>
+                <div class="my-col1-2">
+                    <div class='my-col2-1'><div v-cloak>{{userInfo.uname}}</div><img src="./static/image/icon-edit.png" /></div>
+                    <div class='my-col2-2 aui-ellipsis-1' v-cloak>{{userInfo.signature}}</div>
+                </div>
+            </div>
+            <div class='my-col2'><img src="./static/image/icon-zhuanfa.png" v-tap="{methods:onQrcode}"/></div>
+        </div>
+        <div v-if='(userInfo.type=="1"||userInfo.type=="2")' class="div1-2">
+            <div v-cloak>{{userInfo.storeInfo.storename}}</div>
+            <div v-cloak>主营区域：{{userInfo.storeInfo.city?(userInfo.storeInfo.city+'-'+userInfo.storeInfo.area):'暂无'}}</div>
+        </div>
+        <div v-else class="div1-2">
+            <div v-cloak>{{userInfo.storeInfo.storename}}</div>
+            <div v-cloak>主营区域：{{userInfo.storeInfo.city?(userInfo.storeInfo.city+'-'+userInfo.storeInfo.area):'暂无'}}</div>
+        </div>
+
+        <div class="div1-3">
+            <div class="div1-3-li" v-for="item in userInfo.special_label" v-cloak>{{item}}</div>
+        </div>
+    </div>
+    <div id="my-scroll" class="mui-scroll-wrapper">
+        <div class="mui-scroll">
+            <div class="scroll-div1">
+                <div class="my-scroll-li" v-tap="{methods:onGoPage,url:'pages/me/my_store_new.html'}" v-cloak>
+                    <div class="my-scroll-li-1"><img src="./static/image/icon-personal-wangdian.png">
+                        <div v-if="userInfo.type.indexOf(0) != -1 || userInfo.type.indexOf(0) != -1">我的网店</div>
+                        <div v-else>我的审批</div>
+                    </div>
+                    <div class="my-scroll-li-2"><i class="aui-iconfont aui-icon-right"></i></div>
+                </div>
+                <div class="my-scroll-li" v-tap="{methods:onGoPage,url:'pages/build/my_building.html'}">
+                    <div class="my-scroll-li-1"><img src="./static/image/icon-personal-loupan.png"><div>我的楼盘</div></div>
+                    <div class="my-scroll-li-2"><i class="aui-iconfont aui-icon-right"></i></div>
+                </div>
+                <div class="my-scroll-li" v-tap="{methods:onGoPage,url:'customer.html'}">
+                    <div class="my-scroll-li-1"><img src="./static/image/icon-personal-xiaoxi.png"><div>我的消息</div></div>
+                    <div class="my-scroll-li-2"><!--<div class="aui-badge">88</div>--><i class="aui-iconfont aui-icon-right"></i></div>
+                </div>
+                <!-- <div class="my-scroll-li" style="border-bottom: 0;" v-tap="{methods:onGoPage,url:'pages/me/my_report.html'}">
+                    <div class="my-scroll-li-1"><img src="./static/image/icon-personal-baobei.png"><div>我的报备</div></div>
+                    <div class="my-scroll-li-2"><i class="aui-iconfont aui-icon-right"></i></div>
+                </div> -->
+            </div>
+            <div class="scroll-div1" style="border-bottom: 0;">
+                <!-- <div class="my-scroll-li" v-tap="{methods:onGoPage,url:'pages/me/disturb.html'}">
+                    <div class="my-scroll-li-1"><img src="./static/image/icon-personal-wurao.png"><div>勿扰模式</div></div>
+                    <div class="my-scroll-li-2"><i class="aui-iconfont aui-icon-right"></i></div>
+                </div> -->
+                <div class="my-scroll-li" v-tap="{methods:onQQ}">
+                    <div class="my-scroll-li-1"><img src="./static/image/icon-personal-kefu.png"><div>客服咨询</div></div>
+                    <div class="my-scroll-li-2"><i class="aui-iconfont aui-icon-right"></i></div>
+                </div>
+                <div class="my-scroll-li" style="border-bottom: 0;" v-tap="{methods:onGoPage,url:'pages/me/feedback.html'}">
+                    <div class="my-scroll-li-1"><img src="./static/image/icon-personal-fankui.png"><div>意见反馈</div></div>
+                    <div class="my-scroll-li-2"><i class="aui-iconfont aui-icon-right"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="my-footer">
+        <div class="footer-li" v-tap="{methods:onGoNarList,url:'index.html?is_login=1'}">
+            <img v-cloak :src="DOMAINSTATIC+'image/nav_home.png'">
+            <div>首页</div>
+        </div>
+        <div class="footer-li" v-tap="{methods:onGoNarList,url:'news.html'}">
+            <img v-cloak :src="DOMAINSTATIC+'image/icon_nav_news_normal.png'">
+            <div>新闻</div>
+        </div>
+        <div class="footer-li" v-tap="{methods:onGoNarList,url:'building.html'}">
+            <img v-cloak :src="DOMAINSTATIC+'image/nav_building.png'">
+            <div>楼房</div>
+        </div>
+        <div class="footer-li" v-tap="{methods:onGoNarList,url:'customer.html'}">
+            <img v-cloak :src="DOMAINSTATIC+'image/nav_customer.png'">
+            <div>客户</div>
+        </div>
+        <div class="footer-li my-tick">
+            <img v-cloak :src="DOMAINSTATIC+'image/icon_nav_personal_active.png'">
+            <div>我的</div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            userInfo:{//用户信息
+                storeInfo:{}
+            },
+            auths:[]
+        },
+        mounted: function () {
+        this.$nextTick(function () {
+            var _this=this;
+            //获取首页信息
+            ajax('userAjax/getMeData',{},function(res){
+                _this.userInfo=res.data.userInfo;
+                _auth = _this.userInfo
+            });
+            mui.init();
+            mui('#my-scroll').scroll({
+                scrollY: true, //是否竖向滚动
+                scrollX: false, //是否横向滚动
+                startX: 0, //初始化时滚动至x
+                startY: 0, //初始化时滚动至y
+                indicators: false, //是否显示滚动条
+                deceleration:0.0005, //阻尼系数,系数越小滑动越灵敏
+                bounce: false //是否启用回弹
+            });
+        })
+        },
+        methods:{
+            onQQ:function(){
+             // window.open('http://wpa.qq.com/msgrd?v=3&uin=1184055585&site=qq&menu=yes');
+             setLocation('pages/index/kefu.html');
+            },
+            onQrcode:function(){
+                /* checkStoreStatus(this.userInfo.status,this.userInfo.mestatus,function(){
+                    setLocation('pages/index/erweima.html');
+                }); */
+                setLocation('pages/index/erweima.html');
+            },
+            onGoNarList(options){
+                /* checkStoreStatus(this.userInfo.status,this.userInfo.mestatus,function(){
+                    setLocation(options.url);
+                }); */
+                setLocation(options.url);
+            },
+            onGoPage(options){
+               /*  checkStoreStatus(this.userInfo.status,this.userInfo.mestatus,function(){
+                    setLocation(options.url);
+                }); */
+                setLocation(options.url);
+            }
+        }
+    })
+</script>

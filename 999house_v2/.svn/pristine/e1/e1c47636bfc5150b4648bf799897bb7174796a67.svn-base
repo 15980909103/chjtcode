@@ -1,0 +1,170 @@
+
+// 计算属性
+//https://github.com/leegsen7/wxComputed
+//
+//手动引入
+// import initComputed from '../wxComputed.js'
+// Page({
+//   data: {
+//     lastName: 'aa',
+//     firstName: 'bb',
+//   },
+//   inputEvent(e) {
+//     const {type} = e.currentTarget.dataset
+//     this.setData({
+//         [type]: e.detail.value,
+//     })
+//   },
+//   // 这里放入computed属性
+//   computed: {
+//     // 这是一个函数，返回值为此计算属性的值
+//     fullName() {
+//         return this.data.lastName + '-' + this.data.firstName
+//     },
+//   },
+//   onLoad() {
+//     // 在onLoad生命周期中执行computed属性初始化
+//     initComputed(this)
+//   },
+// })
+
+(function (global, factory) {
+    typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+    typeof define === 'function' && define.amd ? define(factory) :
+    (global.wxComputed = factory());
+}(this, (function () { 'use strict';
+
+    let uid = 0;
+
+    class Dep {
+        constructor() {
+            this.subs = [];
+            this.did = ++uid;
+        }
+        addSub(sub) {
+            this.subs.push(sub);
+        }
+        depend() {
+            // Watcher getValue方法执行时Dep.target有值
+            if (Dep.target) {
+                // Watcher addDep执行
+                Dep.target.addDep(this);
+            }
+        }
+        notify() {
+            this.subs.forEach(sub => sub.update());
+        }
+    }
+
+    Dep.target = null;
+
+    function initObserve(vm) {
+        defineProperty(vm.data);
+
+    }
+
+    function defineProperty(data) {
+        if (typeof data === 'object' && data !== null) {
+            Object.keys(data).forEach(key => {
+                let value = data[key];
+                const dep = new Dep();
+                Object.defineProperty(data, key, {
+                    set(newValue) {
+                        value = newValue;
+                        dep.notify();
+                    },
+                    get() {
+                        dep.depend();
+                        return value
+                    },
+                });
+                defineProperty(value);
+            });
+        }
+    }
+
+    let uid$1 = 0;
+
+    class ComputedWatcher {
+        constructor(vm, fn, cb) {
+            this.vm = vm;
+            this.fn = fn;
+            this.cb = cb;
+            this.wid = ++uid$1;
+            this.depIdMap = {};
+            this.value = this.getValue();
+            this.dep = new Dep();
+        }
+        getValue() {
+            Dep.target = this;
+            const value = this.fn.call(this.vm);
+            Dep.target = null;
+            return value
+        }
+        update() {
+            this.value = this.getValue();
+            typeof this.cb === 'function' && this.cb.call(this.vm);
+            this.dep.notify();
+        }
+        addDep(dep) {
+            if (!this.depIdMap.hasOwnProperty(dep.did)) {
+                dep.addSub(this);
+                this.depIdMap[dep.did] = dep;
+            }
+        }
+        // 收集引用computed的依赖
+        depend() {
+            this.dep.depend();
+        }
+    }
+
+    function initComputed(vm) {
+        const computedMap = {};
+        for (const key in vm.computed) {
+            const fn = vm.computed[key];
+            if (typeof fn !== 'function') {
+                console.warn(`${key} prop not a function in computed!!!`);
+                break
+            }
+            Object.defineProperty(vm.data, key, {
+                set: function _computedSetter() {},
+                get: (function () {
+                    const watcher = new ComputedWatcher(vm, fn, () => {
+                        vm.setData({
+                            [key]: watcher.value,
+                        });
+                    });
+                    // 为了在调试面板appData中显示此属性
+                    vm.data[key] = watcher.value;
+                    return function _computedGetter() {
+                        watcher.depend();
+                        return watcher.value
+                    }
+                })(),
+            });
+            computedMap[key] = vm.data[key];
+        }
+        vm.setData(computedMap);
+    }
+
+    function checkComputed(vm) {
+        const {computed} = vm;
+        const noObject = typeof vm.computed !== 'object';
+        const noProp = !Object.keys(computed).length;
+        if (!computed || noObject || noProp) {
+            console.warn('没有computed属性或computed属性不是object');
+            return
+        }
+        return true
+    }
+
+    function _initComputed(vm) {
+        if (!checkComputed(vm)) return
+        initObserve(vm);
+        initComputed(vm);
+    }
+
+    return _initComputed;
+
+})));
+//# sourceMappingURL=wxComputed.js.map

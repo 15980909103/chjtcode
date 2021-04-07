@@ -1,0 +1,252 @@
+#app{
+	background-color: rgba(8, 5, 87, 1);
+}
+
+.rule{
+	width: 1.1rem;
+	height: .58rem;
+	font-size: .28rem;
+	text-indent: .1rem;
+	color: #fff;
+	position: absolute;
+	top: .78rem;
+	right: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 100px 0 0 100px;
+	background-color: rgba(194, 161, 98, 1);
+	z-index: 99;
+}
+
+.top{
+	width: 100%;
+	height: 3.87rem;
+}
+
+.nav{
+	width: 100%;
+	box-sizing: border-box;
+	padding: .6rem .32rem 0;
+	display: flex;
+	justify-content: space-between;
+}
+
+.nav-left img{
+	width: 3.27rem;
+	height: 2.9rem;
+}
+
+.nav-right img:first-child{
+	width: 3.27rem;
+	height: 1.59rem;
+}
+
+.nav-right{
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.nav-right img:last-child{
+	width: 3.27rem;
+	height: 1rem;
+}
+
+.title{
+	height: .65rem;
+	margin: .5rem 0 0 .32rem;
+}
+
+.house{
+	width: 100%;
+	box-sizing: border-box;
+	padding: 0 .32rem;
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+}
+
+.house-item{
+	width: 3.26rem;
+	height: 4.09rem;
+	background-color: #fff;
+	margin-top: .42rem;
+}
+
+.house-top{
+	width: 100%;
+	height: 2rem;
+}
+
+.house-wrap{
+	width: 100%;
+	box-sizing: border-box;
+	padding: 0 .2rem;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.house-name{
+	font-size: .3rem;
+	margin-top: .1rem;
+}
+
+.house-info{
+	font-size: .24rem;
+	color: rgba(117, 117, 117, 1);
+	margin: .1rem 0 .21rem;
+}
+
+.house-info span{
+	margin-right: .16rem;
+	position: relative;
+}
+
+.house-info span::before{
+	content: '';
+	width: 0.01rem;
+	height: 80%;
+	background-color: rgba(117, 117, 117, .4);
+	position: absolute;
+	top: 15%;
+	right: -0.12rem;
+}
+
+.house-title img{
+	width: .4rem;
+	height: .4rem;
+	vertical-align: middle;
+	margin-top: -.1rem;
+}
+
+.house-title{
+	font-size: .24rem;
+	color: rgba(242, 94, 73, 1);
+	
+}
+
+.btn{
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	margin-top: .6rem;
+}
+
+.btn .van-button{
+	width: 4.87rem;
+	height: .83rem;
+	color: rgba(245, 81, 57, 1) !important;
+	font-size: .34rem;
+	font-weight: bold;
+}
+
+.house2{
+	padding-bottom: .9rem;
+}
+
+.house2 .house-item{
+	height: 4.05rem !important;
+}
+
+.house-vote{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin: .18rem 0 .24rem;
+}
+
+.house-btn .van-button{
+	width: 2.86rem;
+	height: .58rem;
+}
+
+.house-wrap h4{
+	font-size: .28rem;
+	margin-top: .10rem;
+}
+
+.house-vote{
+	font-size: .28rem;
+	color: rgba(205, 117, 55, 1);
+	margin: .1rem 0 .18rem;
+}
+
+.box{
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	color: rgba(223, 223, 255, 1);
+}
+
+.count{
+	height: .68rem;
+	width: 6.8rem;
+	font-size: .32rem;
+	margin: .37rem 0 .3rem;
+	background-color: rgba(39, 35, 130, 1);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	display: flex;
+	justify-content: space-around;
+	box-sizing: border-box;
+	padding: 0 .1rem;
+}
+
+.count .van-count-down{
+	font-size: .32rem;
+	color: rgba(223, 223, 255, 1);
+	vertical-align: middle;
+}
+
+.user-num{
+	font-size: .26rem;
+}
+
+.wrapper{
+	background-color: #fff;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%,-55%);
+	border-radius: .06rem;
+	box-sizing: border-box;
+	padding: 1rem .32rem .4rem;
+	overflow-y: scroll;
+	-webkit-overflow-scrolling: touch;
+}
+
+.wrapper::after{
+	content: '规则';
+	position: absolute;
+	left: 50%;
+	top: .2rem;
+	transform: translate(-50%,0);
+	font-size: .4rem;
+}
+
+.close{
+	width: .8rem;
+	height: .7rem;
+	font-size: .4rem;
+	position: absolute;
+	right: 0;
+	top: .16rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.content{
+	height: 8rem;
+	width: 5.6rem;
+	position: relative;
+	
+	font-size: .32rem;
+	overflow-y: scroll;
+	-webkit-overflow-scrolling: touch;
+}

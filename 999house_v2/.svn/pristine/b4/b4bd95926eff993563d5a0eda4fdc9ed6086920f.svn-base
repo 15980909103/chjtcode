@@ -1,0 +1,89 @@
+<template>
+	<view>
+		<template v-if="fields">
+			<view class="wrap">
+				<view v-for="(nav,k) in lists" :key="k">
+					<view class="title">{{ nav.time }}</view>
+					<common-new-house :list="nav.list" @del="(e)=>{ $set(list[k], 'list', e) }"></common-new-house>
+				</view>
+			</view>
+		</template>
+		<template v-else>
+			<u-empty image="error" description="暂无数据"/>
+		</template>
+
+		<view id="container-user-site"></view>
+	</view>
+</template>
+
+<script>
+	// import commonNewHouse from '@/components/common/template_newHouse'
+	import commonNewHouse from '../../components/common/template_newHouse.vue'
+	export default {
+		data() {
+			return {
+				activeId:-1,
+				fields:false,
+				lists:[]
+			}
+		},
+		onLoad() {
+
+		},
+		created() {
+			this.getIndexHistory()
+		},
+		components:{
+			commonNewHouse
+		},
+		methods:{
+			getIndexHistory(){
+				// this.$http.post('news/getColumnList',{id:1}).then(res=>{})
+				this.$http.get('/user/browseRecords',
+					// data:{active_id : this.activeId,'region_no': this.region_no}
+				).then( res=>{
+					console.log('length',res.data.length)
+					console.log(res.data)
+					if(res.data.length == 0){
+						this.fields = false
+					}else {
+						this.fields = true;
+					}
+					this.lists = res.data
+
+					/**
+					for (let i in this.list){
+						let item = this.list[i]
+						for (let j in item['list']){
+							item['list'][j]['id'] = 1;
+							item['list'][j]['type'] = 8;
+							item['list'][j]['info'] = {
+								name: '世贸湖边首府',
+								tip: ['售完','住宅','热楼盘','装修交付'],
+								price: 34000,
+								site: '湖里 软件园',
+								area: 108,
+								lab: [
+									{ type: 0, name: '入围护理人气楼盘榜', img: '/9house/static/logo.png' },
+									{ type: 0, name: '享9.5折', img: '/9house/static/logo.png' },
+									{ type: 0, name: '777', img: '/9house/static/logo.png' },
+									{ type: 0, name: '888', img: '/9house/static/logo.png' }
+								]
+							};
+							item['list'][j]['img'] = ['/9house/static/logo.png','/9house/static/logo.png'];
+						}
+					}**/
+
+					// this.houseList = res.data.list?res.data.list:[]; //数据
+					// this.topPic = this.$http.imgDirtoUrl(res.data.cover_url);  //头图
+					// this.ruleText = res.data.context_rule; //规则
+					// this.voteId = res.data.vote_id;
+				})
+			},
+		},
+	}
+</script>
+
+<style>
+	 @import './my_history.css';
+</style>

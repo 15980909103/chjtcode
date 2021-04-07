@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>我的名片</title>
+    <link rel="stylesheet" type="text/css" href="../../static/mui/css/mui.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/css/kefu.css" />
+    <script type="text/javascript" src="../../static/js/jquery-2.0.0.min.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.min.js" ></script>
+    <script type="text/javascript" src="../../static/js/vue.min.js" ></script>
+    <script type="text/javascript" src="../../static/js/vue-tap.js" ></script>
+    <script type="text/javascript" src="../../static/js/public.js?v=2" ></script>
+    <script type="text/javascript" src="../../static/js/jweixin-1.4.0.js" ></script>
+</head>
+<body>
+<div id="app" class="my-content">
+    <img class="my-img" v-cloak :src="DOMAINSTATIC+'image/ewcode-bg.png'" />
+    <img class="my-img2" v-cloak :src="DOMAINSTATIC+'image/ewcode-bg2-2.png'" />
+    <div class="content-block">
+        <div style="position: relative;">
+            <img class="my-img1" v-cloak :src="DOMAINSTATIC+'image/ewcode-bg2-1.png'" />
+            <img class="my-img3" v-cloak :src="DOMAINSTATIC+'image/ewcode-bg2-3.png'" />
+            <div class="my-name" v-cloak>长按二维码识别</div>
+            <div class="my-headimgurl"><img v-cloak :src="info.qrcode" /></div>
+            
+            <div class="my-info">
+                <div class='my-info-c'>
+                    <div class="view van-ellipsis" v-cloak>微信：{{info.wechat}}</div>
+                    <div class="view van-ellipsis" v-if="info.company" v-cloak>公司：{{info.company}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    new Vue({
+        el: '#app',
+        data(){
+            return {
+                info:{
+                    qrcode:'',
+                    company:'',
+                    wechat:''
+                },
+             }
+        },
+        mounted: function () {
+            
+        this.$nextTick(function () {
+            var _this=this;
+            //获取经纪人名片信息
+            ajax('userAjax/kefu',{},function(res){
+                _this.info.wechat=res.data.system_wechat;
+                _this.info.company=res.data.system_company;
+                _this.info.qrcode=res.data.wechat_logo;
+        
+                //初始化分享
+                var name = '微信客服';
+                var signature = '微信客服';
+                var agent_id = res.data.agent_id;
+                var headimgurl = DOMAINNAME+'/agentside/static/image/icon-personal-kefu.png' ;//
+                ajax('publicAjax/getShare',{},function(res2){
+                    if(!res2.data||!res2.data.appId){
+                        return
+                    }
+                    wx.config({
+                        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                        appId: res2.data.appId, // 必填，公众号的唯一标识
+                        timestamp: res2.data.timestamp, // 必填，生成签名的时间戳
+                        nonceStr: res2.data.nonceStr, // 必填，生成签名的随机串
+                        signature: res2.data.signature,// 必填，签名
+                        jsApiList: ['checkJsApi','onMenuShareTimeline','onMenuShareAppMessage'] // 必填，需要使用的JS接口列表
+                    });
+                    wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
+                        wx.onMenuShareAppMessage({
+                            title: name, // 分享标题
+                            desc: signature, // 分享描述
+                            link: DOMAINNAME + 'agentside/pages/index/kefu.html?id='+agent_id,
+                            imgUrl: headimgurl, // 分享图标
+                            success: function () {
+                                myAddShare('1','0','0');
+                            },
+                            cancel:function(){}
+                        });
+                        wx.onMenuShareTimeline({
+                            title: name, // 分享标题
+                            desc: signature, // 分享描述
+                            link: DOMAINNAME + 'agentside/pages/index/kefu.html?id='+agent_id,
+                            imgUrl: headimgurl, // 分享图标
+                            success: function () {
+                                myAddShare('1','0','0');
+                            },
+                            cancel:function(){}
+                        });
+                    });
+                });
+            });
+        })
+        },
+        methods:{
+
+        }
+    })
+</script>

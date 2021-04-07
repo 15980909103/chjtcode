@@ -1,0 +1,683 @@
+<template>
+	<view>
+		<view v-if="null_show" class="list_null" style="background: #fff;height: 100vh;">
+			<u-empty image="error" description="暂无数据"/>
+			<!-- <img src="../../static/null.png">
+			<p>暂无数据</p> -->
+		</view>
+
+		<view v-if="info_id" :style="{background: activeList_type!=11? bgColor: '#fff',minHeight: '100%'}">
+			<img :src="adTop.cover_imgs" class="ad_top" v-if="adTop">
+
+			<!-- 直播 -->
+			<view class="live-box" v-show="activeList.live && activeList.live.length > 0">
+				<vant-swipe class="live-swipe" :autoplay="3000" indicator-color="white">
+					<vant-swipe-item class="live-swipe-wrap" v-for="(live,num) in activeList.live" :key="num">
+						<view 
+							class="live-swipe-item" 
+							:style="{backgroundImage: 'url('+ liveItem.img +')'}"
+							v-for="(liveItem,key) in live.list" 
+							:key="key">
+							<template v-if="liveItem.type == 0">
+								<view class="live-swipe-tip live-swipe-tip1">
+									<img src="../../static/logo.png">
+									<span>直播中</span>
+								</view>
+							</template>
+							<template v-else>
+								<view class="live-swipe-tip live-swipe-tip2">
+									<view class="live-swipe-tip2-title">
+										<span class="iconfont icon17shijian"></span>预约
+									</view>
+									<view class="live-swipe-tip2-time">
+										{{liveItem.time}}
+									</view>
+								</view>
+							</template>
+							
+						
+							<span class="live-swipe-title u-multi-ellipsis--l2">
+								{{liveItem.title}}
+							</span>
+						</view>
+						
+					</vant-swipe-item>
+				</vant-swipe>
+			</view>
+
+			<!-- 列表 -->
+			<view :class="[activeList_type==11?' list-box11':'list-box']" v-if="has_tip==1">
+				<view class="list-tip">
+					<view class="list-tip-item" v-for="(v,key) in activeList.tip" :key="key">
+						<view @click="chooseTip(key)" :class="[key == currentChoosTip ? 'tip-active' : '']">
+							{{v.name}}
+						</view>
+					</view>
+				</view>
+				<view v-if="activeList.tip&&activeList.tip[currentChoosTip]&&activeList.tip[currentChoosTip].list.length">
+					<view class="all-template">
+						<view class="template" 
+							v-for="(item,key) in activeList.tip[currentChoosTip].list" 
+							@click.stop="goDetil(item)">
+							<!-- 楼盘广告顶部 -->
+							<view class="template-top-houses" v-if="item.info.name">
+								<view class="template-top-houses-name">
+									<text class="template-name">{{item.info.name}}</text>
+									<!-- <view v-if="item.info.tip && item.info.tip.length > 0"> -->
+										<view class="tiplist" v-for="(houseTip,houseKey) in item.info.tip" >
+											<span 
+												:key="houseKey" 
+												v-if="houseKey < 3"
+												:class="[
+													houseTip == '在售' ? 'houses-bg-blue' : '',
+													houseTip == '待售' ? 'houses-bg-orange' : '',
+													houseTip == '售完' ? 'houses-bg-purple' : '',
+													houseTip == '尾盘' ? 'houses-bg-blue2' : '',
+													houseKey == 0 ? 'template-top-houses-name-tip' : ''
+												]"
+											>
+												{{houseTip}}
+											</span>
+										</view>
+									<!-- </view> -->
+									
+								</view>
+								<view class="template-top-houses-price">
+									<view v-if="item.info.price>0">
+										<span>{{item.info.price}}</span>元/m²
+									</view>
+									<view v-else>
+										价格待定
+									</view>
+									
+									<span class="template-top-houses-site">{{item.info.site}}</span>
+									<span>建面{{item.info.area}}m²</span>
+								</view>
+							</view>
+							<view 
+								class="template-top" 
+								:class="[ 
+									item.type == 1 && item.img && item.img.length == 1 ? 'template-news-1' : '',
+									(item.type == 1 || item.type == 2 || item.type == 4 || item.type == 10) && item.img && item.img.length == 2 ? 'template-news-2' : '',
+									(item.type == 1 || item.type == 2 || item.type == 4 || item.type == 10) && item.img && item.img.length > 2 ? 'template-news-3' : '',
+									(item.type == 2 || item.type == 4 || item.type == 10) && item.img && item.img.length == 1 ? 'template-ad-1' : '',
+								]"
+							>
+								<view class="template-title ">
+									<text v-if="(item.type == 0 || item.type == 1) && ( item.hot == 1 || item.write == 1 )">
+										<text>
+											<image src="/9house/static/index/fire.png" v-if="item.hot == 1">
+											<text 
+												class="template-title-write" 
+												:class="[item.hot == 1 && item.write == 1 ? 'margin-left' : '']"
+												v-if="item.write == 1"
+											>
+												原创
+											</text>
+										</text>
+									</text>
+									<text v-if="item.html_title" v-html="item.html_title"></text>
+									<text v-else>
+										{{item.title}}
+									</text>
+								</view>
+								
+								<text 
+									:class="[ 
+										item.type == 1 && item.img && item.img.length == 1 ? 'template-top-1-pic' : '',
+									]"	
+								>
+									<view v-for="(url, newKey) in item.img">
+										<!-- <image v-lazy="$http.imgDirtoUrl(url)" v-if="newKey < 3" :key="newKey"> -->
+											<image :src="url" v-lazy="url" v-if="newKey < 3" :key="newKey">
+									</view>
+								</text>
+								
+								<!-- <view v-if="item.type == 3 || item.type == 5 || item.type == 7 || item.type == 9">
+									<view class="template-ad-video">
+										<image style='width:100%;height:100%;' v-lazy="$http.imgDirtoUrl(item.img)">
+									</view>
+								</view> -->
+							</view>
+						</view>
+					</view>
+					
+					<!-- <common-template 
+						:list="activeList.tip[currentChoosTip].list" 
+					>
+					</common-template> -->
+					<view class="list-end-tips">
+						我是有底线的哦
+					</view>
+				</view>
+				<view class="list_null" style="background: #fff;" v-else >
+					<view v-if="list_null_show">
+						<u-empty image="error" description="暂无数据"/>
+						<!-- <img src="../../static/null.png">
+						<p>暂无数据</p> -->
+					</view>
+				</view>
+			</view>
+			<view :class="[activeList_type==11?'list-box list-box11':'list-box']" v-if="has_tip==2">
+				<view v-if="activeList.not_tip.length">
+					<common-template 
+						:list="activeList.not_tip" 
+					>
+					</common-template>
+					<view class="list-end-tips">
+						我是有底线的哦
+					</view>
+				</view>
+				<view class="list_null" style="background: #fff;" v-else >
+					<view v-if="list_null_show">
+						<u-empty image="error" description="暂无数据"/>
+						<!-- <img src="../../static/null.png">
+						<p>暂无数据</p> -->
+					</view>
+				</view>
+			</view>
+			
+<!-- 			<view class="tabs">
+				<u-tabs
+					v-model="active"
+					color="rgba(255, 255, 255, .7)"
+					background="rgba(0,0,0,.22)"
+					title-active-color="rgba(255, 255, 255, .7)"
+					@change="tabsChange"
+				>
+					<u-tab v-for="(items,index) in activeList.tip" :title="items.name" :key="index"> -->
+						<!-- 列表 -->
+						<!-- <view class="list-box">
+							<view class="list-tip">
+								<view class="list-tip-item" v-for="(v,key) in items.tip" :key="key">
+									<view @click="chooseTip(v.id)" :class="[tipChoose.indexOf(tip.id) != -1 ? 'tip-active' : '']">
+										{{v.name}}
+									</view>
+								</view>
+							</view>
+							
+							<view v-if="activeList.tip[currentChoosTip].list.length">
+								<common-template 
+									:list="activeList.tip[currentChoosTip].list" 
+									@del="(e)=>{ $set( activeList[index], 'list', e ) }"
+								>
+								</common-template>
+							</view>
+						</view>
+					</u-tab>
+				</u-tabs> -->
+			</view>
+			<view id="container-user-site"></view>
+		</view>
+	</view>
+</template>
+
+<script>
+	export default{
+		data(){
+			return {
+				has_tip : 1,
+				info_id: 1,
+				null_show: false,
+				list_null_show: true,
+				bgColor: 'rgba(254, 114, 71, 1)',
+				adTop: {
+					cover_imgs:"",
+					forhref:"",
+					forid:1,
+					forsort:"0"
+				},
+				active: 0,
+				currentChoosTip: 0,
+				activeList_type: -1,
+				activeList: {
+				  live:[],
+				  tip:[
+				    {
+				      "name": "特价盘",
+				      "list": [{
+				        "id": 130,
+				        "type": 10,
+				        "info": {
+				          "name": "世茂·国风长安82",
+				          "tip": ["待售", "住宅", "地铁（商业）", "首页"],
+				          "price": 0,
+				          "site": "思明区 ",
+				          "area": "",
+				          "is_sale_status": 1,
+				          "is_cheap": 1,
+				          "is_recommend": 1,
+				          "is_opening_time": 0,
+				          "coloum_id": "1"
+				        },
+				        "cover": 1,
+				        "title": "世茂·国风长安82副标题",
+				        "img": ["/upload/images/admin/estates/t8cfc132e501dcd7bf7d06b8a6a48399e.png"],
+				        "url": "",
+				        "apply": {}
+				      }, {
+				        "id": 136,
+				        "type": 10,
+				        "info": {
+				          "name": "楼盘1",
+				          "tip": ["待售", "住宅", "电商优惠"],
+				          "price": 1000,
+				          "site": "鲤城区 ",
+				          "area": "110",
+				          "is_sale_status": 1,
+				          "is_cheap": 0,
+				          "is_recommend": 1,
+				          "is_opening_time": 0,
+				          "coloum_id": "1"
+				        },
+				        "cover": 1,
+				        "title": "附表",
+				        "img": ["/upload/images/admin/estates/t306cfad65bd697e1098fd81633dcddfd.png"],
+				        "url": "",
+				        "apply": {}
+				      }, {
+				        "id": 134,
+				        "type": 10,
+				        "info": {
+				          "name": "厦门厦门",
+				          "tip": ["在售", "别墅", "热销楼盘", "低总价"],
+				          "price": 0,
+				          "site": "海沧区 ",
+				          "area": "",
+				          "is_sale_status": 2,
+				          "is_cheap": 1,
+				          "is_recommend": 1,
+				          "is_opening_time": 0,
+				          "coloum_id": "1"
+				        },
+				        "cover": 1,
+				        "title": "厦门厦门副标题",
+				        "img": ["/upload/images/admin/estates/t3ade68b9727073a7f4372b98f2b8a2ca.png"],
+				        "url": "",
+				        "apply": {}
+				      }, {
+				        "id": 112,
+				        "type": 10,
+				        "info": {
+				          "name": "国贸天成7",
+				          "tip": ["待售", "住宅"],
+				          "price": 312,
+				          "site": "漳州港 ",
+				          "area": "244595",
+				          "is_sale_status": 1,
+				          "is_cheap": 0,
+				          "is_recommend": 0,
+				          "is_opening_time": 0,
+				          "coloum_id": "1"
+				        },
+				        "cover": 1,
+				        "title": "",
+				        "img": ["/upload/images/admin/estates/t5687a766c085d81a7bfc0af9cd34071e.jpeg"],
+				        "url": "",
+				        "apply": {}
+				      }]
+				    },
+				    {
+				      "name": "本月开盘",
+				      "list": [{
+				        "id": 135,
+				        "type": 10,
+				        "info": {
+				          "name": "厦门楼盘",
+				          "tip": ["待售", "住宅", "电商优惠"],
+				          "price": 0,
+				          "site": "湖里区 ",
+				          "area": "",
+				          "is_sale_status": 1,
+				          "is_cheap": 0,
+				          "is_recommend": 1,
+				          "is_opening_time": 0,
+				          "coloum_id": "2"
+				        },
+				        "cover": 1,
+				        "title": "厦门楼盘副标题",
+				        "img": ["/upload/images/admin/estates/t02ec966e18654f3996c596f717a86d6e.png"],
+				        "url": "",
+				        "apply": {}
+				      }, {
+				        "id": 75,
+				        "type": 10,
+				        "info": {
+				          "name": "融侨·观澜5",
+				          "tip": ["在售", "住宅"],
+				          "price": 534,
+				          "site": "同安区 ",
+				          "area": "68000",
+				          "is_sale_status": 2,
+				          "is_cheap": 0,
+				          "is_recommend": 1,
+				          "is_opening_time": 0,
+				          "coloum_id": "2"
+				        },
+				        "cover": 1,
+				        "title": "",
+				        "img": ["/upload/images/admin/estates/tfd84915ed6fe3e87ae0b671264891464.jpeg"],
+				        "url": "",
+				        "apply": {}
+				      }]
+				    },
+				    {
+				      "name": "近期开盘",
+				      "list": [{
+				        "id": 117,
+				        "type": 10,
+				        "info": {
+				          "name": "特房·锦绣香里8",
+				          "tip": ["待售", "住宅"],
+				          "price": 556526,
+				          "site": "思明区 ",
+				          "area": "234293.39",
+				          "is_sale_status": 1,
+				          "is_cheap": 0,
+				          "is_recommend": 0,
+				          "is_opening_time": 0,
+				          "coloum_id": "3"
+				        },
+				        "cover": 1,
+				        "title": "副标题是是滴是",
+				        "img": ["/upload/images/admin/estates/tda5158b8df297f5d548d61b0dc4dada1.png"],
+				        "url": "",
+				        "apply": {}
+				      }, {
+				        "id": 116,
+				        "type": 10,
+				        "info": {
+				          "name": "海西国际广场8",
+				          "tip": ["待售", "别墅"],
+				          "price": 77421,
+				          "site": "思明区 ",
+				          "area": "21333",
+				          "is_sale_status": 1,
+				          "is_cheap": 0,
+				          "is_recommend": 1,
+				          "is_opening_time": 0,
+				          "coloum_id": "3"
+				        },
+				        "cover": 1,
+				        "title": "",
+				        "img": ["/upload/images/admin/estates/t713247582f33284cccacf58b631f4dfb.jpeg"],
+				        "url": "",
+				        "apply": {}
+				      }, {
+				        "id": 114,
+				        "type": 10,
+				        "info": {
+				          "name": "世茂·国风长安7",
+				          "tip": ["待售", "住宅"],
+				          "price": 25000,
+				          "site": "漳州港 ",
+				          "area": "163697.45",
+				          "is_sale_status": 1,
+				          "is_cheap": 0,
+				          "is_recommend": 0,
+				          "is_opening_time": 0,
+				          "coloum_id": "3"
+				        },
+				        "cover": 1,
+				        "title": "",
+				        "img": ["/upload/images/admin/estates/t8cfc132e501dcd7bf7d06b8a6a48399e.png"],
+				        "url": "",
+				        "apply": {}
+				      }, {
+				        "id": 110,
+				        "type": 10,
+				        "info": {
+				          "name": "国贸学原7",
+				          "tip": ["待售", "住宅"],
+				          "price": 2423,
+				          "site": "漳州港 ",
+				          "area": "370748.11",
+				          "is_sale_status": 1,
+				          "is_cheap": 0,
+				          "is_recommend": 0,
+				          "is_opening_time": 0,
+				          "coloum_id": "3"
+				        },
+				        "cover": 1,
+				        "title": "",
+				        "img": ["/upload/images/admin/estates/t912288ff30784e4262e0470efd87735c.jpeg"],
+				        "url": "",
+				        "apply": {}
+				      }, {
+				        "id": 107,
+				        "type": 10,
+				        "info": {
+				          "name": "融侨·观澜7",
+				          "tip": ["待售", "住宅"],
+				          "price": 2342,
+				          "site": "漳州港 ",
+				          "area": "68000",
+				          "is_sale_status": 1,
+				          "is_cheap": 0,
+				          "is_recommend": 0,
+				          "is_opening_time": 0,
+				          "coloum_id": "3"
+				        },
+				        "cover": 1,
+				        "title": "",
+				        "img": ["/upload/images/admin/estates/tfd84915ed6fe3e87ae0b671264891464.jpeg"],
+				        "url": "",
+				        "apply": {}
+				      }]
+				    }
+				  ], //有分栏时候的列表
+				  not_tip:[]//无分栏时候的列表
+				},
+				tipChoose: [],
+			}
+		},
+		created() {
+			/* if( this.$http.publicFun() ){
+				  this.tagList = $api.localGet('u-tag');
+			}else{
+				this.$http.publicFun(1).then(res=>{
+					this.tagList = res;
+				})
+			} */
+			// this.tabsChange();
+			const option = this.$api.funcUrlDel().option;
+
+			if( Object.keys(option).length > 0 ){
+				this.id = option.id;
+			}
+
+			// this.getList();
+		},
+		methods:{
+			getList() {
+				if(!this.id){
+					return
+				}
+				let sale_status = '';
+				let opening_time = '';
+				let is_cheap = '';
+				let recommend = '';
+
+				this.$http.ajax({
+					data:{
+						id:this.id,
+						sale_status: sale_status, //销售状态
+						opening_time:opening_time, // 开盘时间
+						is_cheap: is_cheap,       // 是否低价盘
+						recommend: recommend,
+					},
+					url:'index/subject/index' //获取专题列表
+				}).then(res=>{
+					if(res.code ==1){
+						const allTag = this.$api.localGet('u-tag');
+						let that = this;
+						if(!res.data||!res.data.hasOwnProperty('id')){
+							this.null_show = true;
+							return
+						}
+						this.info_id = res.data.id
+
+						// 其他信息赋值
+						this.adTop = res.data.banner?res.data.banner[0]:'';// banner图
+						this.bgColor = res.data.bgcolor;
+
+						// 直播列表处理
+						if(!res.data.type) {
+							var count = 0;
+							var newLive = [];
+							let arrLive = res.data.live_room;
+							arrLive.forEach(function (val,key) {
+								if(!newLive[count]){
+									newLive[count] = {
+										list: []
+									}
+								}
+								if(newLive[count].list.length<2){
+									let tmpLive = {
+										type: val.status,
+										img: val.cover,
+										title: val.room_name,
+										time: val.start_time
+									}
+									newLive[count].list.push(tmpLive)
+
+									if(newLive[count].list.length==2){
+										count++;
+									}
+								}
+							})
+						} else {
+							newLive = [];
+						}
+						this.activeList.live = newLive;
+
+						// 楼盘列表处理
+						let arr =  res.data.estates;
+						arr.forEach( (val,key)=> {
+							// 版面类型判断
+							let type = '';
+							if(res.data.type) {// 优惠活动样式的版面-1
+								type = 11;
+							} else if(res.data.type==0){// 好房推荐样式的版面-0
+								if(val.video_url) {// 有无视频
+									type = 9;
+								} else {
+									type = 10;
+								}
+							}
+							this.activeList_type = type;
+
+							// 标签转换
+							let tagarr = [];
+							tagarr = tagarr.concat($api.getTagsText('estatesnew_sale_status',val.sale_status));
+							tagarr = tagarr.concat($api.getTagsText('house_purpose',val.house_purpose));
+							let lipStr = val.feature_tag;
+							if(lipStr instanceof  Array && lipStr.length >0){
+								tagarr = tagarr.concat($api.getTagsText('feature_tag',lipStr));
+								/* lipStr.map(x=>{
+									if(allTag&&allTag.feature_tag){
+										tagarr.push(allTag.feature_tag[x]);
+									}
+								}) */
+							}
+							// 报名信息
+							let img;
+							let apply = {}
+							if(!res.data.type) {
+								img = val.imgs&&val.imgs.length?val.imgs: [val.list_cover];
+							} else {
+								apply = {
+									title:val.sign_name,
+									people:val.sign_num,
+									state:0,
+								}
+								img = [val.list_cover];
+							}
+							
+							arr[key]= {
+								id:val.id,
+								type: type,
+								info: {
+									name: val.name,
+									tip: tagarr,
+									price: val.price,
+									site: val.area_str + ' ' + val.business_area_str,
+									area: val.built_area,
+									is_sale_status: val.sale_status?val.sale_status:0,
+									is_cheap: val.is_cheap?val.is_cheap:0,
+									is_recommend: val.recommend?val.recommend:0,
+									is_opening_time: val.opening_time?val.opening_time:0,
+									coloum_id: val.label_id
+								},
+								cover: val.has_cover,
+								title: val.title,
+								img:  img,
+								url:  val.video_url,
+								apply: apply
+							}
+						})
+
+						//进行栏目切分
+						let coloums = {};
+						let currentChoosTip = '';
+						if(res.data.label){
+							for(let i in res.data.label){
+								let item = res.data.label[i];
+								coloums[item.id] = { 
+									name: item.name,
+									list:[]
+								}
+								this.has_tip = 1;////有栏目
+								if(!currentChoosTip){
+									currentChoosTip = item.id
+								}
+							}
+						}
+						
+						if(this.has_tip==1){
+							this.activeList.tip = coloums;
+							this.currentChoosTip = currentChoosTip;		
+						}
+		
+						arr.map((item)=>{
+							if(!item.info){
+								return;
+							}
+							if(this.has_tip ==1 ){
+								let coloum_id = item.info.coloum_id;
+								if(coloum_id&&this.activeList.tip[coloum_id]){
+									this.activeList.tip[coloum_id].list.push(item)
+								}
+							}else{
+								this.activeList.not_tip.push(item)
+							}
+						});
+						if(this.has_tip !=1){
+							this.has_tip = 2;//无栏目
+						}
+						
+						this.list_null_show = true
+					}else{
+						this.$toast(res.msg);
+					}
+				}).catch(res=>{
+					console.log(res)
+					this.$toast(res.msg);
+				});
+			},
+
+			// 切换资讯/新房
+			tabsChange() {
+				// this.activeList = this.tabList[this.active];
+				console.log(this.activeList)
+			},
+			chooseTip(val) {
+				this.currentChoosTip = val
+			},
+		},
+	}
+</script>
+
+<style>
+	@import url("./good_house.css");
+</style>

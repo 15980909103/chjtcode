@@ -1,0 +1,11 @@
+{
+  "navigationBarTitleText": "首页",
+  "usingComponents": {
+    "headerindex": "/components/common/header",
+    "bannerindex": "/components/common/banner",
+    "navindex": "/components/common/nav",
+    "speedyindex": "/components/common/speedy",
+    "activityindex": "/components/common/activity",
+    "news": "/components/common/news"
+  }
+}

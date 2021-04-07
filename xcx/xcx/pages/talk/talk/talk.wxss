@@ -1,0 +1,48 @@
+@import '/dist/aui.wxss';
+.icon{
+  width: 48rpx;
+  height: 48rpx;
+  float: left;
+  margin-right: 20rpx;
+}
+.card{
+  margin-top: 20rpx;
+}
+.swipe-right{
+  font-size: 24rpx;
+  text-align: center;
+}
+.swipe-right .default{
+  float: left;
+  background-color: #c1c1c1;
+  color: #fff;
+  width: 142rpx;
+  height: 142rpx;
+  line-height: 142rpx;
+}
+.swipe-right .delete{
+  float: left;
+  background-color: #e50016;
+  color: #fff;
+  width: 142rpx;
+  height: 142rpx;
+  line-height: 142rpx;
+}
+.aui-badge {
+    display: inline-block;
+    width: auto;
+    text-align: center;
+    min-width: 0.5rem;
+    height: 0.8rem;
+    line-height: 0.8rem;
+    padding: 0 0.2rem;
+    font-size: 0.6rem;
+    color: #ffffff;
+    background-color: #ff2600;
+    border-radius: 0.4rem;
+    position: absolute;
+    top: 0.2rem;
+    left: 60%;
+    z-index: 99;
+}
+.my-badge2{position: absolute;top:.3vh;left: 10vw;}

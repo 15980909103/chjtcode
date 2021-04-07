@@ -1,0 +1,65 @@
+#authorization, .get-userinfo {
+  width: 100vw;
+  height: 100vh;
+}
+
+.get-userinfo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0,0,0, .4);
+}
+
+.get-userinfo__panel {
+  width: 638rpx;
+  background-color: #fff;
+  overflow: hidden;
+  box-sizing: border-box;
+  border-radius: 6rpx;
+}
+
+.get-userinfo__panel, .get-userinfo__panel-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.get-userinfo__panel-header, .get-userinfo__panel-content {
+  width: 100%;
+}
+
+.get-userinfo__panel-header image {
+  width: 100%;
+  height: 300rpx;
+}
+
+.get-userinfo__panel-content {
+  padding: 58rpx 32rpx 40rpx;
+  box-sizing: border-box;
+}
+
+.get-userinfo__panel-content-message {
+  color: #0B0F12;
+  font-size: 40rpx;
+  line-height: 1em;
+}
+
+.get-userinfo__panel-content-button {
+  width: 100%;
+  height: 84rpx;
+  color: #979B9D;
+  font-size: 32rpx;
+  background-color: transparent;
+}
+
+.get-userinfo__panel-content-button::after {
+  border: none;
+}
+
+.agree {
+  margin-top: 50rpx;
+  margin-bottom: 22rpx;
+  color: #fff;
+  border-radius: 42rpx;
+  background-color: #DB2F30;
+}

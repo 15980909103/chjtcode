@@ -1,0 +1,37 @@
+<view class='card'>
+  <view class='search'>
+    <image src='/image/icon-search.png'></image>
+    <input value="{{search}}" bindconfirm="onSearchInput" placeholder='请输入楼盘名称' placeholder-class='placeholder'></input>
+  </view>
+  <view class='title'>
+    <view class='left'>共{{buildingInfo.length}}个楼盘</view>
+    <view class='right' bindtap='onEditBtn'>{{is_detail?'取消':'编辑'}}</view>
+  </view>
+</view>
+<scroll-view id='my-scroll' scroll-y="{{scrollPosition.scrollY}}" bindscrolltolower="onGetData">
+  <view class='my-scroll-li' wx:for="{{buildingInfo}}" wx:key="index">
+    <view class="my-card-list my-list-z {{is_detail?'':'my-animation'}} {{item.show_options && !is_detail?'show-delet':''}}" data-index="{{index}}" bindtouchstart="{{!is_detail?'handletouchstart':''}}" bindtouchmove="{{!is_detail?'handletouchmove':''}}" bindtouchend="{{!is_detail?'handletouchend':''}}" data-id="{{item.id}}" data-agent_id="{{item.agent_id}}" bindtap="{{is_detail?'onEditChange':'onDetailCard'}}">
+      <van-checkbox wx:if="{{is_detail}}" data-index="{{index}}" class='my-radio' value="{{item.is_checked}}" checked-color="#D12627"></van-checkbox>
+      <view class='my-lpimg'>
+        <image class='my-lp-ig' src='{{domain_name+item.pic}}'></image>
+        <view class='my-huo'><image src='/image/icon-renqizhi.png'></image> {{item.views_number}}</view>
+      </view>
+      <view class="{{is_detail?'my-lp-center2':'my-lp-center'}}">
+        <view class='my-lp-c1'><view class="my-c-1-1 van-ellipsis">{{item.name}}</view><view class='my-c-1-2'>{{item.sales_status}}</view></view>
+        <view class='my-lp-c2'>{{item.house_type}} | {{item.city}} {{item.area}}</view>
+        <view class='my-lp-c3'>{{item.fold}}元/m²</view>
+      </view>
+    </view>
+    <view class='my-card-list my-list-f' data-index="{{index}}" bindtouchstart="opstart" bindtouchmove="opmove" bindtouchend="opend">
+      <view class='my-options' data-index="{{index}}" data-id="{{item.collection_id}}" bindtap='onDel'>删除</view>
+    </view>
+  </view>
+  <view class='my-footer' wx:if="{{is_detail}}"></view>
+  <view wx:if="{{buildingInfo.length==0}}">
+      <image mode='widthFix' src='../../../image/empty_img.png'></image>
+    </view>
+</scroll-view>
+<view id='my-footer' wx:if="{{is_detail}}">
+  <view class='footer-btn1' bindtap='onAllChecked'>全选</view>
+  <view class='footer-btn2' bindtap='onDelete'>删除</view>
+</view>

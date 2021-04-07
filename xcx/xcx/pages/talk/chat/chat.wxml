@@ -1,0 +1,28 @@
+<scroll-view id="scrollView" scroll-y scroll-with-animation enable-back-to-top scroll-top="{{scrollTop}}" bindscroll="onBindscroll">
+  <view class="aui-chat">
+    <block wx:for="{{messageList}}" wx:key="index">
+      <view class="aui-chat-header" wx:if="{{item.create_time_name!=''}}">{{item.create_time_name}}</view>
+      <view class="aui-chat-item {{item.sender=='self'?'aui-chat-right':'aui-chat-left'}}">
+          <view class="aui-chat-media">
+              <image src="{{item.sender=='self'?userInfo.avatarUrl:agentInfo.headimgurl}}"></image>
+          </view>
+          <view class="aui-chat-inner">
+              <view class="aui-chat-name">{{item.sender=='self'?userInfo.nickName:agentInfo.name}}</view>
+              <view class="aui-chat-content">
+                  <view class="aui-chat-arrow"></view>
+                  {{item.content}}
+                  <!-- <image src='https://dpic.tiankong.com/a5/bm/QJ6835002114.jpg?x-oss-process=style/670ws' mode="widthFix"></image> -->
+              </view>
+              <view class="aui-chat-status" wx:if="{{!item.success}}">
+                <icon type="warn" />
+              </view>
+          </view>
+      </view>
+    </block>
+  </view>
+  <view class='my-both'></view>
+</scroll-view>
+<view class="my-footer">
+    <input class="footer-input" placeholder="请输入..." value='{{textContent}}' bindinput="setTextContent"/>
+    <van-button type="info" bindtap='onSend'>发送</van-button>
+</view>

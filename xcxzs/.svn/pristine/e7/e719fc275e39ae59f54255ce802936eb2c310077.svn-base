@@ -1,0 +1,121 @@
+{
+	"description": "项目配置文件",
+	"packOptions": {
+		"ignore": []
+	},
+	"setting": {
+		"urlCheck": false,
+		"es6": true,
+		"postcss": true,
+		"preloadBackgroundData": false,
+		"minified": true,
+		"newFeature": true,
+		"coverView": true,
+		"autoAudits": false,
+		"showShadowRootInWxmlPanel": true,
+		"scopeDataCheck": false,
+		"checkInvalidKey": true,
+		"checkSiteMap": true,
+		"uploadWithSourceMap": true,
+		"babelSetting": {
+			"ignore": [],
+			"disablePlugins": [],
+			"outputPath": ""
+		},
+		"useCompilerModule": true,
+		"userConfirmedUseCompilerModuleSwitch": false
+	},
+	"compileType": "miniprogram",
+	"libVersion": "2.11.0",
+	"appid": "wx5e8de6078fa14fd6",
+	"projectname": "xcx",
+	"debugOptions": {
+		"hidedInDevtools": []
+	},
+	"isGameTourist": false,
+	"simulatorType": "wechat",
+	"simulatorPluginLibVersion": {},
+	"condition": {
+		"search": {
+			"current": -1,
+			"list": []
+		},
+		"conversation": {
+			"current": -1,
+			"list": []
+		},
+		"plugin": {
+			"current": -1,
+			"list": []
+		},
+		"game": {
+			"currentL": -1,
+			"list": []
+		},
+		"gamePlugin": {
+			"current": -1,
+			"list": []
+		},
+		"miniprogram": {
+			"current": 6,
+			"list": [
+				{
+					"id": -1,
+					"name": "headlines",
+					"pathName": "pages/store/headlines/headlines",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": 1,
+					"name": "store_detail",
+					"pathName": "pages/store/store_detail/store_detail",
+					"query": "id=1",
+					"scene": 1011
+				},
+				{
+					"id": 2,
+					"name": "collection",
+					"pathName": "pages/me/collection/collection",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "me",
+					"pathName": "pages/me/me/me",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "article_detail",
+					"pathName": "pages/index/article_detail/article_detail",
+					"query": "id=207",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "house_detail",
+					"pathName": "pages/store/house_detail/house_detail",
+					"query": "id=1&agent_id=1",
+					"scene": 1011
+				},
+				{
+					"id": -1,
+					"name": "article_detail",
+					"pathName": "pages/index/article_detail/article_detail",
+					"query": "id=7",
+					"scene": 1011
+				},
+				{
+					"id": 7,
+					"name": "pages/index/index/index",
+					"pathName": "pages/index/index/index",
+					"query": "",
+					"scene": null
+				}
+			]
+		}
+	}
+}

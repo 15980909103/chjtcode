@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>填写跟进</title>
+    <link rel="stylesheet" type="text/css" href="./static/css/aui.css" />
+<!--    <link rel="stylesheet" type="text/css" href="./static/mui/css/mui.min.css" />-->
+    <link rel="stylesheet" type="text/css" href="./static/css/customer/take_apply.css" />
+    <link rel="stylesheet" type="text/css" href="./static/css/examine_reported.css" />
+    <link rel="stylesheet" href="./common/vant/index.css"/>
+    <script type="text/javascript" src="./static/js/jquery-2.0.0.min.js" ></script>
+    <script type="text/javascript" src="./static/mui/js/mui.min.js" ></script>
+    <!-- <script type="text/javascript" src="../../static/js/vue.min.js" ></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script type="text/javascript" src="./static/js/vue-tap.js" ></script>
+    <script type="text/javascript" src="./static/js/public.js" ></script>
+    <script type="text/javascript" src="./components/feed-back.js" ></script>
+    <script src="./common/vant/index.js" type="text/javascript" charset="utf-8"></script>
+    <style>
+        .mui-pull-bottom-tips{display: none;}
+        #qrcode img{
+            margin: 10px auto;
+        }
+    </style>
+</head>
+<body>
+<div id="app" class="my-content" v-cloak>
+    <div id="my-div1">
+        <div class="mui-scroll-wrapper">
+            <div class="mui-scroll">
+                <div class="div1-title">
+                   <div class="div1-t-li">
+                       <div class="my-title">带看单号：</div>
+                       <div class="my-neirong" v-cloak>{{reportedInfo.order_no}}</div>
+                   </div>
+                    <div class="div1-t-li">
+                        <div class="my-title">带看时间：</div>
+                        <div class="my-neirong" v-cloak>{{reportedInfo.take_time}}</div>
+                    </div>
+                    <div class="div1-t-li">
+                        <div class="my-title">楼&emsp;&emsp;盘：</div>
+                        <div class="my-neirong" v-cloak>{{reportedInfo.building_name}}</div>
+                    </div>
+                    <div class="div1-t-li">
+                        <div class="my-title">客&emsp;&emsp;户：</div>
+                        <div class="my-neirong" v-cloak>{{reportedInfo.user_name}} {{reportedInfo.user_phone}}</div>
+                    </div>
+                    <div class="div1-t-li">
+                        <div class="my-title">申请状态：</div>
+                        <div class="my-neirong2" v-cloak>{{reportedInfo.status_type_name}}</div>
+                    </div>
+					<div class="div1-t-li">
+					    <div class="my-title">预计佣金：</div>
+					    <div class="my-neirong" v-cloak>{{reportedInfo.commission}}元</div>
+					</div>
+
+<!--					<div class="div1-t-li" v-if="reportedInfo.status_type == 5||reportedInfo.status_type == 6">-->
+					<div class="div1-t-li" v-if="['6'].indexOf(reportedInfo.status_type) != -1">
+					    <div class="my-title">实际佣金：</div>
+					    <div class="my-neirong" v-cloak>
+                            <van-field v-model="changeCommission" type="digit" label="" :placeholder="reportedInfo.commission" :disabled="inputdisabled" style="padding: 0">
+                                <template #button v-if="['6'].indexOf(reportedInfo.status_type) != -1">
+                                    <van-button border="false" size="small" icon="edit" type="default" @click="onedit">修改</van-button>
+                                </template>
+                            </van-field>
+                        </div>
+					</div>
+                    <div class="div1-t-li" v-if="['3','4','5','6'].indexOf(reportedInfo.status_type) != -1">
+                        <div class="my-title">成交金额：</div>
+                        <div class="my-neirong" v-cloak>
+                            <van-field v-model="build_fold" type="digit" label=""  v-if="['3'].indexOf(reportedInfo.status_type) != -1" placeholder="请输入成交金额"></van-field>
+                            <p v-else>{{reportedInfo.building_fold}}元</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="div1-content">
+                    <feed-back></feed-back>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    Vue.config.devtools = true;
+    var pullToRefresh=null;
+    var reported_id = getQueryString('reported_id')
+    var status_type = null
+
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                reportedInfo:{}, //带看信息
+                changeCommission:'',
+                inputdisabled:true,
+                build_fold:'', // 成交金额
+            }
+        },
+        mounted() {
+            doMissId(reported_id)
+
+            this.initScroll();
+
+            this.$nextTick(function () {
+                var _this=this;
+
+                ajax('agentAjax/getTakeApply',{
+                    reported_id: reported_id,
+                }, function(res){
+                    if(res.success){
+                        _this.reportedInfo=res.data;
+                        _this.changeCommission = res.data.change_commission
+                        status_type = _this.reportedInfo.status_type
+                        if (!getQueryString('isAddComment')) {
+                            var auth = get_auth()
+                            // console.log(status_type)
+                            // console.log(auth)
+                            // console.log(auth.auth_report_types)
+                            // console.log(auth.auth_report_types.includes(status_type))
+
+                            if( (auth.buildding_leader == 0 && auth.auth_report_types.includes(status_type)===false) || (auth.buildding_leader != 0 && (status_type == 5 || status_type == 6)) ){
+                                // mui.alert("您没有操作该状态的权限",'提示','确定',function(){
+                                //     setLocation('pages/customer/record_detail.html?id='+reported_id);
+                                // });
+                            }
+                            
+                        }
+                    } else {
+                        mui.toast(res.message);
+                    }
+                });
+            })
+        },
+        methods: {
+            // 切换时候允许修改
+            onedit(){
+                this.inputdisabled = !this.inputdisabled
+            },
+            initScroll() {
+                mui('.mui-scroll-wrapper').scroll({});
+            }
+        }
+    })
+</script>

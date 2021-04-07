@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>定位</title>
+		<link rel="stylesheet" href="../../common/vant/index.css"/>
+		<link rel="stylesheet" href="../../common/css/public.css"/>
+		<style>
+			/* 选取位置页面 */
+						
+			.choose-location{
+				width: 100vw;
+				height: 100vh;
+				background: #F7F7F7;
+				position: fixed;
+				top: 0;
+				z-index: 93;
+			}
+			
+			.choose-location .van-search__action{
+				padding: 0 0.32rem;
+				color: rgba(117, 117, 117, 1);
+				font-size: 0.28rem;
+			}
+			
+			.choose-location .van-search__content{
+				background-color: #fff;
+				box-shadow: 0px 0.03rem 0.2rem 0px #F5F5F5;
+				border-radius: 0.06rem;
+				border: 0.01rem solid #E0E0E0;
+			}
+			
+			.choose-location input::-webkit-input-placeholder{
+				color: #ADADAD;
+				font-size: 0.26rem;
+				font-weight: 400;
+				
+			}
+			
+			.choose-location input::-moz-placeholder{   /* Mozilla Firefox 19+ */
+				color: #ADADAD;
+				font-size: 0.26rem;
+				font-weight: 400;
+			}
+			.choose-location input:-moz-placeholder{    /* Mozilla Firefox 4 to 18 */
+				color: #ADADAD;
+				font-size: 0.26rem;
+				font-weight: 400;
+			}
+			.choose-location input:-ms-input-placeholder{  /* Internet Explorer 10-11 */ 
+				color: #ADADAD;
+				font-size: 0.26rem;
+				font-weight: 400;
+			}
+			
+			.location-search,
+			.location-info{
+				background-color: #fff;
+			}
+			
+			.location-search{
+				height: 60px;
+				width: 100%;
+			}
+			
+			.location-info{
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				font-size: 0.28rem;
+				padding: 0.3rem 0.32rem 0.42rem;
+				color: rgba(117, 117, 117, 1);
+			}
+			
+			.location-info-left span{
+				color: #000;
+				font-size: 0.34rem;
+				margin-right: 0.2rem;
+			}
+			
+			.location-info-right{
+				color: #000;
+				display: flex;
+				align-items: center;
+			}
+			
+			.location-info-right span{
+				height: 0.22rem;
+				font-size: 0.26rem;
+				margin-right: 0.1rem;
+				vertical-align: text-bottom;
+			}
+			
+			.location-tip{
+				width: 100%;
+				font-size: 0.3rem;
+				color: rgba(117, 117, 117, 1);
+				box-sizing: border-box;
+				padding: 0.3rem 0.32rem 0;
+			}
+			
+			.location-tip .city{
+				width: 100%;
+				margin-top: 0.22rem;
+				display: flex;
+				align-items: center;
+				flex-wrap: wrap;
+			}
+			
+			.city-tip{
+				width: 2rem;
+				height: 0.8rem;
+				background-color: #fff;
+				border-radius: 0.06rem;
+				border: 0.01rem solid #EBEBEB;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				margin-bottom: 0.24rem;
+			}
+			
+			.city-tip:nth-child(3n-1){
+				margin: 0 0.23rem 0.24rem;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app" v-cloak>
+			<transition name="van-slide-right">
+				<div class="choose-location" v-show="show">
+					<div class="location-search">
+						<form action="/">
+							<van-search
+								v-model="searchValue"
+								show-action
+								placeholder="搜索城市"
+								maxlength="10"
+								@input="onSearch"
+								@cancel="onCancel"
+							/>
+						</form>
+					</div>
+					<div class="location-info">
+						<div class="location-info-left">
+							<span>{{location}}</span>GPS定位
+						</div>
+						<div class="location-info-right">
+							<span class="iconfont iconmubiao"></span>重新定位
+						</div>
+					</div>
+					<div class="location-tip" v-show="!isSearch">
+						<span>热门城市</span>
+						<div class="city">
+							<span class="city-tip" v-for="(item,index) in cityList.hot" :key="index" @click="choose(item)">
+								{{item}}
+							</span>
+						</div>
+					</div>
+					<div class="location-tip" v-show="!isSearch">
+						<span>所有城市</span>
+						<div class="city">
+								<span 
+									class="city-tip" 
+									v-for="(item,index) in cityList.all"
+									:key="index"
+									@click="choose(item)"
+								>
+									{{item}}
+								</span>
+							
+						</div>
+					</div>
+					<div class="location-tip" v-show="isSearch">
+						<span>搜索城市</span>
+						<div class="city">
+							<template v-for="(item,index) in cityList.all">
+								<span 
+									class="city-tip" 
+									:key="index"
+									@click="choose(item)"
+									v-show="srarchShow.indexOf(index) != -1"
+								>
+									{{item}}
+								</span>
+							</template>
+							
+						</div>
+					</div>
+				</div>
+			</transition>
+		</div>
+	</body>
+</html>
+
+<script src="../../common/js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/rem.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/public.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/vant/index.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+<script>
+	Vue.use(vant.Lazyload);
+	 
+	
+	var app = new Vue({
+		el: '#app',
+		data: {
+			location: '',
+			show: true,
+			searchValue: '',
+			cityList: {
+				hot: ['厦门','漳州','龙岩','泉州','海口','广州'],
+				all: ['厦门','漳州','龙岩','泉州','海口','广州','上海','上饶']
+			},
+			isSearch: false,
+			srarchShow: []
+		},
+		created() {
+			this.getLocation();
+		},
+		methods:{
+			init() {
+				this.searchValue = '';
+				this.srarchShow = [];
+				this.isSearch = false;
+			},
+			getLocation() {
+				this.location = $api.localGet('u-location');
+			},
+			onSearch(val) {
+				if( !$api.isEmpty(val) ) {
+					this.cityList.all.map((item,index)=>{
+						if( item.indexOf(val) != -1 ){
+							this.srarchShow.push(index);
+						}
+					});
+					
+					this.isSearch = true;
+				} else {
+					this.init();
+				}
+				
+			},
+			onCancel() {
+				this.init();
+				$api.goPage('../../index.html');
+			},
+			choose(val) {
+				$api.localSet('u-location', val);
+				this.onCancel();
+			}
+			
+		},
+	})
+</script>

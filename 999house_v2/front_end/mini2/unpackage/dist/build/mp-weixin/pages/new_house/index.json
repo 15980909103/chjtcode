@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "新房",
+  "usingComponents": {
+    "u-search": "/uview-ui/components/u-search/u-search",
+    "common-newhouse": "/components/common/template_newHouse",
+    "common-sizer": "/components/common/sizer",
+    "common-tag": "/components/common/tag"
+  }
+}

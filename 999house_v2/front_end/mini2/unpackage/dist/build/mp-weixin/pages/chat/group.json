@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "找群",
+  "usingComponents": {
+    "u-search": "/uview-ui/components/u-search/u-search",
+    "u-button": "/uview-ui/components/u-button/u-button"
+  }
+}

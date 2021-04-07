@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>楼盘信息</title>
+    <link rel="stylesheet" type="text/css" href="../../static/css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/mui/css/mui.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/css/build/house_info.css?v=1" />
+    <script type="text/javascript" src="../../static/js/jquery-2.0.0.min.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.min.js" ></script>
+    <script type="text/javascript" src="../../static/js/vue.min.js" ></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script> -->
+    <script type="text/javascript" src="../../static/js/vue-tap.js" ></script>
+    <script type="text/javascript" src="../../static/js/public.js" ></script>
+    <script type="text/javascript" src="../../mixins/qqMap.js?v=1" ></script>
+    <script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&key=HMIBZ-QXLKW-7IART-RRJF6-CWNTV-EBF6D"></script>
+</head>
+<body>
+<div id="app" class="my-content">
+    <div id="slider" >
+        <div id="sliderSegmentedControl" class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+            <div class="mui-scroll">
+                <a
+                    v-for="(title, index) in header"
+                    :key="index"
+                    :data-index='index'
+                    :class="['mui-control-item', selectedIndex==index? 'mui-active title': '']"
+                    :href="`#item${index+1}mobile`"
+                    v-tap="{methods: changeCurrentIndex, index}"
+                    v-cloak
+                >
+                    {{ title }}
+                </a>
+            </div>
+        </div>
+
+        <div class="mui-slider-group">
+            <div id="item1mobile" class="mui-slider-item mui-control-content" :class="[selectedIndex=='0'?'mui-active':'']">
+                <div id="scroll1" class=" my-scroll-y">
+                    <div >
+                        <div class='basis-content'>
+                            <div class='basis-li'><div class='basis-li1'>楼盘名称</div><div class='basis-li2' v-cloak>{{buildingInfo.name}}</div></div>
+                            <div class='basis-li'><div class='basis-li1'>区域</div><div class='basis-li2' v-cloak>{{buildingInfo.city+buildingInfo.area}}</div></div>
+                            <div class='basis-li'><div class='basis-li1'>楼盘地址</div><div class='basis-li2' v-cloak>{{buildingInfo.address}}</div></div>
+                            <div class='basis-li'><div class='basis-li1'>销售状态</div><div class='basis-li2' v-cloak>{{buildingInfo.sales_status}}</div></div>
+                            <div class='basis-li'><div class='basis-li1'>开发商</div><div class='basis-li2' v-cloak>{{buildingInfo.developers}}</div></div>
+                            <div class='basis-li'><div class='basis-li1'>开盘时间</div><div class='basis-li2' v-cloak>{{buildingInfo.kaipang_time}}</div></div>
+                            <div class='basis-li'><div class='basis-li1'>交房时间</div><div class='basis-li2' v-cloak>{{buildingInfo.jiaofang_time}}</div></div>
+                            <div class='basis-li'><div class='basis-li1'>售楼电话</div><div class='basis-li2' v-cloak>{{buildingInfo.sales_telephone}}</div></div>
+                            <div class='basis-li'><div class='basis-li1'>价格详情</div><pre class='basis-li2' v-cloak>{{buildingInfo.fold_detail}}</pre></div>
+                            <div class='basis-litwo'>
+                                <div>预售许可证</div>
+                                <div>发证时间</div>
+                                <!-- <div>绑定楼栋</div> -->
+                            </div>
+                            <div class='basis-litwo2'>
+                                <div v-cloak>{{buildingInfo.sales_license}}</div>
+                                <div v-cloak>{{buildingInfo.license_time}}</div>
+                                <!-- <div v-cloak>{{buildingInfo.bind_building}}</div> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="item2mobile" class="mui-slider-item mui-control-content" :class="[selectedIndex=='1'?'mui-active':'']">
+                <div id="scroll2" class=" my-scroll-y">
+                    <div >
+                        <div class='basis-content'>
+                            <div class='basis-li'><div class='basis-li1'>大小户型</div><div class='basis-li2' v-cloak>{{buildingInfo.sizelayout}}</div></div>
+                            <div class='basis-li'><div class='basis-li1'>规划户数</div><div class='basis-li2' v-cloak>{{buildingInfo.planning_number}}</div></div>
+                            <div class='basis-li'><div class='basis-li1'>项目类型</div><div class='basis-li2' v-cloak>{{buildingInfo.project_type}}</div></div>
+                            <div class='basis-li'><div class='basis-li1'>建筑类型</div><div class='basis-li2' v-cloak>{{buildingInfo.building_type}}</div></div>
+                            <div class='basis-li'><div class='basis-li1'>总占地面积</div><div class='basis-li2' v-cloak>{{buildingInfo.total_area}} ㎡</div></div>
+                            <div class='basis-li'><div class='basis-li1'>总建筑面积</div><div class='basis-li2' v-cloak>{{buildingInfo.total_construction_area}} ㎡</div></div>
+                            <div class='basis-li'><div class='basis-li1'>楼层状况</div><div class='basis-li2' v-cloak>{{buildingInfo.floor_condition}}</div></div>
+                            <div class='basis-li'><div class='basis-li1'>项目进度</div><div class='basis-li2' v-cloak>{{buildingInfo.progress_project}}</div></div>
+                            <div class='basis-li'><div class='basis-li1'>层高</div><div class='basis-li2' v-cloak>{{buildingInfo.floor_height}}层</div></div>
+                            <div class='basis-li'><div class='basis-li1'>公摊</div><div class='basis-li2' v-cloak>{{buildingInfo.pool}}</div></div>
+                            <div class='basis-li'><div class='basis-li1'>装修情况</div><div class='basis-li2' v-cloak>{{buildingInfo.decoration}}</div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="item3mobile" class="mui-slider-item mui-control-content" :class="[selectedIndex=='2'?'mui-active':'']">
+                <div id="scroll3" class=" my-scroll-y">
+                    <div >
+                        <div class='basis-content'>
+                            <div class='basis-li'><div class='basis-li1'>物业公司</div><div class='basis-li2' v-cloak>{{buildingInfo.property_company}}</div></div>
+                            <div class='basis-li'><div class='basis-li1'>物业类型</div><div class='basis-li2' v-cloak>{{buildingInfo.property_type}}</div></div>
+                            <div class='basis-li'><div class='basis-li1'>物业费</div><div class='basis-li2' v-cloak>{{buildingInfo.property_charges}}</div></div>
+                            <div class='basis-li'><div class='basis-li1'>容积率</div><div class='basis-li2' v-cloak>{{buildingInfo.volume_rate}}</div></div>
+                            <div class='basis-li'><div class='basis-li1'>绿化率</div><div class='basis-li2' v-cloak>{{buildingInfo.greening_rate}}</div></div>
+                            <div class='basis-li'><div class='basis-li1'>车位数</div><div class='basis-li2' v-cloak>{{buildingInfo.parking_space_number}}</div></div>
+                            <div class='basis-li'><div class='basis-li1'>车位比</div><div class='basis-li2' v-cloak>{{buildingInfo.parking_space_proportion}}</div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="item4mobile" class="mui-slider-item mui-control-content" :class="[selectedIndex=='3'?'mui-active':'']">
+                <div id="scroll4" class=" my-scroll-y">
+                    <div >
+                        <div class='basis-content' v-html="buildingInfo.supporting_information">
+                            <!-- <div class='basis-li'><div class='basis-li1'>交通配套</div><div class='basis-li2' v-cloak>{{buildingInfo.traffic_complete}}</div></div>
+                            <div class='basis-li'><div class='basis-li1'>教育资源</div><div class='basis-li2' v-cloak>{{buildingInfo.education_resources}}</div></div>
+                            <div class='basis-li'><div class='basis-li1'>医疗健康</div><div class='basis-li2' v-cloak>{{buildingInfo.medical_health}}</div></div>
+                            <div class='basis-li'><div class='basis-li1'>商城购物</div><div class='basis-li2' v-cloak>{{buildingInfo.shopping_mall}}</div></div>
+                            <div class='basis-li'><div class='basis-li1'>生活娱乐</div><div class='basis-li2' v-cloak>{{buildingInfo.live_entertainment}}</div></div> -->
+                        </div>
+                        <div class='basis-content' style="text-align: center;" v-if="buildingInfo.supporting_information == '' ||buildingInfo.supporting_information == null">
+                            暂无信息！
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="item5mobile" class="mui-slider-item mui-control-content" :class="[selectedIndex=='4'?'mui-active':'']">
+                <div class="my-scroll-y">
+                    <div id='my-map'>
+                        <div id="my-map-map"></div>
+                        <div class='my-floating' v-if="selectedIndex==4">
+                            <div class='float-top'>
+                                <div
+                                    v-for="(item,index) in mapInfo"
+                                    :key="index"
+                                    class="view6-nav-li {{index==locationIndex?'my-tick':''}}"
+                                    v-tap="{methods:onLocation, index}"
+                                >
+                                    <img :src="index==locationIndex?item.show_img:item.img" />
+                                    <div>{{item.title}}({{item.data.length}})</div>
+                                </div>
+                            </div>
+                            <img v-if="!location_show" class='float-img' src="../../static/image/icon-up.png" v-tap="{methods:onLocationShow}" />
+                            <img v-if="location_show" class='float-img' src="../../static/image/icon-down.png" v-tap="{methods:onLocationShow}" />
+                            <div class='float-content' v-if="location_show">
+                                <div class='float-c-lists'>
+                                    <div
+                                        class='view6-list'
+                                        v-for="(item, index) in mapInfo[locationIndex].data"
+                                        v-tap="{methods:selectLocationItem, index, lat:item.lat, lng:item.lng, title: item.title}"
+                                    >
+                                        <div class='view6-list-li'>
+                                            <div :class="['view6-li-1 van-ellipsis', index == currentMainMarker ? 'my-tick': '']" v-cloak>{{item.title}}</div>
+                                            <div class='view6-li-2'>
+                                                <img src='../../static/image/icon-artical-map2.png' />
+                                                <div>{{item.distance}}m</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class='float-btn' v-tap="{methods:onLocationShow}">收起</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class='basis-booter' v-if="selectedIndex!=4">
+        <img src='../../static/image/icon-notical.png'/>
+        <div>免责声明：楼盘信息由开发商提供，最终以政府部门登记备案为准，请谨慎核查。如楼盘信息有误，点击<span v-tap="{methods:onFeedback}">反馈纠错</span></div>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    Vue.config.devtools = true;
+    var markersArray=[];
+    new Vue({
+        el: '#app',
+        mixins: [qqMapMixins],
+        data: {
+            buildingInfo:{},    //楼盘信息
+            selectedIndex:0,  //当前选中的标签页索引
+            location_show:false,  //是否展开显示具体详情
+            locationIndex:0,  //选择的索引
+            mapIndex: 20,  //所选详细列索引
+            mapIndex2: 20,  //所选详细列索引2
+            mapInfo:[],  //周边位置数据
+            map: null,
+
+            currentSelectLocationItem: -1,
+            header: [ '基本信息', '建筑信息', '物业参数', '配套信息', '周边地图']
+        },
+        mounted: function () {
+        this.$nextTick(function () {
+            var _this=this;
+            _this.inintScroll();
+
+            const index = getQueryString('index');
+            if (index) {
+                this.changeCurrentIndex({index});
+            }
+
+            //获取楼盘详情页数据
+            ajax('buildingAjax/getBuildingDetail2',{id:getQueryString('id')},function(res){
+                res = res.data
+                _this.buildingInfo=res.buildingInfo;
+                _this.mapInfo=res.mapInfo;
+                _this.setMap();
+            });
+        })
+        },
+        methods:{
+            onLocation(event) { // 周边位置切换nav
+                this.locationIndex=event.index;
+                var itemType = [ 'bus','study','hospital','shop','food' ];
+                this.displayMarkers({data:this.mapInfo[this.locationIndex].data, itemType:itemType[this.locationIndex]});
+                this.currentMainMarker = -1;
+                if(event.isInit!=1){
+                    var coordinate = this.buildingInfo.coordinate.split(",");
+                    this.displayBuildMarker({lat: coordinate[0], lng: coordinate[1]})
+                }
+            },
+            onLocationShow(){   //展开地图详情事件
+                this.location_show=!this.location_show;
+            },
+            onFeedback(){   //信息纠错
+                // setLocation('pages/build/feedback.html?id='+getQueryString('id'));
+            },
+            //地图坐标事件
+            onShowMap(event){
+                var index = event.index;
+                var lat = event.lat;
+                var lng = event.lng;
+                if (markersArray) {
+                    for (var i=0 in markersArray) {
+                        markersArray[i].setMap(null);
+                    }
+                    markersArray.length = 0;
+                }
+                var temp = new qq.maps.Marker({
+                    position: new qq.maps.LatLng(lat,lng),
+                    map: map
+                });
+                markersArray.push(temp);
+                this.mapIndex=this.locationIndex;
+                this.mapIndex2=index;
+            },
+            setMap() {
+                var coordinate = this.buildingInfo.coordinate.split(",");
+                this.initMap({lat: coordinate[0], lng: coordinate[1]}, 'my-map-map');
+                this.onLocation({index: 0,isInit:1});
+            },
+            selectLocationItem(options) {
+                this.currentMainMarker = options.index;
+                this.onLocationShow();
+            },
+            inintScroll() {
+                this.scrollPanel = mui('.mui-scroll-wrapper').scroll({
+                    scrollY: false,
+                    scrollX: true,
+                })
+            },
+            changeCurrentIndex(options) {
+                const index = options.index;
+                this.selectedIndex = index;
+                this.scrollPanel.gotoPage(index);
+            }
+        }
+    })
+</script>

@@ -1,0 +1,7 @@
+/* 底部栏 */
+.page-nav .van-tabbar{
+	z-index: 92;
+	height: 1.04rem;
+	box-shadow: 0px -0.02rem 0.16rem 0px rgba(240, 240, 240, 0.5);
+	touch-action: none;
+}

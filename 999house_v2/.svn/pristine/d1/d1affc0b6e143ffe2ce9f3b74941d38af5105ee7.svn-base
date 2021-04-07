@@ -1,0 +1,85 @@
+<script>
+	const host = "https://act.999house.com";
+	import {getCurrentCity,localStore} from './utils/module/mapLocation.js';
+	let that = null;
+	export default {
+		globalData: {
+			city_no: '350200', 
+			city_name: '350200', 
+			userInfo: null,
+			token: "", //用于访问
+			sid: "",//用于访问
+			host: host,
+			h5Host: host+"/9house/pages",
+			host_api: host+"/index", 
+			imgHost: host+"/9house/static",
+			constList: {},
+			//EventBusClass: EventBusClass.Int,
+			
+			whitePages: [
+			  "pages/index/index",
+			  "pages/login/index",
+			]
+		},
+		onLaunch: function() {
+			console.log('App Launch');
+			that = this;
+			Promise.all([
+				getCurrentCity(that),
+				that.getConst(),
+				// /that.wxAuthLogin(),
+			]).then((res)=>{
+				console.log(res,'Launch')
+				that.globalData.city_no = res[0].city_no;
+				that.globalData.city_name = res[0].city_name;
+				console.log('6666');
+				uni.$emit('myLaunched', 'ok');//执行onLaunched事件
+			}).catch((err)=>{
+				console.log(err)
+				//reject(err);
+			})
+			
+		},
+		onShow: function() {
+			
+		},
+		onHide: function() {
+			console.log('App Hide')
+		},
+		methods:{
+			wxAuthLogin(){
+				return that.$api.wxMiniAuthLogin(that);
+			},
+			getConst(refresh=0){
+				console.log(this.$http)
+				let tag = localStore.localGet('u-tag');
+				if(!tag||refresh==1){
+					return new Promise((resolve)=>{
+						// 获取公共常用列表
+						that.$http.post('estates/getConst').then((res)=>{
+							if(res.code==1&&res.data){
+								resolve(res.data)
+								localStore.localSet('u-tag',res.data, 3600*2)
+								that.globalData.constList = res.data;
+							}else{
+								resolve('')
+								that.globalData.constList = {};
+							}
+						})
+					})
+				}else{
+					return new Promise((resolve)=>{
+						resolve(tag)
+						that.globalData.constList = tag;
+					})
+				}
+			},
+		},
+	}
+</script>
+ 
+<style lang="scss">
+	/*每个页面公共css */
+	@import "uview-ui/index.scss";
+	@import '@/common/css/iconfont.css';
+</style>

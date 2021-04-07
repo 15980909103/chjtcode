@@ -1,0 +1,18 @@
+#my-feedback{width: 90vw;padding: 2vh 5vw;border-top: .8vh solid #f5f5f5;}
+.my-title2{font-size: 4.2vw;padding: 2vh 0;}
+.my-ta-content{width: 90vw;position: relative;}
+.my-textarea{width: 80vw;height: 16vh;background-color: #F7F7F7;font-size: 4vw;padding: 2vh 5vw 6vh;}
+.my-num{position: absolute;right:5vw;bottom: 2vh;font-size: 3.3vw;color: #808080;}
+.my-title{font-size: 4.2vw;padding: 2vh 0;display: flex;justify-content:space-between;}
+.title1 text{font-size: 3.5vw;color:#999;}
+.title2{font-size: 3.5vw;color:#999;}
+.my-scroll{width: 90vw;background-color: #F7F7F7;}
+.my-scroll-content{height: 20vw;padding: 2vh 5vw;}
+.my-image-view{position: relative;display: inline-block;}
+.my-scroll .close{width: 5vw; height: 5vw;position: absolute;right: 2.5vw;top: -2.5vw;}
+.my-scroll .image{width: 20vw; height: 20vw;margin-right: 5vw;}
+.my-contact{height: 4vh;line-height: 4vh;display:flex;justify-content:space-between;padding: 3vh 0 2vh;border-bottom: 1px solid #f1f1f1;}
+.contact1{font-size: 4.5vw;}
+.contact1 text{color: #DD2D30;}
+.contact2 input{width: 50vw;font-size: 4vw;height: 4vh;line-height: 4vh;text-align: right;}
+.my-btn-success{width: 90vw;height: 8vh;line-height:8vh;background-color: #DD2D30;margin-top: 4vh;color: #FFF;text-align: center;border-radius: 1.5vw;}

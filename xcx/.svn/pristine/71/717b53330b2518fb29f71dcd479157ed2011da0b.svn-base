@@ -1,0 +1,671 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>客户详情</title>
+    <link rel="stylesheet" type="text/css" href="../../static/css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/mui/css/mui.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/css/customer/customer_detail.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/css/swiper.min.css" />
+    <script type="text/javascript" src="../../static/js/jquery-2.0.0.min.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.min.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.pullToRefresh.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.pullToRefresh.material.js" ></script>
+    <!-- <script type="text/javascript" src="../../static/js/vue.min.js" ></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script type="text/javascript" src="../../static/js/vue-tap.js" ></script>
+    <script type="text/javascript" src="../../static/js/public.js" ></script>
+    <script type="text/javascript" src="../../static/js/swiper.min.js" ></script>
+    <script type="text/javascript" src="../../static/js/echarts.min.js" ></script>
+    <style>.mui-pull-bottom-tips{display: none;}</style>
+</head>
+<body>
+<div id="app" class="my-content">
+    <div id="my-div1">
+        <div class="div1-1"><img :src="agentCustomerInfo.headimgurl" v-cloak/></div>
+        <div class="div1-2">
+            <div class="div1-li1">
+                <div class="div1-l1">
+                    <div class="my-kh2-1-title" v-cloak>{{agentCustomerInfo.user_name? agentCustomerInfo.user_name: agentCustomerInfo.nickname}}</div>
+                    <!-- <div class="my-kh2-1-tag" :class="[agentCustomerInfo.status_type_class]" v-if="agentCustomerInfo.status_type>0" v-cloak>{{agentCustomerInfo.status_type_name}}</div> -->
+                </div>
+                <!-- <div class="div1-l2" v-tap="{methods:onEdit}"><img src="../../static/image/icon-edit.png" /></div> -->
+            </div>
+            <div class="div1-li2">
+                <img src="../../static/image/icon-dianhua.png">
+                <div v-cloak>{{agentCustomerInfo.user_phone}}</div>
+            </div>
+            <div class="div1-li3" v-cloak>最近访问时间：{{agentCustomerInfo.last_visit_time}}</div>
+        </div>
+    </div>
+    <div class="swiper-container swiperTitle">
+        <div class="swiper-wrapper">
+            <div
+                v-for="(item, index) in channel"
+                :key="index"
+                :class="['swiper-slide', current == index? 'active': '']"
+                v-cloak
+            >
+                <span>{{item.title}}</span>
+            </div>
+        </div>
+    </div>
+    <div class="swiper-container swiperContent">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide aui-list aui-media-list" v-for="(item,index) in list">
+                <div class="mui-scroll-wrapper scroll-content" :class="['my-scroll'+index]">
+                    <div class="mui-scroll">
+                        <!--数据分析-->
+                        <template v-if="index=='0'">
+                            <div class="c-div0-1">
+                                <div class="c-div0-1-li">
+                                    <div class="my-minpian">名片</div>
+                                    <div><span v-cloak>{{browsingHistoryInfo.cardNum}}</span>次</div>
+                                </div>
+                                <div class="c-div0-1-l"></div>
+                                <div class="c-div0-1-li">
+                                    <div class="my-wenzhan">文章</div>
+                                    <div><span v-cloak>{{browsingHistoryInfo.articleNum}}</span>次</div>
+                                </div>
+                                <div class="c-div0-1-l"></div>
+                                <div class="c-div0-1-li">
+                                    <div class="my-loupan">楼盘</div>
+                                    <div><span v-cloak>{{browsingHistoryInfo.buildingNum}}</span>次</div>
+                                </div>
+                            </div>
+                            <div class="c-div0-2">请持续分享活动、名片和楼盘，来吸引TA吧~</div>
+                            <div class="my-tubiao">
+                                <div class="tubiao-title">访问汇总</div>
+                                <div id="canvas"></div>
+                            </div>
+                            <div class="my-tubiao" style="margin-top: 2vh;">
+                                <div class="tubiao-title">周期记录</div>
+                                <div id="canvas2"></div>
+                            </div>
+                            <!--<div class="my-tubiao" style="margin-top: 2vh;">
+                                <div class="tubiao-title">购房意向</div>
+                                <div class="div0-gfli" style="margin-top:1vh;">
+                                    <div class="gfli-1">意向区域：</div>
+                                    <div class="gfli-2">集美区</div>
+                                </div>
+                                <div class="div0-gfli">
+                                    <div class="gfli-1">意向户型：</div>
+                                    <div class="gfli-2">两室一厅一卫</div>
+                                </div>
+                                <div class="div0-gfli">
+                                    <div class="gfli-1">价格区间：</div>
+                                    <div class="gfli-2">暂无数据</div>
+                                </div>
+                                <div class="div0-gfli">
+                                    <div class="gfli-1">需求：</div>
+                                    <div class="gfli-2">刚需</div>
+                                </div>
+                            </div>-->
+                        </template>
+                        <!--访问足迹-->
+                        <template v-if="index=='1'">
+                            <div class="c-div0-1">
+                                <div class="c-div0-1-li" v-tap="{methods:onFwzj,index:'0'}">
+                                    <div class="my-biaozhi" :class="[fwzj_index=='0'?'biaozhi-tick':'']">名片</div>
+                                    <div><span v-cloak>{{browsingHistoryInfo.cardNum}}</span>次</div>
+                                </div>
+                                <div class="c-div0-1-l"></div>
+                                <div class="c-div0-1-li" v-tap="{methods:onFwzj,index:'1'}">
+                                    <div class="my-biaozhi" :class="[fwzj_index=='1'?'biaozhi-tick':'']">文章</div>
+                                    <div><span v-cloak>{{browsingHistoryInfo.articleNum}}</span>次</div>
+                                </div>
+                                <div class="c-div0-1-l"></div>
+                                <div class="c-div0-1-li" v-tap="{methods:onFwzj,index:'2'}">
+                                    <div class="my-biaozhi" :class="[fwzj_index=='2'?'biaozhi-tick':'']">楼盘</div>
+                                    <div><span v-cloak>{{browsingHistoryInfo.buildingNum}}</span>次</div>
+                                </div>
+                            </div>
+                            <div class="my-fwzj-content">
+                                <!--名片-->
+                                <template v-if="fwzj_index=='0'">
+                                    <div class="empty" v-show="fwzjData[0]==undefined ||fwzjData[0].length == 0" style="width:100%;height:auto;">
+                                        <img style="width:75%;height:auto;margin:auto;" src="../../static/image/empty.png" alt="">
+                                    </div>
+                                    <div class="my-fwzj0-div" v-for="item in fwzjData[0]">
+                                        <div class="my-fwzj0-title" v-cloak>{{item.time}}</div>
+                                        <div class="my-fwzj0-content" v-cloak>{{agentCustomerInfo.user_name}} 第{{item.number}}次查看你的名片详情，本次停留了{{item.viewing_hours}}秒，TA在你的名片详情总共停留了{{item.total_viewing_hours}}</div>
+                                    </div>
+                                </template>
+                                <!--文章-->
+                                <template v-if="fwzj_index=='1'">
+                                    <div class="empty" v-show="fwzjData[1]==undefined ||fwzjData[1].length == 0" style="width:100%;height:auto;">
+                                        <img style="width:75%;height:auto;margin:auto;" src="../../static/image/empty.png" alt="">
+                                    </div>
+                                    <div class="my-fwzj1-div" v-for="item in fwzjData[1]">
+                                        <div class="my-fwzj1-content" v-tap.prevent="{methods: toArticleDetailPage,id:item.id}">
+                                            <p class="my-fwzj1-title aui-ellipsis-1" v-cloak>{{item.title}}</p>
+                                            <p class="my-fwzj1-li1">
+                                                <img :src="item.aimg" v-cloak/>
+                                                <span v-cloak>{{item.aname}}</span>
+                                                <span v-cloak>{{item.release_time}}</span>
+                                                <span v-cloak>{{item.comments_num}}评论</span>
+                                            </p>
+                                        </div>
+                                        <div class="my-fwzj1-li2"  v-tap.prevent="{methods: onFootprintArticle, id:item.article_id}" v-cloak>{{item.dynamicNum}}条动态</div>
+                                    </div>
+                                </template>
+                                <!--楼盘-->
+                                <template v-if="fwzj_index=='2'">
+                                    <div class="empty" v-show="fwzjData[2]==undefined ||fwzjData[2].length == 0" style="width:100%;height:auto;">
+                                        <img style="width:75%;height:auto;margin:auto;" src="../../static/image/empty.png">
+                                    </div>
+                                    <div class="my-fwzj2-div" v-for="item in fwzjData[2]">
+                                        <div class="my-fwzj2-li1" v-tap="{methods:onBuildDetail, id:item.id}">
+                                            <img class="my-fwzj2-1" :src="`${DOMAINIMAGE}${item.cover}`" v-cloak/>
+                                            <div class="my-fwzj2-2">
+                                                <div class="fwzj2-2-1 aui-ellipsis-1" v-cloak>{{item.name}}</div>
+                                                <div class="fwzj2-2-2" v-cloak><span>{{item.house_type}}</span><span>{{item.city}} {{item.area}}</span></div>
+                                                <div class="fwzj2-2-3"><span v-cloak>{{item.fold}}元/m²</span><span v-cloak>佣金 {{item.commission}}元</span></div>
+                                            </div>
+                                        </div>
+                                        <div class="my-fwzj2-li2" v-tap="{methods:onFootprintBuild,id:item.building_id}">
+                                            <div v-cloak>{{item.dynamicNum}}</div>
+                                            <div>动态</div>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                        </template>
+                        <!--跟进记录-->
+                        <template v-if="index=='2'">
+                            <template v-if="!is_genjin">
+                                <div class="empty" v-show="followData==undefined ||followData.length == 0" style="width:100%;height:auto;">
+                                    <img src="../../static/image/empty.png" alt="">
+                                </div>
+                                <div class="my-fwzj2-div" v-for="(item,index) in followData" v-tap="{methods: toRecordDetailPage,id:item.id}">
+                                    <div class="my-fwzj2-li1">
+                                        <img class="my-fwzj2-1" :src="`${DOMAINIMAGE}${item.cover}`" v-cloak/>
+                                        <div class="my-fwzj2-2">
+                                            <div class="fwzj2-2-1 aui-ellipsis-1" v-cloak>{{item.name}}</div>
+                                            <div class="fwzj2-2-2"><span v-cloak>{{item.house_type}}</span><span v-cloak>{{item.city+" "+item.area}}</span></div>
+                                            <div class="fwzj2-2-3"><span v-cloak>{{item.fold}}元/m²</span><span v-cloak>佣金 {{item.commission}}元</span></div>
+                                        </div>
+                                    </div>
+                                    <div class="my-type">
+                                        <div v-cloak>{{item.status_str}}</div>
+                                        <div>进程状态</div>
+                                    </div>
+                                </div>
+                            </template>
+                            <template v-else>
+                                <div class="my-div3-type">
+                                    <div class="my-div3-li">
+                                        <div class="my-div3-line" :class="[reportedData.status_type>='0' && reportedData.status_type<='6'?'my-line-tick':'']"></div>
+                                        <div class="div3-li-1" :class="[reportedData.status_type>='0' && reportedData.status_type<='6'?'my-round-tick':'']"></div>
+                                        <div class="div3-li-2">审核</div>
+                                    </div>
+									<div class="my-div3-li">
+                                        <div class="my-div3-line" :class="[reportedData.status_type>='1' && reportedData.status_type<='6'?'my-line-tick':'']"></div>
+                                        <div class="div3-li-1" :class="[reportedData.status_type>='1' && reportedData.status_type<='6'?'my-round-tick':'']"></div>
+                                        <div class="div3-li-2">报备</div>
+                                    </div>
+                                    <div class="my-div3-li">
+                                        <div class="my-div3-line" :class="[reportedData.status_type>='2' && reportedData.status_type<='6'?'my-line-tick':'']"></div>
+                                        <div class="div3-li-1" :class="[reportedData.status_type>='2' && reportedData.status_type<='6'?'my-round-tick':'']"></div>
+                                        <div class="div3-li-2">带看</div>
+                                    </div>
+                                    <div class="my-div3-li">
+                                        <div class="my-div3-line" :class="[reportedData.status_type>='3' && reportedData.status_type<='6'?'my-line-tick':'']"></div>
+                                        <div class="div3-li-1" :class="[reportedData.status_type>='3' && reportedData.status_type<='6'?'my-round-tick':'']"></div>
+                                        <div class="div3-li-2">成交</div>
+                                    </div>
+                                    <div class="my-div3-li">
+                                        <div class="my-div3-line" :class="[reportedData.status_type>='4' && reportedData.status_type<='6'?'my-line-tick':'']"></div>
+                                        <div class="div3-li-1" :class="[reportedData.status_type>='4' && reportedData.status_type<='6'?'my-round-tick':'']"></div>
+                                        <div class="div3-li-2">确认业绩</div>
+                                    </div>
+                                    <div class="my-div3-li">
+                                        <div class="my-div3-line" :class="[reportedData.status_type>='5' && reportedData.status_type<='6'?'my-line-tick':'']"></div>
+                                        <div class="div3-li-1" :class="[reportedData.status_type>='5' && reportedData.status_type<='6'?'my-round-tick':'']"></div>
+                                        <div class="div3-li-2">开票</div>
+                                    </div>
+                                    <div class="my-div3-li">
+                                        <div class="my-div3-line" :class="[reportedData.status_type=='6'?'my-line-tick':'']"></div>
+                                        <div class="div3-li-1" :class="[reportedData.status_type=='6'?'my-round-tick':'']"></div>
+                                        <div class="div3-li-2">结佣</div>
+                                    </div>
+                                </div>
+                                <div class="my-div3-btn" v-if="reportedData.status_type=='1'" v-tap="{methods: onTakeApply,reported_id:reportedData.reported_id}">确认带看</div>
+                                <div class="my-reported-list">
+                                    <div class="my-div3-list" v-for="(item,index) in reportedData.list" :class="[index==reportedData.list.length-1?'div3-tick':'']">
+                                        <div class="div3-list-1">
+                                            <div v-cloak>{{item.time2}}</div>
+                                            <div v-cloak>{{item.time1}}</div>
+                                        </div>
+                                        <div class="div3-list-2">
+                                            <div class="div3-list2-title" v-cloak>{{item.status_type_name}}</div>
+                                            <div class="div3-list2-content">
+                                                <template v-if="index==0">
+                                                    <div class="my-type1-1" v-cloak>{{reportedData.user_name}}（{{reportedData.user_gender}}）定在{{reportedData.take_time}}看房。联系电话：{{reportedData.user_phone}}</div>
+                                                    <div class="my-type1-2" v-tap="{methods:onBuildDetail,id:reportedData.id}">
+                                                        <img class="type1-2-img" :src="reportedData.pic" v-cloak/>
+                                                        <div class="type1-2-content">
+                                                            <div class="type1-2-1 aui-ellipsis-1" v-cloak>{{reportedData.name}}</div>
+                                                            <div class="type1-2-2" v-cloak>{{reportedData.house_type}} | {{reportedData.city}} {{reportedData.area}}</div>
+                                                            <div class="type1-2-3">楼盘负责人电话：<span v-cloak>{{reportedData.sales_telephone}}</span></div>
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                                <template v-else>
+                                                    <div class="my-base-text" v-cloak>{{item.content}}</div>
+                                                </template>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+                        </template>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="my-back" @click="onBack" v-show="is_genjin && current=='2'"></div>
+    <div id="my-footer">
+        <div class="footer-1">
+            <!-- <div class="footer-li" v-tap="{methods:onAgentFocus}">
+                <img src="../../static/image/icon-nav-guanzhu2.png" v-if="agentCustomerInfo.agent_focus=='1'" v-cloak/>
+                <img src="../../static/image/icon-nav-guanzhu.png" v-else/>
+                <div :class="[agentCustomerInfo.agent_focus=='1'?'f-name-2-tick':'']" v-cloak>{{agentCustomerInfo.agent_focus=='1'?'已关注':'关注'}}</div>
+            </div> -->
+            <div class="footer-li" v-tap="{methods: onReport}"><img src="../../static/image/icon-nav-baobei.png" /><div>报备</div></div>
+            <div class="footer-li" v-tap="{methods: onChat}"><img src="../../static/image/icon-nav-weiliao.png" /><div>微聊</div></div>
+        </div>
+        <a class="footer-2" v-if="agentCustomerInfo.user_phone=='暂无'" v-cloak v-tap="{methods:onEmptyPhone}">电话联系</a>
+        <a class="footer-2" :href="'tel:'+agentCustomerInfo.user_phone" v-else>电话联系</a>
+    </div>
+    <div class="zdy-pop" v-show="is_edit" style="display: none;">
+        <div class="my-mask"></div>
+        <div id="my-pop">
+            <div class='pop-title' v-cloak>编辑<img src='../../static/image/icon-close.png' v-tap="{methods:onClose}"/></div>
+            <div class='pop-message'>
+                <div class="message-li"><div>客户姓名：</div><input type="text" placeholder="客户姓名" v-model="edit_name"/></div>
+                <div class="message-li"><div>电话号码：</div><input type="number" placeholder="电话号码" v-model="edit_phone"/></div>
+            </div>
+            <div class='pop-btn' v-tap="{methods:onUpdateName}">保存</div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    Vue.config.devtools = true;
+    var myChart=null;
+    var myChart2=null;
+    new Vue({
+        el: '#app',
+        data: {
+            userInfo:{},    //客户信息
+            agentCustomerInfo:{},   //经纪人客户关系数据
+            browsingHistoryInfo:{}, //统计浏览次数
+            is_edit:false,  //是否显示用户修改
+            edit_name:"",   //修改的姓名
+            edit_phone:"",  //修改的手机号
+            is_genjin:false,    //是否显示跟进详情
+            current:0,  //当前索引
+            fwzj_index:'0',   //访问足迹索引
+            channel:[{title:'数据分析'},{title:'访问足迹'},{title:'跟进记录'}],
+            list:[{},{},{}],
+            fwzjData:[[], [], []],    //访问足迹数据
+            followData:[],   //跟进记录数据
+            reportedData:{status_type:'1'},   //报备数据
+            echartsInfo: null,
+            DOMAINIMAGE: DOMAINIMAGE,
+            managerPullRefresh: []
+        },
+        mounted: function () {
+            this.$nextTick(function () {
+                var _this=this;
+
+                // ajax('agentAjax/getCustomerDetail',{
+                //     id:getQueryString('id')
+                // },function(res){
+                //     _this.followData=res.followData;
+                //     _this.userInfo=res.userInfo;
+                //     _this.fwzjData=res.fwzjData;
+                //     _this.agentCustomerInfo=res.agentCustomerInfo;
+                //     _this.browsingHistoryInfo=res.browsingHistoryInfo;
+                //     _this.echartsInfo = res.echartsInfo;
+                //     _this.edit_name=res.agentCustomerInfo.user_name;
+                //     _this.edit_phone=res.agentCustomerInfo.user_phone=='暂无'?'':res.agentCustomerInfo.edit_phone;
+                //     //存本地数据 type 1:小程序客户    2:经纪人
+                //     localStorage.setItem("9h_localStorage", JSON.stringify({type:'2',agent_id:res.agent_id,user_id:getQueryString('id'),time:new Date().getTime()}));
+                //     //悬浮球拖拽
+                //     $(".my-back").on({
+                //         touchmove:function(e){
+                //             e.preventDefault();
+                //             $(this).css({
+                //                 "left":e.originalEvent.targetTouches[0].clientX-35,
+                //                 "top":e.originalEvent.targetTouches[0].clientY-35
+                //             });
+                //         }
+                //     });
+                // });
+                this.initSwiper();
+                this.initScroll();
+                this.fetchOwner();
+
+                this.fetchOwnerData();
+            })
+        },
+        methods:{
+            initSwiper() {
+                var _this = this;
+                swiperTitle = new Swiper ('.swiperTitle', {
+                    slidesPerView:3,
+                    freeMode: true,
+                    watchSlidesVisibility: true,
+                    watchSlidesProgress: true,
+                    observer: true,
+                    observeParents: true,
+                });
+                swiperContent = new Swiper ('.swiperContent', {
+                    touchRatio: 0.5,
+                    observer: true,
+                    autoHeight:true,
+                    observeParents: true,
+                    thumbs: {
+                        swiper: swiperTitle
+                    },
+                    on:{
+                        slideChange: function(){
+                            _this.current = swiperContent.activeIndex;
+                            _this.enableScrollPull();
+                            _this.fetchOwnerData();
+                        }
+                    }
+                });
+            },
+            initScroll() {
+                const that = this;
+                mui.each(document.querySelectorAll('.mui-scroll'), function(index, pullRefreshEl) {
+                    const selector = '.my-scroll'+index;
+                    mui(selector).scroll({
+                        scrollY: true, //是否竖向滚动
+                        scrollX: false, //是否横向滚动
+                        startX: 0, //初始化时滚动至x
+                        startY: 0, //初始化时滚动至y
+                        indicators: false, //是否显示滚动条
+                        deceleration:0.0005, //阻尼系数,系数越小滑动越灵敏
+                        bounce: true //是否启用回弹
+                    });
+                    if (index > 0) {
+                        const pull = mui(selector).pullToRefresh({
+                            up: {
+                                auto: false,
+                                show: false,
+                                callback: function() {
+                                    setTimeout(function(){
+                                        that.fetchOwnerData();
+                                    },300)
+                                }
+                            }
+                        });
+                        pull.endPullUpToRefresh(true);
+                        that.managerPullRefresh.push(pull);
+                    }
+                });
+            },
+            initEcharts() {
+                //初始化图表
+                var cardNum = this.browsingHistoryInfo.cardNum;
+                var articleNum = this.browsingHistoryInfo.articleNum;
+                var buildingNum = this.browsingHistoryInfo.buildingNum;
+                var totalNum = parseInt(cardNum) + parseInt(articleNum) + parseInt(buildingNum);
+                var cardName = Math.round((cardNum / (totalNum? totalNum: 1))*100);
+                var articleName = Math.round((articleNum / (totalNum? totalNum: 1))*100);
+                var buildingName = Math.round((buildingNum / (totalNum? totalNum: 1))*100);
+                myChart = echarts.init(document.getElementById('canvas'));
+                // 指定图表的配置项和数据
+                chartPption = {
+                    legend: {
+                        orient: 'vertical',
+                        left: 'left',
+                        data: [
+                            '名片' + cardName + '%',
+                            '文章' + articleName + '%',
+                            '楼盘' + buildingName + '%'
+                        ]
+                    },
+                    series: [
+                        {
+                            type:'pie',
+                            radius: ['30%', '70%'],
+                            avoidLabelOverlap: false,
+                            label:{
+                                show:false
+                            },
+                            data:[
+                                {value:cardName, name:'名片' + cardName + '%'},
+                                {value:articleName, name:'文章' + articleName + '%'},
+                                {value:buildingName, name:'楼盘' + buildingName + '%'}
+                            ],
+                        }
+                    ],
+                    color:['#5C73F6', '#FA8143', '#FDC14E']
+                };
+                // 使用刚指定的配置项和数据显示图表。
+                myChart.setOption(chartPption);
+                /*=======================================================================*/
+                myChart2 = echarts.init(document.getElementById('canvas2'));
+                // 指定图表的配置项和数据
+                chartPption2 = {
+                    tooltip: {
+                        trigger: 'axis'
+                    },
+                    grid: {
+                        left: '3%',
+                        right: '4%',
+                        bottom: '3%',
+                        containLabel: true
+                    },
+                    xAxis: {
+                        type: 'category',
+                        boundaryGap: false,
+                        data: this.echartsInfo.title
+                    },
+                    yAxis: {
+                        type: 'value'
+                    },
+                    series: [
+                        {
+                            name:'名片',
+                            type:'line',
+                            data: this.echartsInfo.cardNum
+                        },
+                        {
+                            name:'文章',
+                            type:'line',
+                            data: this.echartsInfo.articleNum
+                        },
+                        {
+                            name:'楼盘',
+                            type:'line',
+                            data: this.echartsInfo.buildingNum
+                        }
+                    ],
+                    color:['#5C73F6','#FA8143','#FDC14E']
+                };
+                // 使用刚指定的配置项和数据显示图表。
+                myChart2.setOption(chartPption2);
+            },
+            fetchOwner() {
+                ajax('agentAjax/getCustomerInfo', {
+                    id: getQueryString('id')
+                }, res => {
+                    this.agentCustomerInfo = {
+                        ...res.data.customerInfo
+                    };
+                    this.browsingHistoryInfo = res.data.totalInfo;
+                });
+            },
+            fetchOwnerData() {
+                const page = parseInt(this.fwzjData[this.fwzj_index].length / 10) + 1;
+                const current = Number(this.current);
+                const fwzj_index = Number(this.fwzj_index);
+                ajax('agentAjax/getCustomerDetailNew', {
+                    id: getQueryString('id'),
+                    tab_type: current + 1,
+                    browse_type: fwzj_index + 1,
+                    page,
+                    page_size: 10
+                }, res => {
+                    switch(current) {
+                        case 0: this.setEchartsData(res); break;
+                        case 1: this.setHistoryData(res); break;
+                        case 2: this.setRecordingData(res); break;
+                    }
+                })
+            },
+            setEchartsData(res) {
+                this.echartsInfo = res.data.echartsInfo;
+                this.initEcharts();
+            },
+            setHistoryData(res) {
+                const list = res.data.footprintData || [];
+                this.$set(this.fwzjData, this.fwzj_index, this.fwzjData[this.fwzj_index].concat(list));
+                if (this.fwzj_index > 0) {
+                    this.managerPullRefresh[0].endPullUpToRefresh(list.length < 10);
+                }
+            },
+            setRecordingData(res) {
+                const list = res.data.followData || [];
+                this.managerPullRefresh[1].endPullUpToRefresh(list.length < 10);
+                this.followData = this.followData.concat(list);
+            },
+            onEdit(){   //修改客户信息
+                this.is_edit=true;
+            },
+            onClose(){
+                this.is_edit=false;
+            },
+            onFwzj(options){    //访问足迹切换事件
+                if (this.fwzj_index == options.index) {
+                    return ;
+                }
+                this.fwzjData = [[], [], []];
+                this.fwzj_index = options.index;
+                if (this.fwzj_index > 0) {
+                    this.managerPullRefresh[0].endPullUpToRefresh(false);
+                    this.managerPullRefresh[0].refresh(true);
+                }
+                this.fetchOwnerData();
+            },
+            onGenjinType(options){  //跟进记录事件
+                mui('.my-scroll2').scroll().scrollTo(0,0,0);
+                this.is_genjin=true;
+                this.reportedData=this.followData[options.index];
+            },
+            onBack(){   //回到跟进记录
+                this.is_genjin=false;
+            },
+            onFootprintBuild(event){ //楼盘足迹跳转
+                setLocation('pages/customer/footprint_build.html?id='+event.id+'&user_id='+getQueryString('id'));
+            },
+            onFootprintArticle(event){   //文章足迹跳转
+                event.event.preventDefault();
+                setLocation('pages/customer/footprint_article.html?id='+event.id+'&user_id='+getQueryString('id'));
+            },
+            onTakeApply(event){  //带看申请跳转
+                setLocation('pages/customer/take_apply.html?reported_id='+event.reported_id);
+            },
+            onReport(){ //报备客户
+                window.sessionStorage.setItem('client', JSON.stringify({
+                    name: this.agentCustomerInfo.user_name,
+                    wechatNickname: this.agentCustomerInfo.nickname,
+                    user_id: getQueryString('id'),
+                    phone: this.agentCustomerInfo.user_phone,
+                    sex: this.agentCustomerInfo.gender
+                }));
+                window.sessionStorage.removeItem('selectBuildings');
+                setLocation('pages/me/report.html');
+            },
+            onBuildDetail(event){
+                setLocation('pages/build/build_detail.html?id='+event.id);
+            },
+            onChat(){   //跳转聊天详情
+                setLocation('pages/me/chat.html?title='+this.agentCustomerInfo.user_name);
+            },
+            onEmptyPhone(){ //电话号码为空
+                mui.toast('暂无客户号码！');
+            },
+            onUpdateName(){ //修改用户备注信息
+                var  _this=this;
+                var user_name=this.edit_name;
+                var user_phone=this.edit_phone;
+                if(user_name==""){
+                    mui.toast('请输入客户姓名！');
+                    return false;
+                }
+                if(!!user_phone){
+                    // !(/^((0\d{2,3})-)?(\d{7,8})(-(\d{3,4}))?$/.test(user_phone))
+                    // ||!(/^1[34578]\d{9}$/.test(user_phone))
+                    console.log(user_phone)
+                    console.log((/^1[34578]\d{9}$/.test(user_phone)))
+                    console.log((/^((0\d{2,3})-)?(\d{7,8})(-(\d{3,4}))?$/.test(user_phone)))
+                    if(!(/^1[34578]\d{9}$/.test(user_phone))){
+                        mui.toast('请输入正确的手机号');
+                        return false;
+                    }
+                    // if(true || false){
+                    //     mui.toast('请输入正确的手机号或电话号码');
+                    //     return false;
+                    // }
+                }
+                ajax('agentAjax/updateCustomerName',{id:getQueryString('id'),user_name:user_name,user_phone:user_phone},function(res){
+                    if(res.success){
+                        mui.toast('修改成功！');
+                        var agentCustomerInfo=_this.agentCustomerInfo;
+                        agentCustomerInfo.user_name=user_name;
+                        agentCustomerInfo.user_phone=user_phone==''?'暂无':user_phone;
+                        _this.agentCustomerInfo=agentCustomerInfo;
+                        _this.is_edit=false;
+                    }else{
+                        mui.toast('修改失败！');
+                    }
+                });
+            },
+            onAgentFocus(){ //经纪人客户关注
+                var _this=this;
+                var agent_focus=_this.agentCustomerInfo.agent_focus=='1'?'0':'1';
+                //修改关注状态
+                ajax('agentAjax/updateAgentCustomer',{id:getQueryString('id'),agent_focus:agent_focus},function(res){
+                    if(res.success){
+                        mui.toast('关注成功！');
+                        var agentCustomerInfo=_this.agentCustomerInfo;
+                        agentCustomerInfo.agent_focus=agent_focus;
+                        _this.agentCustomerInfo=agentCustomerInfo;
+                    }else{
+                        mui.toast('关注失败！');
+                    }
+                });
+            },
+            toRecordDetailPage(options) {
+                setLocation('pages/customer/record_detail.html?id='+options.id);
+            },
+            toArticleDetailPage(options) {
+                setLocation('pages/index/article_detail.html?id='+options.id);
+            },
+            enableScrollPull() {
+                if (this.current == 1) {
+                    this.followData = [];
+                    this.managerPullRefresh[1].endPullUpToRefresh(true);
+                } else if (this.current == 2) {
+                    this.fwzjData = [[], [], []];
+                    this.fwzj_index = 1;
+                    this.managerPullRefresh[0].endPullUpToRefresh(true);
+                    this.managerPullRefresh[1].refresh(true);
+                }
+            },
+        }
+    })
+</script>

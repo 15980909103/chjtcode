@@ -1,0 +1,86 @@
+[2021-02-05T16:55:46+08:00][sql] CONNECT:[ UseTime:0.050911s ] mysql:host=8.129.209.172;port=3306;dbname=youxi;charset=utf8mb4
+[2021-02-05T16:55:46+08:00][sql] SHOW FULL COLUMNS FROM `9h_xcx_building_reported` [ RunTime:0.034572s ]
+[2021-02-05T16:55:47+08:00][sql] SELECT `create_time`,`status_type`,`examine_type` FROM `9h_xcx_building_reported` WHERE  `order_no` = 'R202102055255100580087' LIMIT 1 [ RunTime:0.032102s ]
+[2021-02-05T16:55:47+08:00][sql] UPDATE `9h_xcx_building_reported`  SET `examine_type` = -2 , `update_time` = 1612514116  WHERE  `order_no` = 'R202102055255100580087'  AND `status_type` IN (1,2,3)  AND `examine_type` = 1 [ RunTime:0.037573s ]
+[2021-02-05T16:55:47+08:00][error] [1]Uncaught think\db\exception\DbException: not support data:$data in /mnt/e/project/9house_test/fenxiao_v2/vendor/topthink/think-orm/src/db/builder/Mysql.php:336
+Stack trace:
+#0 /mnt/e/project/9house_test/fenxiao_v2/vendor/topthink/think-orm/src/db/Builder.php(149): think\db\builder\Mysql->parseKey()
+#1 /mnt/e/project/9house_test/fenxiao_v2/vendor/topthink/think-orm/src/db/builder/Mysql.php(118): think\db\Builder->parseData()
+#2 /mnt/e/project/9house_test/fenxiao_v2/vendor/topthink/think-orm/src/db/PDOConnection.php(863): think\db\builder\Mysql->insert()
+#3 /mnt/e/project/9house_test/fenxiao_v2/vendor/topthink/think-swoole/src/pool/Proxy.php(105): think\db\PDOConnection->insert()
+#4 /mnt/e/project/9house_test/fenxiao_v2/vendor/topthink/think-swoole/src/pool/proxy/Connection.php(114): think\swoole\pool\Proxy->__call()
+#5 /mnt/e/project/9house_test/fenxiao_v2/vendor/topthink/think-orm/src/db/BaseQuery.php(960): think\swoole\pool\proxy\Connection->insert()
+#6 /mnt/e/project/9house_test/fenxiao_v2/app/server/notify[/mnt/e/project/9house_test/fenxiao_v2/vendor/topthink/think-orm/src/db/builder/Mysql.php:336]
+[2021-02-05T17:01:01+08:00][error] [1]Uncaught think\db\exception\DbException: not support data:$data in /mnt/e/project/9house_test/fenxiao_v2/vendor/topthink/think-orm/src/db/builder/Mysql.php:336
+Stack trace:
+#0 /mnt/e/project/9house_test/fenxiao_v2/vendor/topthink/think-orm/src/db/Builder.php(149): think\db\builder\Mysql->parseKey()
+#1 /mnt/e/project/9house_test/fenxiao_v2/vendor/topthink/think-orm/src/db/builder/Mysql.php(118): think\db\Builder->parseData()
+#2 /mnt/e/project/9house_test/fenxiao_v2/vendor/topthink/think-orm/src/db/PDOConnection.php(863): think\db\builder\Mysql->insert()
+#3 /mnt/e/project/9house_test/fenxiao_v2/vendor/topthink/think-swoole/src/pool/Proxy.php(105): think\db\PDOConnection->insert()
+#4 /mnt/e/project/9house_test/fenxiao_v2/vendor/topthink/think-swoole/src/pool/proxy/Connection.php(114): think\swoole\pool\Proxy->__call()
+#5 /mnt/e/project/9house_test/fenxiao_v2/vendor/topthink/think-orm/src/db/BaseQuery.php(960): think\swoole\pool\proxy\Connection->insert()
+#6 /mnt/e/project/9house_test/fenxiao_v2/app/server/notify[/mnt/e/project/9house_test/fenxiao_v2/vendor/topthink/think-orm/src/db/builder/Mysql.php:336]
+[2021-02-05T17:07:01+08:00][error] [1]Uncaught think\db\exception\DbException: not support data:$data in /mnt/e/project/9house_test/fenxiao_v2/vendor/topthink/think-orm/src/db/builder/Mysql.php:336
+Stack trace:
+#0 /mnt/e/project/9house_test/fenxiao_v2/vendor/topthink/think-orm/src/db/Builder.php(149): think\db\builder\Mysql->parseKey()
+#1 /mnt/e/project/9house_test/fenxiao_v2/vendor/topthink/think-orm/src/db/builder/Mysql.php(118): think\db\Builder->parseData()
+#2 /mnt/e/project/9house_test/fenxiao_v2/vendor/topthink/think-orm/src/db/PDOConnection.php(863): think\db\builder\Mysql->insert()
+#3 /mnt/e/project/9house_test/fenxiao_v2/vendor/topthink/think-swoole/src/pool/Proxy.php(105): think\db\PDOConnection->insert()
+#4 /mnt/e/project/9house_test/fenxiao_v2/vendor/topthink/think-swoole/src/pool/proxy/Connection.php(114): think\swoole\pool\Proxy->__call()
+#5 /mnt/e/project/9house_test/fenxiao_v2/vendor/topthink/think-orm/src/db/BaseQuery.php(960): think\swoole\pool\proxy\Connection->insert()
+#6 /mnt/e/project/9house_test/fenxiao_v2/app/server/notify[/mnt/e/project/9house_test/fenxiao_v2/vendor/topthink/think-orm/src/db/builder/Mysql.php:336]
+[2021-02-05T17:09:53+08:00][error] [1]Uncaught Error: Call to a member function name() on null in /mnt/e/project/9house_test/fenxiao_v2/app/admin/controller/NotifyController.php:44
+Stack trace:
+#0 {main}
+  thrown[/mnt/e/project/9house_test/fenxiao_v2/app/admin/controller/NotifyController.php:44]
+[2021-02-05T17:31:52+08:00][sql] CONNECT:[ UseTime:0.059336s ] mysql:host=8.129.209.172;port=3306;dbname=youxi;charset=utf8mb4
+[2021-02-05T17:31:52+08:00][sql] SHOW FULL COLUMNS FROM `9h_log` [ RunTime:0.057675s ]
+[2021-02-05T17:31:52+08:00][sql] INSERT INTO `9h_log` SET `title` = '延时队列操作' , `content` = '{\"$data\":{\"order_no\":\"R202102055210053420814\",\"status_type\":\"2\"},\"$task\":{\"doTask\":\"app\\\\task\\\\CheckProtection\",\"data\":{\"order_no\":\"R202102055210053420814\",\"status_type\":\"2\"},\"addtime\":1612517083,\"delay\":5,\"queuename_key\":\"fenxiao:delay_queue:delay:checkProtection\",\"queue_again_key\":\"fenxiao:delay_queue:again:checkProtection\",\"queue_fail_key\":\"fenxiao:delay_queue:fail:checkProtection\",\"key\":0}}' , `request` = '获取参数' , `ctime` = 1612517511 [ RunTime:0.048577s ]
+[2021-02-05T17:31:52+08:00][sql] SHOW FULL COLUMNS FROM `9h_xcx_building_reported` [ RunTime:0.040693s ]
+[2021-02-05T17:31:52+08:00][sql] SELECT `create_time`,`status_type`,`examine_type` FROM `9h_xcx_building_reported` WHERE  `order_no` = 'R202102055210053420814' LIMIT 1 [ RunTime:0.039038s ]
+[2021-02-05T17:31:52+08:00][sql] UPDATE `9h_xcx_building_reported`  SET `examine_type` = -2 , `update_time` = 1612516649  WHERE  `order_no` = 'R202102055210053420814'  AND `status_type` IN (1,2,3)  AND `examine_type` = 1 [ RunTime:0.042832s ]
+[2021-02-05T17:48:57+08:00][sql] CONNECT:[ UseTime:0.062193s ] mysql:host=8.129.209.172;port=3306;dbname=youxi;charset=utf8mb4
+[2021-02-05T17:48:57+08:00][sql] SHOW FULL COLUMNS FROM `9h_log` [ RunTime:0.040927s ]
+[2021-02-05T17:48:57+08:00][sql] INSERT INTO `9h_log` SET `title` = '延时队列操作' , `content` = '{\"$data\":{\"order_no\":\"R202102055210053420814\",\"status_type\":\"3\"},\"$task\":{\"doTask\":\"app\\\\task\\\\CheckProtection\",\"data\":{\"order_no\":\"R202102055210053420814\",\"status_type\":\"3\"},\"addtime\":1612518499,\"delay\":5,\"queuename_key\":\"fenxiao:delay_queue:delay:checkProtection\",\"queue_again_key\":\"fenxiao:delay_queue:again:checkProtection\",\"queue_fail_key\":\"fenxiao:delay_queue:fail:checkProtection\",\"key\":0}}' , `request` = '获取参数' , `ctime` = 1612518537 [ RunTime:0.043032s ]
+[2021-02-05T17:48:57+08:00][sql] SHOW FULL COLUMNS FROM `9h_xcx_building_reported` [ RunTime:0.040481s ]
+[2021-02-05T17:48:58+08:00][sql] SELECT `create_time`,`status_type`,`examine_type` FROM `9h_xcx_building_reported` WHERE  `order_no` = 'R202102055210053420814' LIMIT 1 [ RunTime:0.039731s ]
+[2021-02-05T17:48:58+08:00][sql] UPDATE `9h_xcx_building_reported`  SET `examine_type` = -2 , `update_time` = 1612516649  WHERE  `order_no` = 'R202102055210053420814'  AND `status_type` IN (1,2,3)  AND `examine_type` = 1 [ RunTime:0.044732s ]
+[2021-02-05T17:48:58+08:00][sql] CONNECT:[ UseTime:0.048288s ] mysql:host=8.129.209.172;port=3306;dbname=youxi;charset=utf8mb4
+[2021-02-05T17:48:58+08:00][sql] SHOW FULL COLUMNS FROM `9h_log` [ RunTime:0.032434s ]
+[2021-02-05T17:48:58+08:00][sql] INSERT INTO `9h_log` SET `title` = '延时队列操作' , `content` = '{\"$data\":{\"order_no\":\"R202102055210053420814\",\"status_type\":\"3\"},\"$task\":{\"doTask\":\"app\\\\task\\\\CheckProtection\",\"data\":{\"order_no\":\"R202102055210053420814\",\"status_type\":\"3\"},\"addtime\":1612518499,\"delay\":5,\"queuename_key\":\"fenxiao:delay_queue:delay:checkProtection\",\"queue_again_key\":\"fenxiao:delay_queue:again:checkProtection\",\"queue_fail_key\":\"fenxiao:delay_queue:fail:checkProtection\",\"try_times\":1,\"key\":0}}' , `request` = '获取参数' , `ctime` = 1612518538 [ RunTime:0.036413s ]
+[2021-02-05T17:48:58+08:00][sql] SHOW FULL COLUMNS FROM `9h_xcx_building_reported` [ RunTime:0.031057s ]
+[2021-02-05T17:48:58+08:00][sql] SELECT `create_time`,`status_type`,`examine_type` FROM `9h_xcx_building_reported` WHERE  `order_no` = 'R202102055210053420814' LIMIT 1 [ RunTime:0.034423s ]
+[2021-02-05T17:48:58+08:00][sql] SHOW FULL COLUMNS FROM `9h_delay_task_log` [ RunTime:0.029853s ]
+[2021-02-05T17:48:58+08:00][sql] INSERT INTO `9h_delay_task_log` SET `name` = 'app\\task\\CheckProtection' , `parmas` = '{\"doTask\":\"app\\\\task\\\\CheckProtection\",\"data\":{\"order_no\":\"R202102055210053420814\",\"status_type\":\"3\"},\"addtime\":1612518499,\"delay\":5,\"queuename_key\":\"fenxiao:delay_queue:delay:checkProtection\",\"queue_again_key\":\"fenxiao:delay_queue:again:checkProtection\",\"queue_fail_key\":\"fenxiao:delay_queue:fail:checkProtection\",\"try_times\":1,\"key\":0}' , `type` = 'fail' , `errmsg` = '该流程环节的状态不可更改' , `create_time` = 1612518538 , `queuename_key` = 'fenxiao:delay_queue:delay:checkProtection' [ RunTime:0.035214s ]
+[2021-02-05T17:53:01+08:00][notice] 获取到时间的延迟队列任务错误read error on connection to 127.0.0.1:59091
+[2021-02-05T17:56:46+08:00][sql] CONNECT:[ UseTime:0.075655s ] mysql:host=8.129.209.172;port=3306;dbname=youxi;charset=utf8mb4
+[2021-02-05T17:56:47+08:00][sql] SHOW FULL COLUMNS FROM `9h_log` [ RunTime:0.078477s ]
+[2021-02-05T17:56:47+08:00][sql] INSERT INTO `9h_log` SET `title` = '延时队列操作' , `content` = '{\"$data\":{\"order_no\":\"R202102055210053420814\",\"status_type\":\"2\"},\"$task\":{\"doTask\":\"app\\\\task\\\\CheckProtection\",\"data\":{\"order_no\":\"R202102055210053420814\",\"status_type\":\"2\"},\"addtime\":1612518972,\"delay\":5,\"queuename_key\":\"fenxiao:delay_queue:delay:checkProtection\",\"queue_again_key\":\"fenxiao:delay_queue:again:checkProtection\",\"queue_fail_key\":\"fenxiao:delay_queue:fail:checkProtection\",\"key\":0}}' , `request` = '获取参数' , `ctime` = 1612519006 [ RunTime:0.074593s ]
+[2021-02-05T17:56:47+08:00][sql] SHOW FULL COLUMNS FROM `9h_xcx_building_reported` [ RunTime:0.046073s ]
+[2021-02-05T17:56:47+08:00][sql] SELECT `create_time`,`status_type`,`examine_type` FROM `9h_xcx_building_reported` WHERE  `order_no` = 'R202102055210053420814' LIMIT 1 [ RunTime:0.105801s ]
+[2021-02-05T17:56:47+08:00][sql] UPDATE `9h_xcx_building_reported`  SET `examine_type` = -2 , `update_time` = 1612516649  WHERE  `order_no` = 'R202102055210053420814'  AND `status_type` IN (1,2,3)  AND `examine_type` = 1 [ RunTime:0.067959s ]
+[2021-02-05T17:59:19+08:00][sql] CONNECT:[ UseTime:0.048283s ] mysql:host=8.129.209.172;port=3306;dbname=youxi;charset=utf8mb4
+[2021-02-05T17:59:19+08:00][sql] SHOW FULL COLUMNS FROM `9h_log` [ RunTime:0.033977s ]
+[2021-02-05T17:59:19+08:00][sql] INSERT INTO `9h_log` SET `title` = '延时队列操作' , `content` = '{\"$data\":{\"order_no\":\"R202102055210053420814\",\"status_type\":\"3\"},\"$task\":{\"doTask\":\"app\\\\task\\\\CheckProtection\",\"data\":{\"order_no\":\"R202102055210053420814\",\"status_type\":\"3\"},\"addtime\":1612519154,\"delay\":5,\"queuename_key\":\"fenxiao:delay_queue:delay:checkProtection\",\"queue_again_key\":\"fenxiao:delay_queue:again:checkProtection\",\"queue_fail_key\":\"fenxiao:delay_queue:fail:checkProtection\",\"key\":0}}' , `request` = '获取参数' , `ctime` = 1612519159 [ RunTime:0.261973s ]
+[2021-02-05T17:59:19+08:00][sql] SHOW FULL COLUMNS FROM `9h_xcx_building_reported` [ RunTime:0.033295s ]
+[2021-02-05T17:59:19+08:00][sql] SELECT `create_time`,`status_type`,`examine_type` FROM `9h_xcx_building_reported` WHERE  `order_no` = 'R202102055210053420814' LIMIT 1 [ RunTime:0.031350s ]
+[2021-02-05T17:59:19+08:00][sql] UPDATE `9h_xcx_building_reported`  SET `examine_type` = -2 , `update_time` = 1612516649  WHERE  `order_no` = 'R202102055210053420814'  AND `status_type` IN (1,2,3)  AND `examine_type` = 1 [ RunTime:0.042632s ]
+[2021-02-05T17:59:20+08:00][sql] INSERT INTO `9h_log` SET `title` = '延时队列操作' , `content` = '{\"$data\":{\"order_no\":\"R202102055210053420814\",\"status_type\":\"3\"},\"$task\":{\"doTask\":\"app\\\\task\\\\CheckProtection\",\"data\":{\"order_no\":\"R202102055210053420814\",\"status_type\":\"3\"},\"addtime\":1612519154,\"delay\":5,\"queuename_key\":\"fenxiao:delay_queue:delay:checkProtection\",\"queue_again_key\":\"fenxiao:delay_queue:again:checkProtection\",\"queue_fail_key\":\"fenxiao:delay_queue:fail:checkProtection\",\"try_times\":1,\"key\":0}}' , `request` = '获取参数' , `ctime` = 1612519160 [ RunTime:0.051185s ]
+[2021-02-05T17:59:20+08:00][sql] SELECT `create_time`,`status_type`,`examine_type` FROM `9h_xcx_building_reported` WHERE  `order_no` = 'R202102055210053420814' LIMIT 1 [ RunTime:0.041030s ]
+[2021-02-05T17:59:20+08:00][sql] SHOW FULL COLUMNS FROM `9h_delay_task_log` [ RunTime:0.036490s ]
+[2021-02-05T17:59:20+08:00][sql] INSERT INTO `9h_delay_task_log` SET `name` = 'app\\task\\CheckProtection' , `parmas` = '{\"doTask\":\"app\\\\task\\\\CheckProtection\",\"data\":{\"order_no\":\"R202102055210053420814\",\"status_type\":\"3\"},\"addtime\":1612519154,\"delay\":5,\"queuename_key\":\"fenxiao:delay_queue:delay:checkProtection\",\"queue_again_key\":\"fenxiao:delay_queue:again:checkProtection\",\"queue_fail_key\":\"fenxiao:delay_queue:fail:checkProtection\",\"try_times\":1,\"key\":0}' , `type` = 'fail' , `errmsg` = '该流程环节的状态不可更改' , `create_time` = 1612519160 , `queuename_key` = 'fenxiao:delay_queue:delay:checkProtection' [ RunTime:0.042049s ]
+[2021-02-05T18:00:30+08:00][sql] CONNECT:[ UseTime:0.057127s ] mysql:host=8.129.209.172;port=3306;dbname=youxi;charset=utf8mb4
+[2021-02-05T18:00:30+08:00][sql] SHOW FULL COLUMNS FROM `9h_log` [ RunTime:0.034369s ]
+[2021-02-05T18:00:30+08:00][sql] INSERT INTO `9h_log` SET `title` = '延时队列操作' , `content` = '{\"$data\":{\"order_no\":\"R202102055210053420814\",\"status_type\":\"2\"},\"$task\":{\"doTask\":\"app\\\\task\\\\CheckProtection\",\"data\":{\"order_no\":\"R202102055210053420814\",\"status_type\":\"2\"},\"addtime\":1612519225,\"delay\":5,\"queuename_key\":\"fenxiao:delay_queue:delay:checkProtection\",\"queue_again_key\":\"fenxiao:delay_queue:again:checkProtection\",\"queue_fail_key\":\"fenxiao:delay_queue:fail:checkProtection\",\"key\":0}}' , `request` = '获取参数' , `ctime` = 1612519230 [ RunTime:0.036443s ]
+[2021-02-05T18:00:30+08:00][sql] SHOW FULL COLUMNS FROM `9h_xcx_building_reported` [ RunTime:0.032553s ]
+[2021-02-05T18:00:30+08:00][sql] SELECT `create_time`,`status_type`,`examine_type` FROM `9h_xcx_building_reported` WHERE  `order_no` = 'R202102055210053420814' LIMIT 1 [ RunTime:0.033083s ]
+[2021-02-05T18:00:30+08:00][sql] UPDATE `9h_xcx_building_reported`  SET `examine_type` = -2 , `update_time` = 1612516649  WHERE  `order_no` = 'R202102055210053420814'  AND `status_type` IN (1,2,3)  AND `examine_type` = 1 [ RunTime:0.040986s ]
+[2021-02-05T18:05:23+08:00][sql] CONNECT:[ UseTime:0.061705s ] mysql:host=8.129.209.172;port=3306;dbname=youxi;charset=utf8mb4
+[2021-02-05T18:05:23+08:00][sql] SHOW FULL COLUMNS FROM `9h_log` [ RunTime:0.041258s ]
+[2021-02-05T18:05:23+08:00][sql] INSERT INTO `9h_log` SET `title` = '延时队列操作' , `content` = '{\"$data\":{\"order_no\":\"R202102055210053420814\",\"status_type\":\"3\"},\"$task\":{\"doTask\":\"app\\\\task\\\\CheckProtection\",\"data\":{\"order_no\":\"R202102055210053420814\",\"status_type\":\"3\"},\"addtime\":1612519518,\"delay\":5,\"queuename_key\":\"fenxiao:delay_queue:delay:checkProtection\",\"queue_again_key\":\"fenxiao:delay_queue:again:checkProtection\",\"queue_fail_key\":\"fenxiao:delay_queue:fail:checkProtection\",\"key\":0}}' , `request` = '获取参数' , `ctime` = 1612519523 [ RunTime:0.045636s ]
+[2021-02-05T18:05:23+08:00][sql] SHOW FULL COLUMNS FROM `9h_xcx_building_reported` [ RunTime:0.041850s ]
+[2021-02-05T18:05:23+08:00][sql] SELECT `create_time`,`status_type`,`examine_type` FROM `9h_xcx_building_reported` WHERE  `order_no` = 'R202102055210053420814' LIMIT 1 [ RunTime:0.041079s ]
+[2021-02-05T18:05:23+08:00][sql] UPDATE `9h_xcx_building_reported`  SET `examine_type` = -2 , `update_time` = 1612516649  WHERE  `order_no` = 'R202102055210053420814'  AND `status_type` IN (1,2,3)  AND `examine_type` = 1 [ RunTime:0.045002s ]
+[2021-02-05T18:07:25+08:00][sql] INSERT INTO `9h_log` SET `title` = '延时队列操作' , `content` = '{\"$data\":{\"order_no\":\"R202102055210053420814\",\"status_type\":\"3\"},\"$task\":{\"doTask\":\"app\\\\task\\\\CheckProtection\",\"data\":{\"order_no\":\"R202102055210053420814\",\"status_type\":\"3\"},\"addtime\":1612519640,\"delay\":5,\"queuename_key\":\"fenxiao:delay_queue:delay:checkProtection\",\"queue_again_key\":\"fenxiao:delay_queue:again:checkProtection\",\"queue_fail_key\":\"fenxiao:delay_queue:fail:checkProtection\",\"key\":0}}' , `request` = '获取参数' , `ctime` = 1612519645 [ RunTime:0.051087s ]
+[2021-02-05T18:07:25+08:00][sql] SELECT `create_time`,`status_type`,`examine_type` FROM `9h_xcx_building_reported` WHERE  `order_no` = 'R202102055210053420814' LIMIT 1 [ RunTime:0.040365s ]
+[2021-02-05T18:07:25+08:00][sql] UPDATE `9h_xcx_building_reported`  SET `examine_type` = -2 , `update_time` = 1612516649  WHERE  `order_no` = 'R202102055210053420814'  AND `status_type` IN (1,2,3)  AND `examine_type` = 1 [ RunTime:0.045834s ]

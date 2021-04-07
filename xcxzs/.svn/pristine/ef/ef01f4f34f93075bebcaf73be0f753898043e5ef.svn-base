@@ -1,0 +1,1812 @@
+[2020-08-28T18:10:23+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:23+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:23+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:23+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:23+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:23+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:23+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:24+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:24+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:24+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:24+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:24+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:25+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:25+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:26+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:26+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:26+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:26+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:26+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:26+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:26+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:26+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:26+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:26+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:27+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:27+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:27+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:27+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:27+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:27+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:27+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:27+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:27+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:27+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:27+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:27+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:27+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:28+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:28+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:28+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:28+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:28+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:28+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:28+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:28+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:28+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:28+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:28+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:28+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:28+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:29+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:29+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:29+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:29+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:29+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:29+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:29+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:29+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:29+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:29+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:29+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:29+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:30+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:30+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:30+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:30+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:30+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:30+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:30+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:30+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:30+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:30+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:30+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:30+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:30+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:30+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:31+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:31+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:31+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:31+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:31+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:31+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:31+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:31+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:31+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:31+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:31+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:31+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:31+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:32+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:32+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:32+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:32+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:32+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:32+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:32+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:32+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:32+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:32+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:32+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:33+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:33+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:33+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:33+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:33+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:33+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:33+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:33+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:33+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:33+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:33+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:33+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:33+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:33+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:33+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:34+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:34+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:34+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:34+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:34+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:34+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:34+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:34+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:34+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:34+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:34+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:34+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:34+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:35+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:35+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:35+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:35+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:35+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:35+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:35+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:35+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:35+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:35+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:35+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:35+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:36+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:36+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:36+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:36+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:36+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:36+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:36+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:36+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:36+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:36+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]
+[2020-08-28T18:10:36+08:00][error] [1]Uncaught Error: Interface 'app\rpc\interfaces\UserDaoInterface' not found in /mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(444): include()
+#1 /mnt/e/project/999house_v2/vendor/composer/ClassLoader.php(322): Composer\Autoload\includeFile()
+#2 [internal function]: Composer\Autoload\ClassLoader->loadClass()
+#3 [internal function]: spl_autoload_call()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(71): ReflectionClass->__construct()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/rpc/server/Dispatcher.php(60): think\swoole\rpc\server\Dispatcher->prepareServices()
+#6 [internal function]: think\swoole\rpc\server\Dispatcher->__construct()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(391): ReflectionClass->newInstanceArgs()
+#8 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(250): think\Container->invokeClass()
+#9 /mnt[/mnt/e/project/999house_v2/app/rpc/dao/UserDao.php:9]

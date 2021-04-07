@@ -1,0 +1,77 @@
+#app{
+	background-color: rgb(11,0,58);
+}
+
+.top{
+	width: 100%;
+	height: 4.3rem;
+}
+
+.pic-wrap{
+	position: relative;
+}
+
+.vote{
+	width: 1.04rem;
+	height: 1.04rem;
+	position: absolute;
+	top: 3.62rem;
+	right: .36rem;
+}
+
+.box{
+	width: 100%;
+	box-sizing: border-box;
+	padding: .8rem 0 1.6rem;
+	color: rgba(248, 220, 170, 1);
+}
+
+.title{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding-bottom: .24rem;
+	border-bottom: 1px solid rgba(216, 216, 216, 1);
+	margin-bottom: .37rem;
+}
+
+.title h4{
+	font-size: .4rem;
+}
+
+.title p{
+	font-size: .26rem;
+}
+
+.title span{
+	font-size: .34rem;
+	color: #fff;
+	margin: 0 .2rem;
+}
+
+.content{
+	font-size: .26rem;
+	line-height: .5rem;
+	overflow: hidden;
+}
+
+.content div{
+	margin-bottom: .2rem;
+}
+
+.content img{
+	width: 100vw;
+}
+
+.vote-btn{
+	position: absolute;
+	bottom: .3rem;
+	left: 50%;
+	transform: translate(-50%,0);
+}
+
+.vote-btn .van-button{
+	width: 3.07rem;
+	height: .78rem;
+	box-shadow: 0 .03rem .14rem 0 #C44500;
+}

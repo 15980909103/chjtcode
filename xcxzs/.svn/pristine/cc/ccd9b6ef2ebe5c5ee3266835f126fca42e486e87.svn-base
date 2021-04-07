@@ -1,0 +1,21 @@
+<view class='my-content' bindlongpress='onLongtap'>
+  <image class="my-img" src="{{bjImg}}" mode="widthFix"></image>
+  <view class="my-name">{{userInfo.name}}</view>
+  <view class="my-headimgurl"><image src="{{userInfo.headimgurl}}"></image></view>
+  <view class="my-info">
+    <view class='my-info-c'>
+      <view class="view van-ellipsis">Tel：{{userInfo.phone}}</view>
+      <view class="view van-ellipsis">Col：{{userInfo.storename}}</view>
+      <view class="view van-ellipsis">Add：{{userInfo.city+userInfo.area}}</view>
+    </view>
+    <view class='my-qrcode'>
+      <image src='{{qrCode}}'></image>
+      <view>长按识别更多</view>
+    </view>
+  </view>
+  <view class='my-signature'>
+    <view>{{userInfo.signature}}</view>
+    <text>{{userInfo.signature}}</text>
+  </view>
+</view>
+<canvas wx:if="{{canvasHidden}}" class="my-canvas" canvas-id="share" bindlongtap='onLongtap'></canvas>

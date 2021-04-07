@@ -1,0 +1,161 @@
+<template>
+	<view class="content" v-if="doType">
+		<view class="userinfo">
+		<view class="userinfo-avatar">
+			<open-data  type="userAvatarUrl"></open-data>
+		</view>
+			<open-data type="userNickName"></open-data>
+		</view>
+		<block v-if="doType=='userinfo'">
+			<view class='content'>
+				<view>申请获取以下权限</view>
+				<text>获得你的公开信息(昵称，头像等)</text>
+			</view>
+			<view class="bottom-box">
+				<button @click='cancel' class="cancel-bottom" type="default">取消</button>
+				<!-- 需要使用 button 来授权登录 -->
+				<button v-if="canIUse" open-type="getUserInfo" @getuserinfo="bindGetUserInfo" class="user-bottom" type="primary">授权登录</button>
+				<view v-else>请升级微信版本</view>
+			</view>
+		</block>
+		
+		<block v-if="doType=='mobile'">
+			<view class='content'>
+				<view>申请获取以下权限</view>
+				<text>获得你的手机号信息</text>
+			</view>
+			<view class="bottom-box">
+				<button @click='cancel' class="cancel-bottom" type="default">取消</button>
+				<button  open-type="getPhoneNumber" @getphonenumber="getphonenumber" class="user-bottom" type="primary">获取手机号</button>
+			</view>
+		</block>
+	</view>
+</template>
+
+<script>
+	let app = getApp();
+	export default {
+		data() {
+			return {
+				isclick:false,
+				doType: 'userinfo',
+				canIUse: uni.canIUse('button.open-type.getUserInfo'),//检查有没有使用权限
+				hasGetMobile: 1,//是否启用手机授权
+			}
+		},
+		onLoad() {
+			let that = this;
+			return that.$data.doType='userinfo';
+			// 查看是否授权
+			uni.getSetting({
+				success: function (res) {
+					//console.log('setting',res)
+					if (res.authSetting['scope.userInfo']) {// 已经用户信息授权
+						if(that.hasGetMobile==1){//同时启用手机授权
+							that.$data.doType='mobile';
+						}
+					}else{
+						that.$data.doType='userinfo';
+					}
+				},
+				fail: function(){
+					that.$data.doType='userinfo';
+				}
+			})
+		},
+		methods: {
+			//用户点击确认后进行授权
+			bindGetUserInfo: function (e) {
+				var that = this;
+				if(that.$data.isclick == true){
+					return;
+				}
+				that.$data.isclick = true;
+				
+				if(e.detail.userInfo) {
+					app.globalData.userInfo = e.detail.userInfo;
+					app.wxAuthLogin().then(function(res){
+						that.$data.isclick = false;				
+						
+						if(that.hasGetMobile==1){
+							//切换手机授权
+							that.$data.doType='';
+							uni.showLoading({
+							    title: '加载中'
+							});
+							setTimeout(()=>{
+								uni.hideLoading()
+								that.$data.doType='mobile';
+							},300)
+						}else{
+							that.doResponse(res);
+						}
+					})
+				}else {
+					that.$data.isclick = false;
+					console.log('授权失败')
+				}
+			},
+			cancel:function(){
+				var pages = getCurrentPages()
+				if(pages.length>1){//存在历史页面
+					this.goPage(-1)
+				}else{
+					this.goPage('index/index','',reLaunch)
+				}
+			},
+			//获取手机号权限
+			getphonenumber(e){
+				var that = this
+				if(that.$data.isclick == true){
+					return
+				}
+				that.$data.isclick = true
+				
+				if(e.detail&&e.detail.encryptedData){
+					this.$api.getMiniMobile({
+						url: 'public/getWxPhone',
+						encryptedData: e.detail.encryptedData,
+						iv: e.detail.iv,
+					}).then((res=>{
+						that.$data.isclick = false;
+						that.doResponse(res);
+					})).catch((err)=>{
+						console.log(err)
+					});
+				}else if(e.detail&&e.detail.errMsg.indexOf('user deny')!=-1){ 
+					that.$data.isclick = false;
+				}else{
+					that.$data.isclick = false;
+					this.$toast('手机获取失败')
+				}
+			},
+			
+			//返回数据回跳页面操作
+			doResponse(res){
+				var pages = getCurrentPages()
+				if(pages.length>1){
+					if(!app.globalData.restopen){
+						//存在历史页面
+						that.goPage(-1);
+					}else{
+						//存在重新请求页面
+						that.goPage(app.globalData.restopen,'','redirectTo')
+						app.globalData.restopen = ''
+					}
+				}else{
+					var launchData= that.$api.getLaunchData()
+					that.goPage(
+						launchData.$url, //回跳最开始要打开的页面
+						'',
+						'reLaunch'
+					)
+				}
+			}
+		}
+	}
+</script>
+
+<style>
+	 @import './index.css';
+</style>

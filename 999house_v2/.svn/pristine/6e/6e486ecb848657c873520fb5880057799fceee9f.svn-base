@@ -1,0 +1,108 @@
+<template>
+	<view style="background-color: #F5F5F5;">
+		
+		<view class="record_center">
+			<picker v-if="array.length>0" @change="bindPickerChange" :value="index" :range="array">
+				<view class="uni-input">{{array[index]}}</view>
+			</picker>
+			<view class="coupon_box">
+				<view class="coupon" v-for="dates in infos" >
+					<view class="coupon_item" v-for="item in dates">
+						<view class="item_conter">
+							<image class="shop_img" :src="$api.imgDirtoUrl(item.shop_img)"></image>
+							<view class="coupon_shop">
+								<view class="shop_title">{{item.shop_name}}</view>
+								<view class="shop_type">{{item.shop_type_string}}</view>
+								<view class="coupon_type">{{item.shop_lable_string}}</view>
+							</view>
+							<view class="discounts">
+								<view class="discounts_number">{{item.coupon_describe}}</view>
+								<!-- <view class="discounts_amount">剩余500位</view> -->
+							</view>
+						</view>
+						<view class="verification_time">核销时间：{{item.write_off_time | formatDate}}</view>
+					</view>
+					
+					<image class="state" src="../../static/activity/succeed.png"></image>
+				</view>
+				<u-empty v-if="infos.length<=0" text="暂无数据" mode="list"></u-empty>
+			</view>
+		</view>
+	</view>
+</template>
+
+<script>
+	import { formatDate } from '@/utils/timedate'
+	export default {
+		data() {
+			return {
+				array: [],
+				index: 0,
+				activity_id:'',
+				infos:[]
+			};
+		},
+		filters: {
+			formatDate(time) {
+				time = time * 1000
+			  let date = new Date(time)
+			  return formatDate(date, 'yyyy-MM-dd hh:mm:ss')
+			}
+		  },
+		onLoad(e) {
+			this.activity_id = e.activity_id
+			
+			//#ifdef H5
+			this.$api.wxLogin();
+			//#endif
+			
+			if(this.getToken()){
+				this.activitylist()
+			}else{
+				this.activitylist()
+			}
+		},
+		// onShow() {
+		// 	this.activitylist()
+		// },
+		// mounted() {
+		// 	this.activitylist()
+		// },
+		methods:{
+			activitylist(){
+				this.$http.post(
+					'/ActivityCoupon/getQualificationsRecord',
+					{
+						activity_id:this.activity_id,
+						date: this.array[this.index] || ''
+					}
+				).then( res=>{
+					if(res.code==1){
+						this.array = []
+						this.infos = res.data.list
+						for( let i in res.data.list){
+							console.log(res.data.list[i])
+							this.array.push(i)
+						}
+						uni.stopPullDownRefresh()
+						console.log(this.array)
+					}else{
+						this.$toast(res.msg);
+						if(res.code == 50008){
+							this.$api.wxLogin(1)
+						}
+					}
+				})
+			},
+			 bindPickerChange: function(e) {
+				console.log('picker发送选择改变，携带值为', e.target.value)
+				this.index = e.target.value
+				this.activitylist()
+			},
+		}
+	}
+</script>
+
+<style lang="scss">
+	@import './record.scss';
+</style>

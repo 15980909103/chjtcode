@@ -1,0 +1,6 @@
+{
+  "component": true,
+  "usingComponents": {
+    "u-search": "/uview-ui/components/u-search/u-search"
+  }
+}

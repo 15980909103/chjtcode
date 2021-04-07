@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>买房方案</title>
+		<link rel="stylesheet" href="../../common/vant/index.css"/>
+		<link rel="stylesheet" href="../../common/css/public.css"/>
+		<style>
+			
+			.find{
+				width: 100%;
+				box-sizing: border-box;
+				padding: 0.4rem 0.32rem 0.62rem;
+			}
+			
+			.find-title{
+				font-size: 0.3rem;
+				font-weight: bold;
+				color: #212121;
+				margin: 0.24rem 0;
+			}
+			
+			.find-tip{
+				font-size: 0.26rem;
+				display: flex;
+				flex-wrap: wrap;
+			}
+			
+			.find-tip-item{
+				width: 2.06rem;
+				height: 0.64rem;
+				background: rgba(250, 250, 250, 1);
+				border-radius: 0.04rem;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				margin-bottom: 0.24rem;
+			}
+			
+			.find-tip-item:nth-child(3n-1){
+				margin: 0 0.34rem;
+			}
+			
+			.van-slider__button{
+				position: relative;
+			}
+			
+			.van-slider__button:after{
+				content: '';
+				width: 12px;
+				height: 12px;
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%,-50%);
+				pointer-events: none;
+				border-radius: 50%;
+				box-sizing: border-box;
+				border: 2px solid rgba(254, 130, 30, 1);
+			}
+			
+			.u-price{
+				width: 100%;
+				height: 1.2rem;
+				font-size: 0.4rem;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				margin-bottom: 0.2rem;
+				color: rgba(254, 130, 30, 1);
+			}
+			
+			.price{
+				width: 100%;
+				display: flex;
+				justify-content: space-between;
+				font-size: 0.24rem;
+				margin: 0.4rem 0;
+			}
+			
+			.price span:first-child,
+			.price span:last-child{
+				color: rgba(254, 130, 30, 1);
+			}
+
+			.idea{
+				width: 100%;
+				height: 2.4rem;
+				border: 0.01rem solid #E0E0E0;
+				border-radius: 0.04rem;
+				overflow: hidden;
+				box-sizing: border-box;
+				padding: 0.15rem 0.18rem;
+				background: rgba(250, 250, 250, 1);
+				position: relative;
+			}
+			
+			.idea textarea{
+				width: 100%;
+				height: 100%;
+				resize: none;
+				font-size: 0.26rem;
+			}
+			
+			.idea-num{
+				position: absolute;
+				right: 0.14rem;
+				bottom: 0.12rem;
+				font-size: 0.22rem;
+				color: rgba(173, 173, 173, 1);
+				letter-spacing: 0.01rem;
+			}
+			
+			.commit{
+				width: 100%;
+				padding: 0.6rem 0;
+			}
+			
+			.commit-btn{
+				width: 100%;
+				height: 0.88rem;
+			}
+			
+			.find-active{
+				background-color: rgba(254, 130, 30, 1);
+				color: #fff;
+			}
+			
+			.location{
+				width: 100%;
+				height: 0.64rem;
+				box-sizing: border-box;
+				border: 0.01rem solid #E0E0E0;
+				border-radius: 0.02rem;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				font-size: 0.26rem;
+				color: rgba(173, 173, 173, 1);
+				padding: 0 0.24rem;
+				margin-bottom: 0.24rem;
+			}
+			
+			.location-choose{
+				width: 100%;
+				margin-left: 0.14rem;
+			}
+			
+			.iconquxiao{
+				height: 100%;
+				width: 0.6rem;
+				margin-right: 0.14rem;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+			
+			.van-action-sheet__header{
+				display: none;
+			}
+			
+			
+			
+		</style>
+	</head>
+	<body>
+		<div id="app" v-cloak>
+			<div class="find">
+				<span class="find-title">您购房的目的是什么？</span>
+				<div class="find-tip">
+					<div 
+						class="find-tip-item" 
+						:class="[ uChoose.aim == item.name ? 'find-active' : '' ]" 
+						v-for="(item,index) in list.aim" 
+						:key="index" 
+						@click="chooseTip('aim',item.name)"
+					>
+						{{ item.name }}
+					</div>
+				</div>
+				
+				<span class="find-title">是否首套房？</span>
+				<div class="find-tip">
+					<div 
+						class="find-tip-item" 
+						:class="[ uChoose.manyHouse == item.name ? 'find-active' : '' ]" 
+						v-for="(item,index) in list.manyHouse" 
+						:key="index"
+						@click="chooseTip('manyHouse',item.name)"
+					>
+						{{ item.name }}
+					</div>
+				</div>
+				
+				<span class="find-title">您的总预算(万元)？</span>
+				<div class="u-price">
+					{{ uChoose.budget == 1000 ? '不限' : uChoose.budget + '万' }}
+				</div>
+				<div>
+					<van-slider v-model="uChoose.budget" max="1000" min="20" step="10" bar-height="4" active-color="rgba(254, 130, 30, 1)"/>
+				</div>
+				<div class="price">
+					<span>60万</span><span>220万</span><span>390万</span><span>570万</span><span>740万</span><span>1000万+</span>
+				</div>
+				
+				<span class="find-title">您想买的区域是？</span>
+				<div class="location" @click="siteShow = true">
+					<span class="iconfont iconlocation-2"></span>
+					<span class="location-choose van-ellipsis">{{uChoose.site}}</span>
+					<span class="iconfont iconquxiao" v-show="uChoose.site != '不限'" @click.stop="delChoose"></span>
+					<span class="iconfont iconjiantou1"></span>
+				</div>
+				
+				<van-action-sheet v-model="siteShow" :round="false">
+
+					<common-area :list="list.site" @close="siteShow = false" @sure="siteSure" ref="area"></common-area>
+					
+				</van-action-sheet>
+				
+				<span class="find-title">您想住几居室？</span>
+				<div class="find-tip">
+					<div 
+						class="find-tip-item" 
+						:class="[ uChoose.bedroom.indexOf(item.name) != -1 ? 'find-active' : '' ]"
+						v-for="(item,index) in list.bedroom" 
+						:key="index" 
+						@click="chooseTip('bedroom',item.name)"
+					>
+						{{ item.name }}
+					</div>
+				</div>
+				
+				<span class="find-title">您想买多大面积？</span>
+				<div class="find-tip">
+					<div 
+						class="find-tip-item" 
+						:class="[ uChoose.area.indexOf(item.name) != -1 ? 'find-active' : '' ]"
+						v-for="(item,index) in list.area" 
+						:key="index"
+						@click="chooseTip('area',item.name)"
+					>
+						{{ item.name }}
+					</div>
+				</div>
+				
+				<span class="find-title">您还有哪些其他偏好？</span>
+				<div class="find-tip">
+					<div 
+						class="find-tip-item" 
+						:class="[ uChoose.like.indexOf(item.name) != -1 ? 'find-active' : '' ]" 
+						v-for="(item,index) in list.like" 
+						:key="index" 
+						@click="chooseTip('like',item.name)"
+					>
+						{{ item.name }}
+					</div>
+				</div>
+				
+				<span class="find-title">您还有其他要求吗？</span>
+				<div class="idea">
+					<textarea maxlength="300" placeholder="请输入您的其他要求" v-model="ideaText"></textarea>
+					<div class="idea-num">{{ideaText.length}}/300</div>
+				</div>
+				
+				<div class="commit">
+					<van-button 
+						class="commit-btn" 
+						type="default" 
+						:loading="commit" 
+						loading-text="生成中..."
+						color="rgba(254, 130, 30, 1)"
+						@click="btnClick"
+					>
+						立即生成
+					</van-button>
+				</div>
+				
+			</div>
+		</div>
+	</body>
+</html>
+
+<script src="../../common/js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/rem.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/public.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/vant/index.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+<script>
+	
+	const myComponents = [
+		'../../components/common/area/index'
+	];
+	
+	$api.addComponents(myComponents)
+		.then(()=>{
+			
+			Vue.use(vant.Lazyload);
+			 
+			const app = new Vue({
+				el: '#app',
+				data: {
+					list: {
+						aim: [
+							{ id: 0, name: '刚需' },
+							{ id: 1, name: '结婚' },
+							{ id: 2, name: '养老' },
+							{ id: 3, name: '改善' },
+							{ id: 4, name: '教育' },
+							{ id: 5, name: '投资' },
+							{ id: 6, name: '别管' },
+						],
+						manyHouse: [
+							{ id: 7, name: '首套' },
+							{ id: 8, name: '二套' }
+						],
+						bedroom: [
+							{ id: 9, name: '1居室' },
+							{ id: 10, name: '2居室' },
+							{ id: 11, name: '3居室' },
+							{ id: 12, name: '4居室' },
+							{ id: 13, name: '5居室' },
+							{ id: 14, name: '5居室以上' },
+						],
+						area: [
+							{ id: 15, name: '50m²以下' },
+							{ id: 16, name: '50-80m²' },
+							{ id: 17, name: '80-100m²' },
+							{ id: 18, name: '100-120m²' },
+							{ id: 19, name: '120-150m²' },
+							{ id: 20, name: '150m²以上' },
+						],
+						like: [
+							{ id: 21, name: '南北通透' },
+							{ id: 22, name: '电梯房' },
+							{ id: 23, name: '低楼层' },
+							{ id: 24, name: '精装修' },
+							{ id: 25, name: '近地铁' },
+							{ id: 26, name: '满5年' },
+							{ id: 27, name: '高楼层' },
+							{ id: 28, name: '别管' },
+						],
+						site: [
+							{
+								name: '城区',
+								list: [
+									{
+										name: '不限',
+										list: []
+									},
+									{
+										name: '市内城区',
+										list: [
+											{
+												name: '不限',
+											},
+											{
+												name: '松柏',
+											},
+											{
+												name: '河西里',
+											},
+											{
+												name: '外国语学校',
+											},
+											{
+												name: '公园小学及周边',
+											},
+										]
+									},
+									{
+										name: '思明',
+										list: [
+											{
+												name: '不限',
+											},
+											{
+												name: '松柏',
+											},
+											{
+												name: '河西里',
+											},
+											{
+												name: '外国语学校',
+											},
+											{
+												name: '公园小学及周边',
+											},
+											{
+												name: '观音山',
+											},
+											{
+												name: '软件园',
+											},
+											{
+												name: '未来海岸北师大',
+											},
+											{
+												name: '不限',
+											},
+											{
+												name: '不限',
+											},
+										]
+									},
+									{
+										name: '湖里',
+										list: [
+											{
+												name: '不限',
+											},
+										]
+									},
+									{
+										name: '集美',
+										list: [
+											{
+												name: '不限',
+											},
+										]
+									},
+									{
+										name: '海沧',
+										list: [
+											{
+												name: '不限',
+											},
+										]
+									},
+									{
+										name: '翔安',
+										list: [
+											{
+												name: '不限',
+											},
+										]
+									},
+									{
+										name: '同安',
+										list: [
+											{
+												name: '不限',
+											},
+										]
+									},
+									{
+										name: '城市周边',
+										list: [
+											{
+												name: '不限',
+											},
+										]
+									},
+									{
+										name: '漳州',
+										list: [
+											{
+												name: '不限',
+											},
+										]
+									},
+								]
+							},
+							{
+								name: '地铁',
+								list: [
+									{
+										name: '一号线',
+										list: [
+											{
+												name: '不限',
+											},
+										]
+									},
+									{
+										name: '二号线',
+										list: [
+											{
+												name: '不限',
+											},
+										]
+									},
+								]
+							}
+						]
+					},
+					ideaText: '',
+					commit: false,
+					uChoose: {
+						aim: 0,
+						manyHouse: '首套',
+						budget: 70,
+						site: '不限',
+						bedroom: [],
+						area: [],
+						like: []
+					},
+					siteShow: false,
+				},
+				components: {
+					commonArea
+				},
+				created() {
+					
+				},
+				methods:{
+					
+					chooseTip( type , val ){
+						
+						const more = () =>{
+							const el = this.uChoose[type];
+							const haveNum = el.indexOf(val);
+							
+							if( haveNum == -1 ){
+								el.push(val)
+							} else {
+								el.splice(haveNum,1);
+							}
+						};
+						
+						const only = () =>{
+							this.uChoose[type] = val;
+						};
+						
+						if( type == 'like' || type == 'bedroom' || type == 'area' ){
+							more();
+						} else if( type == 'aim' || type == 'manyHouse' ){
+							only();
+						}
+						
+					},
+					siteSure(text) {
+						this.uChoose.site = text;
+						
+						this.siteShow = false;
+					},
+					delChoose() {
+						this.$refs.area.close();
+						
+						this.uChoose.site = '不限';
+					},
+					btnClick() {
+						let uChoose = this.uChoose;
+						
+						if( uChoose.bedroom.length < 1 ){
+							this.$toast('请选择您想买的户型');
+						} else {
+							this.commit = true;
+							$api.goPage('./find_result.html');
+						}
+					},
+				},
+			})
+			
+		})
+</script>

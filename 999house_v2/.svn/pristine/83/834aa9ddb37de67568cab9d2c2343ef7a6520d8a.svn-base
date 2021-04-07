@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://lib.baomitu.com/socket.io/2.3.0/socket.io.js"></script>
+    <script src="https://cdn.bootcss.com/blueimp-md5/2.10.0/js/md5.js"></script>
+</head>
+
+<body>
+  <div>
+        <input type="text" placeholder="234234"  />
+        <button type="button" onclick="test()">发送数据</button>
+
+  </div>
+</body>
+
+
+
+<script>
+    socket  = new WebSocket('ws://www.work.com:2348?token=122688cfbf5e1ea424946fea991a5a48');
+    socket.onopen = function(){
+        //当WebSocket创建成功时，触发onopen事件
+        console.log("open");
+    }
+    socket.onmessage = function(e){
+        //当客户端收到服务端发来的消息时，触发onmessage事件，参数e.data包含server传递过来的数据
+        let data  = JSON.parse(e.data);
+        console.log(data,324234234);
+    }
+    socket.onclose = function(e){
+        //当客户端收到服务端发送的关闭连接请求时，触发onclose事件
+        console.log("close");
+    }
+    socket.onerror = function(e){
+        //如果出现连接、处理、接收、发送数据失败的时候触发onerror事件
+        console.log(error);
+    }
+
+    function test() {
+        let time =  parseInt(new Date().getTime()/1000);
+        console.log('发送数据给后台')
+        let data = {
+            msg:'系统通知下周不用上班',
+            user_id:56,
+            time:time
+        }
+        let singobj = JsonSort(data);
+        let sign ='';
+        for (let key in singobj){
+            sign += key+'='+ singobj[key]+'&';
+        }
+        sign = sign.substr(0,sign.length-1);
+        console.log(sign,324234234);
+        data.sign = md5(sign+'jiufan');
+        let obj =  {
+            url:'wliao/index/index',
+            data:data
+        }
+        let jsonStr  = JSON.stringify(obj);
+        console.log(jsonStr)
+        socket.send(jsonStr);
+    }
+
+
+    function JsonSort(jsonData) {
+        try {
+            let tempJsonObj = {};
+            let sdic = Object.keys(jsonData).sort();
+            sdic.map((item, index)=>{
+                tempJsonObj[item] = jsonData[sdic[index]]
+            })
+            return tempJsonObj;
+        } catch(e) {
+            return jsonData;
+        }
+    }
+</script>
+</body>
+</html>

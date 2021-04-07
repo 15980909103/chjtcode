@@ -1,0 +1,2 @@
+[2020-10-21T10:10:26+08:00][error] [10501]SQLSTATE[42S22]: Column not found: 1054 Unknown column 'pcname' in 'field list'[/mnt/e/project/999house_v2/vendor/topthink/think-orm/src/db/PDOConnection.php:722]
+[2020-10-21T16:13:22+08:00][error] [0]Class 'api\common\lib\wxapi\module\WxWeb' not found[/mnt/e/project/999house_v2/app/admin/controller/WxsetController.php:104]

@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>搜索</title>
+		<link rel="stylesheet" href="../../common/vant/index.css"/>
+		<link rel="stylesheet" href="../../common/css/public.css?v=1.12"/>
+		<link rel="stylesheet" href="../../static/css/discover/search.css"/>
+		<style>
+			
+		</style>
+	</head>
+	<body>
+		<div id="app" v-cloak>
+			<van-tabs v-model="active" color="rgba(254, 130, 30, 1)" title-active-color="rgba(254, 130, 30, 1)" @change="tabChange" ref="DOM">
+				<van-tab v-for="(item,index) in tabList" :key="index" :title="item.name">
+					<div class="search">
+						<form action="/">
+						  <van-search
+						    v-model="value"
+						    show-action
+						    :placeholder="item.placeholder"
+							maxlength="15"
+						    @search="onSearch"
+							@input="onInput"
+						    @cancel="onCancel"
+							@clear="onClear"
+						  />
+						</form>
+					</div>
+					
+					<div class="box" v-show="!showResultBox">
+						
+						<div class="history" v-if="searchHistory[item.historyKey] && searchHistory[item.historyKey].length > 0">
+							<h4>历史搜索</h4>
+							<span class="iconfont iconlajitong" @click="delHistory"></span>
+						</div>
+						
+						<div class="history-tip" v-if="searchHistory[item.historyKey] && searchHistory[item.historyKey].length > 0">
+							<template v-for="(tip,num) in searchHistory[item.historyKey]" >
+								<span :key="num" @click="tipClick(tip)" v-if="num < 11">
+									{{tip}}
+								</span>
+							</template>
+						</div>
+						
+						<div class="history" >
+							<h4>热门搜索</h4>
+						</div>
+						
+						<div class="history-tip">
+							<span @click="goPage('index/find_house.html')" >
+								快捷找房
+							</span>
+							<span @click="goPage('map/index.html')" >
+								地图找房
+							</span>
+							<template v-if="item.id==2 && hotTip.length > 0" v-for="(tip,num) in hotTip" >
+								<span :key="num" @click="tipClick(tip)" v-if="num < 11">
+									{{tip.name}}
+								</span>
+							</template>
+						</div>
+					</div>
+					<div class="result" v-show="showResultBox">
+						<!-- 资讯/有料/新房 -->
+						<div class="detail" v-show="showResult">
+							<template v-if="resultDetail.length == 0">
+								<van-empty image="search" description="暂无相关搜索"/>
+							</template>
+							<template v-else>
+								<van-list v-model="loading" :finished="finished" finished-text="----- 我是有底线的 -----" @load="onSearch">
+									<common-template :list="resultDetail"  @del="(e)=>{ resultDetail = e }"></common-template>
+								</van-list>
+							</template>
+						</div>
+					</div>
+				</van-tab>
+			</van-tabs>
+			<div id="container-user-site"></div>
+		</div>
+	</body>
+</html>
+
+<script src="../../common/js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/rem.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/public.js?v=1.15" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/vant/index.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=53da8183ca23918f2f81c79a5b2ede15&plugin=AMap.Geocoder"></script>
+<script type="module">
+	import { http, loginMixin } from '../../common/js/method/http.js?v=1.1';
+	
+	Vue.use(http);
+	Vue.use(vant.Lazyload);
+	
+	const myComponents = [
+		'../../components/common/template/index',
+	];
+	
+	$api.addComponents(myComponents)
+		.then(()=>{
+			
+			const app = new Vue({
+				el: '#app',
+				data: {
+					active: 0,
+					value: '',
+					searchHistory: {},
+					sortTab: {
+						0: 0,
+						2: 0,
+						3: 0
+					},
+					showResult: false,
+					showResultBox: false,
+					tabList: [
+						{
+							id: 0,
+							name: '资讯',
+							historyKey: 'news-search',
+							placeholder: '请输入感兴趣的内容'
+						},
+						// {
+						// 	id: 1,
+						// 	name: '视频',
+						// 	placeholder: '请输入感兴趣的内容',
+						//  historyKey: 'video-search'
+						// },
+						{
+							id: 2,
+							name: '选好房',
+							historyKey: 'house-search',
+							placeholder: '请输入楼盘、地址'
+						}
+					],
+					pid:9,
+					hotTip: [],
+					resultDetail: [],
+					city_no: 0,
+					// 分页
+					page: 0,
+					maxPage: 1,
+					loading: true,
+					finished: false
+				},
+				components: {
+					commonTemplate
+				},
+				mixins: [loginMixin],
+				created() {
+					this.searchHistory = this.uHistory('get');
+					
+					this.$http.getCurrentCity().then( data=>{
+						this.city_no = data.city_no;
+						//获取选好房热搜词
+						this.$http.ajax({
+							data:{
+								city_no: this.city_no
+							},
+							url:'/index/estates/getSearchWords'
+						}).then(res=>{
+							
+							const arr = [];
+							const data = res.data;
+							
+							console.log(data);
+							
+							if( data.estates.length > 0 ){
+								 data.estates.map( item=>{
+									const obj = {
+										id: item.bind_id,
+										name: item.name,
+										type: 0
+									}
+									
+									arr.push(obj);
+								 })
+							}
+							
+							if( data.tags.length > 0 ){
+								 data.tags.map( item=>{
+									const obj = {
+										id: item.bind_id,
+										name: item.name,
+										type: 1
+									}
+									
+									arr.push(obj);
+								 })
+							}
+							
+							this.hotTip = arr;
+							
+						})
+					})
+				},
+				methods:{
+					init() {
+						this.resultDetail = [];
+						this.page = 0;
+						this.maxPage = 1;
+						this.loading = true;
+						this.finished = false;
+					},
+					tabChange(e) {
+						switch (this.tabList[e].id) {
+							case 0: this.pid=9;break;
+							case 1: this.pid=13;break;
+							case 2: this.pid=18;break;
+							default:this.pid = 9 ;
+						}
+						// console.log(this.pid)
+						this.value = '';
+						this.showResult = this.showResultBox = false;
+						this.init();
+					},
+					// 存取搜索历史
+					uHistory(type) {
+						if( type == 'get' ){
+							const val = $api.localGet('u-index-search-history');
+							
+							if( val ){
+								return val;
+							} else {
+								return {};
+							}
+						} else {
+							if( type ) {
+								const key = this.tabList[this.active].historyKey;
+								
+								if( Object.keys(this.searchHistory).indexOf(String(key)) == -1 ){
+									this.$set(this.searchHistory,key,[]);
+								}
+								
+								if( this.searchHistory[key].indexOf(type) != -1 ){
+									this.searchHistory[key].splice(this.searchHistory[key].indexOf(type),1);
+								}
+								
+								this.searchHistory[key].unshift(type);
+								
+								if( this.searchHistory[key].length > 11 ){
+									this.searchHistory[key].length = 11;
+								}
+							}
+							
+							$api.localSet('u-index-search-history',JSON.stringify(this.searchHistory));
+						}
+					},
+					onInput(val) {
+						this.init();
+						val.length == 0 && this.onClear();
+					},
+					onClear() {
+						this.init();
+						this.showResult = this.showResultBox = false;
+					},
+					// 取消按钮
+					onCancel() {
+						$api.goPage('discover/index.html');
+					},
+					delHistory() {
+						const key = this.tabList[this.active].historyKey;
+						this.$set(this.searchHistory,key,[]);
+						this.uHistory();
+					},
+					// 标签点击
+					tipClick(val) {
+						if( typeof val == 'object' ){
+							if( val.type == 0 ){
+								this.$api.goPage('houses/index.html', { id: val.id, type:1 });
+								return;
+							} else {
+								val = val.name;
+							}
+						}
+						
+						this.value = val;
+						this.onSearch( val );
+						
+					},
+					goPage(e){
+						this.$api.goPage(e)
+					},
+					// 热门资讯切换
+					// changeSort(e) {
+					// 	const sort = this.sortTab[this.active];
+					// 	const newSort = e.target.dataset.id;
+						
+					// 	if( sort != newSort ){
+					// 		this.sortTab[this.active] = newSort;
+					// 	}
+					// },
+					onSearch(val) {
+						if( val ){
+							this.uHistory(val);
+						} else {
+							val = this.value;
+							
+							if( this.page >= this.maxPage ){
+								this.loading = false;
+								this.finished = true;
+								return;
+							}
+						}
+						
+						let page = this.page;
+						page += 1;
+						
+						if( this.tabList[this.active].id != 2 ){
+							// 显示结果模块
+							this.$http.ajax({
+								data:{
+									pid: this.pid,
+									city_no: this.city_no,
+									search_value: val,
+									page: page
+								},
+								url:'/index/news/newsSearch'
+							}).then(res=>{
+								let that =this;
+								let newList=[];
+								newList = res.data.list ? res.data.list : [];
+								this.page = res.data.current_page;
+								this.maxPage = res.data.last_page;
+								
+								this.loading = false;
+								
+								if( this.page == this.maxPage ){
+									this.finished = true;
+								}
+								
+								newList.forEach(function (item,index) {
+									item.type = 1;
+									if(item.title){
+										item.html_title = item.title.replace(val,'<p style="color:rgb(254, 130, 30);display: inline;">'+val+'</p>');//设置高亮
+									}		
+									if( item.img instanceof  Array ){
+										if(item.img.length > 0){
+											item.img.forEach(function(img,i) {
+												newList[index]['img'][i] = that.$http.imgDirtoUrl(img);
+											})
+										}
+									}else{
+										newList[index]['url'] = that.$http.imgDirtoUrl(item.url);
+									}
+											
+								})
+								console.log(newList)
+								this.resultDetail = [...this.resultDetail, ...newList];
+								
+								this.showResult = this.showResultBox = true;
+							})
+						} else {
+							this.$http.ajax({
+								data:{
+									city_no: this.city_no,
+									name: val,
+									recommend: 1,
+									no_adv: 1,
+									page: page,
+									page_size: 6
+								},
+								url:'/index/estates/getEstatesList'
+							}).then(res=>{
+								const data = res.data;
+								let arr = [];
+								
+								this.page = data.current_page;
+								this.maxPage = data.last_page;
+								
+								this.loading = false;
+								
+								if( this.page == this.maxPage ){
+									this.finished = true;
+								}
+								
+								arr = this.$api.createHouseList( data );
+								
+								this.resultDetail = [...this.resultDetail, ...arr];
+								
+								this.showResult = this.showResultBox = true;
+							})
+						}
+					},
+					
+				},
+			})
+		})
+	
+</script>

@@ -1,0 +1,104 @@
+.poster_box{
+    width: 100%;
+    /* height: 35.5rem; */
+    height: 100vh;
+    background: url(../../image/poster_back.jpg) ;
+    background-size: 100% 100%;
+    position: relative;
+}
+.logo{
+    text-align: right;
+}
+.logo img{
+    display: inline-block;
+    margin-top: 1rem;
+    margin-right: 1rem;
+    width: 4.125rem;
+    height: auto;
+}
+.text_box{
+    width: 12.675rem;
+    margin: 1.25rem auto;
+    font-size: 1.05rem;
+    color: #333333;
+    clear: both;
+}
+.text_box .text_s{
+    width: 11.125rem;
+    margin: 0.75rem auto;
+    line-height: 1.5rem;
+    height: 4.5rem;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    overflow: hidden;
+}
+.text_box img{
+    width: 1.55rem;
+    height: auto;
+}
+.text_box img.last_img{
+    float: right;
+    transform: rotate(180deg);
+}
+.show_img{
+    width: 11.5rem;
+    margin: 3.5rem auto 0;
+    overflow: hidden;
+    position: relative;
+    height: 9rem;
+    border-radius: 5px;
+
+}
+.show_img img{
+    width: 100%;
+    height: auto;
+    position: absolute;
+    top: 50%;
+    transform: translate(0,-50%);
+}
+.broker_box {
+    padding: 0 1.55rem;
+    /* margin-top: 6rem; */
+    position: absolute;
+    bottom: 1.8rem;
+    left: 0;
+    width: 100%;
+}
+.broker_box .broker_info,.mini_program{
+    display: inline-block;
+    vertical-align: bottom;
+}
+.broker_box .broker_info img,.broker_info_text{
+    display: inline-block;
+    vertical-align: bottom;
+}
+.broker_box .broker_info img{
+    width: 2.375rem;
+    height: 2.375rem;
+    border-radius: 500px;
+    overflow: hidden;
+}
+.broker_box .broker_info .broker_info_text p{
+    margin: 0;
+    font-size: 0.8rem;
+    color: #fff9f5;
+}
+.mini_program{
+ text-align: right;
+ position: absolute;
+ right: 1.55rem;
+ bottom: 0;
+}
+.mini_program img{
+    width: 2.9rem;
+    height: 2.9rem;
+    margin: 0 auto;
+}
+.mini_program p{
+    font-size: 0.55rem;
+    color: #fff9f5;
+    text-align: center;
+    margin-top: 0.4rem;
+    margin-bottom: 0;
+}

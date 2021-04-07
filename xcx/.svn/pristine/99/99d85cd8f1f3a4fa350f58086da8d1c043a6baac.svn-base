@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "楼盘收藏",
+  "usingComponents": {
+    "van-checkbox": "/dist/checkbox/index"
+  }
+}

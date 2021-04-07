@@ -1,0 +1,293 @@
+.swiper-container{
+	width: 100%;
+	height: 960rpx;
+	margin-top: 36rpx;
+}
+
+.swiper-slide{
+	display: flex;
+	justify-content: center;
+}
+
+.box{
+	width: 600rpx;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	transition: .3s;
+	position: relative;
+}
+
+.box-content{
+	width: 530rpx;
+	margin: 111rpx 0 0;
+	background-color: #fff;
+	border-radius: 3rpx;
+	box-sizing: border-box;
+	padding: 20rpx 20rpx 10rpx;
+	display: flex;
+	flex-direction: column;
+}
+
+.box-content h4{
+	font-size: 42rpx;
+	margin-bottom: 24rpx;
+	text-align: justify;
+	text-justify: newspaper;
+	word-break: break-all;
+	font-weight: bold;
+}
+
+.box-content div{
+	font-size: 24rpx;
+	color: rgba(77, 77, 77, 1);
+	line-height: 51rpx;
+	text-align: justify;
+	text-justify: newspaper;
+	word-break: break-all;
+	height: 375rpx;
+	position: relative;
+	overflow: hidden;
+}
+.box-content .shade{
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+	height: 154rpx;
+	z-index: 100;
+	background: linear-gradient(to bottom, rgba(255, 255, 255, 0.4), rgba(255, 255, 255, 1));
+}
+.box-info-box{
+	width: 530rpx;
+	height: 261rpx;
+	box-sizing: border-box;
+	padding: 40rpx 0 0;
+	display: flex;
+	justify-content: space-between;
+	color: #fff;
+}
+
+.box-info-box,
+.box-info-head{
+	display: flex;
+}
+
+.box-info-nickname{
+	width: 230rpx;
+	margin-top: 16rpx;
+	font-size: 18rpx;
+	line-height: 30rpx;
+	opacity: .6;
+}
+
+.box-info-head{
+	display: flex;
+	align-items: center;
+}
+
+.box-info-head img{
+	width: 41rpx;
+	height: 41rpx;
+	border-radius: 50%;
+	margin-right: 13rpx;
+}
+
+.box-info-head h4{
+	font-size: 24rpx;
+}
+
+.box-qrcode {
+	width: 120rpx;
+	height: 120rpx;
+	background-color: #fff;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}  
+
+.box-qrcode img,
+.box-qrcode canvas{
+	width: 110rpx;
+	height: 110rpx;
+}
+
+.box-tip{
+	font-size: 18rpx;
+	position: absolute;
+	bottom: 25rpx;
+	left: 50%;
+	transform: translate(-50%,0);
+	opacity: .6;
+	color: #fff;
+}
+
+.box1 .box-info-box{
+	width: 530rpx;
+	height: 230rpx;
+	padding: 40rpx 20rpx 0;;
+	background-color: rgba(247, 247, 247, 1);
+	color: #000000;
+	border-radius: 0 0 3rpx 3rpx;
+}
+
+.box1 .box-tip{
+	bottom: 60rpx;
+}
+
+.box3 .box-info-box{
+	height: auto;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+.box3 .box-info-box img{
+	width: 84rpx;
+	height: 84rpx;
+	border-radius: 50%;
+	margin-right: 24rpx;
+}
+
+.box3 .box-info-head{
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+}
+
+.box3 .box-info-nickname{
+	width: auto;
+	margin-top: 6rpx;
+}
+
+.box3 .box-content{
+	margin: 40rpx 0 0;
+}
+
+.box3-wrap{
+	width: 530rpx;
+	height: 170rpx;
+	background-color: rgba(247, 247, 247, 1);
+	border-radius: 0 0 30rpx 30rpx;
+	display: flex;
+	align-items: center;
+	box-sizing: border-box;
+	padding: 0 20rpx;
+	position: relative;
+}
+
+.box3-wrap .box-qrcode{
+	height: 140rpx;
+	width: 140rpx;
+}
+
+.box3-wrap .box-qrcode img{
+	height: 130rpx;
+	width: 130rpx;
+}
+
+.box3-tip{
+	width: 160rpx;
+	font-size: 24rpx;
+	margin-left: 20rpx;
+}
+
+.box3-logo{
+	height: 140rpx;
+	width: 140rpx;
+	position: absolute;
+	right: 20rpx;
+}
+
+.box-not-active{
+	transform: scale(.9);
+}
+
+.swiper-active-switch{
+	background-color: green;
+}
+
+.pagination{
+	width: 100%;
+	height: 80rpx;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+  
+.pagination span{
+	width: 10rpx;
+	height: 10rpx;
+	background-color: rgba(254, 130, 30, .7);
+	border-radius: 50%;
+	margin: 0 6rpx;
+}
+
+.pagination .pagination-active{
+	width: 24rpx;
+	background-color: rgba(254, 130, 30, 1);
+	border-radius: 28%;
+}
+
+.create-btn{
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 30rpx;
+}
+
+.create-btn button{
+	width: 580rpx;
+	height: 88rpx;
+	font-size: 30rpx;
+	line-height: 88rpx;
+	color: rgb(255, 255, 255);
+	background: rgb(254, 130, 30);
+	border-color: rgb(254, 130, 30);
+}
+
+.wrapper{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.wrapper img{
+	width: 600rpx;
+	height: 960rpx;
+	margin-top: 36rpx;
+}
+
+.wrapper-tip{
+	color: rgba(255,255,255,.6);
+	margin-top: 60rpx;
+}
+
+.box-bg{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	z-index: -1;
+}
+
+.logo{
+	position: absolute;
+	left: 32rpx;
+}
+
+.logo1{
+	width: 200rpx;
+	height: 60rpx;
+	transform: translate(0,50%);
+}
+
+.logo2{
+	width: 250rpx;
+	height: 75rpx;
+	transform: translate(0,25%);
+}
+.poster{
+	width: 70vw;
+	height: 70vh;
+}

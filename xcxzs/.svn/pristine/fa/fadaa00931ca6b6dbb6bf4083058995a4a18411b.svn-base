@@ -1,0 +1,16 @@
+.my-content{width: 100vw;height: 100vh;background: linear-gradient(180deg,#7259E9,#4A23CC);overflow: hidden;}
+[v-cloak] {display: none;}
+#my-div1{width:90vw;height:96vh;margin:2vh 5vw;background-color:#FFF;border-radius:1vw;padding:2vh 5vw;}
+.div1-title{width:80vw;border-bottom:1px dashed #F1F1F1;padding-bottom:1vh;}
+.div1-t-li{display: flex;padding:1vh 0;}
+.my-title{width:25vw;font-size:4.2vw;color: #9C9C9C;}
+.my-neirong{font-size:4vw;}
+.my-neirong2{font-size: 3.5vw;background-color:#D22527;color:#FFF;padding:.2vh 3vw;border-radius:.8vw;}
+.div1-content{width:80vw;}
+.div1-tishi{font-size:3vw;color:#D6393B;text-align: center;margin-top:6vh;}
+.div1-img{width: 50vw;height:50vw;margin: 3vh auto;}
+.my-ts{font-size:3.5vw;color:#9E9E9E;text-align: center;}
+
+#qrcode {
+  text-align: center;
+}

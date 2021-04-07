@@ -1,0 +1,32 @@
+<template>
+	<view class="content">
+		<web-view :webview-styles="webviewStyles" :src='h5Host+"/index/index.html?"+t_version'></web-view>
+	</view>
+</template>
+
+<script>
+	const app = getApp()
+	export default {
+		data() {
+			return {
+				webviewStyles: 'false',//禁用进度条
+			}
+		},
+		onLoad(options) {
+			console.log(getApp(),3333)
+			console.log(options,111)
+			console.log(this.$data,222)
+			console.log(app)
+			// this.$http.post('news/getColumnList',{id:1}).then(res=>{
+				
+			// })
+		},
+		methods: {
+			
+		}
+	}
+</script>
+
+<style>
+	
+</style>

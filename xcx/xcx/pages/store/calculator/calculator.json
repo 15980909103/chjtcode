@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "房贷计算器",
+  "usingComponents": {
+    "van-icon": "/dist/icon/index",
+    "van-tab": "/dist/tab/index",
+    "van-tabs": "/dist/tabs/index",
+    "van-popup": "/dist/popup/index"
+  }
+}

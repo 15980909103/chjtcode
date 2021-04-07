@@ -1,0 +1,7 @@
+[2020-09-23T15:04:35+08:00][error] [1045]SQLSTATE[HY000] [1045] Access denied for user 'root'@'localhost' (using password: YES)[/mnt/e/project/999house_v2/vendor/topthink/think-orm/src/db/PDOConnection.php:554]
+[2020-09-23T15:08:41+08:00][error] [1045]SQLSTATE[HY000] [1045] Access denied for user '9house_v2'@'localhost' (using password: YES)[/mnt/e/project/999house_v2/vendor/topthink/think-orm/src/db/PDOConnection.php:554]
+[2020-09-23T15:09:22+08:00][error] [1045]SQLSTATE[HY000] [1045] Access denied for user '9house_v2'@'localhost' (using password: YES)[/mnt/e/project/999house_v2/vendor/topthink/think-orm/src/db/PDOConnection.php:554]
+[2020-09-23T15:09:48+08:00][error] [1045]SQLSTATE[HY000] [1045] Access denied for user '9house_v2'@'192.168.1.10' (using password: YES)[/mnt/e/project/999house_v2/vendor/topthink/think-orm/src/db/PDOConnection.php:554]
+[2020-09-23T15:09:54+08:00][error] [1045]SQLSTATE[HY000] [1045] Access denied for user '9house_v2'@'192.168.1.10' (using password: YES)[/mnt/e/project/999house_v2/vendor/topthink/think-orm/src/db/PDOConnection.php:554]
+[2020-09-23T15:10:05+08:00][error] [1045]SQLSTATE[HY000] [1045] Access denied for user '9house_v2'@'192.168.1.10' (using password: YES)[/mnt/e/project/999house_v2/vendor/topthink/think-orm/src/db/PDOConnection.php:554]
+[2020-09-23T15:10:44+08:00][error] [1044]SQLSTATE[HY000] [1044] Access denied for user '9h_v2'@'localhost' to database '9house_v2'[/mnt/e/project/999house_v2/vendor/topthink/think-orm/src/db/PDOConnection.php:554]

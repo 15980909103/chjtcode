@@ -1,0 +1,50 @@
+.login{
+	width: 100%;
+	box-sizing: border-box;
+	padding: .32rem;
+}
+
+.login-title{
+	font-size: .5rem;
+	margin-top: .2rem;
+}
+
+.login-tip{
+	font-size: .3rem;
+	color: rgba(117, 117, 117, 1);
+	margin: .16rem 0 .7rem;
+}
+
+.login .van-cell{
+	padding: 10px 0;
+	font-size: .3rem;
+}
+
+.login .van-button--primary{
+	width: 2rem;
+	border: none;
+	font-size: .3rem;
+	color: rgba(173, 173, 173, 1);
+	text-align: center;
+}
+
+.msg-btn-active{
+	color: rgba(254, 130, 30, 1) !important;
+}
+
+.submit .van-button{
+	margin: .6rem 0 .4rem;
+	
+	font-size: .38rem;
+	background-color: rgba(254, 130, 30, 1);
+	border-color: rgba(254, 130, 30, 1);
+}
+
+.login-text{
+	font-size: .26rem;
+	color: rgba(173, 173, 173, 1);
+}
+
+.login-text span{
+	color: rgba(254, 130, 30, 1);
+}

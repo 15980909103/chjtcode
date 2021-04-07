@@ -1,0 +1,346 @@
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* @import url("http://at.alicdn.com/t/font_2099285_i2d49jk1pp9.css"); */
+page {
+  font-family: sans-serif;
+}
+page, page, ._header, ._section, ._footer, ._div, ._ul, ._ol, ._li, ._img, ._a, ._span, ._em, ._del, ._legend, center, ._strong, ._var, ._fieldset, form, label, ._dl, ._dt, ._dd, ._cite, input, ._hr, ._time, ._mark, ._code, ._figcaption, ._figure, textarea, ._h1, ._h2, ._h3, ._h4, ._h5, ._h6, ._p {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  font-style: normal;
+}
+page, page {
+  -webkit-touch-callout: none;
+  -webkit-text-size-adjust: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  background-color: #fff;
+}
+._nav, ._article, ._aside, ._details, ._main, ._header, ._footer, ._section, ._fieldset, ._figcaption, ._figure {
+  display: block;
+}
+._img, ._a, button, ._em, ._del, ._strong, ._var, label, ._cite, ._small, ._time, ._mark, ._code, textarea {
+  display: inline-block;
+}
+._header, ._section, ._footer {
+  position: relative;
+}
+._ol, ._ul {
+  list-style: none;
+}
+input, button, textarea {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  font-size: 1em;
+  line-height: 1em;
+  /*-webkit-appearance:none;*/
+  background-color: transparent;
+}
+._span {
+  display: inline-block;
+}
+._i {
+  font-style: normal;
+}
+._a:active, ._a:hover {
+  outline: 0;
+}
+._a, ._a:visited {
+  text-decoration: none;
+}
+label, .wordWrap {
+  word-wrap: break-word;
+  word-break: break-all;
+}
+._table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+._td, ._th {
+  padding: 0;
+}
+.fl {
+  float: left;
+}
+.fr {
+  float: right;
+}
+.clearfix:after {
+  content: '';
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+[v-cloak] {
+  display: none;
+}
+/*隐藏滚轮*/
+::-webkit-scrollbar {
+  display: none;
+}
+#app {
+  height: 100vh;
+  width: 100vw;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+  font-size: 28rpx;
+}
+/**
+ *	文字省略
+ *	（行数）
+ *	-webkit-line-clamp: 1;
+ */
+.text-omit {
+  text-align: justify;
+  text-justify: newspaper;
+  word-break: break-all;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+}
+.van-ellipsis {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.van-multi-ellipsis--l2 {
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.color-icon-orange {
+  color: #fc4d39;
+}
+.color-icon-blue {
+  color: #3995fc;
+}
+.houses-bg-blue {
+  color: #fff !important;
+  background: -webkit-linear-gradient(left, #6BCFFF 0%, #1EA5FE 100%);
+  background: linear-gradient(90deg, #6BCFFF 0%, #1EA5FE 100%);
+}
+.houses-bg-orange {
+  color: #fff !important;
+  background: -webkit-linear-gradient(left, #FFA161 0%, #FE7B1E 100%);
+  background: linear-gradient(90deg, #FFA161 0%, #FE7B1E 100%);
+}
+.houses-bg-purple {
+  color: #fff !important;
+  background: -webkit-linear-gradient(left, #C597FF 0%, #9B4AF0 100%);
+  background: linear-gradient(90deg, #C597FF 0%, #9B4AF0 100%);
+}
+.houses-bg-blue2 {
+  color: #fff !important;
+  background: -webkit-linear-gradient(left, #2FD9F3 0%, #07B7D5 100%);
+  background: linear-gradient(90deg, #2FD9F3 0%, #07B7D5 100%);
+}
+.margin-left {
+  margin-left: 10rpx;
+}
+.text-active {
+  color: #fe821e !important;
+}
+.bg-active {
+  background-color: #fe821e !important;
+}
+/* tabs统一样式 需要直接在vant组件加上tabs类名 */
+.tabs .van-tabs__wrap {
+  border-bottom: 1px solid #e0e0e0;
+}
+.tabs .van-tabs__line {
+  width: 52rpx;
+}
+.van-tabs__line {
+  background-color: #fe821e !important;
+}
+.tabs .van-tab--active {
+  color: #fe821e;
+}
+/* vant弹窗样式 */
+.van-dialog {
+  width: 500rpx;
+  border-radius: 0;
+}
+.van-dialog__confirm, .van-dialog__confirm:active {
+  color: #fe821e;
+}
+/* 无数据 */
+.list_null {
+  width: 100%;
+  height: 800rpx;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  text-align: center;
+}
+.list_null ._img {
+  width: 364rpx !important;
+  height: 239rpx;
+}
+.list_null ._p {
+  margin-top: 30rpx;
+  font-size: 28rpx;
+  color: #adadad;
+}
+ .u-size-mini {
+  font-size: 24rpx !important;
+}
+.van-slide-down-enter-active {
+  -webkit-animation: slideDownEnter .3s both ease-out;
+  animation: slideDownEnter .3s both ease-out;
+}
+.van-slide-down-leave-active {
+  -webkit-animation: slideDownLeave .3s both ease;
+  animation: slideDownLeave .3s both ease;
+}
+@-webkit-keyframes slideDownEnter {
+from {
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+}
+}
+@keyframes slideDownEnter {
+from {
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+}
+}
+@-webkit-keyframes slideDownLeave {
+to {
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+}
+}
+@keyframes slideDownLeave {
+to {
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+}
+}
+.status_bar {
+  width: 100%;
+  height: 25px;
+  background-color: #fff;
+}
+ .u-btn:after {
+  border: none !important;
+}
+/* 留言 */
+.u_talk {
+  width: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+          flex-direction: column;
+}
+.u_talk_top,
+.u_talk_item_top {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+}
+.u_talk_top ._img {
+  width: 68rpx;
+  height: 68rpx;
+  border-radius: 50%;
+  margin-right: 20rpx;
+}
+.u_talk_top text,
+.u_talk_item_top text {
+  font-size: 30rpx;
+  color: #757575;
+}
+.u_talk_content {
+  width: 100%;
+  font-size: 30rpx;
+  margin-top: 24rpx;
+}
+.u_talk_bottom {
+  font-size: 24rpx;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-pack: justify;
+  -webkit-justify-content: space-between;
+          justify-content: space-between;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+}
+.u_talk_box {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+}
+.u_talk_box .u-tag {
+  color: #757575;
+}
+.u_talk_time {
+  color: #adadad;
+  vertical-align: bottom;
+  margin-right: 38rpx;
+  margin-bottom: 14rpx;
+}
+.u_talk_wrap {
+  width: 100%;
+  box-sizing: border-box;
+  padding-left: 88rpx;
+  margin-bottom: 34rpx;
+}
+.u_talk_item {
+  margin-bottom: 28rpx;
+}
+.u_talk_item:last-child {
+  margin-bottom: 0;
+}
+.u_talk_item_top ._img {
+  width: 44rpx;
+  height: 44rpx;
+  border-radius: 50%;
+  margin-right: 20rpx;
+}
+.u_talk_item_content {
+  width: 100%;
+  font-size: 30rpx;
+  margin-top: 20rpx;
+  padding-bottom: 20rpx;
+  border-bottom: 1px solid #e0e0e0;
+}
+

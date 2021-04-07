@@ -1,0 +1,24 @@
+//app.js
+const EventBusClass = require('./utils/eventbus')
+require('./utils/mixins/basemixin.js')
+const hostd = "http://999house.test.com"
+App({
+  onLaunch: function () {
+   
+  },
+  globalData: {
+    userInfo: null,
+    token: "", //用于访问
+    sid: "",//用于访问
+    h5Host: hostd+"/9house/pages",
+    host: hostd+"/9house/index",
+    hostd: hostd,
+    imgHost: hostd+"/static/images/",
+    EventBusClass: EventBusClass.Int,
+    teacher_id:0, //扫码的临时分销商
+    whitePages: [
+      "pages/index/index",
+      "pages/login/index",
+    ]
+  }
+})

@@ -1,0 +1,902 @@
+<template>
+	<view class="content">
+		<div class="tabs">
+			<div class="tabs-wrap">
+				<u-tabs 
+					:list="tabList" 
+					:is-scroll="false"
+					:current="active" 
+					active-color="rgba(254, 130, 30, 1)" 
+					:active-item-style="{
+						fontSize: '38rpx'
+					}"
+					bar-trans="0"
+					@change="tabChange"
+				>
+				</u-tabs>
+			</div>
+		</div>
+		
+		<block v-for="(item,index) in tabList" :key="index">
+			<block v-if="active==index">
+				<div class="search">
+					<form action="/">
+						<u-search 
+							v-model="value"
+							:show-action="showResultBox"
+							bg-color="#fff"
+							placeholder-color="#ADADAD"
+							:placeholder="item.placeholder"
+							maxlength="16"
+							shape="square"
+							action-text="取消"
+							@search="onSearch"
+							@change="onInput"
+							@custom="onClear"
+							@clear="onClear"
+						>	
+						</u-search>
+					</form>
+				</div>
+				
+				<div class="box" v-show="!showResultBox">
+						
+					<div class="history" v-if="searchHistory[item.historyKey] && searchHistory[item.historyKey].length > 0">
+						<view class="h4-title">历史搜索</view>
+						<span class="iconfont iconlajitong" @click="delHistory"></span>
+					</div>
+					
+					<div class="history-tip" v-if="searchHistory[item.historyKey] && searchHistory[item.historyKey].length > 0">
+						<template v-for="(tip,num) in searchHistory[item.historyKey]" >
+							<span :key="num" @click="tipClick(tip)" v-if="num < 11">
+								{{tip}}
+							</span>
+						</template>
+					</div>
+					
+					<div class="history">
+						<view class="h4-title">热门搜索</view>
+					</div>
+					
+					<div class="history-tip" >
+						<span @click="goPage('index/find_house')" >
+							快捷找房
+						</span>
+						<!-- <span @click="goPage('map/index')" >
+							地图找房
+						</span> -->
+						<template v-if="(item.id == 0 || item.id == 3)&&hotTip.length > 0" v-for="(tip,num) in hotTip" >
+							<span :key="num" @click="tipClick(tip)" v-if="num < 11">
+								{{tip.name}}
+							</span>
+						</template>
+					</div>
+					
+					<template v-if="item.id == 0 || item.id == 3">
+						<template v-if="sortList&&sortList.length > 0">
+							<div class="history">
+								<view class="h4-title">{{ item.id == 0 ? '新房排行榜' : '排行榜' }}</view>
+								<div class="sort" @click="changeSort">
+									<span 
+										data-id="0"
+										:class="[sortTab[active] == 0 ? 'text-active' : '']"
+									>
+										{{ item.id == 0 ? '热搜榜' : '热销榜' }}
+									</span>
+									<span 
+										data-id="1"
+										:class="[sortTab[active] == 1 ? 'text-active' : '']"
+									>
+										人气榜
+									</span>
+								</div>
+							</div>
+							<div class="sort-item" v-for="(sort,key) in sortList" :key="key" @click="goHotNewHouse(sort)">
+								<div class="sort-left">
+									<div class="iconfont iconpaimingbiaoqian" :class="[key+1 < 4 ? 'top-three' : '']">
+										<span>{{key+1}}</span>
+									</div>
+									<div class="sort-wrap">
+										<view class="h4-title">{{sort.name}}</view>
+										<div class="sort-site">
+											<span>{{sort.site}}</span><span>建面{{sort.area}}m²</span>
+										</div>
+									</div>
+								</div>
+								<div v-if="sort.price" class="sort-price">
+									{{sort.price}}<span>元/平</span>
+								</div>
+								<div v-else class="sort-price">
+									<span>价格待定</span>
+								</div>
+							</div>
+						</template>
+					</template>
+					<template v-else>
+						<div class="history">
+							<view class="h4-title">{{ item.id == 1 ? '热讯榜' : '热门资讯' }}</view>
+							<div class="sort" v-if="item.id == 2" @click="changeSort">
+								<span 
+									data-id="0"
+									:class="[sortTab[active] == 0 ? 'text-active' : '']"
+								>
+									热讯榜
+								</span>
+								<span 
+									data-id="1"
+									:class="[sortTab[active] == 1 ? 'text-active' : '']"
+								>
+									爆料榜
+								</span>
+							</div>
+							<div class="more" v-else>
+								<!-- 查看更多<span class="iconfont iconjiantou1-copy"></span> -->
+							</div>
+						</div>
+						
+						<div class="info" v-for="(info,key) in infoList" :key="key">
+							<div class="info-text" @click="goHotNews(info.id)">
+								<!-- <image :src="$api.imgDirtoUrl('/index/fire.png')" class="info-sort" v-if="key < 3">
+								<span class="info-sort" v-else>{{key+1}}</span> -->
+								<div class="iconfont iconpaimingbiaoqian" :class="[key+1 < 4 ? 'top-three' : '']">
+									<span>{{key+1}}</span>
+								</div>
+								<span class="info-title van-ellipsis">{{info.name}}</span>
+							</div>
+							<div class="info-read">{{info.num_read}}人阅读</div>
+						</div>
+						
+						<div class="more more2"  v-if="item.id == 2">
+							查看更多<span class="iconfont iconjiantou1-copy"></span>
+						</div>
+						
+					</template>
+				</div>
+				<div class="result" v-show="showResultBox">
+					<!-- 综合 -->
+					<template v-if="item.id == 0">
+						<div >
+							<template v-if="Object.keys(resultList).length == 0">
+								<u-empty image="search" description="暂无相关搜索"/>
+							</template>
+							<template v-else>
+								<div class="result-wrap">
+									<div 
+										class="result-all" 
+										v-for="(item,key) in resultList"
+										:key="key"
+										@click="chooseClassify(key)"
+										v-if="key!='videos'"
+									>
+										<span class="result-text van-ellipsis">
+											{{classify[key]}}中搜索“{{value}}”
+										</span>
+										<div>
+											<span>约{{resultList[key]}}条</span><span class="iconfont iconjiantou1-copy"></span>
+										</div>
+									</div>
+								</div>
+							</template>
+						</div>
+					</template>
+					<!-- 资讯/有料/新房 -->
+					<template v-else>
+						<div class="detail" v-show="showResult">
+							<template v-if="resultDetail.length == 0">
+								<u-empty text="暂无相关搜索" mode="search"></u-empty>
+							</template>
+							<template v-else>
+								<common-information v-if="do_type==1" :list="resultDetail" @del="(e)=>{ resultDetail = e }"></common-information>
+								<common-newhouse v-if="do_type==3" :list="resultDetail" @del="(e)=>{ resultDetail = e }"></common-newhouse>
+								
+								<!-- <van-list v-model="loading" :finished="finished" finished-text="----- 我是有底线的 -----" @load="onSearch">
+									<common-template :list="resultDetail"  @del="(e)=>{ resultDetail = e }"></common-template>
+								</van-list> -->
+								<u-loadmore 
+									:status="loadState" 
+									margin-top="60"
+									:load-text="{
+										loadmore: '上拉加载',
+										loading: '努力加载中~',
+										nomore: '我是有底线的'
+									}"
+								/>
+							</template>
+						</div>
+					</template>
+				</div>
+			</block>
+		</block>
+	</view>
+</template>
+
+<script>
+	import commonInformation from '@/components/common/template_information';
+	import commonNewhouse from '@/components/common/template_newHouse';
+	export default {
+		data() {
+			return {
+				active: 0,
+				value: '',
+				searchHistory: {},
+				sortTab: {
+					0: 0,
+					2: 0,
+					3: 0
+				},
+				showResult: false,
+				showResultBox: false,
+				tabList: [
+					{
+						id: 0,
+						name: '综合',
+						placeholder: '请输入资讯、楼盘、小区名或地址',
+						historyKey: 'all-search'
+					},
+					{
+						id: 1,
+						name: '资讯',
+						placeholder: '请输入感兴趣的内容',
+						historyKey: 'news-search'
+					},
+					// {
+					// 	id: 2,
+					// 	name: '有料',
+					// 	placeholder: '请输入感兴趣的内容'
+					// },
+					{
+						id: 3,
+						name: '新房',
+						placeholder: '请输入楼盘、地址',
+						historyKey: 'house-search'
+					},
+				],
+				hotTip: [],
+				allSortList: {},
+				sortList: [],
+				infoList: [],
+				resultList: {},
+				resultDetail: [],
+				// 分页
+				page: 0,
+				maxPage: 1,
+				loading: false,
+				do_type: 0,
+				classify: {
+					articles: '资讯',
+					estates: '楼盘',
+					videos: '视频'
+				}
+			}
+		},
+		components: {
+			commonInformation,
+			commonNewhouse
+		},
+		watch:{
+			active(val){
+				this.do_type = this.tabList[val].id;
+			}
+		},
+		computed: {
+			loadState() {
+				if( this.loading == false ){
+					if( this.page >= this.maxPage ){
+						return 'nomore';
+					} else {
+						return 'loadmore';
+					}
+				} else {
+					return 'loading';
+				}
+			}
+		},
+		onLoad(options) {
+			this.do_type = options.type? options.type : 0;
+			this.searchHistory = this.uHistory('get');
+			
+			this.initTab();
+			this.getHouseTip();
+			this.getHouseRank();
+			this.getHotNews();
+		},
+		methods: {
+			init() {
+				this.resultDetail = [];
+				this.page = 0;
+				this.maxPage = 1;
+				this.loading = false;
+			},
+			initTab() {
+				const type = this.do_type;
+				
+				if( !type ) {
+					return;
+				}
+				
+				this.tabList.map( (item,index)=>{
+					if( item.id == type ){
+						this.active = index;
+						return;
+					} 
+				})
+			},
+			//获取选好房热搜词
+			getHouseTip() {
+				this.$http.post('estates/getSearchWords',{
+					city_no: this.city_no
+				}).then(res=>{
+					
+					const arr = [];
+					const data = res.data;
+					
+					// console.log(data);
+					
+					if( data.estates&&data.estates.length > 0 ){
+							data.estates.map( item=>{
+							const obj = {
+								id: item.bind_id,
+								name: item.name,
+								type: 0
+							}
+							
+							arr.push(obj);
+							})
+					}
+					
+					if( data.tags&&data.tags.length > 0 ){
+							data.tags.map( item=>{
+							const obj = {
+								id: item.bind_id,
+								name: item.name,
+								type: 1
+							}
+							
+							arr.push(obj);
+							})
+					}
+					
+					this.hotTip = arr;
+				})
+			},
+			getHouseRank() {
+				this.$http.post('rank/getEstatesRank',{
+						region_id: this.city_no
+					}).then(res=>{
+					const data = res.data;
+					let arr = [];
+					
+					for( let i in data ){
+						arr = [];
+						// console.log(i)
+						data[i].map( item=>{
+							const obj = {
+								id: item.estate_id,
+								name: item.estate,
+								site: item.area+ ' ' +item.business_area,
+								area: item.built_area,
+								price: item.price
+							}
+							
+							arr.push( obj );
+						})
+					
+						if( i == 'popular' ){
+							this.allSortList[1] = arr;
+						} else {
+							this.allSortList[0] = arr;
+						}
+					}
+
+					this.sortList = this.allSortList[0];
+				})
+			},
+			// 获取热讯榜
+			getHotNews() {
+				this.$http.post('news/getNewsRank',{
+					city_no: this.city_no
+				}).then(res=>{
+					const data = res.data;
+					
+					this.infoList = data;
+					
+					// console.log(data);
+				})
+			},
+			goHotNews( id ) {
+				this.goPage('discover/news_detail', { pid: 9, cate_id: 10, id: id });
+			},
+			goHotNewHouse(item){
+				let cover = item.detail_cover&&item.logo?1:0; 
+				this.goPage('houses/index', { id: item.id,cover: cover });
+			},
+			tabChange(index) {
+				this.active = index
+				this.value = '';
+				this.showResult = this.showResultBox = false;
+				this.init();
+				this.changeSort(0);
+			},
+			// 存取搜索历史
+			uHistory(type) {
+				if( type == 'get' ){
+					const val = this.$api.localStore.localGet('u-index-search-history');
+					
+					if( val ){
+						// console.log(val)
+						return val;
+					} else {
+						return {};
+					}
+				} else {
+					if( type ) {
+						const key = this.tabList[this.active].historyKey;
+						
+						if( Object.keys(this.searchHistory).indexOf(String(key)) == -1 ){
+							this.$set(this.searchHistory,key,[]);
+						}
+						
+						if( this.searchHistory[key].indexOf(type) != -1 ){
+							this.searchHistory[key].splice(this.searchHistory[key].indexOf(type),1);
+						}
+						
+						this.searchHistory[key].unshift(type);
+						
+						if( this.searchHistory[key].length > 11 ){
+							this.searchHistory[key].length = 11;
+						}
+					}
+					
+					this.$api.localStore.localSet('u-index-search-history',JSON.stringify(this.searchHistory));
+				}
+			},
+			onSearch(val,pid=0) {
+				if(this.loading == true){
+					return
+				}
+
+				let page = this.page + 1;
+				if( page > this.maxPage ){
+					this.loading = false;
+					return;
+				}
+				
+				this.loading = true
+
+				if( val ){
+					this.uHistory(val);
+				} else {
+					val = this.value;
+				}
+				
+				const id = this.tabList[this.active].id;
+				if( id == 0 ){
+					
+					this.$http.post('search/getTotalSearch',{
+						city_no: this.city_no,
+						name: val
+					}).then(res=>{
+
+						this.resultList = res.data;
+						this.showResult = this.showResultBox = true;
+
+						this.loading = false;
+					})
+				}else if( id == 1 ){
+					this.$http.post('news/ColligateSearchSearch',{
+						city_no: this.city_no,
+						search_value: val,
+						pid: pid,
+						page: page
+					}).then(res=>{
+						let newList = res.data.list ? res.data.list : [];
+						let write = `<span>
+									<span 
+										class="template-title-write" 
+										style="text-align: center;"
+									>
+										原创
+									</span>
+								</span>`
+						// console.log(newList)
+						for(let i in newList){
+							let item = newList[i];
+							
+							if(item.title){
+								item.html_title = item.title.replace(val,'<p style="color:rgb(254, 130, 30);display: inline;">'+val+'</p>');//设置高亮
+							}
+							if(item.write == 1){
+								item.html_title = write + item.html_title
+							}
+						}
+						
+						this.resultDetail = [...this.resultDetail,...newList];
+						this.showResult = this.showResultBox = true;
+
+						this.page = res.data.current_page;
+						this.maxPage = res.data.last_page;
+						this.loading = false;
+					})
+				}else if( id == 3 ){
+					this.$http.post('estates/getEstatesList',{
+						city_no: this.city_no,
+						name: val,
+						no_adv: 1,
+						page: page,
+						page_size: 6
+					}).then(res=>{
+						const data = res.data;
+						let arr = [];
+						
+						if(data.list&&data.list.length){
+							arr = this.$api.createHouseList( data );
+						}
+						
+						this.resultDetail = this.resultDetail.concat(arr);
+						this.showResult = this.showResultBox = true;
+
+						this.page = data.current_page;
+						this.maxPage = data.last_page;
+						this.loading = false;
+					})
+				}
+			},
+			onInput(val) {
+				this.init();
+				val.length == 0 && this.onClear();
+			},
+			onClear() {
+				this.value = '';
+				this.init();
+				this.showResult = this.showResultBox = false;
+			},
+			// 取消按钮
+			// onCancel() {
+			// 	this.goPage(-1);
+			// },
+			delHistory() {
+				const key = this.tabList[this.active].historyKey;
+				this.$set(this.searchHistory,key,[]);
+				this.uHistory();
+			},
+			// 标签点击
+			tipClick(val) {
+				if( typeof val == 'object' ){
+					if( val.type == 0 ){
+						this.goPage('houses/index', { id: val.id, type:1 });
+						return;
+					} else {
+						val = val.name;
+					}
+				}
+				
+				this.value = val;
+				this.onSearch( val );
+				
+			},
+			// 热门资讯切换
+			changeSort(e) {
+				if( typeof e == 'number' ){
+					this.sortTab[this.active] = e;
+					this.sortList = this.allSortList[e];
+				} else {
+					const sort = this.sortTab[this.active];
+					const newSort = e.target.dataset.id;
+					
+					if( sort != newSort ){
+						this.sortTab[this.active] = newSort;
+						this.sortList = this.allSortList[newSort];
+					}
+				}
+				
+			},
+			chooseClassify( type ){
+				const val = this.value;
+				let id = type == 'estates' ? 3 : 1;
+				let pid = 0;
+				
+				this.tabList.map( (item,index)=>{
+					if( item.id == id ){
+						this.active = index;
+					}
+				});
+				
+				if( type == 'articles' ){
+					pid = 9;
+				}else if( type == 'videos' ){
+					pid = 13;
+				}
+				
+				this.$nextTick(()=>{
+					this.init();
+					this.value = val;
+					this.onSearch(val,pid);
+				})
+			},
+		},
+		onReachBottom(){
+			if(this.value){
+				this.onSearch();
+			}
+		}
+	}
+</script>
+
+<style lang="scss" scoped>
+	// .content{
+	// 	box-sizing: border-box;
+	// 	padding: 0 32rpx;
+	// }
+	
+	.tabs{
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		
+		/deep/ .u-tab-item{
+			font-size: 30rpx;
+			font-weight: 800;
+			color: rgba(33, 33, 33, 1);
+			
+		}
+	}
+	
+	.tabs-wrap{
+		width: 70%;
+		margin: 30rpx 0 40rpx;
+	}
+	
+	.search{
+		box-sizing: border-box;
+		box-sizing: border-box;
+		padding: 0 32rpx;
+		margin-bottom: 30rpx;
+		
+		/deep/ .u-content{
+			height: 80rpx !important;
+			box-shadow: 0px 3px 20px 0px #F5F5F5;
+			border-radius: 6px;
+			border: 1px solid #BDBDBD;
+		}
+		
+		/deep/ .u-iconfont{
+			color: rgba(153, 153, 153, 1) !important;
+			margin-right: 8rpx;
+		}
+	}
+	
+	.box{
+		box-sizing: border-box;
+		padding: 0 32rpx 100rpx;
+	}
+	
+	.history{
+		height: 100rpx;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		font-size: 0.34rem;
+	}
+	
+	.history .iconfont{
+		width: 80rpx;
+		height: 100rpx;
+		color: rgba(173, 173, 173, 1);
+		font-size: 28rpx;
+		display: flex;
+		justify-content: flex-end;
+		align-items: center;
+	}
+	
+	.history-tip{
+		display: flex;
+		align-items: center;
+		flex-wrap: wrap;
+	}
+	
+	.history-tip span{
+		height: 55rpx;
+		line-height: 55rpx;
+		padding: 0 15rpx;
+		background-color: rgba(247, 247, 247, 1);
+		margin: 0 35rpx 20rpx 0;
+		font-size: 26rpx;
+		border-radius: 4rpx;
+	}
+	
+	.sort{
+		height: 100%;
+		display: flex;
+		font-size: 26rpx;
+	}
+	
+	.sort span{
+		height: 100%;
+		display: flex;
+		align-items: center;
+		box-sizing: border-box;
+		font-weight: bold;
+	}
+	
+	.sort span:first-child{
+		padding-right: 25rpx;
+	}
+	
+	.sort span:last-child{
+		padding-left: 25rpx;
+	}
+	
+	.sort-item{
+		width: 100%;
+		height: 140rpx;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		border-bottom: 1rpx solid rgba(235, 235, 235, 1);
+	}
+	
+	.sort-left{
+		display: flex;
+		align-items: center;
+	}
+	
+	.info-text .iconfont,
+	.sort-left .iconfont{
+		width: 29rpx;
+		font-size: 55rpx;
+		color: rgba(189, 189, 189, 1);
+		position: relative;
+	}
+	
+	.info-text .iconfont span,
+	.sort-left .iconfont span{
+		width: 40rpx;
+		font-size: 30rpx;
+		font-weight: bold;
+		text-align: center;
+		color: #fff;
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		transform: translate(-25%, -60%);
+		// transform: translate(-60%, -60%);
+	}
+	
+	.top-three{
+		color: rgba(252, 77, 57, 1) !important;
+	}
+	
+	.history .h4-title{
+		font-size: 30rpx;
+		font-weight: bold;
+	}
+	.sort-wrap{
+		margin-left: 32rpx;
+	}
+	
+	.sort-wrap .h4-title{
+		margin-bottom: 10rpx;
+		font-size: 30rpx;
+	}
+	
+	.sort-site{
+		color: rgba(117, 117, 117, 1);
+		font-size: 26rpx;
+	}
+	
+	.sort-site span:first-child{
+		padding-right: 10rpx;
+		position: relative;
+	}
+	
+	.sort-site span:first-child:after{
+		content: '';
+		height: 22rpx;
+		width: 2rpx;
+		background-color: rgba(117, 117, 117, 1);
+		position: absolute;
+		right: 0;
+		top: 50%;
+		transform: translate(0,-45%);
+	}
+	
+	.sort-site span:last-child{
+		padding-left: 10rpx;
+	}
+	
+	.sort-price{
+		font-size: 34rpx;
+		color: rgba(252, 77, 57, 1);
+		font-weight: bold;
+	}
+	
+	.sort-price span{
+		font-size: 24rpx;
+	}
+	
+	.more{
+		font-size: 26rpx;
+		color: rgba(117, 117, 117, 1);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	
+	.more .iconfont{
+		font-size: 38rpx;
+		width: auto;
+		margin-left: 10rpx;
+		color: rgba(117, 117, 117, 1);
+	}
+	
+	.more2{
+		padding-top: 20rpx;
+	}
+	
+	.info{
+		width: 100%;
+		padding: 15rpx 0;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+	
+	.info-text{
+		display: flex;
+		align-items: center;
+	}
+	
+	.info-sort{
+		width: 24rpx;
+		height: 28rpx;
+		font-size: 28rpx;
+		font-weight: bold;
+		color: rgba(117, 117, 117, 1);
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+	
+	.info-title{
+		width: 468rpx;
+		margin-left: 16rpx;
+	}
+	
+	.info-read{
+		color: rgba(173, 173, 173, 1);
+	}
+	
+	.result{
+		padding-bottom: 100rpx;
+	}
+	
+	.result-wrap{
+		padding: 0 32rpx;
+		box-sizing: border-box;
+	}
+	
+	.result-all{
+		height: 90rpx;
+		font-size: 26rpx;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		border-bottom: 1rpx solid rgba(235, 235, 235, 1);
+	}
+	
+	.result-text{
+		width: 75%;
+		font-weight: bold;
+	}
+	
+	.result-all div{
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		color: rgba(117, 117, 117, 1);
+	}
+	
+	/deep/ .u-empty{
+		margin-top: 160rpx !important;
+	}
+</style>

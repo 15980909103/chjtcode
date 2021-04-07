@@ -1,0 +1,605 @@
+<template>
+  <div class="_container">
+    <div class="admin_huang admin_heard">
+      <div class="admin_huang" style=" width: 65% ;height: 397px;display: flex;flex-direction:column">
+          <div class="admin_huang" style="margin-bottom: 15px ; height: 210px">
+            <el-row>
+              <span class="admin_m20 admin_font1">待办事项</span>
+            </el-row>
+            <el-divider class="admin_lr20"></el-divider>
+            <div style="display: flex;margin: 20px 24px">
+                <div class="admin_ico admin_ico1">
+                  <span class=" admin_p_32 admin_font2">10</span>
+                  <span class="admin_p_59 admin_font3" >待办资讯</span>
+                  <span class="admin_p_11 el-icon-edit-outline"> </span>
+                </div>
+
+              <div class="admin_ico admin_ico2">
+                <span class=" admin_p_32 admin_font2">4</span>
+                <span class="admin_p_59 admin_font3" >待办活动</span>
+                <span class="admin_p_11 el-icon-present"> </span>
+              </div>
+              <div class="admin_ico admin_ico3">
+                <span class=" admin_p_32 admin_font2">10</span>
+                <span class="admin_p_59 admin_font3" >审批评论</span>
+                <span class="admin_p_11 el-icon-edit-outline"> </span>
+              </div>
+              <div class="admin_ico admin_ico4">
+                <span class=" admin_p_32 admin_font2">10</span>
+                <span class="admin_p_59 admin_font3" >待审话题</span>
+                <span class="admin_p_11 el-icon-chat-line-round"> </span>
+              </div>
+            </div>
+          </div>
+          <div class="admin_huang " style="height: 177px">
+            <el-row>
+              <span class="admin_m20 admin_font1">待办事项</span>
+            </el-row>
+            <el-divider class="admin_lr20"></el-divider>
+          </div>
+      </div>
+      <div class="admin_huang" style="width: 33%  ; margin-left: 15px; height: 397px;display: inline-block;position: relative">
+        <el-row>
+          <span class="admin_m20 admin_font1">大数据看板</span>
+        </el-row>
+
+        <el-divider class="admin_lr20"></el-divider>
+        <el-row class="admin_m20 w59h22">
+          <el-date-picker
+            v-model="value3"
+            type="month"
+            placeholder="选择年">
+          </el-date-picker>
+        </el-row>
+        <el-row style="display: flex; flex-direction: column;">
+          <span style="margin: 0 auto " class="admin_font4"> 10</span>
+          <span style="margin: 0 auto" class="admin_font5"> 近期开盘</span>
+        </el-row>
+
+        <el-row style="display: flex;flex-direction: row">
+          <el-col  style="margin: auto 48px;text-align: center" class="admin_font4">
+              <div style="display: flex;flex-direction: column">
+                <span style="margin-top: 5px;">48000</span>
+                <span class="admin_font6 el-icon-top" style="margin-top: 5px;">0.17%</span>
+                <span class="admin_font5" style="margin-top: 5px;">新房价格(元/m²)</span>
+
+              </div>
+          </el-col>
+          <el-col  style="margin:  auto 48px ;text-align: center" class="admin_font4">
+            <div>
+              <div style="display: flex;flex-direction: column">
+                <span style="margin-top: 5px;">52000</span>
+                <span class="admin_font7 el-icon-bottom" style="margin-top: 5px;">0.52%</span>
+                <span class="admin_font5" style="margin-top: 5px;">二手房价格(元/m²)</span>
+              </div>
+
+            </div>
+          </el-col>
+        </el-row>
+        <div style='position:absolute;bottom: 20px;display: flex;justify-content: center;width:100%;'>
+            <span class="admin_font5" style="margin-left: 14px" v-for="itme in city_lsit"><a>{{itme.cname}}</a></span>
+        </div>
+     </div>
+  </div>
+  </div>
+
+</template>
+
+<script>
+import cityData from "../../../../mini2/uview-ui/libs/util/city";
+
+var util = require("@/utils/util");
+import paginationBox from '../../components/common/pagination.vue';
+import ImgUpload from '@/components/common/ImgUpload.vue';
+import cityList from "../admin/cityList";
+export default {
+  components: {
+			'pagination-box': paginationBox,
+    'img-upload': ImgUpload,
+	},
+  data() {
+    return {
+      siteCitys:{},
+      dialogFormVisible: false,
+      formLabelWidth: "123px",
+      form_type:'',
+      form: {
+        account: "",
+        mobile: "",
+        email: "",
+        head_ico_id:'',
+        head_ico_path:'',
+        newpassword: "",
+        newpassword2: "",
+        role_id:'',
+        status:'',
+        region_nos_info:{},
+        region_nos_info2:[],
+
+      },
+      rules: { },
+      value3:'',
+      searchData: {
+        name: "",
+        status:-1,
+        type:-1,
+        auction_time:'',
+        transaction_time:'',
+        transaction_price:-1,
+        city_lsit:[350200]
+      },
+      radio:false,
+      money_list:[
+        {
+          value: '0-5000',
+          label: '0-5000'
+        },{
+          value: '5000-10000',
+          label: '5000-10000'
+        },{
+          value: '10000-30000',
+          label: '10000-30000'
+        },{
+          value: '30000-60000',
+          label: '30000-60000'
+        },{
+          value: '60000',
+          label: '60000以上'
+        }
+      ],
+      status_lsit:[
+        {
+          value: '1',
+          label: '公告'
+        },{
+          value: '2',
+          label: '已成交'
+        }
+      ],
+      type_list:[
+        {
+          value: '1',
+          label: '住宅用地'
+        },{
+          value: '2',
+          label: '商服用地'
+        }
+      ],
+      city_lsit:[],
+      page_loading : false,
+      tableData: [],
+      pagination: {}, //分页数据
+      select_ids :[],
+      roleList:[{id:-1,name:'超级管理员'}],
+    };
+  },
+  created: function() {
+    this.city_lsit = this.$store.getters.userinfo.region_nos_info;
+    console.log(cityList);
+    this.getList(this.searchData)
+    // this.getRoleList()
+    this.getSiteCitys()
+  },
+  methods: {
+    getSiteCitys(){   //获取所有数据，或按条件查找数据
+      var that = this
+      util.requests("post",{
+        url:"city/siteCitys",
+        data:{status:1}
+      }).then(res=>{
+        let obj = {}
+        for(var i in res.data){
+          let item = res.data[i]
+          obj[item.id] = item
+        }
+        that.siteCitys = obj
+      })
+    },
+    search(){
+      this.getList(this.searchData);
+    },
+    setLandStatus(land_status){
+      var that = this
+      if(that.select_ids.length < 1){
+        that.$alert('请选择要操作的行');
+        return ;
+      }
+      that.$confirm('是否修改选中行状态?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        if(that.page_loading){
+          return
+        }
+        that.page_loading = true
+        util.requests("post", {
+          url: "land/setLandStatus",
+          data: {ids:this.select_ids,status:land_status}
+        }).then(res => {
+          that.page_loading = false
+          if(res.code==1){
+            that.onSerch()
+            util.Message.success('操作成功');
+          }else{
+            util.Message.error(res.msg);
+          }
+        });
+      }).catch(() => {
+        //console.log('取消')
+      });
+    },
+    getRealImgUrl(url){
+      return this.$getRealImgUrl(url)
+    },
+    onUploadedImg(e){
+      this.form.head_ico_id      = e.res.info.id;
+      this.form.head_ico_path  = e.res.info.url;
+      this.$refs.cover.clearValidate()
+    },
+    getCityName($city_no){
+      let city_name = '';
+      this.city_lsit.map((item)=>{
+          if(item.id == $city_no){
+            city_name = item.cname;
+          }
+      });
+
+      return city_name;
+
+    },
+    getList(searchdata={}) {
+      var that = this
+      if(that.page_loading){
+          return
+      }
+      if(searchdata.city_lsit && searchdata.city_lsit.length<1){
+        that.$alert('请选择城市');
+      }
+      that.page_loading = true
+
+      util.requests("post", {
+          url: "land/index",
+          data: searchdata
+      }).then(res => {
+          that.page_loading = false
+          if(res.code==1){
+            that.setDataArr({
+              tableData : res.data.list,
+              pagination : {
+                page : res.data.current_page,
+                pagecount : res.data.last_page,
+                pagesize : Math.ceil(res.data.total / res.data.last_page)
+              }
+            })
+          }else{
+            util.Message.error(res.msg);
+          }
+      });
+    },
+    //分页操作
+    pageChange: function(page) {
+      let post_data = Object.assign({},this.searchData);
+      post_data.page = page;
+      this.getList(post_data)
+    },
+    onSerch() {
+      //console.log("查询",this.searchData);
+      this.getList(this.searchData)
+    },
+
+
+    resetData(){
+      this.setDataArr({
+        form: {
+          account: "",
+          mobile: "",
+          email: "",
+          newpassword: "",
+          newpassword2: "",
+          role_id:'',
+          status:'',
+          region_nos_info:{},
+          region_nos_info2:[]
+        }
+      })
+    },
+    doEditCancel(){
+      var that=this
+      that.resetData()
+      if(that.dialogFormVisible == true){
+        that.dialogFormVisible = false
+      }
+    },
+    doEdit(dotype,e={}){
+      let that = this
+      that.dialogFormVisible = true
+      that.form_type = dotype
+      if(Object.keys(e).length>0){
+        e.region_nos_info2=[]
+        that.form = Object.assign({},e)
+        that.form.role_id = Number(that.form.role_id)
+        that.form.status = String(that.form.status)
+
+        if(that.form.region_nos_info){
+          that.form.region_nos_info = JSON.parse(that.form.region_nos_info)
+
+          for(var i in that.form.region_nos_info){
+            that.form.region_nos_info2[i] = Number(that.form.region_nos_info[i].id)
+          }
+        }
+      }
+    },
+    doEditSubmit(){
+      let that=this
+      that.form.region_nos_info ={}
+
+      for(var i in that.form.region_nos_info2){
+        let item = that.siteCitys[that.form.region_nos_info2[i]]
+        that.form.region_nos_info[i] = {id:item.id,cname:item.cname,pid:item.pid,pcname:item.pcname}
+      }
+
+      that.$refs['form'].validate((valid) => {
+        if (valid) {
+          util.requests("post", {
+            url: "account/edit",
+            data: that.form
+          }).then(res => {
+              that.page_loading = false
+              if(res.code==1){
+                util.Message.success('操作成功');
+                that.onSerch()
+                setTimeout(() => {
+                  that.doEditCancel()
+                }, 1000);
+              }else{
+                util.Message.error(res.msg);
+              }
+          });
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
+    },
+    doDel(id){
+      var that = this
+      if(that.page_loading){
+          return
+      }
+      that.$confirm('该操作将永久删除记录，是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        that.page_loading = true
+
+        util.requests("post", {
+            url: "land/delLand",
+            data: {id: id}
+          }).then(res => {
+            that.page_loading = false
+            if(res.code==1){
+              that.onSerch()
+              util.Message.success('操作成功');
+            }else{
+              util.Message.error(res.msg);
+            }
+        });
+      }).catch(() => {
+      });
+    },
+    handleSelectionChange(e){
+      this.select_ids =[];
+      for (let i=0;i < e.length;i++){
+
+        this.select_ids[i] = e[i].id;
+      }
+    },
+    switchChange(id,val){
+      //console.log(id,val)
+      var that = this
+      if(that.page_loading){
+          return
+      }
+      that.page_loading = true
+
+      util.requests("post", {
+          url: "account/enable",
+          data: {id: id,status: val}
+        }).then(res => {
+          that.page_loading = false
+          if(res.code==1){
+            that.onSerch()
+            util.Message.success('操作成功');
+          }else{
+            util.Message.error(res.msg);
+          }
+      });
+    },
+    getFormatDate:util.DataFun.getFormatDate,
+    openPage: util.openPage
+  }
+};
+</script>
+<style lang="scss" scoped>
+._container {
+  margin-top: 20px;
+  padding: 0px;
+  background: #F9FBFF;
+}
+.admin_font4{
+  height: 43px;
+  font-size: 34px;
+  font-family: DINPro-Medium, DINPro;
+  font-weight: 500;
+  color: #212121;
+  line-height: 43px;
+
+}
+.admin_font5{
+  height: 20px;
+  font-size: 14px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: #ADADAD;
+  line-height: 20px;
+
+}
+.admin_heard{
+   height: 397px;
+   background: #FFFFFF;
+   display: flex;
+   margin: 0;
+   padding: 0;
+}
+.admin_font{
+  width: 28px;
+  height: 20px;
+  font-size: 14px;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 500;
+  color: #212121;
+  line-height: 20px;
+
+}
+.admin_font1{
+  width: 80px;
+  height: 22px;
+  font-size: 16px;
+  font-family: PingFangSC-Regular, PingFang SC;
+  font-weight: 400;
+  color: #212121;
+  line-height: 22px;
+
+}
+.admin_m20{
+  display: block;
+  margin: 24px;
+}
+.w59h22{
+  width: 59px;
+  height: 22px;
+}
+.el-date-editor.el-input, .el-date-editor.el-input__inner{
+  width: 118px;
+  height: 22px;
+}
+.admin_lr20{
+  margin: 0px  24px;
+  width: 95%;
+}
+.admin1{
+   margin: 20px auto;
+}
+.admin_ico{
+  flex-grow: 1;
+  height: 100px;
+  position: relative;
+}
+.admin_p_32{
+  position: absolute;
+  left: 32px;
+  top: 3px;
+}
+.admin_font6{
+  height: 21px;
+  font-size: 16px;
+  font-family: DINPro-Medium, DINPro;
+  font-weight: 500;
+  color: #ED3335;
+  line-height: 21px;
+  text-align: center;
+
+}
+.admin_font7{
+  height: 21px;
+  font-size: 16px;
+  font-family: DINPro-Medium, DINPro;
+  font-weight: 500;
+  color: #079DD6;
+  line-height: 21px;
+  text-align: center;
+
+}
+.admin_p_11{
+  position: absolute;
+  right: 11px;
+  bottom: 11px;
+}
+.admin_p_59{
+  position: absolute;
+  left: 36px;
+  top: 59px;
+}
+.admin_ico1{
+  width: 154px;
+  height: 100px;
+  background: linear-gradient(90deg, #8990FF 0%, #793DF4 100%);
+  box-shadow: 0px 2px 10px 0px #C3B6FF;
+  border-radius: 4px;
+}
+.admin_ico2{
+  width: 154px;
+  height: 100px;
+  background: linear-gradient(90deg, #6CBCF7 0%, #1F8FE7 100%);
+  box-shadow: 0px 2px 10px 0px #B4DEFF;
+  border-radius: 4px;
+
+}
+
+.admin_ico3{
+  width: 154px;
+  height: 100px;
+  background: linear-gradient(90deg, #5BDDD3 0%, #0ABDA2 100%);
+  box-shadow: 0px 2px 10px 0px #A9FFF5;
+  border-radius: 4px;
+
+
+}
+
+.admin_ico4{
+  width: 154px;
+  height: 100px;
+  background: linear-gradient(90deg, #38DFFF 0%, #1FACE7 100%);
+  box-shadow: 0px 2px 10px 0px #B4DEFF;
+  border-radius: 4px;
+
+
+}
+
+.admin_font2{
+  width: 45px;
+  height: 54px;
+  font-size: 42px;
+  font-family: DINPro-Medium, DINPro;
+  font-weight: 500;
+  color: #FFFFFF;
+  line-height: 54px;
+
+}
+.admin_font3{
+  width: 56px;
+  height: 20px;
+  font-size: 14px;
+  font-family: PingFangSC-Medium, PingFang SC;
+  font-weight: 500;
+  color: #FFFFFF;
+  line-height: 20px;
+
+
+}
+.admin_ico:not(:last-child){
+  margin-right: 35px;
+}
+
+.admin_huang{
+  box-shadow: 0px 2px 12px 0px #E4EDFF;
+  border-radius: 6px;
+}
+.mt_15{
+  margin-top: 35px;
+}
+</style>
+
+

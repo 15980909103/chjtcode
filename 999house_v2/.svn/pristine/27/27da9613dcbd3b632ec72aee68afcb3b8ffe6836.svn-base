@@ -1,0 +1,100 @@
+<template>
+	<view class="content">
+		<div class="box">
+			<div class="choose">
+				<span style="margin-right: 20rpx;">是否去售楼处看过楼盘:</span>
+				<u-tag text="考虑看房" :class="[form.choose == 0?'tag-active':'tag']" mode="light" @click="chooseType(0)"/>
+				<u-tag text="已看过房" :class="[form.choose == 1?'tag-active':'tag']" mode="light" @click="chooseType(1)"/>
+			</div>
+			<div class="input">
+				<u-input placeholder="对本楼盘的环境、位置、配套设施满意吗？说说您的看法" v-model="form.message" type="textarea"  :height="150" :auto-height="true" />
+			</div>
+			<div class="up">
+				<u-upload  ref="uUpload" :action="upload_url" :auto-upload="false" multiple max-count="3"></u-upload>
+			</div>
+			<div class="btn">
+				<u-button type="default"  :loading="load" @click="sendMsg">发表</u-button>
+			</div>
+		</div>
+		<div id="container-user-site"></div>
+	</view>
+</template>
+
+<script>
+	let app = getApp();
+	export default{
+		data(){
+			return {
+				upload_url: app.globalData.host_api+'/upload',
+				form:{
+					estate_id: 0,
+					choose: 0,
+					message: '',
+					img: [],
+				},
+				//fileList: [],
+				load: false
+			}
+		},
+		onLoad(options) {
+			this.form.estate_id = options.id;
+		},
+		onReady() {
+			// 得到整个组件对象，内部图片列表变量为"lists"
+			this.form.img = this.$refs.uUpload.lists;
+		},
+		methods:{
+			chooseType(num) {
+				this.form.choose = num;
+			},
+			sendMsg() {
+				// this.load = true;
+				
+				const val = this.$api.htmlEscape(this.$api.trim(this.form.message));
+				
+				const form = {
+					id: this.form.estate_id,
+					comment: val,
+					pid: 0 //无盖楼0
+				}
+				// if( this.fileList.length > 0 ){
+				// 	this.fileList.map( (item, index)=>{
+				// 		form['img['+index+']'] = item.content;
+				// 	})
+				// }
+				
+				console.log(this.form)
+				return
+				
+				if( val ){
+					this.$http.post({
+						url: '/comment/propertyReviewsComment',
+						data: form,
+					}).then( res=>{
+						if(res.code==1){
+							//this.$toast('评论提交成功，等待后台审核~');
+							this.$toast('评论提交成功');
+		
+							setTimeout(() => {
+								this.goPage(-1);
+							}, 600);
+						}else{
+							res.msg&&this.$toast(res.msg);
+						}
+						
+						this.load = false;
+					}).catch((res)=>{
+						res.msg&&this.$toast(res.msg);
+					})
+				} else {
+					this.load = false;
+					this.$toast('请填写您的看法');
+				}
+			},
+		},
+	}
+</script>
+
+<style>
+	 @import './send_comment.css';
+</style>

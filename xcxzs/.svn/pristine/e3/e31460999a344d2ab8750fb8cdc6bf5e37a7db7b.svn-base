@@ -1,0 +1,1 @@
+[2020-10-09T17:01:55+08:00][error] [10501]SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'desc' cannot be null[/mnt/e/project/999house_v2/vendor/topthink/think-orm/src/db/PDOConnection.php:722]

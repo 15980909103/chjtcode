@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>实时资讯</title>
+		<link rel="stylesheet" href="../../common/vant/index.css"/>
+		<link rel="stylesheet" href="../../common/css/public.css?v=1.12"/>
+		<link rel="stylesheet" href="../../static/css/houses/hot_news.css"/>
+		<style>
+			
+		</style>
+	</head>
+	<body>
+		<div id="app" v-cloak ref="DOM">
+			<div class="box">
+				<!-- <template v-if="typeId == 4">
+					<template v-if="list.length > 0">
+						<van-steps direction="vertical" :active="-1">
+							<van-step v-for="(news,key) in list" :key="key">
+								<div>
+									<div class="my-news"  @click="goInfo(news.type, news.id)">
+										<div class="nav-news-top" :class="[ news.type == 1 ? 'van-multi-ellipsis--l2' : '' ]">
+											<van-tag 
+												:color="news.tip == '测评' ? 'rgba(134, 186, 122, 1)' : 'rgba(55, 141, 219, 1)'" 
+												plain
+											>
+												{{ news.tip }}
+											</van-tag>
+											{{ news.title }}
+										</div>
+										
+										<template v-if="news.img">
+											<div class="nav-news-bottom" v-if="news.img.length > 0">
+												<template  v-for="(img,num) in news.img" >
+													<img :src=" $http.testUrl(img)" :key="num" v-if="num < 3" @click.stop="$http.showImg(news.img,num)">
+												</template>
+												<van-tag color="rgba(0, 0, 0, .6)" v-if="news.img.length > 3">共{{ news.img.length }}张</van-tag>
+											</div>
+										</template>
+									</div>
+								</div>
+								<p class="my-time">{{ news.time }}</p>
+							</van-step>
+						</van-steps>
+					</template>
+					<template v-else>
+						<div class="list_null">
+							<img src="../../static/null.png">
+							<p>暂无数据</p>
+						</div>
+					</template>
+				</template>
+				<template v-else> -->
+					<template v-if="list.length > 0">
+						<houses-hot-news :list="list"></houses-hot-news>
+					</template>
+					<template v-else>
+						<div class="list_null" v-show="listNull">
+							<img src="../../static/null.png">
+							<p>暂无数据</p>
+						</div>
+					</template>
+				<!-- </template> -->
+				
+			</div>
+			<div id="container-user-site"></div>
+		</div>
+	</body>
+</html>
+
+<script src="../../common/js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/rem.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/public.js?v=1.15" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/vant/index.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=53da8183ca23918f2f81c79a5b2ede15&plugin=AMap.Geocoder"></script>
+<script type="module">
+	import { http, loginMixin } from '../../common/js/method/http.js?v=1.1';
+	Vue.use(http);
+
+	const myComponents = [
+		'../../components/houses/template_hot_news/index',
+	];
+	
+	$api.addComponents(myComponents)
+		.then(()=>{
+			
+			Vue.use(vant.Lazyload);
+			 
+			
+			const app = new Vue({
+				el: '#app',
+				data: {
+					list: [
+						// {
+						// 	type: 1,
+						// 	tip: '测评',
+						// 	title: ' 89平的三室小复式样板房将于2020-10-12日开放，欢 迎各位参观，本套式是小区很好的户型，全局透亮。',
+						// 	img: ['../../static/logo.png']
+						// },
+					],
+					estate_id: 0,
+					typeId : 0,
+					listNull: false
+				},
+				components: {
+					housesHotNews
+				},
+				created() {
+					this.estate_id = $api.funcUrlDel().option.id;
+					this.typeId = $api.funcUrlDel().option.typeId;
+					this.setTitle();
+					
+					// this.$nextTick(()=>{
+					// 	this.$refs.DOM.scrollTo(0,3500)
+					// })
+					if(this.typeId == '4'){
+						this.getNews()
+					}else{
+						this.getEval()
+					}
+				},
+				mounted() {
+					
+				},
+				methods:{
+					setTitle() {
+						document.title = this.typeId == '4' ? '实时资讯' : '实时测评';
+					},
+					// 获取楼盘资讯
+					getNews() {
+						const id = this.estate_id;
+						const data = {
+							id: id,
+							dotype: 'news'
+						};		
+						this.$http.ajax({
+							url: '/index/estates/getEstateArticle',
+							data: data,
+						}).then( res=>{
+							let data = res.data;
+							const newData = [];
+							
+							data.map(item=>{
+								const obj = {};
+								const arr = [];
+								
+								obj.id = item.id;
+								obj.title = item.name;
+								obj.img = item.img_url;
+								obj.type = item.type;
+								obj.tip = '资讯';
+								obj.time = item.create_time;
+								
+								newData.push(obj);
+							})
+
+							this.list = newData;
+
+							if( newData.length == 0 ){
+								this.listNull = true;
+							}
+							// console.log(data);
+						})
+					},
+					// 获取楼盘测评
+					getEval() {
+						const id = this.estate_id;
+						const data = {
+							id: id,
+							dotype: 'assess'
+						};
+							
+						this.$http.ajax({
+							url: '/index/estates/getEstateArticle',
+							data: data,
+						}).then( res=>{
+							let data = res.data;
+							const newData = [];
+							
+							data.map(item=>{
+								const obj = {};
+								obj.id = item.id;
+								obj.img = item.img_url;
+								obj.title = item.name;
+								obj.type = item.type ;
+								obj.tip = '测评';
+								
+								newData.push(obj);
+							})
+							
+							this.list = newData
+							if( newData.length == 0 ){
+								this.listNull = true;
+							}
+							// console.log(data);
+						})
+					},
+				},
+			})
+			
+			
+			
+		})
+	
+</script>

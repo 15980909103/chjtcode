@@ -1,0 +1,1 @@
+<view class="content"><web-view webview-styles="{{webviewStyles}}" src="{{h5Host+('/map/index.html?id='+id+'&city='+city+'&')+t_version}}"></web-view></view>

@@ -1,0 +1,1062 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>确认业绩</title>
+    <link rel="stylesheet" type="text/css" href="../../static/css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/mui/css/mui.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/calendar/calendar-master.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/css/me/my_store.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/css/swiper.min.css" />
+    <script type="text/javascript" src="../../static/js/jquery-2.0.0.min.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.min.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.pullToRefresh.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.pullToRefresh.material.js" ></script>
+    <!-- <script type="text/javascript" src="../../static/js/vue.min.js" ></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script type="text/javascript" src="../../mixins/listenInputClear.js" ></script>
+    <script type="text/javascript" src="../../static/js/vue-tap.js" ></script>
+    <script type="text/javascript" src="../../static/js/public.js" ></script>
+    <script type="text/javascript" src="../../static/js/swiper.min.js" ></script>
+    <script type="text/javascript" src="../../static/calendar/calendar-master.js" ></script>
+    <style>.mui-pull-bottom-tips{display: none;}</style>
+</head>
+<body>
+<div id="app" class="my-content">
+    <div id="search" class="search">
+        <div class="mui-input-row mui-search">
+            <input
+              type="search"
+              class="mui-input-clear"
+              :placeholder="inputPlaceholder"
+              v-model.lazy="searchText"
+              @keyup.enter="searchName"
+              @focus="focusInput"
+            >
+        </div>
+    </div>
+    <div
+        v-if="isDisplayBar"
+        id="management"
+        class="management"
+        v-tap="{methods: onMenbers}"
+    >
+        <img class="icon" :src="`../../static/image/my-store-${permission<2? 'management': 'profile'}-icon.png`">
+        <div class="label" v-cloak>{{ manageLabel }}</div>
+        <div class="arrow"></div>
+    </div>
+    <div id="my-div3">
+        <div class="swiperTitle">
+            <div class="swiper-container">
+                <div class="swiper-wrapper">
+                    <div
+                        v-for="(item, index) in modules"
+                        :key="index"
+                        :class="['swiper-slide', current==index? 'active': '']"
+                        v-cloak
+                    >
+                    <span>{{item.title}}</span>
+                    <span 
+                        class="mui-badge mui-badge-red"
+                        v-if="item.badge"
+                    >
+                        {{item.badge}}
+                    </span>
+                </div>
+                </div>
+            </div>
+            <div class="filter">
+                <img
+                    v-if="permission == 1"
+                    src="../../static/image/reset-circle.png"
+                    class="filter-button reset"
+                    v-tap="{methods: resetQueryParams, isRefresh: true}"
+                    v-cloak
+                >
+                <img
+                    v-if="permission == 3"
+                    :src="approve_active==true?'../../static/image/approve_active.png':'../../static/image/approve.png'"
+                    class="filter-button approve"
+                    v-tap="{methods: () => {isDisplayApproveSelected=!isDisplayApproveSelected}}"
+                    v-cloak
+                >
+                <img v-if="calendar_active==true" v-cloak class="filter-button calendar"  @click="() => {isDisplayCalendar=!isDisplayCalendar}" src="../../static/image/calendar-active.png">
+                <img v-else v-cloak class="filter-button calendar"  @click="() => {isDisplayCalendar=!isDisplayCalendar}" src="../../static/image/calendar.png">
+                <img
+                    :src="`../../static/image/icon_sort_${isReverseList?'active': 'normal'}.png`"
+                    class="filter-button order"
+                    v-tap="{methods: searchReverseList}"
+                    v-cloak
+                >
+            </div>
+            <div v-show="isDisplayCalendar" id="my-div2">
+                <div id="calendar" class="calendar">
+                    <div id="my-week" v-html="weekTd"></div>
+                    <div id="calendar-month-wrap" class="calendar-month-wrap fix">
+                        <div id="calendar-month" class="calendar-month fix">
+                            <div id="calendar-month-viewA" class="calendar-month-view"></div>
+                            <div id="calendar-month-viewB" class="calendar-month-view"></div>
+                            <div id="calendar-month-viewC" class="calendar-month-view"></div>
+                        </div>
+                    </div>
+                    <div id="calendar-week" class="calendar-week">
+                        <div id="calendar-week-viewA" class="calendar-week-view"></div>
+                        <div id="calendar-week-viewB" class="calendar-week-view"></div>
+                        <div id="calendar-week-viewC" class="calendar-week-view"></div>
+                    </div>
+                </div>
+                <div id="calendar-expand" class="calendar-expand" v-cloak>{{expandText}}
+                    <span class="calendar-expand-today" v-tap="{methods:onGoToday}" v-if="is_today">今</span>
+                    <img :class="['calendar-expand-img', is_month? 'up': 'down']" src="../../static/image/dianzhang-xiangxia.png">
+                    <span class="calendar-expand-month">{{selectMonth}}</span>
+                </div>
+            </div>
+            <div v-show="isDisplayApproveSelected" class="approve-options">
+                <div
+                    v-for="(label, index) in ApproveOptionsLabel"
+                    :key="index"
+                    class="approve-options__item"
+                    v-tap="{methods: setApproveOptions, index}"
+                    v-cloak
+                >
+                    {{ label }}
+                </div>
+            </div>
+        </div>
+        <div class="swiper-container swiperContent">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide aui-list aui-media-list" v-for="(item,index) in modules">
+                    <div class="mui-scroll-wrapper scroll-content" :class="['my-scroll'+index]">
+                        <div class="mui-scroll">
+                            <template v-if="index==0 && permission == 1">
+                                <div class="sp0-content">
+                                    <div class="sp0-nav">
+                                        <div
+                                            v-for="(child, childIndex) in item.data"
+                                            :key="childIndex"
+                                            :class="['sp0-li', currentchild==childIndex? 'sp-tick': '']"
+                                            v-tap="{methods:onCurrentchild,index: childIndex}"
+                                        >
+                                            {{ child.title }}
+                                        </div>
+                                    </div>
+                                    <div class="sp0-con">
+                                        <template v-if="currentchild=='0'" >
+                                            <div
+                                                class="empty"
+                                                v-show="isDisplayEmpty(shareChildList, item.isInit)"
+                                                style="width:100%;height:auto;"
+                                            >
+                                                <img src="../../static/image/empty.png" alt="">
+                                            </div>
+                                            <div class="currentchild0" v-for="val in shareChildList" v-cloak>
+                                                <div class="cc1-0">
+                                                    <div class="ccl-0-1">
+                                                        <img :src="val.headimgurl" v-cloak/>
+                                                        <div v-cloak>{{val.name}}</div>
+                                                    </div>
+                                                    <div class="ccl-0-2">
+                                                        <div v-cloak>今日累计分享{{val.shareNum}}次</div>
+                                                        <div>今日浏览</div>
+                                                        <div v-cloak>{{val.viewNum}}</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </template>
+                                        <template v-if="currentchild=='1'" >
+                                            <div
+                                                class="empty"
+                                                v-show="isDisplayEmpty(shareChildList, item.isInit)"
+                                                style="width:100%;height:auto;"
+                                            >
+                                                    <img src="../../static/image/empty.png" alt="">
+                                            </div>
+                                            <div class="currentchild1" v-for="val in shareChildList">
+                                                <div class="cc1-1">
+                                                    <div class="cc1-1-1">
+                                                        <img :src="val.headimgurl" v-cloak/>
+                                                        <div v-cloak>{{val.name}}</div>
+                                                    </div>
+                                                    <div class="cc1-1-2" v-cloak>今日累计分享{{val.shareNum}}次</div>
+                                                </div>
+                                                <div class="cc1-2">
+                                                    <div class='my-lpimg' v-tap="{methods:onArticleDetail,id:val.id}">
+                                                        <img class='my-lp-ig' :src='val.cover' v-cloak/>
+                                                    </div>
+                                                    <div class='my-lp-center2' v-tap="{methods:onArticleDetail,id:val.id}">
+                                                        <div class="aui-list-item-text">
+                                                            <div class="aui-list-item-title aui-font-size-14 aui-ellipsis-2" style='line-height:160%' v-cloak="">{{val.title}}</div>
+                                                        </div>
+                                                        <div class="aui-info aui-padded-b-0">
+                                                            <div class="aui-info-item aui-font-size-12">
+                                                                <img :src="val.aimg" class='float-left portrait' v-cloak/>
+                                                                <div class="aui-margin-l-5 float-left" v-cloak>{{val.name}}</div>
+                                                                <div class="aui-margin-l-5 float-left" v-cloak>{{val.comments_num}}评论</div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="my-btn">
+                                                        <div class="my-btn1" v-cloak>{{val.viewNum}}</div>
+                                                        <div  class="my-btn2">浏览</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </template>
+                                        <template v-if="currentchild=='2'" >
+                                            <div
+                                                class="empty"
+                                                v-show="isDisplayEmpty(shareChildList, item.isInit)"
+                                                style="width:100%;height:auto;"
+                                            >
+                                                    <img src="../../static/image/empty.png" alt="">
+                                            </div>
+                                            <div class="currentchild1" v-for="val in shareChildList">
+                                               <div class="cc1-1">
+                                                    <div class="cc1-1-1">
+                                                        <img :src="val.headimgurl" v-cloak/>
+                                                        <div v-cloak>{{val.name}}</div>
+                                                    </div>
+                                                    <div class="cc1-1-2" v-cloak>今日累计分享{{val.shareNum}}次</div>
+                                               </div>
+                                               <div class="cc1-2">
+                                                    <div class='my-lpimg' v-tap="{methods:onBuildingDetail,id:val.id}">
+                                                        <img class='my-lp-ig' :src='val.cover' v-cloak/>
+                                                    </div>
+                                                    <div class='my-lp-center' v-tap="{methods:onBuildingDetail,id:val.id}">
+                                                        <div class='my-lp-c1'><div class="my-c-1-1 aui-ellipsis-1" v-cloak>{{val.name}}</div></div>
+                                                        <div class='my-lp-c2' v-cloak>{{val.house_type}} | {{val.city}} {{val.area}}</div>
+                                                        <div class='my-lp-c4'>
+                                                            <div class="my-style1" v-cloak>{{val.sales_status}}</div>
+                                                            <div v-cloak :class="[vv=='闪电结佣'?'my-style2':'',vv=='电商优惠'?'my-style3':'',vv=='带看券'?'my-style4':'',vv=='九房验真'?'my-style5':'']" v-for="vv in item.flag">{{vv}}</div>
+                                                        </div>
+                                                        <div class='my-lp-c3' v-cloak>{{val.fold}}元/m²</div>
+                                                        <div class="my-lp-c2" v-cloak>佣金 {{val.commission}}元</div>
+                                                    </div>
+                                                    <div class="my-btn">
+                                                        <div class="my-btn1" v-cloak>{{val.viewNum}}</div>
+                                                        <div  class="my-btn2">浏览</div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+                            </template>
+                            <template v-else  >
+                                <div class="empty" v-show="isDisplayEmpty(item.data, item.isInit)" style="width:100%;height:auto;">
+                                    <img src="../../static/image/empty.png">
+                                </div>
+                                <div class="choose-more-box" v-show="isDisplayEmpty(item.data, item.isInit) ? false : true">
+                                    <button 
+                                        type="button" 
+                                        class="mui-btn" 
+                                        @tap="copyList"
+                                        data-loading-text="复制中..."
+                                    >
+                                        {{copyText}}
+                                    </button>
+                                </div>
+                                
+                                <div 
+                                    v-for="(info, key) in item.data"
+                                    :key="key"
+                                    class="mui-input-row mui-checkbox mui-left"s
+                                >
+                                    <input 
+                                        name="checkbox" 
+                                        type="checkbox" 
+                                        class="checkbox" 
+                                        v-if="showChooseMargin != 0"
+                                        @change="inputChange"
+                                        :id="info.id"
+                                    >
+                                    <label :style="{ paddingLeft: showChooseMargin }">
+                                        <li
+                                            :class="['profile-card', info.examine_type == '-2'? 'failure': '']"
+                                            v-tap="{methods: navigateToRecordDetail, id: info.id}"
+                                        >
+                                            <template v-if="permission !== 1">
+                                                <!-- 单人 -->
+                                                <div class="profile-card__header">
+                                                    <template v-if="permission == 3">
+                                                        <!-- 组长 -->
+                                                        <span
+                                                            :class="[
+                                                                'profile-card__approve-label',
+                                                                info.top_info=='审批'? 'font-red-color': 'font-blue-color'
+                                                            ]"
+                                                        >
+                                                            {{ info.top_info }}
+                                                        </span>
+                                                    </template>
+                                                    <template v-else>
+                                                        <!-- 店员/组员 -->
+                                                        <img
+                                                            :src="storeType? info.headimgurl: info.customer_img"
+                                                            class="profile-card__header-avatar"
+                                                        >
+                                                        <span class="profile-card__header-nikename">{{ storeType? info.nickname: info.customer_name }}</span>
+                                                    </template>
+                                                    <span class="profile-card__header-timer">{{ info.update_time }}</span>
+                                                </div>
+                                            </template>
+                                            <template v-if="false">
+                                                <!-- 店员/组长 -->
+                                                <div class="profile-card__approve">
+                                                    <template v-if="info.top_info !== '审批'">
+                                                        <!-- 组长审核没有左边这个人 -->
+                                                        <div class="profile-card__approve-profile examine">
+                                                            <span class="avatar">
+                                                                <img :src="permission == 1? info.customer_img: info.examine_img">
+                                                                <span class="type">{{ permission == 1? info.customer_position : info.examine_position }}</span>
+                                                            </span>
+                                                            <span class="name">{{ permission == 1? info.customer_name : info.examine_name }}</span>
+                                                        </div>
+                                                    </template>
+                                                    <div class="profile-card__approve-profile">
+                                                        <span class="avatar">
+                                                            <img :src="info.headimgurl">
+                                                            <span v-if="info.position" class="type">{{ info.position }}</span>
+                                                        </span>
+                                                        <span class="name">{{ info.nickname }}</span>
+                                                    </div>
+                                                </div>
+                                            </template>
+                                            <div class="profile-card__body">
+                                                <div class="profile-card__body-cover">
+                                                    <img :src="info.cover" v-cloak>
+                                                </div>
+                                                <div class="profile-card__body-info">
+                                                    <p class="info-line name">
+                                                        <em>{{info.name}}</em>
+                                                    </p>
+                                                    <p class="info-line">{{info.house_type}} | {{info.city}} {{info.area}}</p>
+                                                    <!-- <p class="info-line status">
+                                                        <span :class="[true? 'doing': 'watting']">{{info.sales_status}}</span>
+                                                        <span
+                                                            v-for="(flag, flagIndex) in info.flag"
+                                                            :key="flagIndex"
+                                                            :class="getClass(flag)"
+                                                        >
+                                                            {{flag}}
+                                                        </span>
+                                                    </p> -->
+                                                    <p class="info-line price">
+                                                        <em>{{info.fold}}元/㎡</em>
+                                                        <span class="info-line">佣金{{info.commission}}元</span>
+                                                    </p>
+                                                </div>
+                                                <img v-if="info.examine_type == '-2'" class="failure-icon" src="../../static/image/failure-icon.png">
+                                                <div class="profile-card__body-status">
+                                                    <div v-if="permission == 1" class="profile-card__body-timer">
+                                                        {{ info.update_time }}
+                                                    </div>
+                                                    <div
+                                                        :class="[
+                                                            'profile-card__body-status-tip',
+                                                            getBuildingStatusClass(info)
+                                                        ]"
+                                                        :data-label="info.status_str"
+                                                    >
+                                                        {{ info.status_str }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </label>
+
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<!--     <div class="commit-profile" v-if="permission != '7'">
+        <img src="../../static/image/float-baobei.png" v-tap="{methods: navigateToReport}">
+    </div> -->
+    <div class="copy-alert" v-show="copyInfo != ''" style="display: none" ref="copyAlert">
+       <div class="copy-wrap">
+           <div class="copy-title">复制内容</div>
+           <div class="copy-content">
+               <textarea id="input" v-model="copyInfo" readonly></textarea>
+           </div>
+           <div class="copy-btn-wrap"><span @tap="initCopy">退出</span><span @tap="copyInfoF">复制</span></div>
+       </div>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    Vue.config.devtools = true;
+    var isclick= true;
+    var calendar=null;
+    var is_init=true;
+    var weekTd1="<div>日</div><div>一</div><div>二</div><div>三</div><div>四</div><div>五</div><div>六</div>";
+    var weekTd2="";
+    var pullToRefresh=[];   //下拉加载document
+    var monthDict=["","一月份","二月份","三月份","四月份","五月份","六月份","七月份","八月份","九月份","十月份","十一月份","十二月份"];
+    var vm=new Vue({
+        el: '#app',
+        mixins: [listenInputClear],
+        data: {
+            searchText: '',
+            weekTd:"",  //显示的星期
+            is_month:true, //显示月还是周
+            is_today:false, //是否显示今天按钮
+            expandText:'',
+            selectMonth:"三月份",   //当前月份
+            toggleData:{
+                year: '',
+                month: '',
+                day: ''
+            },   //当前选中的日期
+            channel: [ //栏目列表
+                {type: '1', title:'报备', data:[], isInit: true},
+                {type: '2', title:'带看', data:[], isInit: true},
+                {type: '3', title:'成交', data:[], isInit: true},
+                {type: '4', title:'确认业绩', data:[], isInit: true},
+                {type: '5', title:'开票', data:[], isInit: true},
+                {type: '6', title:'结佣', data:[], isInit: true}
+            ],
+            modules: [], //当前可用模块
+            current: 0, //当前频道
+            currentchild:'0',  //分享选中索引
+            calendar_active:false,
+            approve_active:false,
+            swiperIndex: 0,
+
+            isDisplayCalendar: true,
+            isReverseList: false,
+            owner: null,
+            permission: 0,
+            isRefresh: true, // 没有单独记录页数所以以这个标识刷新
+            listPage: 1,    //  数据页数(根据滑动判断，切换后还原为1)
+            isDisplayApproveSelected: false,
+            filterApprove: 0,
+            searchMember: [],
+            ApproveOptionsLabel: ['全部', '审批', '审核'],
+            selectType: '1',
+            isFetchSelectDate: false,
+
+            copyText: '一键复制',
+            copyStatus: false,
+            showChooseMargin: 0,
+            copyData: [],   
+            copyInfo: '',
+        },
+        watch:{
+            is_month: {
+                handler:function(val, oldVal){
+                    if(val)
+                        this.weekTd=weekTd1;
+                    else
+                        this.weekTd=weekTd2;
+                },
+                immediate: true
+            },
+            current(value) {
+                mui('.my-scroll'+ this.swiperIndex).scroll().scrollTo(0,0,0);
+                this.swiperIndex = value;
+                this.isRefresh = true;
+                this.listPage = 1;
+                this.clearAllData();
+                this.fetchListData();
+            },
+        },
+        computed: {
+            storeType() {
+                return getQueryString('type');
+            },
+            inputPlaceholder() {
+                let text = '';
+                if (!this.storeType) {
+                    text = '客户'
+                } else if (this.permission == 2 || this.permission == 7 ) {
+                    text = '经纪人';
+                } else {
+                    text = '组员';
+                }
+
+                return `请输入${text}名字`;
+            },
+            isDisplayBar() {
+                if (this.permission < 0) {
+                    return false;
+                }
+                const type = this.storeType;
+                if (type!='approve' && (this.permission==0 || this.permission==2)) {
+                    return false;
+                }
+                return true;
+                // return permission > 0
+            },
+            shareChildList() {
+                return this.modules[0].data[this.currentchild].data;
+            },
+            currentDate() {
+                const date = this.toggleData;
+                const nowDate = `${date.year}-${date.month}-${date.day}`;
+                return nowDate.match(/(\w+\-){2}\w+/)? nowDate: '';
+            },
+            manageLabel() {
+                console.log(this.permission)
+                switch(this.permission) {
+                    case 1: return '我的店员';
+                    case 2: return '经纪人选择';
+                    case 3: return '我的组员';
+                    case 5: return '经纪人选择';
+                    case 6: return '我的组员';
+                    case 7: return '经纪人选择';
+                    default: return '';
+                }
+            },
+            isShopLeader() {
+                return this.permission == 1;
+            }
+        },
+        mounted: function () {
+            this.$nextTick(function () {
+                this.getUserInfo();
+                if (this.storeType == 'approve') {
+                    document.title = '我的审批';
+                }
+            })
+        },
+        updated() {
+            setsetScrollHeight();
+        },
+        methods:{
+            getUserInfo() {
+                ajax('userAjax/getMeData', null, res => {
+                    if (res.success) {
+                        // tabbar可用模块
+                        if (this.storeType) {
+                            const authMode = res._auth.auth_report_types || [];
+                            const channelNames = Object.keys(this.channel);
+                            const modules = [];
+                            const key = channelNames[3];
+                            modules.push(this.channel[key]);
+                            this.modules = modules;
+                        } else {
+                            this.modules = this.channel;
+                        }
+
+                        const type = res.data.userInfo.typename;
+                        const types = ['店员', '店长', '项目组员', '项目组长', '', '渠道组员', '渠道组长', '项目负责人'];
+                        this.permission = types.findIndex(typeName => typeName == type);
+
+                        // console.log(res)
+                        // console.log(this.isShopLeader)
+
+                        if (this.permission < 0) {
+                            setLocation('index.html');
+                            return ;
+                        } else if (this.isShopLeader) {
+                            this.modules.unshift({
+                                title:'分享',
+                                data:[
+                                    {title: '名片', data:[], isInit: true},
+                                    {title: '新闻', data:[], isInit: true},
+                                    {title: '楼盘', data:[], isInit: true},
+                                ]
+                            });
+                        }
+
+                        console.log(res)
+                        
+                        this.initPage();
+                    }
+                });
+            },
+            initPage() {
+                this.getQueryParams();
+
+                this.$nextTick(() => {
+
+                    this.initCalendar();
+
+                    this.initSwiper();
+
+                    this.initScroll();
+                })
+
+                this.fetchListData();
+            },
+            getQueryParams() {
+                const members = getQueryString('members');
+                this.searchMember = members? members.split(','): [];
+                const type = this.storeType;
+                this.selectType = type == 'approve'? '2': '1';
+                this.selectTypeStr = type;
+            },
+            initCalendar() {
+                const _this = this;
+                //日历初始化
+                calendar = new Calendar(
+                    document.getElementById('calendar'),
+                    null,
+                    function(self, dateRange){
+                        var nowMonth=self.activeView.currentTime.month;
+                        _this.selectMonth=monthDict[nowMonth];
+                        if(self.activeView.name === 'month'){
+                            if(is_init){
+                                var date = self.date;
+                                _this.setExpandText(date.year,date.month,date.day);
+                                is_init=false;
+                            }
+                        }
+                    },
+                    function(res){
+                        if(res.activeView.name=="month"){
+                            _this.is_month=true;
+                        }else{
+                            _this.is_month=false;
+                        }
+                        var toggleData=_this.toggleData;
+                        var toggleData=_this.toggleData;
+                        _this.setExpandText(toggleData.year,toggleData.month,toggleData.day);
+                    }
+                );
+                calendar.init();
+                document.getElementById('calendar-expand').onclick = function(){
+                    //calendar.toggle(_this.toggleData);
+                    _this.isDisplayCalendar = false; //隐藏
+                };
+                $("#calendar").on('click','.i-day',function(){
+                    _this.isDisplayCalendar = false;
+                    var myThis=$(this);
+                    var year=myThis.data('year');
+                    var month=myThis.data('month');
+                    var day=myThis.data('day');
+
+                    _this.calendar_active = true
+                    _this.clearAllData();
+                    _this.setExpandText(year,month,day);
+                    _this.isFetchSelectDate = true;
+                    _this.fetchListData();
+                });
+                calendar.toggle(_this.toggleData);
+                calendar.toggle(_this.toggleData);  //初始化周日历
+                this.isDisplayCalendar = false; // 隐藏日历
+            },
+            initSwiper() {
+                const _this = this;
+                //正文内容初始化
+                swiperTitle = new Swiper ('.swiperTitle .swiper-container', {
+                    // slidesPerView:5,
+                    freeMode: true,
+                    watchSlidesVisibility: true,
+                    watchSlidesProgress: true,
+                    observer: true,
+                    observeParents: true,
+                    slidesPerView:'auto'
+                });
+                swiperContent = new Swiper ('.swiperContent', {
+                    touchRatio: 0.5,
+                    observer: true,
+                    autoHeight:true,
+                    observeParents: true,
+                    thumbs: {
+                        swiper: swiperTitle
+                    },
+                    on:{
+                        slideChange: function(){
+                            _this.current=swiperContent.activeIndex;
+                        }
+                    }
+                });
+            },
+            initScroll() {
+                const _this = this;
+                mui.each(document.querySelectorAll('.mui-scroll'), function(index, pullRefreshEl) {
+                    mui('.my-scroll'+index).scroll({
+                        scrollY: true, //是否竖向滚动
+                        scrollX: false, //是否横向滚动
+                        startX: 0, //初始化时滚动至x
+                        startY: 0, //初始化时滚动至y
+                        indicators: false, //是否显示滚动条
+                        deceleration:0.0005, //阻尼系数,系数越小滑动越灵敏
+                        bounce: true //是否启用回弹
+                    });
+                    if(index!=0){
+                        pullToRefresh[index]=mui(pullRefreshEl).pullToRefresh({
+                            up: {
+                                height:200,
+                                auto: false, //自动执行一次上拉加载，可选；
+                                show: false, //显示底部上拉加载提示信息，可选；
+                                callback:function(){
+                                    _this.pullupRefresh(pullToRefresh[index],index);
+
+                                    if( _this.isRefresh == true ){
+                                        _this.listPage ++;
+                                        _this.fetchListData();
+                                    }
+                                }
+                            }
+                        });
+                    }
+                });
+            },
+            resetQueryParams(isRefresh=null) {
+                this.filterApprove = 0;
+                this.isRefresh = true;
+                this.listPage = 1;
+                this.isReverseList = false;
+                this.searchText = '';
+                this.searchMember = [];
+                this.calendar_active = false;
+                this.onGoToday();
+                if (isRefresh) {
+                    this.fetchListData();
+                }
+            },
+            searchName() {
+                const name = this.searchText;
+                // this.resetQueryParams(); // 这里会重置所有值
+                this.isRefresh = true;
+                this.searchText = name;
+                this.fetchListData();
+            },
+            toggleQuerySelected(target='') {
+                if (target) {
+                    this.isDisplayApproveSelected = false;
+                    this.isDisplayCalendar = false;
+                    this.$set(this, target, !this[target]);
+                }
+            },
+            //获取我的网店所需数据
+            fetchListData(){
+                const date = this.isFetchSelectDate? this.currentDate: '';
+                // const currentPage = parseInt(this.modules[this.current].data.length / 10) + 1
+                // const page = this.isRefresh? 1: currentPage;
+                const page = this.listPage;
+                const isShareList = this.current == 0 && this.isShopLeader; // 只有店长有分享
+
+                ajax('agentAjax/getChargeReportData', {
+                        page,
+                        page_size: 10,
+                        nowDate: date,
+                        name: this.searchText,
+                        // (分享时 1-名片 2-文章 3-楼盘) | (报备时 1-报备 2-带看 3-成交 4-确认业绩 5-开票 6-结佣)
+                        data_type: isShareList? 1: 2, //  1-分享 2-报备流程
+                        select_type: this.selectType,
+                        is_self: this.filterApprove,
+                        search_ids: this.searchMember,
+                        order_by: this.isReverseList? 'asc': 'desc',
+                        type: this.isShopLeader
+                            ? (this.current == 0? Number(this.currentchild) + 1: this.current)
+                            : this.modules[this.current].type
+                    }, res => {
+                        if (res.success) {
+                            const currentList = this.modules[this.current];
+                            let list = isShareList
+                                ? currentList.data[this.currentchild].data
+                                : currentList.data;
+                            if (page == 1) {
+                                list = res.data.currentchildData;
+                            } else {
+                                list = list.concat(res.data.currentchildData);
+                            }
+                            if (isShareList) {
+                                this.modules[this.current].data[this.currentchild].isInit = false;
+                                this.modules[this.current].data[this.currentchild].data = list;
+                            } else {
+                                this.modules[this.current].isInit = false;
+                                this.modules[this.current].data = list;
+                            }
+
+                            if( res.data.currentchildData.length < 1 ){
+                                this.isRefresh = false;
+                            }
+                        }
+
+                        // console.log(this.modules);
+                        if( _auth.type != 0 && _auth.type != 2 ){
+                            this.fetchListDataBadges();
+                        } else {
+                            this.selectType != 1 && this.fetchListDataBadges();
+                        }
+
+                        // 还原copy状态
+                        this.initCopy();
+
+                        // console.log(this.modules)
+                    }
+                );
+            },
+            // 获取角标
+            fetchListDataBadges(){
+                let _this = this;
+                let obj = {};
+            
+                if( _this.is_today === true ){
+                    let dateObj = {};
+                    let sendData = '';
+
+                    for( key in _this.toggleData ){
+                        if( key == 'month' || key == 'day' ){
+                            _this.toggleData[key] < 10 ? dateObj[key] = '0'+_this.toggleData[key] : dateObj[key] = _this.toggleData[key];
+                        } else {
+                            dateObj[key] = _this.toggleData[key];
+                        }
+                    }
+
+                    sendData = `${dateObj.year}-${dateObj.month}-${dateObj.day}`;
+
+
+                    _this.$set(obj, 'nowDate', sendData);
+                }
+
+                // console.log(obj);
+                
+                ajax('agentAjax/getReportChargeNum', obj, res => {
+                    console.log(this.modules)
+                    if (res.success) {
+                        res.data.forEach( i =>{
+                            this.modules.map( (k, index, arr) =>{
+                                if( i.type_name == k.title ){
+                                    _this.$set(arr[index], 'badge', i.num);
+                                }
+                            })
+                        });
+                    }
+                    // console.log(res);
+                });
+            },
+            onMenbers(){    //我的成员
+                if (this.permission == 1) {
+                    setLocation('pages/me/members.html');
+                } else if (this.permission > 1) {
+                    setLocation('pages/me/members_staff_performance.html?type='+this.selectTypeStr); //工作人员
+                }
+            },
+            onMyBuilding(){ //我的楼盘
+                setLocation('pages/build/my_building.html');
+            },
+            onCustomer(){   //我的客户
+                setLocation('customer.html');
+            },
+            onBuildingDetail(event){ //楼盘跳转
+                setLocation('pages/build/build_detail.html?id='+event.id);
+            },
+            onArticleDetail(event){  //文章跳转
+                setLocation('pages/index/article_detail.html?id='+event.id);
+            },
+            setApproveOptions(options) {
+                this.filterApprove = options.index;
+                this.isDisplayApproveSelected = false;
+                this.approve_active = options.index==0?false: true;
+                this.fetchListData();
+            },
+            clearAllData() {
+                this.modules = this.modules.map((item, index) => {
+                    if (index == 0 && this.isShopLeader) {
+                        return {
+                            title: item.title,
+                            data: item.data.map(item => ({
+                                ...item,
+                                data: [],
+                                isInit: true,
+                            }))
+                        }
+                    } else {
+                        return {
+                            ...item,
+                            data: [],
+                            isInit: true,
+                        }
+                    }
+                })
+            },
+            setExpandText(year,month,day){    //设置日期与周几
+                var sDate = new Date(year+'/'+month+'/'+day);
+                var weekStart = sDate.getDay();
+                var weekday=["周日","周一","周二","周三","周四","周五","周六"];
+                this.expandText=month+'月'+day+'日 '+weekday[weekStart];
+                this.toggleData={year:year,month:month,day:day};
+                this.selectMonth=monthDict[parseInt(month)];
+
+                //判断点击的日期是否今天
+                var myDate = new Date();
+                var newYear=myDate.getFullYear();
+                var nMonth=myDate.getMonth()+1;
+                var nDay=myDate.getDate();
+                if(newYear==year && nMonth==month && nDay==day){
+                    this.is_today=false;
+                }else{
+                    this.is_today=true;
+                }
+                //选中类
+                $('#calendar').find(".i-tick").removeClass('i-tick');
+                $("[data-year='"+year+"'][data-month='"+month+"'][data-day='"+day+"']").find('span').addClass('i-tick');
+                // if(isclick) {
+                //     isclick = false;
+                //     setTimeout(function () {
+                //         isclick = true;
+                //     }, 500);
+                //     this.fetchListData(year+'-'+month+'-'+day);
+                // }
+            },
+            onGoToday(){
+                var myDate = new Date();
+                var year=myDate.getFullYear();
+                var month=myDate.getMonth()+1;
+                var day=myDate.getDate();
+                if(this.is_month){
+                    calendar.setTime(year,month);
+                    calendar.render();
+                    /* calendar.resize(); */
+                }else{
+                    //周日历开始为周日
+                    var tmpDate=new Date(year+'/'+month+'/'+day);
+                    var tmpxq=tmpDate.getDay();
+                    if(tmpxq>0){
+                        tmpDate.setDate(tmpDate.getDate() - tmpxq);
+                        calendar.activeView.setTime(tmpDate.getFullYear(),tmpDate.getMonth()+1,tmpDate.getDate());
+                    }else{
+                        calendar.activeView.setTime(year,month,day);
+                    }
+                    calendar.render();
+                }
+                this.setExpandText(year,month,day);
+            },
+            onCurrentchild(options){   //分享切换
+                this.currentchild=options.index;
+                this.clearAllData();
+                if (this.shareChildList.length % 10 == 0) {
+                    this.fetchListData();
+                }
+            },
+            pullupRefresh(_self,index){
+                _self.endPullUpToRefresh();
+               // _self.endPullUpToRefresh(true);   //内容为空了
+            },
+            getClass(label) {
+                switch(label) {
+                    case '电商优惠': return 'blue';
+                    case '九房验真': return 'red';
+                    case '带看券': return 'purple';
+                    case '闪电结佣': return 'yellow';
+                    default: return 'blue';
+                }
+            },
+            getBuildingStatusClass(building) {
+                switch(building.examine_type) {
+                    case '-2': return 'gray'; // 失效
+                    case '-1': return 'red'; // 驳回
+                    case '1': return 'blue'; // 进行
+                    case '2': return 'orange'; // 完成
+                    default: return 'blue';
+                }
+            },
+            getBuildingStatusLabel(building) {
+                const status = Number(building.examine_type);
+                if (status == -1) {
+                    return '已驳回';
+                }
+                const round = ['报备', '带看', '成交', '确认业绩', '开票', '结佣'];
+                let index = building.status_type? Number(building.status_type) - 1: 0;
+                return `${round[index]}${(index == 0 || index == 5) && status == 2? '完成': '中'}`;
+            },
+            getSrc(url) {
+                return DOMAINIMAGE+url;
+            },
+            isDisplayEmpty(list, isInit=false) {
+                return !isInit && (list ==undefined || list.length == 0);
+            },
+            navigateToReport() {
+                window.sessionStorage.removeItem('client');
+                window.sessionStorage.removeItem('selectBuildings');
+                setLocation('pages/me/report.html');
+            },
+            navigateToRecordDetail(options) {
+                setLocation(`pages/customer/record_detail.html?id=${options.id}`);
+            },
+            searchReverseList() {
+                this.isReverseList=!this.isReverseList;
+                this.clearAllData();
+                this.fetchListData();
+            },
+            focusInput() {
+                this.listenInputTaPClearIcon(); 
+            },
+            // 一键复制
+            copyList() {
+                if( this.copyText == '一键复制' ){
+                    this.copyText = '确认';
+                    this.showChooseMargin = '58px'
+                } else if( this.copyText == '确认' && this.copyStatus == false ){
+                    this.copyStatus = true;
+
+                    if( this.copyData.length > 0 ){
+                        this.getCopyList();
+                    } else {
+                        this.initCopy();
+                    }
+                    
+                }
+            },
+            inputChange(e){
+                e.target.checked == true
+                ? this.copyData.push(e.target.id)
+                : this.copyData.splice(this.copyData.indexOf(e.target.id),1);
+            },
+            // 选中复制请求数据
+            getCopyList(){
+                let _this = this;
+
+                ajax({
+                    url: 'buildingAjax/copy_building_info',
+                    type: 'POST',
+                }, { id: this.copyData }, res => {
+                    if (res.success) {
+                        let text = '';
+                        res.data.map( i =>{
+                            text += `                                    
+                                    意向楼盘: ${i.building_name}
+                                    报备时间: ${i.take_time}
+                                    客户姓名: ${i.name}
+                                    联系电话: ${i.phone}
+                                    报备人: ${i.agent_user}
+                                    带访人: ${i.visitors}
+                                    报备人电话: ${i.agent_phone}
+                                    ${ i.report_group_type ? ` 报备组数:${i.report_group_type}` : ''}
+                                    备注: ${i.describe}
+                                    `;
+                        })
+
+                        this.copyInfo = text;
+                    }
+                }); 
+            },
+            initCopy(){
+                this.copyInfo = '';
+                this.showChooseMargin = 0;
+                this.copyText = '一键复制'
+                this.copyData = [];
+                this.copyStatus = false;
+                this.showChooseMargin = 0;
+            },
+            copyInfoF(){
+                let input = document.getElementById("input");
+                input.select(); // 选中文本
+                document.execCommand("copy"); // 执行浏览器复制命令
+                this.initCopy();
+                this.$nextTick(()=>{
+                    mui.toast('复制成功',{ duration:'short', type:'div' });
+                });
+            }
+        }
+    });
+    function setsetScrollHeight(){  //设置滚动区域高度
+        var clientHeight=document.documentElement.clientHeight;    //页面高度
+        var swiperHeight=$('.swiperContent').offset().top;  //滚动区域距顶部距离
+        var diffHeight=clientHeight-swiperHeight;
+        $('.scroll-content').css('height',diffHeight+'px');
+        $('.swiperContent').css('height',diffHeight+'px');
+    }
+</script>

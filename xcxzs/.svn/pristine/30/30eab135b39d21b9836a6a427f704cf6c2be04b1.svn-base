@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>新闻</title>
+    <link rel="stylesheet" type="text/css" href="./static/css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="./static/mui/css/mui.min.css" />
+    <link rel="stylesheet" type="text/css" href="./static/css/news.css" />
+    <link rel="stylesheet" type="text/css" href="./static/css/swiper.min.css" />
+    <script type="text/javascript" src="./static/js/jquery-2.0.0.min.js" ></script>
+    <script type="text/javascript" src="./static/mui/js/mui.min.js" ></script>
+    <script type="text/javascript" src="./static/mui/js/mui.pullToRefresh.js" ></script>
+    <script type="text/javascript" src="./static/mui/js/mui.pullToRefresh.material.js" ></script>
+    <script type="text/javascript" src="./static/js/vue.min.js" ></script>
+    <script type="text/javascript" src="./static/js/vue-tap.js" ></script>
+    <script type="text/javascript" src="./static/js/public.js" ></script>
+    <script type="text/javascript" src="./static/js/swiper.min.js" ></script>
+    <script type="text/javascript" src="./static/js/aui-toast.js" ></script>
+    <style>.mui-pull-bottom-tips{display: none;}</style>
+</head>
+<body>
+<div id="app" class="my-content">
+    <div class="my-search">
+        <div class="mui-input-row mui-search ">
+            <input type="search" class="mui-input-clear" placeholder="请输入客户名字" v-model="searchText" v-on:keyup.enter="mySearch">
+        </div>
+    </div>
+    <div class="my-bottom">
+        <!-- <div :class="[isFixed?'isFixed':'']">
+            <div class="swiper-container swiperTitle">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide" v-for="item in channel" v-cloak><span>{{item.title}}</span></div>
+                </div>
+            </div>
+        </div> -->
+        <div class="swiper-container swiperContent">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide aui-list aui-media-list">
+                    <div class="mui-scroll-wrapper scroll-content my-scroll0">
+                        <div class="mui-scroll" :class="[isFixed?'padtop6':'']">
+                            <template  v-for="(val,key) in list">
+                                <div class="aui-list-item" v-tap="{methods:onArticleDetail,id:val.id}">
+                                    <div class="aui-media-list-item-inner">
+                                        <div class="aui-list-item-inner aui-padded-r-10 my-aui-content">
+                                            <div class="aui-list-item-text">
+                                                <div class="aui-list-item-title aui-font-size-14 aui-ellipsis-2" style='line-height:160%' v-cloak>{{val.title}}</div>
+                                            </div>
+                                            <div class="aui-info aui-padded-b-0">
+                                                <div class="aui-info-item aui-font-size-12">
+                                                    <div class="label aui-margin-l-5 float-left" v-if='channel[val.cid]'>{{channel[val.cid].title}}</div>
+                                                    <img :src="val.aimg" class='float-left portrait' v-cloak/>
+                                                    <div class="aui-margin-l-5 float-left" v-cloak>{{val.aname}} &nbsp·</div>
+                                                    <div class="aui-margin-l-5 float-left" v-cloak>{{val.comments_num}}评论&nbsp·</div>
+                                                    <div class="aui-margin-l-5 float-left" v-cloak>{{val.release_time}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="aui-list-item-media">
+                                            <img class='img-one' :src="val.cover" v-cloak/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+                            <!-- <div class="empty" v-show="item.length==0" style="width:100%;height:auto;">
+                                <img src="./static/image/empty.png" alt="">
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<style>
+    .my-search{
+        position: fixed;
+        top:0;
+        left: 0;
+        width: 100%;
+        box-sizing: border-box;
+        padding:  0.5rem  0.75rem;
+        /* margin: 0.5rem  0.75rem 0;   */
+        height: 3rem;
+        z-index: 10;
+        background: #FFF;
+        box-sizing: border-box;
+    }
+    .my-bottom{
+        padding-bottom: 0;
+        padding-top: 3rem
+    }
+</style>
+<script>
+    var toast = new auiToast({});
+    var pullToRefresh='';   //下拉加载document
+    var isFirst = [true];
+    new Vue({
+        el: '#app',
+        data: {
+            isFixed:false,  //是否固定定位
+            imgUrls: [],
+            channel: [], //频道列表
+            current: 0, //当前频道
+            list:[], //文章数据
+            searchText:'',
+            page:1
+        },
+        mounted: function () {
+        this.$nextTick(function () {
+            var  _this=this;
+            _this.searchText = getQueryString('searchText')
+            // _this.onSearch()
+            ajax('articleAjax/searchArticleList',{searchText:_this.searchText,page:_this.page},function(res){
+                if (res.success){
+                    _this.list=res.articleList;
+                    Vue.nextTick(function(){
+                        mui.each(document.querySelectorAll('.mui-scroll'), function(index, pullRefreshEl) {
+                            mui('.my-scroll'+index).scroll({
+                                scrollY: true, //是否竖向滚动
+                                scrollX: false, //是否横向滚动
+                                startX: 0, //初始化时滚动至x
+                                startY: 0, //初始化时滚动至y
+                                indicators: false, //是否显示滚动条
+                                deceleration:0.0005, //阻尼系数,系数越小滑动越灵敏
+                                bounce: true //是否启用回弹
+                            });
+                            pullToRefresh=mui(pullRefreshEl).pullToRefresh({
+                                up: {
+                                    auto: false, //自动执行一次上拉加载，可选；
+                                    show: false, //显示底部上拉加载提示信息，可选；
+                                    callback:function(){
+                                        _this.onSearch(pullToRefresh,index);
+                                    }
+                                }
+                            });
+                        });
+                    })
+                }
+            })
+        })
+        },
+        methods:{
+            onGoNarList(options){
+                setLocation(options.url);
+            },
+            onArticleDetail(event){
+                setLocation('pages/index/article_detail.html?id='+event.id);
+            },
+            mySearch(){
+                this.page=1;
+              this.onSearch(pullToRefresh,1);
+            },
+            // 搜索事件
+            onSearch(_self,index){
+                var  _this=this;
+                ajax('articleAjax/searchArticleList',{searchText:_this.searchText,page:_this.page},function(res){
+                    if (res.success){
+                        _this.page++
+                        if(index==1){
+                             _this.list=res.articleList;
+                            mui('.my-scroll0').scroll().scrollTo(0,0,100);
+                        }else{
+                            _this.list=_this.list.concat(res.articleList);
+                        }
+                        _self.endPullUpToRefresh();
+                    }else{
+                        _self.endPullUpToRefresh(true);   //内容为空了
+                    }
+                })
+            },
+        }
+    })
+</script>

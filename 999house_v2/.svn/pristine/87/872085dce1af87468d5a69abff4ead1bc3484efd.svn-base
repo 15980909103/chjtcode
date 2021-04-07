@@ -1,0 +1,39 @@
+<script>
+	const host = "https://act.999house.com"
+	export default {
+		globalData: {  
+			userInfo: null,
+			token: "", //用于访问
+			sid: "",//用于访问
+			host: host,
+			h5Host: host+"/9house/pages",
+			host_api: host+"/miniwechat", 
+			imgHost: host+"/static/images/",
+			//EventBusClass: EventBusClass.Int,
+			
+			whitePages: [
+			  "pages/index/index",
+			  "pages/login/index",
+			]
+		},
+		onLaunch: function() {
+			console.log('App Launch',this.$http)
+		},
+		onShow: function() {
+			console.log('App Show')
+		},
+		onHide: function() {
+			console.log('App Hide')
+		},
+		methods:{
+			wxAuthLogin(){
+				
+			}
+		},
+	}
+</script>
+
+<style lang="scss">
+	/*每个页面公共css */
+	@import 'uview-ui/theme.scss';
+</style>

@@ -1,0 +1,10 @@
+<scroll-view class='my-scroll' scroll-y bindscrolltolower="ajaxData" enable-back-to-top>
+  <view class='view6-list' wx:for="{{comments}}" wx:key="index">
+    <image src="{{item.avatarUrl}}"></image>
+    <view class='view6-lis'>
+      <view>{{item.nickName}}</view>
+      <view>{{item.content}}</view>
+      <view>{{item.create_time}}</view>
+    </view>
+  </view>
+</scroll-view>

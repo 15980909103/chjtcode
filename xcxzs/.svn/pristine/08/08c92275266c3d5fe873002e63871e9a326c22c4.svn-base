@@ -1,0 +1,8 @@
+[2020-10-27T09:46:42+08:00][error] [10501]SQLSTATE[42S22]: Column not found: 1054 Unknown column 'a.sort' in 'order clause'[/mnt/e/project/999house_v2/vendor/topthink/think-orm/src/db/PDOConnection.php:722]
+[2020-10-27T11:43:19+08:00][error] [10501]SQLSTATE[42S22]: Column not found: 1054 Unknown column 'a.sort' in 'order clause'[/mnt/e/project/999house_v2/vendor/topthink/think-orm/src/db/PDOConnection.php:722]
+[2020-10-27T12:48:50+08:00][error] [10501]SQLSTATE[42S22]: Column not found: 1054 Unknown column 'a.sort' in 'order clause'[/mnt/e/project/999house_v2/vendor/topthink/think-orm/src/db/PDOConnection.php:722]
+[2020-10-27T15:06:06+08:00][error] [10501]SQLSTATE[42S22]: Column not found: 1054 Unknown column 'a.sort' in 'order clause'[/mnt/e/project/999house_v2/vendor/topthink/think-orm/src/db/PDOConnection.php:722]
+[2020-10-27T15:06:09+08:00][error] [10501]SQLSTATE[42S22]: Column not found: 1054 Unknown column 'a.sort' in 'order clause'[/mnt/e/project/999house_v2/vendor/topthink/think-orm/src/db/PDOConnection.php:722]
+[2020-10-27T15:15:24+08:00][error] [10501]SQLSTATE[42S22]: Column not found: 1054 Unknown column 'a.sort' in 'order clause'[/mnt/e/project/999house_v2/vendor/topthink/think-orm/src/db/PDOConnection.php:722]
+[2020-10-27T15:59:29+08:00][error] [10501]SQLSTATE[42S22]: Column not found: 1054 Unknown column 'a.sort' in 'order clause'[/mnt/e/project/999house_v2/vendor/topthink/think-orm/src/db/PDOConnection.php:722]
+[2020-10-27T16:05:54+08:00][error] [10501]SQLSTATE[42S22]: Column not found: 1054 Unknown column 'a.sort' in 'order clause'[/mnt/e/project/999house_v2/vendor/topthink/think-orm/src/db/PDOConnection.php:722]

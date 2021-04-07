@@ -1,0 +1,7 @@
+{
+  "component": true,
+  "usingComponents": {
+    "uni-icons": "/components/uni-icons/uni-icons",
+    "u-tag": "/uview-ui/components/u-tag/u-tag"
+  }
+}

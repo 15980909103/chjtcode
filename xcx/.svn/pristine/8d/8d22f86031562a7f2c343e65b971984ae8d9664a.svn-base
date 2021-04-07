@@ -1,0 +1,102 @@
+<van-tabs id="my-van-tabs" active="{{selectedIndex}}" color="#D12527" swipe-threshold="5" bind:change="onTabsChange" animated swipeable>
+  <van-tab title="基本信息">
+    <scroll-view scroll-y id="my-basis">
+      <view class='basis-content'>
+        <view class='basis-li'><view class='basis-li1'>楼盘名称</view><view class='basis-li2'>{{buildingInfo.name}}</view></view>
+        <view class='basis-li'><view class='basis-li1'>区域</view><view class='basis-li2'>{{buildingInfo.city+buildingInfo.area}}</view></view>
+        <view class='basis-li'><view class='basis-li1'>楼盘地址</view><view class='basis-li2'>{{buildingInfo.address}}</view></view>
+        <view class='basis-li'><view class='basis-li1'>销售状态</view><view class='basis-li2'>{{buildingInfo.sales_status}}</view></view>
+        <view class='basis-li'><view class='basis-li1'>开发商</view><view class='basis-li2'>{{buildingInfo.developers}}</view></view>
+        <view class='basis-li'><view class='basis-li1'>开盘时间</view><view class='basis-li2'>{{buildingInfo.kaipang_time}}</view></view>
+        <view class='basis-li'><view class='basis-li1'>交房时间</view><view class='basis-li2'>{{buildingInfo.jiaofang_time}}</view></view>
+        <view class='basis-li'><view class='basis-li1'>售楼电话</view><view class='basis-li2'>{{buildingInfo.sales_telephone}}</view></view>
+        <view class='basis-litwo'><view>预售许可证</view><view>发证时间</view><view>绑定楼栋</view></view>
+        <view class='basis-litwo2'><view>{{buildingInfo.sales_license}}</view><view>{{buildingInfo.license_time}}</view><view>{{buildingInfo.bind_building}}</view></view>
+      </view>
+    </scroll-view>
+  </van-tab>
+  <van-tab title="建筑信息">
+    <scroll-view scroll-y id="my-basis">
+      <view class='basis-content'>
+        <view class='basis-li'><view class='basis-li1'>大小户型</view><view class='basis-li2'>{{buildingInfo.sizelayout}}</view></view>
+        <view class='basis-li'><view class='basis-li1'>规划户数</view><view class='basis-li2'>{{buildingInfo.planning_number}}</view></view>
+        <view class='basis-li'><view class='basis-li1'>项目类型</view><view class='basis-li2'>{{buildingInfo.project_type}}</view></view>
+        <view class='basis-li'><view class='basis-li1'>建筑类型</view><view class='basis-li2'>{{buildingInfo.building_type}}</view></view>
+        <view class='basis-li'><view class='basis-li1'>总占地面积</view><view class='basis-li2'>{{buildingInfo.total_area}} ㎡</view></view>
+        <view class='basis-li'><view class='basis-li1'>总建筑面积</view><view class='basis-li2'>{{buildingInfo.total_construction_area}} ㎡</view></view>
+        <view class='basis-li'><view class='basis-li1'>楼层状况</view><view class='basis-li2'>{{buildingInfo.floor_condition}}</view></view>
+        <view class='basis-li'><view class='basis-li1'>项目进度</view><view class='basis-li2'>{{buildingInfo.progress_project}}</view></view>
+        <view class='basis-li'><view class='basis-li1'>层高</view><view class='basis-li2'>{{buildingInfo.floor_height}}层</view></view>
+        <view class='basis-li'><view class='basis-li1'>公摊</view><view class='basis-li2'>{{buildingInfo.pool}}</view></view>
+        <view class='basis-li'><view class='basis-li1'>装修情况</view><view class='basis-li2'>{{buildingInfo.decoration}}</view></view>
+      </view>
+    </scroll-view>
+  </van-tab>
+  <van-tab title="物业参数">
+    <scroll-view scroll-y id="my-basis">
+      <view class='basis-content'>
+        <view class='basis-li'><view class='basis-li1'>物业公司</view><view class='basis-li2'>{{buildingInfo.property_company}}</view></view>
+        <view class='basis-li'><view class='basis-li1'>物业类型</view><view class='basis-li2'>{{buildingInfo.property_type}}</view></view>
+        <view class='basis-li'><view class='basis-li1'>物业费</view><view class='basis-li2'>{{buildingInfo.property_charges}}</view></view>
+        <view class='basis-li'><view class='basis-li1'>容积率</view><view class='basis-li2'>{{buildingInfo.volume_rate}}</view></view>
+        <view class='basis-li'><view class='basis-li1'>绿化率</view><view class='basis-li2'>{{buildingInfo.greening_rate}}</view></view>
+        <view class='basis-li'><view class='basis-li1'>车位数</view><view class='basis-li2'>{{buildingInfo.parking_space_number}}</view></view>
+        <view class='basis-li'><view class='basis-li1'>车位比</view><view class='basis-li2'>{{buildingInfo.parking_space_proportion}}</view></view>
+      </view>
+    </scroll-view>
+  </van-tab>
+  <van-tab title="配套信息">
+    <scroll-view scroll-y id="my-basis">
+      <view class='basis-content'>
+        <view class='basis-li'><view class='basis-li1'>交通配套</view><view class='basis-li2'>{{buildingInfo.traffic_complete}}</view></view>
+        <view class='basis-li'><view class='basis-li1'>教育资源</view><view class='basis-li2'>{{buildingInfo.education_resources}}</view></view>
+        <view class='basis-li'><view class='basis-li1'>医疗健康</view><view class='basis-li2'>{{buildingInfo.medical_health}}</view></view>
+        <view class='basis-li'><view class='basis-li1'>商城购物</view><view class='basis-li2'>{{buildingInfo.shopping_mall}}</view></view>
+        <view class='basis-li'><view class='basis-li1'>生活娱乐</view><view class='basis-li2'>{{buildingInfo.live_entertainment}}</view></view>
+      </view>
+    </scroll-view>
+  </van-tab>
+  <van-tab title="周边地图">
+    <view id='my-map'>
+      <map id="my-map-map" scale="14" longitude="{{mapData.longitude}}" latitude="{{mapData.latitude}}" markers="{{mapData.markers}}"></map>
+      <cover-view class='my-floating' wx:if="{{selectedIndex==4}}">
+        <cover-view class='float-top'>
+          <cover-view class="view6-nav-li {{index==locationIndex?'my-tick':''}}" wx:for="{{mapInfo}}" wx:key="index" data-index='{{index}}' bindtap='onLocation'>
+          <cover-image src="{{index==locationIndex?item.show_img:item.img}}" />
+          <cover-view>{{item.title}}({{item.data.length}})</cover-view>
+          </cover-view>
+        </cover-view>
+        <cover-image wx:if="{{!location_show}}" class='float-img' src="/image/icon-up.png" bindtap='onLocationShow' />
+        <cover-image wx:if="{{location_show}}" class='float-img' src="/image/icon-down.png" bindtap='onLocationShow' />
+        <cover-view class='float-content' wx:if="{{location_show}}">
+          <cover-view class='float-c-lists'>
+            <cover-view
+              class='view6-list'
+              wx:for="{{mapInfo[locationIndex].data}}"
+              wx:for-index="itemIndex"
+              wx:key="itemIndex"
+              data-index="{{itemIndex}}"
+              data-lat="{{item.lat}}"
+              data-lng="{{item.lng}}"
+              data-title="{{item.title}}"
+              bindtap='selectPoint'
+            >
+              <cover-view class='view6-list-li'>
+                <cover-view class="view6-li-1 van-ellipsis {{(selectLocationIndex == locationIndex && selectLocationItemIndex == itemIndex)? 'my-tick': ''}}">{{item.title}}</cover-view>
+                <cover-view class='view6-li-2'>
+                  <cover-image src='/image/icon-artical-map2.png' />
+                  <cover-view>{{item.distance}}m</cover-view>
+                </cover-view>
+              </cover-view>
+            </cover-view>
+          </cover-view>
+          <cover-view class='float-btn' bindtap='onLocationShow'>收起</cover-view>
+        </cover-view>
+      </cover-view>
+    </view>
+  </van-tab>
+</van-tabs>
+<view class='basis-booter' wx:if="{{selectedIndex!=4}}">
+  <image src='/image/icon-notical.png'></image>
+  <view>免责声明：楼盘信息由开发商提供，最终以政府部门登记备案为准，请谨慎核查。如楼盘信息有误，点击<text bindtap='onFeedback'>反馈纠错</text></view>
+</view>

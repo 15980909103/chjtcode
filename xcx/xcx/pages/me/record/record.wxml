@@ -1,0 +1,77 @@
+<view class='card'>
+  <view class='search'>
+    <image src='/image/icon-search.png'></image>
+    <input value="{{search}}" bindconfirm="onSearchInput" placeholder='请输入楼盘或文章' placeholder-class='placeholder'></input>
+  </view>
+</view>
+<van-tabs id="my-van-tabs" active="{{active}}" bind:change="onChange" color="#D12527" swipe-threshold="2" animated>
+  <van-tab title="楼盘">
+    <view class='title'>
+      <view class='left'>共{{list.length}}条记录</view>
+      <view class='right' bindtap='onEditBtn'>{{is_detail?'取消':'编辑'}}</view>
+    </view>
+    <scroll-view id='my-scroll' scroll-y="{{scrollPosition.scrollY}}" bindscrolltolower="onGetBuilding">
+      <view class='my-scroll-li' wx:for="{{list}}" wx:key="index">
+        <view class="my-card-list my-list-z {{is_detail?'':'my-animation'}} {{item.show_options && !is_detail?'show-delet':''}}" data-id="{{item.id}}" data-agent_id="{{item.agent_id}}" data-index="{{index}}" bindtouchstart="{{!is_detail?'handletouchstart':''}}" bindtouchmove="{{!is_detail?'handletouchmove':''}}" bindtouchend="{{!is_detail?'handletouchend':''}}" bindtap="{{is_detail?'onEditChange':'onDetailCard'}}">
+          <van-checkbox wx:if="{{is_detail}}" data-index="{{index}}" class='my-radio' value="{{item.is_checked}}" checked-color="#D12627"></van-checkbox>
+          <view class='my-lpimg'>
+            <image class='my-lp-ig' src='{{domain_name+item.pic}}'></image>
+            <view class='my-huo'><image src='/image/icon-renqizhi.png'></image> {{item.views_number}}</view>
+          </view>
+          <view class="{{is_detail?'my-lp-center2':'my-lp-center'}}">
+            <view class='my-lp-c1'><view class="my-c-1-1 van-ellipsis">{{item.name}}</view><view class='my-c-1-2'>{{item.sales_status}}</view></view>
+            <view class='my-lp-c2'>{{item.house_type}} | {{item.city}} {{item.area}}</view>
+            <view class='my-lp-c3'>{{item.fold}}元/m²</view>
+          </view>
+        </view>
+        <view class='my-card-list my-list-f' data-index="{{index}}" bindtouchstart="opstart" bindtouchmove="opmove" bindtouchend="opend">
+          <view class='my-options' data-index="{{index}}" data-id="{{item.history_id}}" bindtap='onDel'>删除</view>
+        </view>
+      </view>
+      <view wx:if="{{list.length==0}}">
+        <image mode='widthFix' src='../../../image/empty_img.png'></image>
+      </view>
+      <view class='my-footer' wx:if="{{is_detail}}"></view>
+    </scroll-view>
+    <view id='my-footer' wx:if="{{is_detail && active==0}}">
+      <view class='footer-btn1' bindtap='onAllChecked'>全选</view>
+      <view class='footer-btn2' bindtap='onDelete'>删除</view>
+    </view>
+  </van-tab>
+  <van-tab title="资讯">
+    <view class='title'>
+      <view class='left'>共{{list2.length}}条记录</view>
+      <view class='right' bindtap='onEditBtn2'>{{is_detail2?'取消':'编辑'}}</view>
+    </view>
+    <scroll-view id='my-scroll' scroll-y="{{scrollPosition2.scrollY}}" bindscrolltolower="onGetArticle">
+      <view class='my-scroll-li' wx:for="{{list2}}" wx:key="index">
+        <view class="my-card-list my-list-z {{is_detail2?'':'my-animation'}} {{item.show_options && !is_detail2?'show-delet':''}}" data-index="{{index}}" data-id="{{item.id}}" data-agent_id="{{item.agent_id}}" bindtouchstart="{{!is_detail2?'handletouchstart2':''}}" bindtouchmove="{{!is_detail2?'handletouchmove2':''}}" bindtouchend="{{!is_detail2?'handletouchend2':''}}" bindtap="{{is_detail2?'onEditChange2':'onDetailCard2'}}">
+          <van-checkbox wx:if="{{is_detail2}}" data-index="{{index}}" class='my-radio' value="{{item.is_checked}}" checked-color="#D12627"></van-checkbox>
+          <view class="{{is_detail2?'my-lp-center2':'my-lp-center'}}">
+            <view class='wz-view1 van-multi-ellipsis--l2'>{{item.title}}</view>
+            <view class='wz-view2'>
+              <image src='{{domain_name+item.aimg}}'></image>
+              <view>{{item.aname}}</view>
+              <view>{{item.release_time}}</view>
+              <view>{{item.comments_num}}评论</view>
+            </view>
+          </view>
+          <view class='my-lpimg'>
+            <image class='my-lp-ig' src='{{item.cover}}'></image>
+          </view>
+        </view>
+        <view class='my-card-list my-list-f' data-index="{{index}}" bindtouchstart="opstart2" bindtouchmove="opmove2" bindtouchend="opend2">
+          <view class='my-options' data-index="{{index}}" data-id="{{item.history_id}}" bindtap='onDel2'>删除</view>
+        </view>
+      </view>
+      <view wx:if="{{list2.length==0}}">
+        <image mode='widthFix' src='../../../image/empty_img.png'></image>
+      </view>
+      <view class='my-footer' wx:if="{{is_detail2}}"></view>
+    </scroll-view>
+    <view id='my-footer' wx:if="{{is_detail2 && active==1}}">
+      <view class='footer-btn1' bindtap='onAllChecked2'>全选</view>
+      <view class='footer-btn2' bindtap='onDelete2'>删除</view>
+    </view>
+  </van-tab>
+</van-tabs>

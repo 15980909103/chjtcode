@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>户型信息</title>
+    <link rel="stylesheet" type="text/css" href="../../static/css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/mui/css/mui.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/css/build/building_detail.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/css/swiper.min.css" />
+    <script type="text/javascript" src="../../static/js/jquery-2.0.0.min.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.min.js" ></script>
+    <script type="text/javascript" src="../../static/js/vue.min.js" ></script>
+    <script type="text/javascript" src="../../static/js/vue-tap.js" ></script>
+    <script type="text/javascript" src="../../static/js/public.js" ></script>
+    <script type="text/javascript" src="../../static/js/swiper.min.js" ></script>
+    <script type="text/javascript" src="../../static/js/coverViewImage.js" ></script>
+</head>
+<body style="overflow: hidden;">
+<div id="app" class="my-content">
+    <div class="swiper-container swiperTitle">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide" v-for="item in unitInfo" v-cloak><span>{{item.title}}</span></div>
+        </div>
+    </div>
+    <div class="swiper-container swiperContent">
+        <div class="swiper-wrapper">
+            <template v-if="!isEmpty">
+                <div class="swiper-slide aui-list aui-media-list" v-for="item in unitInfo">
+                    <div class="my-building-content">
+                        <div class="tabs-content">
+                            <div class='tabs-view1'>
+                                <div v-cloak>{{item.title}}</div>
+                                <div>楼层：<span v-cloak>{{item.floor_number}}层</span></div>
+                                <div>梯户比：<span v-cloak>{{item.stairs_number}}户</span></div>
+                            </div>
+                            <div class='my-scroll'>
+                                <div class='view5-li' v-for="val in item.data"  v-tap="{methods:onModelDetail,id:val.id,imgSrc:val.pic}">
+                                    <div class='view5-content1'>
+                                        <img :src='val.pic' v-cloak/>
+                                    </div>
+                                    <div class='view5-content2'>
+                                        <div class='view5-col1'>
+                                            <div class='view5-row1' v-cloak>{{val.title}}</div>
+                                            <div class='view5-row2' v-cloak>{{val.sales_status}}</div>
+                                            <div class='view5-row3' v-cloak>{{val.house_type}}</div>
+                                        </div>
+                                        <div class='view5-col2' v-cloak>建面{{val.construction_area}}m²朝向{{val.orientation}}</div>
+                                        <div class='view5-col3' v-cloak>约{{val.price_total}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </template>
+            <template v-else>
+                <img src="../../static/image/empty.png" class="empty-data">
+            </template>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            unitInfo:[],
+            isEmpty: false
+        },
+        mounted: function () {
+        this.$nextTick(function () {
+            var _this=this;
+            document.title = getQueryString('title')?getQueryString('title'):'户型信息';
+            //获取楼栋数据
+            ajax('buildingAjax/getBuildingUnit',{id:getQueryString('id')},function(res){
+                _this.isEmpty = res.unitInfo.length == 0;
+                if (!_this.isEmpty) {
+                    _this.unitInfo=res.unitInfo;
+                }
+
+                Vue.nextTick(function(){
+                    swiperTitle = new Swiper ('.swiperTitle', {
+                        slidesPerView:3,
+                        freeMode: true,
+                        watchSlidesVisibility: true,
+                        watchSlidesProgress: true,
+                        observer: true,
+                        observeParents: true
+                    });
+                    swiperContent = new Swiper ('.swiperContent', {
+                        touchRatio: 0.5,
+                        observer: true,
+                        autoHeight:true,
+                        observeParents: true,
+                        thumbs: {
+                            swiper: swiperTitle
+                        },
+                        on:{
+                            slideChange: function(){
+                            }
+                        }
+                    });
+                });
+            });
+        })
+        },
+        methods:{
+            onModelDetail(event){
+                openViewImage({
+                    src: event.imgSrc
+                });
+                // setLocation('pages/build/model_detail.html?id='+event.id);
+            }
+        }
+    })
+</script>

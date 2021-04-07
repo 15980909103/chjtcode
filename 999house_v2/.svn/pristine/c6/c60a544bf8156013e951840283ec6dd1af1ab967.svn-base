@@ -1,0 +1,113 @@
+/* 活动专栏 */
+.activity{
+	font-size: 0.34rem;
+	font-weight: 600;
+	color: #212121;
+	margin-bottom: 0.2rem;
+}
+
+.activity-title{
+	/* margin-left: 0.32rem; */
+}
+
+.activity-vr{
+	width: 100%;
+	height: 1.52rem;
+	box-sizing: border-box;
+	padding: 0 0.32rem;
+	margin: 0.34rem 0 0.4rem;
+	display: flex;
+	justify-content: space-between;
+}
+
+.activity-vr-item{
+	height: 100%;
+	width: 3.28rem;
+	box-shadow: 0 0.02rem 0.16rem 0 rgba(166, 206, 217, 0.52);
+	border-radius: 0.06rem;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	box-sizing: border-box;
+	padding: 0.16rem;
+}
+
+.activity-vr-item img{
+	width: 1.1rem;
+	height: 1.1rem;
+}
+
+.vr-left{
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.vr-left span{
+	text-align: justify;
+	text-justify: newspaper;
+	word-break: break-all;
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 1;
+	overflow: hidden;
+}
+
+.vr-title{
+	font-size: 0.32rem;
+	font-weight: bold;
+}
+
+.vr-text{
+	font-size: 0.22rem;
+	color: #ADADAD;
+}
+
+.vr-tip{
+	font-size: 0.22rem;
+	color: #757575;
+}
+
+.activity-box{
+	/* width: 100%; */
+	/* height: 2.19rem; */
+	background-color: #FFFFFF;
+	padding: 0.2rem 0.3rem;
+	margin: 0 0.2rem;
+	/* padding: 0 0.2rem; */
+	display: flex;
+	overflow: scroll hidden;
+	overflow-scrolling:touch; 
+}
+.activity-box .van-swipe{
+	padding-bottom: 0.64rem;
+}
+.activity-box .van-swipe__indicator{
+	width: 0.24rem;
+	height: 0.1rem;
+	background-color: #F0F0F0;
+	border: 5px;
+	opacity: 1;
+}
+.activity-box  .van-swipe__indicator--active{
+	background-color: #FE821E;
+}
+.activity-box img{
+	display: block;
+	width: 2.2rem;
+	/* height: 100%; */
+	border-radius: 0.06rem;
+	/* margin-left: 0.34rem; */
+}
+.activity-item p{
+	font-size: 0.3rem;
+	color: #212121;
+	margin-bottom: 0.1rem;
+}
+.activity-item span{
+	display: inline-block;
+	font-size: 0.24rem;
+	color: #666666;
+	margin-bottom: 0.22rem;
+}

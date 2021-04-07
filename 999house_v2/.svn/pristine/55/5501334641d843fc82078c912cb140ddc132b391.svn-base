@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>优惠活动</title>
+		<link rel="stylesheet" href="../../common/vant/index.css"/>
+		<link rel="stylesheet" href="../../common/css/public.css?v=1.18"/>
+		<style>
+			.top{
+				width: 100%;
+				height: 3.2rem;
+				background-size: 100% 100%;
+				display: flex;
+				align-items: center;
+				flex-direction: column;
+				margin-bottom: .3rem;
+			}
+			
+			.top-title{
+				font-size: .4rem;
+				color: rgba(255, 238, 210, 1);
+				margin: .7rem 0 .35rem;
+			}
+			
+			.top-tip{
+				font-size: .26rem;
+				color: rgba(255, 255, 255, 1);
+			}
+			
+			.like{
+				padding-bottom: 1rem;
+			}
+			
+			.like-title{
+				font-size: .34rem;
+				padding-left: .32rem;
+				margin-top: .4rem;
+				font-weight: bold;
+			}
+			
+			
+			
+		</style>
+	</head>
+	<body>
+		<div id="app" v-cloak>
+			<div class="top" :style="{ backgroundImage: 'url('+ bg +')' }">
+				<h4 class="top-title">优惠楼盘</h4>
+				<span class="top-tip">本优惠可与开发商现场优惠同时使用</span>
+			</div>
+			<common-tag :list="tipList" margin-right="0.29rem" @change="(e)=>{ tipChoose = e }"></common-tag>
+			
+			<div class="wrap">
+				<common-template 
+					:list="list" 
+					@apply="apply"
+					@del="(e)=>{ list = e  }"
+				>
+				</common-template>
+			</div>
+			<div class="like">
+				<span class="like-title">猜你喜欢</span>
+				<common-template :list="likeList" @del="(e)=>{ likeList = e  }"></common-template>
+			</div>
+			
+			<houses-apply :show="showApply" :id="applyId" @close="(e)=>{ showApply = e }"></houses-apply>
+			<div id="container-user-site"></div>
+		</div>
+	</body>
+</html>
+
+<script src="../../common/js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/rem.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/public.js?v=1.18" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/vant/index.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=53da8183ca23918f2f81c79a5b2ede15&plugin=AMap.Geocoder"></script>
+<script type="module">
+	import { http, loginMixin } from '../../common/js/method/http.js?v=1.18';
+	Vue.use(http);
+	const myComponents = [
+		'../../components/common/tag/index',
+		'../../components/houses/apply/index',
+		'../../components/common/template/index',
+	];
+	
+	$api.addComponents(myComponents)
+		.then(()=>{
+			
+			Vue.use(vant.Lazyload);
+			
+			const app = new Vue({
+				el: '#app',
+				data: {
+					bg: '/9house/static/houses/banner1.png',
+					// 筛选
+					tipChoose: -1,
+					tipList: [
+						{
+							id: 0,
+							name: '新房'
+						},
+						{
+							id: 1,
+							name: '在售'
+						},
+						{
+							id: 3,
+							name: '优惠楼盘'
+						},
+						{
+							id: 4,
+							name: '近期开盘'
+						}
+					],
+					// 报名
+					showApply: false,
+					applyId: -1,
+					
+					// 数据
+					list: [
+						{
+							// 8-新房（数据和类型4-广告楼盘有图 雷同）
+							id: 14,
+							type: 8,
+							info: {
+								name: '世贸湖边首府',
+								tip: ['售完','住宅','热楼盘','装修交付'],
+								price: 34000,
+								site: '湖里 软件园',
+								area: 108,
+								lab: [
+									{ type: 0, name: '入围护理人气楼盘榜', img: '/9house/static/logo.png' },
+									{ type: 0, name: '享9.5折', img: '/9house/static/logo.png' },
+									{ type: 0, name: '777', img: '/9house/static/logo.png' },
+									{ type: 0, name: '888', img: '/9house/static/logo.png' }
+								]
+							},
+							img:  ['/9house/static/logo.png']
+						},
+						{
+							// 11-优惠楼盘
+							id: 18,
+							type: 11,
+							info: {
+								name: '世贸湖边首府',
+								tip: ['售完','住宅','热楼盘','装修交付'],
+								price: 34000,
+								site: '湖里 软件园',
+								area: 108,
+							},
+							img:  ['/9house/static/logo.png'],
+							apply: {
+								title: '总价430万起买世贸大三房带精装修总价430万起买世贸大三房带精装',
+								people: 34,
+								state: 0
+							}
+						},
+						{
+							// 11-优惠楼盘
+							id: 15,
+							type: 11,
+							info: {
+								name: '世贸湖边首府',
+								tip: ['售完','住宅','热楼盘','装修交付'],
+								price: 34000,
+								site: '湖里 软件园',
+								area: 108,
+							},
+							img:  ['/9house/static/logo.png'],
+							apply: {
+								title: '总价430万起买世贸大三房带精装修总价430万起买世贸大三房带精装',
+								people: 34,
+								state: 1
+							}
+						}
+					],
+					likeList: [
+						{
+							// 8-新房（数据和类型4-广告楼盘有图 雷同）
+							id: 14,
+							type: 8,
+							info: {
+								name: '世贸湖边首府',
+								tip: ['售完','住宅','热楼盘','装修交付'],
+								price: 34000,
+								site: '湖里 软件园',
+								area: 108,
+								lab: [
+									{ type: 0, name: '入围护理人气楼盘榜', img: '/9house/static/logo.png' },
+									{ type: 0, name: '享9.5折', img: '/9house/static/logo.png' },
+									{ type: 0, name: '777', img: '/9house/static/logo.png' },
+									{ type: 0, name: '888', img: '/9house/static/logo.png' }
+								]
+							},
+							img:  ['/9house/static/logo.png'],
+						},
+						{
+							// 8-新房（数据和类型4-广告楼盘有图 雷同）
+							id: 14,
+							type: 8,
+							info: {
+								name: '世贸湖边首府',
+								tip: ['售完','住宅','热楼盘','装修交付'],
+								price: 34000,
+								site: '湖里 软件园',
+								area: 108,
+								lab: [
+									{ type: 0, name: '入围护理人气楼盘榜', img: '/9house/static/logo.png' },
+									{ type: 0, name: '享9.5折', img: '/9house/static/logo.png' },
+									{ type: 0, name: '777', img: '/9house/static/logo.png' },
+									{ type: 0, name: '888', img: '/9house/static/logo.png' }
+								]
+							},
+							img:  ['/9house/static/logo.png'],
+						},
+						{
+							// 8-新房（数据和类型4-广告楼盘有图 雷同）
+							id: 14,
+							type: 8,
+							info: {
+								name: '世贸湖边首府',
+								tip: ['售完','住宅','热楼盘','装修交付'],
+								price: 34000,
+								site: '湖里 软件园',
+								area: 108,
+								lab: [
+									{ type: 0, name: '入围护理人气楼盘榜', img: '/9house/static/logo.png' },
+									{ type: 0, name: '享9.5折', img: '/9house/static/logo.png' },
+									{ type: 0, name: '777', img: '/9house/static/logo.png' },
+									{ type: 0, name: '888', img: '/9house/static/logo.png' }
+								]
+							},
+							img:  ['/9house/static/logo.png'],
+						},
+					]
+					
+				},
+				components: {
+					commonTag,
+					housesApply,
+					commonTemplate
+				},
+				mixins: [loginMixin],
+				created() {
+					
+				},
+				methods:{
+					apply( id ) {
+						console.log(id);
+						
+						this.applyId = id;
+						this.showApply = true;
+					}
+				},
+			})
+		})
+	
+	
+</script>

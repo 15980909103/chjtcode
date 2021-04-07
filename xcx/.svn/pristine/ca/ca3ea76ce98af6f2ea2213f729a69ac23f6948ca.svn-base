@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>我的审批</title>
+    <!-- <link rel="stylesheet" type="text/css" href="../../static/css/aui.css" /> -->
+    <link rel="stylesheet" type="text/css" href="../../static/calendar/calendar-master.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/mui/css/mui.min.css"/>
+    <link rel="stylesheet" type="text/css" href="../../static/css/me/member_staff.css"/>
+    <script type="text/javascript" src="../../static/js/jquery-2.0.0.min.js"></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.min.js"></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.pullToRefresh.js"></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.pullToRefresh.material.js"></script>
+    <!-- <script type="text/javascript" src="../../static/js/vue.min.js" ></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script type="text/javascript" src="../../mixins/listenInputClear.js" ></script>
+    <script type="text/javascript" src="../../static/js/vue-tap.js"></script>
+    <script type="text/javascript" src="../../static/js/public.js"></script>
+    <script type="text/javascript" src="../../static/calendar/calendar-master.js" ></script>
+    <script type="text/javascript" src="../../components/use-calendar.js"></script>
+    <style>.mui-pull-bottom-tips{display: none;}</style>
+</head>
+<body>
+<div id="app" class="my-content">
+    <div class="search">
+        <div class="mui-input-row mui-search ">
+            <input
+              type="search"
+              class="mui-input-clear"
+              :placeholder="inputPlaceHolder"
+              v-model.trim="searchText"
+              v-on:keyup.enter="searchName"
+              @focus="focusInput"
+            >
+        </div>
+    </div>
+    <use-calendar static-path="../../" @change="changeCurrentDate"></use-calendar>
+    <div class="profile-list mui-scroll-wrapper">
+      <div class="mui-scroll scroll-content">
+        <ul>
+          <li
+            v-for="(item, index) in list"
+            :key="index"
+            :class="['profile-list__item', item.isSelected? 'active': '']"
+            v-tap="{methods: selectProfile, index}"
+            v-cloak
+          >
+            <img :src="item.headimgurl" class="profile-list__item-avatar"/>
+            <span class="profile-list__item-name">
+              <em>{{ item.nickname }}</em>
+            </span>
+            <span class="profile-list__item-count" v-if="permission != 8">共报备 {{item.count}}人</span>
+            <span v-show="item.isSelected" class="profile-list__item-select-icon"></span>
+          </li>
+          <li v-if="!isInit && list.length == 0" class="empty">
+            暂无更多数据
+          </li>
+        </ul>
+      </div>
+    </div>
+    <button
+      type="button"
+      class="back-to-store mui-btn mui-btn-danger"
+      v-tap="{methods: backToStore}"
+    >
+      确认选择
+    </button>
+</div>
+</body>
+</html>
+<script>
+    Vue.config.devtools = true;
+
+    new Vue({
+        el: '#app',
+        mixins: [listenInputClear],
+        data: {
+          searchText: '',
+          list: [],
+          isInit: true,
+          currentSelectProfileId: [],
+          pullToRefresh: null,
+          isEndPull: false,
+          isRefresh: false, // 没有单独记录页数所以以这个标识刷新
+          currentDate: '',
+          getQueryString,
+          permission: -1,
+        },
+        computed: {
+          inputPlaceHolder() {
+            return `请输入${getQueryString('type')
+              ? (this.permission == 3? '组员': '经纪人')
+              : '客户'
+            }名字`;
+          }
+        },
+        mounted() {
+          this.$nextTick(() => {
+            setsetScrollHeight('.profile-list');
+            this.initScroll();
+            this.initPullRefresh();
+            this.fetchProfileList();
+          });
+        },
+        methods: {
+          initScroll() {
+            mui('.mui-scroll-wrapper').scroll({
+              scrollY: true, //是否竖向滚动
+              scrollX: false, //是否横向滚动
+              startX: 0, //初始化时滚动至x
+              startY: 0, //初始化时滚动至y
+              indicators: true, //是否显示滚动条
+              deceleration:0.0006, //阻尼系数,系数越小滑动越灵敏
+              bounce: true //是否启用回弹
+            });
+          },
+          initPullRefresh() {
+            this.pullToRefresh = mui('.scroll-content').pullToRefresh({
+              up: {
+                auto: false, //自动执行一次上拉加载，可选；
+                show: false, //显示底部上拉加载提示信息，可选；
+                callback: () => {
+                  this.fetchProfileList();
+                }
+              }
+            });
+          },
+          searchName() {
+            this.isRefresh = true;
+            this.fetchProfileList();
+          },
+          fetchProfileList() {
+            if (this.searchText && this.isEndPull) {
+              this.isEndPull = false; // 如果搜名字,则重置isEndPull
+            }
+            if (this.isEndPull) { // 搜索到尾部了,直接退出
+              return;
+            }
+            const currentPage = parseInt(this.list.length / 10) + 1;
+            const page = this.isRefresh? 1: currentPage;
+            ajax('agentAjax/getAgentList', {
+              nowDate: this.currentDate,
+              page,
+              page_size: 10,
+              name: this.searchText
+            }, res => {
+              this.permission = res._auth&& res._auth.type? Number(res._auth.type): -1;
+              if (res.success) {
+                if (page == 1) {
+                  this.list = res.data;
+                  if (res.data.length == 0) {
+                    this.pullToRefresh.endPullUpToRefresh(true);
+                  }
+                } else {
+                  this.list = this.list.concat(res.data);
+                }
+                if (res.data.length % 10 !== 0) {
+                  this.isEndPull = true;
+                  this.pullToRefresh.endPullUpToRefresh(true);
+                  if (!this.isInit) {
+                    mui.toast('已经到底了!');
+                  }
+                }
+              }
+              if (this.isInit) {
+                this.isInit = false;
+              }
+              this.isRefresh = false;
+            });
+          },
+          selectProfile(options) {
+            const index = options.index;
+            const profile = this.list[index];
+            if (profile.isSelected) {
+                this.currentSelectProfileId = this.currentSelectProfileId.filter(item => item!=profile.id);
+            } else {
+                this.currentSelectProfileId.push(profile.id);
+            }
+            this.$set(this.list[index], 'isSelected', !Boolean(profile.isSelected));
+          },
+          backToStore() {
+            setLocation(`pages/me/my_store_new.html?type=` + getQueryString('type') + `${
+              this.currentSelectProfileId.length>0?'&members=': ''
+            }${this.currentSelectProfileId.join(',')}`);
+          },
+          changeCurrentDate(date) {
+            if (!this.isInit) {
+              this.isEndPull = false;
+              this.pullToRefresh.refresh(true);
+              this.pullToRefresh.endPullUpToRefresh(false);
+            }
+            if (date !== this.currentDate) {
+              const isRefresh = Boolean(this.currentDate);
+              this.currentDate = date;
+              if (isRefresh) {
+                this.fetchProfileList();
+              }
+            }
+          },
+          focusInput() {
+              this.listenInputTaPClearIcon();
+          },
+        }
+    })
+</script>

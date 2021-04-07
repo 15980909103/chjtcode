@@ -1,0 +1,144 @@
+:root {
+  font-size: 16px;
+}
+
+.my_client {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.search {
+    padding: 1.25rem  0.75rem .625rem;
+    width: 100vw;
+    height: 3.875rem;
+    z-index: 10;
+    background: #FFF;
+    box-sizing: border-box;
+}
+.search .mui-input-clear{
+    background: #f1f1f1;
+    margin-bottom: 0;
+}
+
+.client-panel {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  width: 100vw;
+  background-color: #fff;
+}
+
+.client-list {
+  padding: 0 1rem;
+}
+
+.client-list__item {
+  margin-top: 1rem;
+  padding: .75em 0;
+  display: flex;
+  align-items: center;
+}
+
+.client-list__item:not(:last-child) {
+  border-bottom: 1px solid #F7F7F7;
+}
+
+.client-list__item-avatar {
+  position: relative;
+  width: 13.14%;
+  max-width: 92px;
+  border-radius: .25rem;
+  background-color: #f1f1f1;
+}
+
+.client-list__item-avatar:before {
+  content: '';
+  display: block;
+  padding-top: 100%;
+}
+
+.client-list__item-avatar img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.client-list__item-info {
+  margin: 0 1rem;
+  flex: 1;
+  overflow: hidden;
+}
+
+.client-list__item-info .line {
+  width: 100%;
+  min-height: 1em;
+  line-height: 1em;
+  margin-bottom: 0;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.client-list__item-info .line span {
+  white-space: nowrap;
+}
+
+.client-list__item-info .primary {
+  margin-bottom: .875rem;
+  font-size: 1rem;
+  color: #333;
+}
+
+.client-list__item-info .other {
+  color: #999;
+  font-size: .75rem;
+}
+
+.client-list__item-info .other .phone {
+  margin-left: 1rem;
+}
+
+.client-list__item-radio .radio {
+  width: 1.375rem;
+  height: 1.375rem;
+  border: 1px solid #999;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.client-list__item-radio .radio.active {
+  position: relative;
+  border: none;
+  background-color: #D12527;
+}
+.client-list__item-radio .radio.active:before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 20%;
+  height: 40%;
+  border-right: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  transform: translate(-50%, -60%) rotate(45deg);
+}
+
+.client-panel .mui-scroll-wrapper {
+  position: relative;
+  height: 100%;
+}
+
+.empty-message {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}

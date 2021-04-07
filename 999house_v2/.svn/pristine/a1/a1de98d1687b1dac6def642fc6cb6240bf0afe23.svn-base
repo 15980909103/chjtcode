@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>热门楼盘</title>
+		<link rel="stylesheet" href="../../common/vant/index.css"/>
+		<link rel="stylesheet" href="../../common/css/public.css?v=1.12"/>
+		<style>
+			.top{
+				width: 100%;
+				height: 4.2rem;
+				background-size: 100% 100%;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				margin-bottom: .3rem;
+			}
+			
+			.nav{
+				width: 3.2rem;
+				display: flex;
+				margin-top: .58rem;
+				position: relative;
+				color: #fff;
+			}
+			
+			.nav p{
+				width: 50%;
+				height: .64rem;
+				text-align: center;
+				font-size: .34rem;
+			}
+			
+			.nav-text-active{
+				color: rgba(255, 199, 121, 1);
+			}
+			
+			.nav-active{
+				width: .4rem;
+				height: .03rem;
+				background-color: rgba(255, 199, 121, 1);
+				position: absolute;
+				bottom: 0;
+				left: 0;
+				transition: .3s;
+			}
+			
+			.nav-active-left{
+				left: 0.62rem;
+			}
+			
+			.nav-active-right{
+				left: 2.25rem;
+			}
+			
+			.site{
+				height: .6rem;
+				margin-top: 1.49rem;
+				font-size: 0.24rem;
+				color: rgba(255, 199, 121, 1);
+				display: flex;
+				align-items: center;
+			}
+			
+			.site span:last-child{
+				height: 100%;
+				margin-left: .2rem;
+				color: #fff;
+				display: flex;
+				align-items: center;
+			}
+			
+			.site span:last-child .iconfont{
+				font-size: .2rem;
+				margin-left: .06rem;
+			}
+			
+			.van-popup--bottom.van-popup--round{
+				border-radius: 0;
+			}
+			
+			.van-picker__toolbar{
+				font-size: .32rem;
+				border-bottom: 0.01rem solid rgba(224, 224, 224, 1);
+			}
+			
+			.van-picker__confirm{
+				color: rgba(255, 128, 0, 1);
+			}
+			
+			.box{
+				padding-bottom: 1rem;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app" v-cloak>
+			
+			<div class="top" :style="{ backgroundImage: 'url('+ bg +')' }">
+				
+				<div class="nav">
+					<p @click="changeNav(0)" :class="[ active == 0 ? 'nav-text-active' : '' ]">人气榜</p>
+					<p @click="changeNav(1)" :class="[ active == 1 ? 'nav-text-active' : '' ]">热搜榜</p>
+					<span class="nav-active" :class="[ active == 0 ? 'nav-active-left' : 'nav-active-right' ]"></span>
+				</div>
+				
+				<div class="site">
+					<span>近7日人气统计，每日更新</span>
+					<span @click="changeSite">{{ site }}<i class="iconfont iconjiantou"></i></span>
+				</div>
+			</div>
+			<common-tag :list="tipList" margin-right="0.29rem" @change="(e)=>{ tipChoose = e; this.getList()}"></common-tag>
+
+			<div class="box">
+				<common-template :list="activeList" @del="(e)=>{ activeList = e  }"></common-template>
+			</div>
+			
+			<van-popup v-model="showPicker" round position="bottom">
+				<van-picker 
+					show-toolbar 
+					:columns="columns" 
+					:default-index="0"
+					@confirm="confirm"
+					@cancel="showPicker = false"
+					value-key="cname"
+				>
+				</van-picker>
+				
+			</van-popup>
+			<div id="container-user-site"></div>
+		</div>
+	</body>
+</html>
+
+<script src="../../common/js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/rem.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/public.js?v=1.15" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/vant/index.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/wxsdk.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=53da8183ca23918f2f81c79a5b2ede15&plugin=AMap.Geocoder"></script>
+<script type="module">
+	import { http, loginMixin } from '../../common/js/method/http.js?v=1.1';
+	Vue.use(http);
+	const myComponents = [
+		'../../components/common/tag/index',
+		'../../components/common/template/index',
+	];
+	$api.addComponents(myComponents)
+		.then(()=>{
+			
+			Vue.use(vant.Lazyload);
+			
+			const app = new Vue({
+				el: '#app',
+				data: {
+					bg: '/9house/static/houses/banner1.png',
+					active: 0,
+					site: '厦门',
+					site_code:'',
+					showPicker: false,
+					columns: [],
+					// 筛选
+					tipChoose: -1,
+					tipList: [
+						{
+							id: 0,
+							name: '新房'
+						},
+						{
+							id: 1,
+							name: '在售'
+						},
+						{
+							id: 3,
+							name: '优惠楼盘'
+						},
+						{
+							id: 4,
+							name: '近期开盘'
+						}
+					],
+					// list: [
+					// 	{
+					// 		name: '人气榜',
+					// 		list: [
+					// 			{
+					// 				// 8-新房（数据和类型4-广告楼盘有图 雷同）
+					// 				id: 14,
+					// 				type: 12,
+					// 				info: {
+					// 					name: '世贸湖边首府',
+					// 					tip: ['人气榜','住宅','热楼盘','装修交付'],
+					// 					price: 99000,
+					// 					site: '湖里 软件园',
+					// 					area: 108,
+					// 				},
+					// 				img:  ['/9house/static/logo.png']
+					// 			},
+					// 			{
+					// 				// 8-新房（数据和类型4-广告楼盘有图 雷同）
+					// 				id: 14,
+					// 				type: 12,
+					// 				info: {
+					// 					name: '世贸湖边首府',
+					// 					tip: ['人气榜','住宅','热楼盘','装修交付'],
+					// 					price: 34000,
+					// 					site: '湖里 软件园',
+					// 					area: 108,
+					// 				},
+					// 				img:  ['/9house/static/logo.png']
+					// 			},
+					// 			{
+					// 				// 8-新房（数据和类型4-广告楼盘有图 雷同）
+					// 				id: 14,
+					// 				type: 12,
+					// 				info: {
+					// 					name: '世贸湖边首府',
+					// 					tip: ['人气榜','住宅','热楼盘','装修交付'],
+					// 					price: 34000,
+					// 					site: '湖里 软件园',
+					// 					area: 108,
+					// 				},
+					// 				img:  ['/9house/static/logo.png']
+					// 			},
+					// 			{
+					// 				// 8-新房（数据和类型4-广告楼盘有图 雷同）
+					// 				id: 14,
+					// 				type: 12,
+					// 				info: {
+					// 					name: '世贸湖边首府',
+					// 					tip: ['人气榜','住宅','热楼盘','装修交付'],
+					// 					price: 34000,
+					// 					site: '湖里 软件园',
+					// 					area: 108,
+					// 				},
+					// 				img:  ['/9house/static/logo.png']
+					// 			}
+					// 		]
+					// 	},
+					// 	{
+					// 		name: '热搜榜',
+					// 		list: [
+					// 			{
+					// 				// 8-新房（数据和类型4-广告楼盘有图 雷同）
+					// 				id: 14,
+					// 				type: 12,
+					// 				info: {
+					// 					name: '世贸湖边首府',
+					// 					tip: ['热搜榜','住宅','热楼盘','装修交付'],
+					// 					price: 34000,
+					// 					site: '湖里 软件园',
+					// 					area: 108,
+					// 				},
+					// 				img:  ['/9house/static/logo.png']
+					// 			},
+					// 			{
+					// 				// 8-新房（数据和类型4-广告楼盘有图 雷同）
+					// 				id: 14,
+					// 				type: 12,
+					// 				info: {
+					// 					name: '世贸湖边首府',
+					// 					tip: ['热搜榜','住宅','热楼盘','装修交付'],
+					// 					price: 34000,
+					// 					site: '湖里 软件园',
+					// 					area: 108,
+					// 				},
+					// 				img:  ['/9house/static/logo.png']
+					// 			},
+					// 			{
+					// 				// 8-新房（数据和类型4-广告楼盘有图 雷同）
+					// 				id: 14,
+					// 				type: 12,
+					// 				info: {
+					// 					name: '世贸湖边首府',
+					// 					tip: ['热搜榜','住宅','热楼盘','装修交付'],
+					// 					price: 34000,
+					// 					site: '湖里 软件园',
+					// 					area: 108,
+					// 				},
+					// 				img:  ['/9house/static/logo.png']
+					// 			},
+					// 			{
+					// 				// 8-新房（数据和类型4-广告楼盘有图 雷同）
+					// 				id: 14,
+					// 				type: 12,
+					// 				info: {
+					// 					name: '世贸湖边首府',
+					// 					tip: ['热搜榜','住宅','热楼盘','装修交付'],
+					// 					price: 34000,
+					// 					site: '湖里 软件园',
+					// 					area: 108,
+					// 				},
+					// 				img:  ['/9house/static/logo.png']
+					// 			}
+					// 		]
+					// 	},
+					// ],
+					tagList:[],
+					activeList: [],
+					city_no:350200,
+				},
+				components: {
+					commonTag,
+					commonTemplate
+				},
+				mixins: [loginMixin],
+				created() {
+					console.log(window.location.href)
+					if( this.$http.publicFun() ){
+						  this.tagList = $api.localGet('u-tag');
+					}else{
+						this.$http.publicFun(1).then(res=>{
+							this.tagList = res;
+						})
+					}
+					console.log(this.tagList);
+					// this.activeList = this.list[this.active].list;
+					this.$http.ajax({
+						data:{
+							type : 'area',
+							is_count:0,
+							city_no: this.city_no,
+							area_no:'',
+						},
+						url:'/index/city/getAreaList' //获取区域编码
+					}).then(res=>{
+						if(res.code ==1){
+							let city_obj = res.data;
+							city_obj = Object.values(city_obj);
+						    this.columns = city_obj;
+						    this.site_code = city_obj[0].code;
+						    this.site =  city_obj[0].cname;
+							this.getList();
+						}else{
+							this.$toast(res.msg);
+						}
+					}).catch(res=>{
+						this.$toast(res.msg);
+					});
+				},
+				methods:{
+					getList(){
+
+						let type = this.active == 0 ? 1:2;
+						let region_id           = this.site_code;
+						let sale_status         = '';
+						let opening_time		= '';
+						let is_cheap			='';
+						let recommend			='';
+						switch (this.tipChoose) {
+							case 1 : sale_status = 2;break;
+							case 2 : is_cheap = 2;break;
+							case 3 : is_cheap = 2;break;
+							case 4 : opening_time = 'near';break;
+
+						}
+
+						this.$http.ajax({
+							data:{
+								type : type,
+								region_id:region_id,
+								sale_status: sale_status, //销售状态
+								opening_time:opening_time, // 开盘时间
+								is_cheap:is_cheap,       // 是否低价盘
+								recommend:recommend,
+							},
+							url:'/index/rank/getEstatesRank' //获取排行榜
+						}).then(res=>{
+							if(res.code ==1){
+								let _this =this;
+								// console.log(res.data,11111111)
+								let arr =  res.data;
+								let randString = this.active ==0 ?'人气榜':'热搜榜';
+								arr.forEach(function (val,key) {
+									let lipStr = val.feature_tag;
+									let tagarr = [];
+									if(lipStr instanceof  Array && val.feature_tag.length >0){
+										tagarr = lipStr.map(x=>{
+											return  _this.tagList.feature_tag[x];
+										})
+									}
+									let tip   = [...[randString],...tagarr];
+									arr[key]= {
+										id:val.estate_id,
+										type: 12,
+										info: {
+											name: val.estate,
+											tip: tip,
+											price: val.price,
+											site: val.city+ ''+ val.area,
+											area: val.built_area,
+										},
+										img:  [val.img],
+									}
+								})
+								this.activeList = arr;
+
+							}else{
+								this.$toast(res.msg);
+							}
+						}).catch(res=>{
+							this.$toast(res.msg);
+						});
+
+
+					},
+					changeNav( num ) {
+						if( this.active != num ){
+							this.active = num;
+							this.activeList = [];
+							this.getList();
+						} 
+					},
+					changeSite() {
+						this.showPicker = true;
+					},
+					confirm( item,index ) {
+						let site_code = item.code;
+						item = item.cname;
+						this.showPicker = false;
+						if( this.site != item ){
+							this.site = item;
+							this.site_code = site_code;
+							this.getList();
+						}
+
+					},
+				},
+			})
+		})
+	
+	
+</script>

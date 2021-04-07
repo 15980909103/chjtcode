@@ -1,0 +1,238 @@
+<template>
+	<view>
+		<template v-if="fields">
+			<view class="wrap">
+				<view v-for="(nav,k) in lists" :key="k">
+					<view class="title">{{ nav.time }}</view>
+					<view class="all-template">
+					    <view
+					        :class="[item.type != 6 ? 'template' : 'template2']" 
+							v-for="(item,key) in nav.list" 
+							:key="key"
+							@click.stop="goDetil(item)">
+					        <view class="template3">
+					             <view class="template3-top">
+					                <view :class="[ item.type == 11 ? 'template3-top-img-sale' : '' ]">
+					                    <!-- <image v-lazy="$http.imgDirtoUrl(item.img[0])" class="template3-top-img" /> -->
+										<image v-lazy="item.img[0]" class="template3-top-img" />
+					                </view>
+					                <view class="template3-top-right">
+					                    <view class="template3-title">
+					                        <view 
+					                            v-if=" item.info.tip[0] != '人气榜' && item.info.tip[0] != '热搜榜'"
+					                        >
+					                        <!-- :class="[
+					                                item.info.tip[0] == '在售' ? 'houses-bg-blue' : '',
+					                                item.info.tip[0] == '待售' ? 'houses-bg-orange' : '',
+					                                item.info.tip[0] == '售完' ? 'houses-bg-purple' : '',
+					                                item.info.tip[0] == '尾盘' ? 'houses-bg-blue2' : ''
+					                            ]" -->
+					                            {{item.info.tip[0]}}
+					                        </view>
+					                        <template v-else>
+					                            <image :src="item.info.tip[0] == '热搜榜' ? '../../static/new_house/hot.png' : '../../static/new_house/popular.png'"/>
+					                        </template>
+					                        {{item.info.name}}
+					                    </view>
+					                    <view class="template3-tip">
+					                        <template v-for="(tip,num) in item.info.tip">
+					                            <view v-if="num != 0&&tip" :key="num">
+					                                {{tip}}
+					                            </view>
+					                        </template>
+					                    </view>
+					                    <view class="template3-site">
+					                        <text class="template-top-houses-site">{{item.info.site}}</text>
+					                        <text>建面{{item.info.area}}m²</text>
+					                    </view>
+					                    <view class="template-top-houses-price">
+					                        <view v-if="item.info.price>0">
+					                            <text>{{item.info.price}}</text>元/m²
+					                        </view>
+					                        <view v-else>
+					                            价格待定
+					                        </view>
+					                    </view>
+					                </view>
+					            </view>
+					            <template v-if="item.type == 8">
+					                <view class="template3-bottom">
+					                    <template v-for="(house,houseIndex) in item.info.lab">
+					                        <view class="template3-bottom-tip" :key="houseIndex" v-if="houseIndex < 2 && house.type == 0">
+					                            <image src="/9house/static/index/hot.png"/>
+					                            <view class="van-ellipsis">{{house.name}}</view>
+					                        </view>
+					                        <!--template3-bottom-vr--> 
+					                        <view class="template3-bottom-tip" :key="houseIndex" v-if="houseIndex < 2 && house.type == 1">
+					                            <image src="/9house/static/index/sale.png"/>
+					                            <view class="van-ellipsis">{{house.name}}</view>
+					                        </view>
+					                    </template>
+					                </view>
+					            </template>
+					            <template v-else-if="item.type == 11">
+					                <view class="template3-bottom-apply">
+					                    <view class="template3-bottom-apply-box">
+					                        <view class="template3-bottom-apply-info van-ellipsis"><i class="iconfont iconxingzhuang1"></i>{{ item.apply.title }}</view>
+					                        <view class="template3-bottom-apply-people"><view>{{ item.apply.people }}</view>人已报名</view>
+					                    </view>
+					                    <van-button 
+					                        round 
+					                        type="info"
+					                        :color="item.apply.state == 0 ? 'linear-gradient(90deg, #FFA640 0%, #FE8D35 100%)' : 'rgba(173, 173, 173, 1)' "
+					                        :disabled ="item.apply.state == 0 ? false : true"
+					                        bind:tap="$emit('apply',item.id)"
+					                    >
+					                        {{ item.apply.state == 0 ? '立即报名' : '已报名' }}
+					                    </van-button>
+					                </view>
+					            </template>
+					        </view>    
+					    </view>
+					<!-- <common-template :list="nav.list" @del="(e)=>{ $set(list[k], 'list', e) }"></common-template> -->
+				</view>
+				</view>
+			</view>
+		</template>
+		<template v-else>
+			<u-empty image="error" description="暂无数据"/>
+		</template>
+
+		<view id="container-user-site"></view>
+	</view>
+</template>
+
+<script>
+	import commonTemplate from "@/components/common/commonTemplate.vue"
+	export default {
+		data() {
+			return {
+				activeId:-1,
+				fields:true,
+				lists:[{
+					"time": "2020-12-22",
+					"list": [{
+						"id": 924,
+						"estates_id": 924,
+						"browse_time": 1608566400,
+						"name": "1222",
+						"price": "15000",
+						"built_area": "",
+						"area": "思明区",
+						"business_district": "",
+						"list_cover": "",
+						"sale_status": 2,
+						"house_purpose": "",
+						"discount": "[]",
+						"logo": "",
+						"detail_cover": "",
+						"status": 1,
+						"is_delete": 0,
+						"feature_tag": [],
+						"sale_status_name": "在售",
+						"selling_point": [],
+						"type": 8,
+						"info": {
+							"name": "1222",
+							"tip": ["在售"],
+							"price": "15000",
+							"site": "思明区",
+							"area": "",
+							"lab": []
+						},
+						"cover": 0,
+						"status_delete": 0,
+						"img": [""]
+					}]
+				}, {
+					"time": "2020-12-21",
+					"list": [{
+						"id": 130,
+						"estates_id": 130,
+						"browse_time": 1608480000,
+						"name": "世茂·国风长安82",
+						"price": "0",
+						"built_area": "",
+						"area": "思明区",
+						"business_district": "",
+						"list_cover": "/upload/images/admin/estates/t8cfc132e501dcd7bf7d06b8a6a48399e.png",
+						"sale_status": 1,
+						"house_purpose": "1",
+						"discount": "[{\"title\":\"666777\",\"content\":\"阿松大\",\"rule\":\"发噶手动阀十分\",\"start_time\":\"2020-12-02\",\"end_time\":\"2020-12-24\",\"btn\":\"\\/upload\\/images\\/admin\\/estates\\/te34487aef82e800bde6c0d651d7c4035.jpeg\",\"list_cover_id\":[\"10384\"]}]",
+						"logo": "/upload/images/admin/estates/t96c5a093d97b5edc820fb751a06afe80.png",
+						"detail_cover": "/upload/images/admin/estates/tc2fab7c992528d668a27c73bff917684.png",
+						"status": 1,
+						"is_delete": 0,
+						"feature_tag": ["19", "27", "25", "19", "27", "25"],
+						"sale_status_name": "待售",
+						"selling_point": [{
+							"title": "666777",
+							"type": "discount"
+						}],
+						"type": 8,
+						"info": {
+							"name": "世茂·国风长安82",
+							"tip": ["待售", "住宅", "地铁（商业）", "电商优惠"],
+							"price": "0",
+							"site": "思明区",
+							"area": "",
+							"lab": [{
+								"type": 0,
+								"name": "666777",
+								"img": "/9house/static/logo.png"
+							}]
+						},
+						"cover": 1,
+						"status_delete": 0,
+						"img": ["/upload/images/admin/estates/t8cfc132e501dcd7bf7d06b8a6a48399e.png"]
+					}, {
+						"id": 923,
+						"estates_id": 923,
+						"browse_time": 1608480000,
+						"name": "新新-1221",
+						"price": "15000",
+						"built_area": "",
+						"area": "湖里区",
+						"business_district": "",
+						"list_cover": "/upload/202012/22/20201222092033739989.jpg",
+						"sale_status": 1,
+						"house_purpose": "",
+						"discount": "[]",
+						"logo": "",
+						"detail_cover": "",
+						"status": 1,
+						"is_delete": 0,
+						"feature_tag": [],
+						"sale_status_name": "待售",
+						"selling_point": [],
+						"type": 8,
+						"info": {
+							"name": "新新-1221",
+							"tip": ["待售"],
+							"price": "15000",
+							"site": "湖里区",
+							"area": "",
+							"lab": []
+						},
+						"cover": 0,
+						"status_delete": 0,
+						"img": ["/upload/202012/22/20201222092033739989.jpg"]
+					}]
+				}]
+			}
+		},
+		components:{
+			commonTemplate
+		},
+		onLoad() {
+
+		},
+		methods: {
+
+		}
+	}
+</script>
+
+<style>
+	 @import './my_history.css';
+</style>

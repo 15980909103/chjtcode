@@ -1,0 +1,187 @@
+.surface{
+	position: fixed;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	background-color: #fff;
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	z-index: 19;
+}
+
+.surface-right{
+	display: flex;
+	flex-direction: column;
+	position: absolute;
+	right: 0;
+	bottom: 40%;
+}
+
+.surface-right span{
+	width: 1.3rem;
+	height: 1rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.surface-right img{
+	width: 0.7rem;
+	height: 0.7rem;
+}
+
+.surface-icon{
+	width: 1.54rem;
+	height: 1.54rem;
+	border-radius: 0.04rem;
+	position: absolute;
+	bottom: 40%;
+	left: 50%;
+	transform: translate(-50%,50%);
+	box-shadow: 0 0 5px rgba(0,0,0,.5);
+	z-index: 2;
+}
+
+.surface-bottom{
+	width: 100%;
+	height: 40%;
+	color: #fff;
+	position: absolute;
+	bottom: 0;
+	background: inherit;
+	z-index: 1;
+}
+
+.surface-bottom:after{
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	
+	background: inherit;
+	background-attachment: fixed;
+	-webkit-filter: blur(20px);
+	-moz-filter: blur(20px);
+	-ms-filter: blur(20px);
+	-o-filter: blur(20px);
+	filter: blur(20px);
+	z-index: -2;
+}
+
+.surface-bottom:before{
+	content: '';
+	position: absolute;
+	top:0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background: rgba(150,150,150,.5);
+	z-index: -1;
+}
+
+.surface-info{
+	width: 100%;
+	height: 76%;
+	box-sizing: border-box;
+	padding: 0.8rem 0.3rem 0;
+}
+
+.surface-box-title{
+	height: 1rem;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 0.01rem solid rgba(255,255,255,.4);
+	margin-bottom: 0.2rem;
+}
+
+.surface-box-title .title{
+	height: 100%;
+	font-size: 0.34rem;
+	font-weight: bold;
+	display: flex;
+	align-items: center;
+}
+
+.surface-box-title .title span{
+	font-size: 0.26rem;
+	font-weight: 400;
+	color: #000;
+	background-color: #fff;
+	border-radius: 0.04rem;
+	margin-left: 0.1rem;
+	transform: translate(0,6%);
+}
+
+.surface-box-title .title span:first-child{
+	margin-left: 0.2rem;
+}
+
+.surface-box-title .price{
+	font-size: 0.34rem;
+	font-weight: bold;
+}
+
+.surface-box-title .price span{
+	font-size: 0.26rem;
+	font-weight: 400;
+}
+
+.surface-info-box{
+	display: flex;
+	flex-direction: column;
+	position: relative;
+}
+
+.surface-info-box span{
+	margin-bottom: 0.14rem;
+}
+
+.surface-phone{
+	width: 1.3rem;
+	height: 0.8rem;
+	position: absolute;
+	right: -0.3rem;
+	bottom: 0;
+	transform: translate(0,10%);
+	
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.surface-phone .iconfont{
+	font-size: 0.6rem;
+	color: #fff;
+}
+
+.surface-hint{
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	font-size: 0.2rem;
+	position: relative;
+}
+
+.surface-hint .iconfont{
+	position: absolute;
+	font-size: 0.5rem;
+	animation:mymove 2s infinite;
+	-webkit-animation:mymove 2s infinite; /* Safari and Chrome */
+}
+
+@keyframes mymove{
+	0% {top:0.4rem;}
+	50% {top:0.6rem;}
+	100% {top:0.4rem;}
+}
+
+@-webkit-keyframes mymove{
+	0% {top:0.4rem;}
+	50% {top:0.6rem;}
+	100% {top:0.4rem;}
+}

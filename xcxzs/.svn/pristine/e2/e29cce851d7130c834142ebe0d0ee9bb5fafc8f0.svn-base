@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../../static/css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/mui/css/mui.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/css/me/chat.css" />
+    <script type="text/javascript" src="../../static/js/jquery-2.0.0.min.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.min.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.pullToRefresh.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.pullToRefresh.material.js" ></script>
+    <script type="text/javascript" src="../../static/js/vue.min.js" ></script>
+    <script type="text/javascript" src="../../static/js/vue-tap.js" ></script>
+    <script type="text/javascript" src="../../static/js/public.js" ></script>
+    <style>.mui-pull-bottom-tips{display: none;}.aui-chat .aui-chat-content{max-width:60vw !important;}</style>
+</head>
+<body>
+<div id="app" class="my-content">
+    <div class="my-chat-content">
+        <section class="aui-chat">
+            <template v-for="(item,index) in messageList">
+                <div class="aui-chat-header" v-cloak v-if="item.create_time_name!=''">{{item.create_time_name}}</div>
+                <div class="aui-chat-item" :class="[item.sender=='self'?'aui-chat-right':'aui-chat-left']">
+                    <div class="aui-chat-media">
+                        <img :src="item.sender=='self'?agentInfo.headimgurl:userInfo.avatarUrl" v-cloak/>
+                    </div>
+                    <div class="aui-chat-inner">
+                        <div class="aui-chat-name" v-cloak>{{item.sender=='self'?agentInfo.name:userInfo.nickName}}</div>
+                        <div class="aui-chat-content" v-cloak>
+                            <div class="aui-chat-arrow"></div>
+                            {{item.content}}
+                            <!--<img src="https://dpic.tiankong.com/a5/bm/QJ6835002114.jpg?x-oss-process=style/670ws" />-->
+                        </div>
+                        <div class="aui-chat-status" v-if="!item.success">
+                            <i class="aui-iconfont aui-icon-info aui-text-danger"></i>
+                        </div>
+                    </div>
+                </div>
+            </template>
+            <div class="my-both"></div>
+        </section>
+    </div>
+    <div class="my-footer">
+        <input class="footer-input" type="text" placeholder="请输入..." v-model="textContent" />
+        <div class="aui-btn aui-btn-info" v-tap="{methods:onSend}">发送</div>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    ws=null;
+    page=1;
+    var isNotError=true;
+    new Vue({
+        el: '#app',
+        data: {
+            agentInfo:{},
+            userInfo:{},
+            textContent:"",
+            messageList:[]  //聊天消息记录
+        },
+        mounted: function () {
+        this.$nextTick(async function () {
+            var _this=this;
+            //连接WebSocket
+            myLocalStorage = localStorage.getItem("9h_localStorage");
+            if(myLocalStorage!=null){
+                myLocalStorage=JSON.parse(myLocalStorage);
+                if((new Date().getTime()-myLocalStorage.time)<=86400000){
+                    if(window.WebSocket){
+                        var token = sessionStorage.getItem("9h_token");
+                        if(!token){
+                            token =  await _this.getChatToken()
+                            if(!token){
+                                mui.alert("token不正确",'提示','确定',function(){
+                                    window.history.back(-1);
+                                });
+                                return false;
+                            }
+                        }
+
+                        ws = new WebSocket(DOMAINWEBSOCKET);
+						var dotype = 2;						
+                        ws.onopen = function(e){
+                            ws.send(JSON.stringify({ type: 'user', user: dotype+"-"+myLocalStorage.agent_id+"-"+myLocalStorage.user_id+"?"+token }));
+							setTimeout(function(){
+                                if (isNotError){
+                                    ajax('agentAjax/getPortraitData',{user_id:myLocalStorage.user_id},function(res){
+                                        _this.agentInfo=res.agentInfo;
+                                        _this.userInfo=res.userInfo;
+                                    });
+                                    _this.pullupRefresh()
+                                }
+                            },400);
+                        };
+                        ws.onclose = function(e){
+                            isNotError=false;
+                            var reason= e.reason==""?'服务器连接异常':e.reason;
+                            mui.alert(reason,'提示','确定',function(){
+                                window.history.back(-1);
+                            });
+                            console.log("服务器关闭");
+                        };
+                        ws.onerror = function(){
+                            console.log("连接出错");
+                        };
+                        ws.onmessage = function(event){
+                            var result=JSON.parse(event.data);
+                            var messageList=_this.messageList;
+                            messageList.push({sender:result.sender,success:result.success,content:result.data});
+                            _this.messageList=messageList;
+                            _this.onscrollBottom();
+                        };
+                    }else{
+                        mui.toast('您的浏览器不支持，WebSocket连接失败！');
+                    }
+                }else{
+                    mui.toast('对话框停留时间过长，请重新打开对话框！');
+                }
+            }else{
+                mui.toast('WebSocket连接失败！');
+            }
+            document.title=getQueryString('title');
+            $(document).scroll(function(){
+                var scroH = $(document).scrollTop();  //滚动高度
+                if(scroH<10 && page>1){
+                    _this.pullupRefresh()
+                }
+            });
+        })
+        },
+        methods:{
+            getChatToken(){
+                return new Promise(function(resolve){
+                    ajax({
+                        url: 'userAjax/getChatToken',
+                        success: function(rs){
+                            var token = ''
+                            if(rs.code==1&&rs.data&&rs.data.token){
+                                token = rs.data.token
+                                sessionStorage.setItem("9h_token", rs.data.token);
+                            }
+                            resolve(token)
+                        },fail:function(){
+                            resolve()
+                        }
+                    })
+                })
+            },
+            onSend(){
+                var textContent=this.textContent;
+                if(textContent==""){mui.toast('发送内容不能为空！');return false;}
+                if(ws==null){mui.toast('WebSocket连接失败！');return false;}
+                ws.send(JSON.stringify({type:'message',message_type:'1',content:textContent}));
+                this.textContent="";
+            },
+            onscrollBottom(){   //滚动到底部
+                $('html,body').animate({scrollTop:$('.my-both').offset().top},800);
+            },
+            pullupRefresh(){    //下拉加载
+                var _this=this;
+                ajax('agentAjax/getChatMessage',{page:page,user_id:myLocalStorage.user_id},function(res){
+                    if(res.success){
+                        _this.messageList=res.data.concat(_this.messageList);
+                        if(page==1){_this.$nextTick(function () {_this.onscrollBottom();});}
+                        setTimeout(function(){
+                            page++;
+                        },200);
+                    }
+                });
+            }
+        }
+    })
+</script>

@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>我的</title>
+		<link rel="stylesheet" href="../../common/vant/index.css"/>
+		<link rel="stylesheet" href="../../common/css/public.css"/>
+		<style>
+			.my{
+				width: 100%;
+				box-sizing: border-box;
+				padding: .32rem;
+			}
+			
+			.set{
+				
+				width: 100%;
+				display: flex;
+				justify-content: flex-end;
+				box-sizing: border-box;
+			}
+			
+			.set .iconfont{
+				height: .57rem;
+				font-size: .38rem;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				box-sizing: border-box;
+				padding: .4rem .2rem;
+			}
+			
+			.set .iconfont:first-child{
+				font-size: .34rem;
+			}
+			
+			.set .iconfont:last-child{
+				padding-right: .32rem;
+			}
+			
+			.info{
+				width: 100%;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+			}
+			
+			.info-left{
+				display: flex;
+			}
+			
+			.info-left img{
+				width: 1.1rem;
+				height: 1.1rem;
+				border-radius: 50%;
+			}
+			
+			.info-content{
+				font-size: .3rem;
+				padding: .04rem 0 .04rem .32rem ;
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
+			}
+			
+			.info-name{
+				font-size: .38rem;
+				font-weight: bold;
+			}
+			
+			.info-right{
+				display: flex;
+				align-items: center;
+				color: rgba(173, 173, 173, 1);
+			}
+			
+			.info-right .iconfont{
+				margin-right: .32rem;
+			}
+			
+			.tab{
+				display: flex;
+				margin-top: .64rem;
+				font-size: .26rem;
+				font-weight: bold;
+				color: #212121;
+			}
+			
+			.tab-item{
+				width: 25%;
+				display: flex;
+				flex-direction: column;
+				justify-content: flex-end;
+				align-items: center;
+			}
+			
+			.tab-item div{
+				width: .51rem;
+				height: .53rem;
+				display: flex;
+				align-items: center;
+				margin-bottom: .24rem;
+			}
+			
+			.tab-item img{
+				width: .51rem;
+			}
+			
+			.ad{
+				width: 100%;
+				height: 1.4rem;
+				margin-top: .56rem;
+			
+			}
+			
+			.common-title{
+				padding: .38rem 0 .28rem;
+				font-size: .34rem;
+				font-weight: bold;
+			}
+			
+			.common-box{
+				display: flex;
+				justify-content: space-between;
+			}
+			
+			.common-item{
+				width: 3.09rem;
+				height: 1.2rem;
+				background-size: 100% 100%;
+				padding-left: .2rem;
+				box-sizing: border-box;
+				border-radius: .04rem;
+				box-shadow: 0 0 2px rgba(0,0,0,.2);
+			}
+			
+			.common-item-title{
+				font-size: .3rem;
+				color: rgba(255, 158, 74, 1);
+				margin: .18rem 0 .1rem;
+			}
+			
+			.common-item-text{
+				font-size: .24rem;
+				color: rgba(255, 181, 117, 1);
+			}
+			
+			.tool-box{
+				display: flex;
+			}
+			
+			.tool-item{
+				width: 20%;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				padding-top: .1rem;
+			}
+			
+			.tool-item span{
+				font-size: .26rem;
+				margin-top: .18rem;
+			}
+			
+			.tool-item .iconfont{
+				font-size: .46rem;
+		
+			}
+			
+			
+		</style>
+	</head>
+	<body>
+		<div id="app" v-cloak ref="DOM">
+			<div class="set">
+				<span class="iconfont iconsaoma"></span>
+				<span class="iconfont iconkefu-2"></span>
+				<span class="iconfont iconshezhi"></span>
+			</div>
+			<div class="my">
+				<div class="info">
+					<div class="info-left">
+						<img :src="uInfo.head">
+						<div class="info-content">
+							<span class="info-name">{{ uInfo.name }}</span>
+							<span class="info-phone">{{ $api.encryptPhone(uInfo.phone) }}</span>
+						</div>
+					</div>
+					<div class="info-right">
+						<i class="iconfont iconerweima"></i>
+						<van-icon name="arrow" />
+					</div>
+				</div>
+				
+				<div class="tab">
+					<div class="tab-item">
+						<div>
+							<img src="../../static/my/history.png">
+						</div>
+						<span>浏览记录</span>
+					</div>
+					<div class="tab-item">
+						<div>
+							<img src="../../static/my/like.png">
+						</div>
+						<span>我的关注</span>
+					</div>
+					<div class="tab-item">
+						<div>
+							<img src="../../static/my/deal.png">
+						</div>
+						<span>交易报告</span>
+					</div>
+					<div class="tab-item">
+						<div>
+							<img src="../../static/my/sale.png">
+						</div>
+						<span>优惠券</span>
+					</div>
+				</div>
+				
+				<img :src="ad" class="ad">
+				
+				<div class="common">
+					<span class="common-title">常用模块</span>
+					<div class="common-box">
+						<div class="common-item" :style="{ backgroundImage: 'url(../../static/my/common.png)' }">
+							<span class="common-item-title">买房方案</span>
+							<span class="common-item-text">智能匹配，精准推送</span>
+						</div>
+					</div>
+				</div>
+				
+				<div class="tool">
+					<span class="common-title">我的工具</span>
+					<div class="tool-box">
+						<div class="tool-item">
+							<i class="iconfont iconbianzu"></i>
+							<span>查房价</span>
+						</div>
+						<div class="tool-item">
+							<i class="iconfont iconbianzu141"></i>
+							<span>房贷计算</span>
+						</div>
+						<div class="tool-item">
+							<i class="iconfont iconhuida-2"></i>
+							<span>我的回答</span>
+						</div>
+						<div class="tool-item">
+							<i class="iconfont iconbianzu162"></i>
+							<span>我的点评</span>
+						</div>
+						<div class="tool-item">
+							<i class="iconfont icontiezi-copy"></i>
+							<span>我的帖子</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<!-- 底部栏 -->
+			<common-tabbar :active="3"></common-tabbar>
+		</div>
+	</body>
+</html>
+
+<script src="../../common/js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/rem.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/public.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/vant/index.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+<script type="module">
+	import { loginMixin } from '../../common/js/method/login.js';
+	
+	const myComponents = [
+		'../../components/common/tabbar/index',
+	];
+	
+	$api.addComponents(myComponents)
+		.then(()=>{
+			
+			Vue.use(vant.Lazyload);
+			 
+			const app = new Vue({
+				el: '#app',
+				data: {
+					uInfo: {
+						head: '/9house/static/logo.png',
+						name: '海的声音',
+						phone: 15500999909
+					},
+					ad: '/9house/static/logo.png',
+					
+				},
+				components: {
+					commonTabbar,
+				},
+				mixins: [loginMixin],
+				created() {
+
+				},
+				mounted() {
+				
+				},
+				methods:{
+					
+					
+				},
+			})
+			
+		})
+	
+</script>

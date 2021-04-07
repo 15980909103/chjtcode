@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+		<title>地图</title>
+		<link rel="stylesheet" href="../../common/vant/index.css" />
+		<link rel="stylesheet" href="../../common/css/public.css?v=1.19" />
+		<style>
+			#container{
+				width: 100vw;
+				height: calc(100vh - 0.88rem - 48px) ;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="app" v-cloak ref="DOM">
+			<top-bar title="新房"></top-bar>
+			<common-sizer @result="chooseResult" v-if="selectShow"></common-sizer>
+			<div id="container"></div>
+		</div>
+	</body>
+
+</html>
+
+<!-- 地图定位组件 -->
+<script type="text/javascript" src="https://mapapi.qq.com/web/mapComponents/geoLocation/v/geolocation.min.js"></script>
+<script src="https://map.qq.com/api/gljs?v=1.exp&key=2YQBZ-V22W3-QWE3V-3G2KA-YWVK5-X4BZR"></script>
+<script src="../../common/js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/rem.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/vant/index.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/public.js?v=1.19" type="text/javascript" charset="utf-8"></script>
+<script type="module">
+	import { http } from '../../common/js/method/http.js?v=1.19';
+	
+	const myComponents = [
+		'../../components/common/topBar/index',
+		'../../components/common/area/index',
+		'../../components/common/sizer/index',
+		
+	];
+	
+	const siteCity = new qq.maps.Geolocation("2YQBZ-V22W3-QWE3V-3G2KA-YWVK5-X4BZR", "jiufang");
+	
+	$api.addComponents(myComponents)
+		.then(() => {
+			
+			Vue.use(http);
+			Vue.use(vant.Lazyload);
+			Vue.component('commonArea', commonArea);
+			
+			const app = new Vue({
+				el: '#app',
+				data: {
+					// 筛选
+					checkdata:{},
+					selectShow: true,
+					
+					// 地图
+					mapEl: null,
+					zoom: 17.2,
+					
+				},
+				components: {
+					topBar,
+					commonSizer
+				},
+				created() {
+					
+				},
+				mounted() {
+					this.init();
+				},
+				methods: {
+					init() {
+						let that = this;
+						
+						// this.wxConfig().then( e=>{
+						// 	setTimeout(()=>{
+						// 		console.log(7777777777777)
+						// 		wx.ready(function () {
+						// 			console.log(999999)
+						// 			wx.getLocation({
+						// 				type: 'gcj02', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+						// 				success: function (res) {
+						// 					console.log(res,7777777777777)
+						// 					that.initMap(res);
+											
+						// 				}
+						// 			});
+						// 		})
+						// 	},300)
+						// });
+						
+						
+						siteCity.getLocation(
+							( res )=>{
+								console.log(res)
+								this.initMap(res);
+							},
+							( res )=>{
+								console.log(res)
+								this.$toast('定位失败');
+							}
+						);
+					},
+					wxConfig(){
+						return new Promise((resolve,reject)=>{
+							const data = {
+								url: window.location.href,
+								city_no: 350200,
+							}
+							
+							this.$http.ajax({
+								data: data,
+								url:'/index/public/getWebInfo'
+							}).then(res=>{
+								if(res.code ==1){
+									console.log(res);
+									let config = res.data;
+									
+									wx.config({
+										debug: false, // 是否开启调试模式
+										appId: config.appid, //appid
+										timestamp: config.timestamp, // 时间戳
+										nonceStr: config.noncestr, //
+										signature: config.signature, // 签名
+										jsApiList: [
+											'updateAppMessageShareData',
+											'updateTimelineShareData',
+											'getLocation'
+										] // 需要使用的JS接口列表
+									});
+									
+									resolve('OK');
+								}else{
+									res.msg&&this.$toast(res.msg);
+								}
+							}).catch(res=>{
+								res.msg&&this.$toast(res.msg);
+							});
+						})
+					},
+					initMap(res) {
+						//定义地图中心点坐标
+						console.log(998)
+						var center = new TMap.LatLng(res.lat, res.lng);
+						//定义map变量，调用 TMap.Map() 构造函数创建地图
+						this.mapEl = new TMap.Map(document.getElementById('container'), {
+							center: center,//设置地图中心点坐标
+							viewMode: '2D',
+							zoom: this.zoom,   //设置地图缩放级别
+						});
+					},
+					
+					
+					
+					
+					
+					// 返回筛选id列表
+					chooseResult(e) {
+						this.checkdata = e;
+						console.log(this.checkdata);
+					},
+				},
+			})
+
+		})
+</script>

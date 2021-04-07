@@ -1,0 +1,12 @@
+{
+  "navigationBarTitleText": "搜索",
+  "onReachBottomDistance": 100,
+  "usingComponents": {
+    "u-tabs": "/uview-ui/components/u-tabs/u-tabs",
+    "u-search": "/uview-ui/components/u-search/u-search",
+    "u-empty": "/uview-ui/components/u-empty/u-empty",
+    "u-loadmore": "/uview-ui/components/u-loadmore/u-loadmore",
+    "common-information": "/components/common/template_information",
+    "common-newhouse": "/components/common/template_newHouse"
+  }
+}

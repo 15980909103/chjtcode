@@ -1,0 +1,621 @@
+<?php
+
+
+namespace app\server\user;
+
+use app\common\base\ServerBase;
+use app\common\lib\wxapi\WxServe;
+use app\common\MyConst;
+use app\server\index\Activity;
+use app\server\index\BoCake;
+use app\websocket\MyWebsocket;
+use think\cache\driver\Redis;
+use think\Config;
+use think\Db;
+use app\common\pool\RedisPool;
+use app\server\index\BoRes;
+use think\Exception;
+use think\facade\Cache;
+
+class User extends ServerBase
+{
+
+    public $userDb = null;
+    protected $userType = [
+        '1' => '普通用户',
+        '2' => '经纪人'
+    ];
+
+
+    /**
+     * 获取redis
+     * @return \Redis|void
+     */
+    protected function getRedis()
+    {
+        $redisObj = RedisPool::getInstance();
+        $config = $redisObj->setConfig('swoole.pool.redis', [
+            'database'   => 0,
+            'max_active' => 2
+        ]);
+        $redis = $redisObj->init($config, false);
+        return $redis;
+    }
+
+    /**
+     * 用户信息获取并操作
+     */
+    public function wxH5User($param = [])
+    {
+        try {
+
+            // 向微信请求
+            $wxServer = new WxServe();
+            !empty($param['city_no']) && $wxServer->setCodeId($param['city_no']); //获取城市编码
+            /**获取微信的信息**/
+            $userInfo = $wxServer->getWxH5UserInfo($param);
+            if (empty($userInfo)) {
+                return $this->responseFail('微信信息获取失败');
+            }
+            //查询更新数据库
+            $token = $this->queryInsert($userInfo, $param);
+            return $this->responseOk($token);
+        } catch (\Exception $e) {
+            return $this->responseFail($e->getMessage());
+        }
+    }
+
+
+    /**
+     * 查询和更新用户
+     * @param $userInfo
+     * @param $param
+     * @return array
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     */
+    public function queryInsert($userInfo, $param)
+    {
+        try {
+            if (empty($userInfo['unionid'])) {
+                return $this->responseFail('unionid不能为空');
+            }
+            $resUser = $this->db->name('user')
+                ->where('unionid', $userInfo['unionid'])
+                ->find();
+            // token
+            $token = creatToken();
+            $data['token'] = $token;
+            $currentTime = time();
+            $expireTime = $currentTime + 7200;//两小时时间--过期时间
+            /**用户数据**/
+            $data = [
+                'unionid'     => $userInfo['unionid'] ?? '',
+//                'city_no' => $param['city_no'],
+                'token'       => $token,
+                'user_type'   => 1,
+                'user_source' => 1,
+                'expire_time' => $expireTime,
+                'update_time' => $currentTime,
+            ];
+            /**微信授权数据**/
+            $wxData = [
+                'unionid'     => $userInfo['unionid'] ?? '',
+                'nickname'    => $userInfo['nickname'],
+                'headimgurl'  => $userInfo['headimgurl'],
+                'sex'         => $userInfo['sex'],
+                'language'    => $userInfo['language'],
+                'country'     => $userInfo['country'],
+                'province'    => $userInfo['province'],
+                'city'        => $userInfo['city'],
+//                'wx_data'     => json_encode($userInfo),
+                'update_time' => $currentTime
+            ];
+            $arr = array_merge($data, $wxData);
+            /**
+             * 用户信息数据入库
+             * 判断用户是否存在
+             **/
+            if (!empty($resUser)) {
+                $this->db->name('user')->where('unionid', $userInfo['unionid'])->update($arr);
+            } else {
+                $data['create_time'] = time();
+                $resUser['id'] = $this->db->name('user')->insert($arr, TRUE);
+            }
+            //判断手机号码不存在或者是空都为未登录的标识
+
+            if (empty($resUser['phone'])) {
+                $isLogin = 0;
+            } else {
+                $isLogin = 1;
+            }
+//            /**微信授权参数入口**/
+//            $wxInfo = $this->db->name('wechat_user')->where('unionid', $userInfo['unionid'])->find();
+//            if (!empty($wxInfo)) {
+//                $this->db->name('wechat_user')->where('unionid', $userInfo['unionid'])->update($wxData);
+//            } else {
+//                $wxData['create_time'] = $currentTime;
+//                $this->db->name('wechat_user')->insert($wxData);
+//            }
+            $redisData = [
+                'id'          => $resUser['id'],
+                'city_no'     => $param['city_no'],
+                'nickname'    => $wxData['nickname'],
+                'headimgurl'  => $wxData['headimgurl'],
+                'expire_time' => $expireTime,
+                'is_login'    => $isLogin,
+                'mini_mobile' => $resUser['mini_mobile'] ?? '',
+            ];
+
+            //存入缓存
+            $this->getRedis()->set(MyConst::JIUFANG_LOGIN . $token, json_encode($redisData), $expireTime);
+            return [
+                'token'       => $token,
+                'nickname'    => $wxData['nickname'],
+                'headimgurl'  => $wxData['headimgurl'],
+                'is_login'    => $isLogin,
+                'expire_time' => $expireTime,
+                'id'          => $resUser['id']
+            ];
+        } catch (Exception $exception) {
+            return $this->responseFail($exception->getMessage());
+        }
+    }
+
+    /**
+     * 用户基础信息
+     * @param $params
+     * @return array|bool
+     */
+    public function getUserInfo($params)
+    {
+        try {
+            $info = $this->db->name('user')
+                ->where($params)
+                ->find();
+
+            return $this->responseOk($info);
+        } catch (\Exception $exception) {
+            return false;
+        }
+    }
+
+
+    /**
+     * 添加新用户
+     * @param $where
+     * @param $params
+     * @param $type
+     * @return array
+     */
+    public function addUser($where, $params, $type = 'h5')
+    {
+        try {
+            //获取token
+            $token = creatToken();
+            $currentTime = time();
+            $params['token'] = $token;
+            $expireTime = $currentTime + 7200;//两小时时间--过期时间
+            $params['expire_time'] = $expireTime;
+            switch ($type) {
+                case MyConst::H5:
+                    $res = $this->addH5User($where, $params);
+                    break;
+                case MyConst::WX_H5:
+                    $res = $this->addWxH5User($where, $params);
+                    break;
+            }
+            if ($res['code'] == 0) {
+                return $this->responseFail($res['msg']);
+            }
+            $data = [
+                'id'          => $res['data']['id'],
+                'token'       => $token,
+                'expire_time' => $expireTime,
+                'phone'       => $params['phone'] ?? '',
+                'user_name'   => empty($res['data']['user_name']) ? $res['data']['nickname'] : $res['data']['user_name'],
+                'user_avatar' => empty($res['data']['user_avatar']) ? $res['data']['headimgurl'] : $res['data']['user_avatar'],
+            ];
+            $this->getRedis()->set(MyConst::JIUFANG_LOGIN . $token, json_encode($data), $expireTime);
+//            $this->getRedis()->expire(MyConst::JIUFANG_LOGIN . $token, 7200);
+            return $this->responseOk($data);
+        } catch (\Exception $exception) {
+            return $this->responseFail($exception->getMessage());
+        }
+    }
+
+    public function addH5User($where, $params)
+    {
+        try {
+            $info = $this->db->name('user')->where($where)->find();
+            if (!$info) {
+                $params['create_time'] = time();
+                $this->db->name('user')->insert($params, true);
+            } else {
+                $this->db->name('user')->where($where)->update($params);
+            }
+            return ['code' => 1, 'data' => $info];
+        } catch (\Exception $exception) {
+            return false;
+        }
+
+    }
+
+    public function addWxH5User($where, $params)
+    {
+        $mobile = $params['phone'];
+        $info = $this->db->name('user')->where(['phone' => $mobile])->find();
+        $wxInfo = $this->db->name('user')->where($where)->find();
+        if ($info) { //如果手机号码存在情况
+            if (!empty($info['unionid'])) { //判断是否已经绑定微信
+                return ['code' => 1, 'data' => ['id' => $wxInfo['id']]];
+            }
+
+            //删除微信授权的用户，合并
+            $data = [
+                'unionid'     => $wxInfo['unionid'],
+                'realname'    => $wxInfo['realname'],
+                'user_type'   => $wxInfo['user_type'],
+                'is_disable'  => $wxInfo['is_disable'],
+                'phone'       => $mobile,
+                'token'       => $params['token'],
+                'update_time' => time()
+            ];
+            try {
+                $this->db->startTrans();
+                $this->db->name('user')->where(['phone' => $mobile])->update($data);
+                $this->db->name('user')->where($where)->delete();
+                $this->db->commit();
+            } catch (\Exception $exception) {
+                $this->db->rollback();
+                return ['code' => 0, 'msg' => '登录失败'];
+            }
+
+        } else { //手机号不存在记录时候
+            $this->db->name('user')->where($where)->update($params);
+            $info['id'] = $wxInfo['id'];
+        }
+
+        return ['code' => 1, 'data' => $info];
+    }
+
+    //个人详情
+    public function getInfo($userId)
+    {
+        try {
+            $info = $this->db->name('user')
+                ->where('id', $userId)
+                ->field('id,phone,headimgurl,nickname,user_name,user_avatar,token,mini_mobile')
+                ->find();
+
+            $info['phone'] = empty($info['phone']) ? '' : $info['phone'];
+            if (empty($info['user_name'])) {
+                $info['nickname'] = empty($info['nickname']) ? '' : $info['nickname'];
+            } else {
+                $info['nickname'] = $info['user_name'];
+            }
+            if (empty($info['user_avatar'])) {
+                $info['headimgurl'] = empty($info['headimgurl']) ? '' : $info['headimgurl'];
+            } else {
+                $info['headimgurl'] = $info['user_avatar'];
+            }
+
+            return $this->responseOk($info);
+        } catch (Exception $exception) {
+            return $this->responseFail($exception->getMessage());
+        }
+    }
+
+    /**
+     * 用户列表
+     * @param array $search
+     * @param int $pageSize
+     * @return array
+     */
+    public function list($search = [], $pageSize = 10)
+    {
+        try {
+            $where = [];
+            if (!empty($search['city_no'])) {
+                $where = [
+                    ['city_no', '=', $search['city_no']]
+                ];
+            }
+
+            if (!empty($search['user_nickname'])) {
+                $where[] =
+                    ['nickname', 'like', '%' . $search['user_nickname'] . '%'];
+            }
+
+            if (isset($search['status']) && $search['status'] != -1) {
+                $where[] = [
+                    'is_disable', '=', $search['status']
+                ];
+            }
+
+            if (!empty($search['phone'])) {
+                $where[] = [
+                    'phone', '=', $search['phone']
+                ];
+            }
+
+            if (!empty($search['startdate']) && !empty($search['enddate'])) {
+                $where[] = [
+                    'create_time', '>=', $search['startdate']
+                ];
+                $where[] =[
+                    'create_time', '<=', $search['enddate']
+                ];
+            }
+
+            $list = $this->db
+                ->name('user')
+//                ->join('wechat_user w', 'unionid = unionid')
+                ->field('id as id,
+                phone,
+                user_type,
+                is_disable,
+                create_time,
+                headimgurl,
+                nickname,
+                country,
+                province,
+                city')
+                ->where($where)
+                ->paginate($pageSize);
+
+            if ($list->isEmpty()) {
+                $result['list'] = [];
+                $result['total'] = 0;
+                $result['last_page'] = 0;
+                $result['current_page'] = 0;
+            } else {
+                $list = $list->toArray();
+
+                foreach ($list['data'] as $key => &$value) {
+                    $value['type'] = $this->userType[$value['user_type']];
+                    $value['cname'] = $value['country'] . ' ' . $value['province'] . ' ' . $value['city'];
+                }
+                $result['total'] = $list['total'];
+                $result['last_page'] = $list['last_page'];
+                $result['current_page'] = $list['current_page'];
+                $result['list'] = $list['data'];
+            }
+
+            return $this->responseOk($result);
+        } catch (\Exception $exception) {
+            return $this->responseFail($exception->getMessage());
+        }
+    }
+
+    /**
+     * 冻结
+     * @param $param
+     * @return array
+     */
+    public function userDisableChange($param)
+    {
+        try {
+            $info = $this->db->name('user')->where('id', $param['id'])->find();
+            if (!$info) {
+                return $this->responseFail('查无此信息');
+            }
+            $this->db->name('user')->where('id', $param['id'])->update(
+                [
+                    'is_disable'  => $param['is_disable'],
+                    'update_time' => time()
+                ]
+            );
+            return $this->responseOk();
+        } catch (\Exception $exception) {
+            return $this->responseFail($exception->getMessage());
+        }
+    }
+
+    public function userDisableChangeBatch($param)
+    {
+        try {
+
+            $where = [
+                ['is_disable','=',1]
+            ];
+            $this->db->name('user')->where('id', $param['id'])->update(
+                [
+                    'is_disable'  => $param['is_disable'],
+                    'update_time' => time()
+                ]
+            );
+            return $this->responseOk();
+        } catch (\Exception $exception) {
+            return $this->responseFail($exception->getMessage());
+        }
+    }
+
+    public function wxConfigurationInfo($cityCode = 0)
+    {
+        try {
+
+            //获取 订阅号的微信配置
+            $redis = $this->getReids();
+            $key = MyConst::WX_SETTING;
+            $info = $redis->hGet($key, $cityCode);
+
+            if (!$info) {
+                //获取城市对应订阅号配置
+                $subscribe = [];
+                if (!empty($cityCode)) {
+                    $dbInfo = $this->db->name('site_city_set')->where([
+                        ['key', '=', 'wxh5'],
+                        ['region_no', '=', $cityCode]
+                    ])->field('val')->find();
+                    if (empty($dbInfo['val'])) {
+                        return false;
+                    }
+                    $subscribe = json_decode($dbInfo['val'], true);
+                }
+
+                //获取服务号配置
+                $serverInfo = $this->db->name('sysset')->where([
+                    ['key', '=', 'wxh5'],
+                ])->field('val')->find();
+                if (empty($serverInfo['val'])) {
+                    return false;
+                }
+                $serverData = json_decode($serverInfo['val'], true);
+
+                $data['h5'] = [
+                    'appid'  => $serverData['appid'], //服务号配置
+                    'secret' => $serverData['secret'], //服务号配置
+                    'token'  => $serverData['token'], //服务号配置
+                    'url'    => $serverData['url'], //服务号配置
+
+                    'subscribe' => $subscribe,//订阅号配置
+                    'code_city' => $cityCode
+                ];
+
+                $redis->hSet($key, $cityCode, json_encode($data));
+                $redis->expire($key, 7200);
+                $info = $redis->hGet($key, $cityCode);
+            }
+            $info = json_decode($info, true);
+            return $info;
+        } catch (\Exception $exception) {
+            return $this->responseFail($exception->getMessage());
+        }
+    }
+
+    /**
+     * 我的广告图
+     * @param $param
+     * @return array
+     */
+    public function getMyAd($param)
+    {
+        try {
+            $where = [
+                ['bi.region_no', '=', $param['region_no']],//投放的城市
+                ['bip.place', '=', MyConst::MY_AD],
+                ['bi.start_time', '<=', time()],
+                ['bi.end_time', '>=', time()],
+            ];
+            $info = $this->db->name('banner_img_place')->alias('bip')
+                ->join('banner_img bi', 'bi.place_id = bip.id')
+                ->where($where)
+                ->field('bi.id as id,bip.id as pid,bi.cover,bi.href as url')
+                ->find();
+
+            if (!$info) {
+                return $this->responseOk([]);
+            }
+            $imgId = explode(',', $info['cover']);
+            $fileWhere = [
+                ['file_id', 'in', $imgId]
+            ];
+            $res = $this->db->name('upload_file')->where($fileWhere)->field('file_path')->select();
+
+            if (!$res) {
+                $info['img'] = [];
+            }
+            $res = $res->toArray();
+            $info['img'] = array_column($res, 'file_path');
+            unset($info['cover']);
+            return $this->responseOk($info);
+        } catch (\Exception $exception) {
+            return $this->responseFail($exception->getMessage());
+        }
+    }
+
+    /**
+     * 用户信息修改
+     * @param $params
+     * @return array
+     */
+    public function editUserInfo($params)
+    {
+        try {
+            $data = [
+                'update_time' => time()
+            ];
+            if (!empty($params['nickname'])) {
+                $data['user_name'] = $params['nickname'];
+            }
+
+            if (!empty($params['headimgurl'])) {
+                $data['user_avatar'] = $params['headimgurl'];
+            }
+            $info = $this->db->name('user')->where('id', $params['user_id'])->find();
+            if (!$info) {
+                return $this->responseFail('用户信息不存在');
+            }
+            $res = $this->db->name('user')->where('id', $params['user_id'])->update($data);
+            if (!$res) {
+                return $this->responseFail('修改失败');
+            }
+            return $this->responseOk();
+        } catch (\Exception $exception) {
+            return $this->responseFail($exception->getMessage());
+        }
+    }
+
+    public function editUserPhone($params)
+    {
+        try {
+            $info = $this->db->name('user')->where('id', $params['user_id'])->find();
+            if (!$info) {
+                return $this->responseFail('用户信息不存在');
+            }
+            if ($params['type'] == 2) {
+                $res = $this->db->name('user')->where('id', $params['user_id'])->update([
+                    'phone'       => $params['mobile'],
+                    'update_time' => time()
+                ]);
+                if (!$res) {
+                    return $this->responseFail('绑定失败');
+                }
+            } else {
+                if ($info['phone'] != $params['mobile']) {
+                    return $this->responseFail('手机号码与原来号码不相符');
+                }
+            }
+
+            return $this->responseOk();
+        } catch (\Exception $exception) {
+            return $this->responseFail($exception->getMessage());
+        }
+    }
+
+    /**
+     * @param $token
+     *
+     */
+    public function getinofByToken($token)
+    {
+        if (empty($token)) {
+            return [];
+        }
+        $info = $this->db->name('user')
+            ->where('token', '=', $token)
+            ->where('expire_time', '>', time())
+            ->find();
+
+        if (empty($info)) {
+            return [];
+        }
+
+        return $info;
+    }
+
+    /**
+     * 跟新绑定状态
+     */
+    public function UpdateMiniBing($mini_mobile, $user_id)
+    {
+        if (empty($user_id)) {
+            return false;
+        }
+        $result = $this->db->name('user')->where('id', '=', $user_id)->update(['mini_mobile' => $mini_mobile]);
+        return $result === false ? false : true;
+    }
+
+}

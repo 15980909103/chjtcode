@@ -1,0 +1,30 @@
+<template>
+	<view class="content">
+		<web-view :webview-styles="webviewStyles" :src='h5Host+"/index/index.html?"+t_version'></web-view>
+	</view>
+</template>
+
+<script>
+	const app = getApp()
+	export default {
+		data() {
+			return {
+				webviewStyles: 'false',//禁用进度条
+			}
+		},
+		mixins:[require('../../myMixin.js')],
+		onLoad(options) {
+			console.log(this.$data,6666)
+			// this.$http.post('news/getColumnList').then(res=>{
+				
+			// })
+		},
+		methods: {
+			
+		}
+	}
+</script>
+
+<style>
+	
+</style>

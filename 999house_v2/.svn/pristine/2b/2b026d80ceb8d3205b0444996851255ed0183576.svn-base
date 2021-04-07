@@ -1,0 +1,132 @@
+.active_conten{
+	background-color: #F5F5F5;
+	padding:20rpx 30rpx;
+}
+.user_box{
+	background-color: #FFFFFF;
+	
+	padding: 35rpx 30rpx;
+	overflow: hidden;
+	.user_info{
+		margin-bottom: 46rpx;
+		.user_img{
+			width: 94rpx;
+			vertical-align:middle;
+			margin-right: 18rpx;
+		}
+		.user_name{
+			display: inline-block;
+			vertical-align: middle;
+			.name{
+				font-size: 32rpx;
+				color: #212121;
+			}
+			.identity{
+				font-size: 24rpx;
+				color: #03B272;
+			}
+		}
+	}
+	.tab_box{
+		font-size: 0;
+		.tab_item{
+			width: 50%;
+			display: inline-block;
+			text-align: center;
+			font-size: 28rpx;
+			color: #666666;
+			position: relative;
+			&:first-child{
+				&::after{
+					content: '';
+					display: inline-block;
+					position: absolute;
+					right: 0;
+					top: 20rpx;
+					width: 1rpx;
+					height: 60rpx;
+					background-color: #D8D8D8;
+				}
+			}
+			image{
+				width: 46rpx;
+				height: 46rpx;
+				display: block;
+				margin: 0 auto 11rpx;
+			}
+		}
+	}
+}
+.explain{
+	font-size: 26rpx;
+	color: #ED3335;
+	height: 87rpx;
+	line-height: 87rpx;
+	image{
+		width: 30rpx;
+		height: 30rpx;
+		display: inline-block;
+		vertical-align: middle;
+		margin-right: 42rpx;
+	}
+}
+.advertising{
+	height: 210rpx;
+	image{
+		width: 100%;
+		height: 210rpx;
+	}
+}
+.coupon_box{
+	.coupon{
+		.time{
+			font-size: 26rpx;
+			color: #212121;
+			margin: 25rpx 0;
+		}
+		.coupon_item{
+			display: flex;
+			justify-content: space-between;
+			background-image: url(../../static/activity/background_coupon.png);
+			background-repeat: no-repeat;
+			background-size: 100% 100%;
+			padding: 20rpx 25rpx;
+			.shop_img{
+				width: 124rpx;
+				height: 124rpx;
+			}
+			.coupon_shop{
+				.shop_title{
+					font-size: 28rpx;
+					color: #212121;
+					margin-bottom: 13rpx;
+				}
+				.shop_type{
+					font-size: 24rpx;
+					color: #666666;
+					margin-bottom: 13rpx;
+				}
+				.coupon_type{
+					padding: 2rpx 10rpx;
+					background-color: #F48336;
+					border-radius: 4rpx;
+					display: inline-block;  
+					font-size: 20rpx;
+					color: #FFFFFF;
+				}
+			}
+			.discounts{
+				.discounts_number{
+					font-size: 30rpx;
+					color: #ED3335;
+					margin-top: 23rpx;
+					margin-bottom: 13rpx;
+				}
+				.discounts_amount{
+					font-size: 24rpx;
+					color: #999999;
+				}
+			}
+		}
+	}
+}

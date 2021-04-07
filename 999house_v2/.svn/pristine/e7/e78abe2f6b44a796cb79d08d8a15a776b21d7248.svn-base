@@ -1,0 +1,206 @@
+#app{
+	background-color: rgba(219, 30, 30, 1);
+}
+
+.rule{
+	width: 1.1rem;
+	height: .58rem;
+	font-size: .28rem;
+	text-indent: .1rem;
+	color: #fff;
+	position: absolute;
+	top: .78rem;
+	right: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 100px 0 0 100px;
+	background-color: rgba(255, 164, 77, 1);
+}
+
+.top{
+	width: 100%;
+	height: 3.87rem;
+}
+
+.nav{
+	width: 100%;
+	box-sizing: border-box;
+	padding: .6rem .32rem 0;
+	display: flex;
+	justify-content: space-between;
+}
+
+.nav-left img{
+	width: 3.27rem;
+	height: 2.9rem;
+}
+
+.nav-right img:first-child{
+	width: 3.27rem;
+	height: 1.59rem;
+}
+
+.nav-right{
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.nav-right img:last-child{
+	width: 3.27rem;
+	height: 1rem;
+}
+
+.title{
+	height: .65rem;
+	margin: .5rem 0 0 .32rem;
+}
+
+.house{
+	width: 100%;
+	box-sizing: border-box;
+	padding: 0 .32rem .6rem;
+	display: flex;
+	justify-content: space-between;
+	flex-wrap: wrap;
+}
+
+.house-item{
+	width: 100%;
+	height: 5.79rem;
+	background-color: #fff;
+	margin-top: .42rem;
+}
+
+.house-top{
+	width: 100%;
+	height: 3.74rem;
+}
+
+.house-wrap{
+	width: 100%;
+	box-sizing: border-box;
+	padding: 0 .2rem;
+}
+
+.house-name{
+	font-size: .3rem;
+	margin-top: .25rem;
+	display: flex;
+	align-items: center;
+}
+
+.house-info{
+	font-size: .28rem;
+	color: rgba(117, 117, 117, 1);
+	margin: .2rem 0 .16rem;
+}
+
+.house-info span{
+	margin-right: .16rem;
+	position: relative;
+}
+
+.house-info span::before{
+	content: '';
+	width: 0.01rem;
+	height: 80%;
+	background-color: rgba(117, 117, 117, .4);
+	position: absolute;
+	top: 15%;
+	right: -0.12rem;
+}
+
+.house-title img{
+	width: .4rem;
+	height: .4rem;
+	vertical-align: middle;
+	margin-top: -.04rem;
+}
+
+.house-title{
+	font-size: .26rem;
+	color: rgba(242, 94, 73, 1);
+	
+}
+
+.btn{
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	margin-top: .6rem;
+}
+
+.btn .van-button{
+	width: 4.87rem;
+	height: .83rem;
+	color: rgba(245, 81, 57, 1) !important;
+	font-size: .34rem;
+	font-weight: bold;
+}
+
+.van-tag{
+	margin-left: .2rem;
+	font-size: .22rem;
+	color: rgba(173, 173, 173, 1);
+}
+
+.tag-1{
+	color: #fff !important;
+	background: linear-gradient(90deg, #6BCFFF 0%, #1EA5FE 100%);
+}
+.vote{
+	position: absolute;
+	right: 0;
+	top: 7.9rem;
+}
+
+.vote img{
+	width: 1.1rem;
+	height: 1.1rem;
+}
+
+.wrapper{
+	background-color: #fff;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%,-55%);
+	border-radius: .06rem;
+	box-sizing: border-box;
+	padding: 1rem .32rem .4rem;
+	overflow-y: scroll;
+	-webkit-overflow-scrolling: touch;
+}
+
+.wrapper::after{
+	content: '规则';
+	position: absolute;
+	left: 50%;
+	top: .2rem;
+	transform: translate(-50%,0);
+	font-size: .4rem;
+}
+
+.close{
+	width: .8rem;
+	height: .7rem;
+	font-size: .4rem;
+	position: absolute;
+	right: 0;
+	top: .16rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.content{
+	height: 8rem;
+	width: 5.6rem;
+	position: relative;
+	
+	font-size: .32rem;
+	overflow-y: scroll;
+	-webkit-overflow-scrolling: touch;
+}

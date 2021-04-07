@@ -1,0 +1,56 @@
+// pages/authorize/index.js
+const app = getApp();
+var util= require('../../utils/util.js')
+Page({
+
+  /**
+   * 页面的初始数据
+   */
+  data: {
+    isclick:false,
+    canIUse: wx.canIUse('button.open-type.getPhoneNumber')//检查有没有使用权限
+  },
+
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function (options) {
+
+  },
+  getPhoneNumber (e) {
+    //console.log(e)
+    var that = this
+    if(that.data.isclick ==true){
+      return
+    }
+    that.data.isclick = true
+    if(e.detail.encryptedData&&e.detail.iv) {
+      util.wxAuth.getMobile(e.detail).then(function(res){
+        console.log(res)
+        if(!res.code){
+          wx.showModal({
+            title: '错误提示',
+            content: res.msg,
+            showCancel: false,
+            success(res) {
+              if (res.confirm) {
+                wx.reLaunch({
+                  url: '/pages/index/index',
+                })
+              }
+            }
+          })
+          return false;
+        }
+        that.data.isclick = false
+        util.wxAuth.hrefPrepage_forMobileLoginPage()//回跳回之前发起登陆的页面
+      })
+    }else{
+      that.data.isclick = false
+      console.log('授权失败')
+      wx.reLaunch({
+        url: '/pages/index/index',
+      })
+    } 
+  }
+})

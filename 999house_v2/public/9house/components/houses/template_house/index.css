@@ -1,0 +1,48 @@
+.template-house{
+	display: flex;
+	font-size: 0.24rem;
+	color: rgba(90, 96, 102, 1);
+	box-sizing: border-box;
+	padding: 0.3rem 0;
+	border-bottom: 0.01rem solid rgba(224, 224, 224, 1);
+}
+
+.template-house:last-child{
+	border-bottom: none;
+}
+
+.template-house img{
+	width: 1.9rem;
+	height: 1.38rem;
+	border: 1px solid #E6E6E6;
+	margin-right: 0.3rem;
+}
+
+.template-house-title{
+	display: flex;
+	align-items: center;
+	margin-bottom: 0.1rem;
+}
+
+.template-house-title h4{
+	font-size: 0.3rem;
+	color: rgba(11, 15, 18, 1);
+}
+
+.template-house-title .van-tag{
+	font-size: 0.22rem;
+	margin-left: 0.26rem;
+}
+
+.template-house-box{
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.template-house-price{
+	font-size: 0.32rem;
+	color: rgba(252, 77, 57, 1);
+	font-weight: bold;
+	margin-top: 0.1rem;
+}

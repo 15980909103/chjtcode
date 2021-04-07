@@ -1,0 +1,14 @@
+[2020-11-23T19:49:53+08:00][error] [1]Uncaught RedisException: read error on connection to 127.0.0.1:59091 in /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:17
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php(17): Redis->auth()
+#1 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(262): Smf\ConnectionPool\Connectors\PhpRedisConnector->connect()
+#2 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(94): Smf\ConnectionPool\ConnectionPool->createConnection()
+#3 {main}
+  thrown[/mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:17]
+[2020-11-23T20:44:34+08:00][error] [1]Uncaught RedisException: read error on connection to 127.0.0.1:59091 in /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:17
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php(17): Redis->auth()
+#1 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(262): Smf\ConnectionPool\Connectors\PhpRedisConnector->connect()
+#2 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(94): Smf\ConnectionPool\ConnectionPool->createConnection()
+#3 {main}
+  thrown[/mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:17]

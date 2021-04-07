@@ -1,0 +1,147 @@
+<template>
+	<view>
+		<view>
+			<u-tabs class="tab" active-color="#FE841E" sticky :current="active" :is-scroll="false" :list="lists" name="title" @change="change"></u-tabs>
+		</view>
+		<!-- <view v-for="(item,index) in list" >{{item.title}}</view> -->
+		<view v-if="fields" v-for="(nav,index) in lists">
+			<view v-if="active==index&&index!=1">
+				<common-new-house :list="nav.list" @del="(e)=>{ $set(list[k], 'list', e) }"></common-new-house>
+			</view>
+			<view v-if="active==index&&index==1">
+				<view class="news">
+					<view class="news-box" v-for="(news,key) in nav.list" :key="key">
+						<image :src="$api.imgDirtoUrl(news.img[0])">
+						<view class="news-right">
+							<h4 class="news-title u-multi-ellipsis--l3">
+								{{ news.title }}
+							</h4>
+							<view class="news-info">
+								<image :src="$api.imgDirtoUrl(news.author.head)">
+								<span>
+								{{ news.author.name }}
+							</span>
+							</view>
+						</view>
+					</view>
+				</view>
+			</view>
+		</view>
+				<!-- <template v-if="fields">
+					<template v-if="index != 1">
+						<common-template :list="item.list" @del="(e)=>{ $set(list[index], 'list', e) }"></common-template>
+					</template>
+					<template v-else>
+						<view class="news">
+							<view class="news-box" v-for="(news,key) in item.list" :key="key">
+								<image :src="news.img[0]">
+								<view class="news-right">
+									<h4 class="news-title u-multi-ellipsis--l3">
+										{{ news.title }}
+									</h4>
+									<view class="news-info">
+										<image :src="news.author.head">
+										<span>
+										{{ news.author.name }}
+									</span>
+									</view>
+								</view>
+							</view>
+						</view>
+					</template>
+				</template> -->
+				<template v-if="lists[0].list.length==0||lists[1].list.length==0">
+					<u-empty image="error" text="暂无数据"/>
+				</template>
+
+		<view id="container-user-site"></view>
+	</view>
+</template>
+
+<script>
+	import commonNewHouse from '@/components/common/commonTemplate_newHouse.vue'
+	import commonInformation from '../../components/common/commontemplate_information'
+	export default {
+		data() {
+			return {
+				active: 0,
+				key:0,
+				finished:true,
+				fields: false,
+				lists: []
+			}
+		},
+		watch:{
+			active(val){
+				let url
+
+				if(val == 0){
+					this.key = 0;
+					 url = '/user/myListings'
+				}else if (val == 1){
+					this.key = 1
+					 url = '/user/myAdvisory'
+				}
+
+				this.getList(url)
+
+			}
+		},
+		components:{
+			commonNewHouse,
+			commonInformation
+		},
+		created() {
+			this.getList()
+		},
+		onLoad() {
+
+		},
+		mounted() {
+			this.aaa({
+				url: '456'
+			})
+		},
+		methods:{
+			change(index){
+				this.active = index
+			},
+			getList(url = ''){
+				let getUrl = ''
+				if(url != ''){
+					getUrl = url
+				}else {
+					getUrl = '/user/myListings'
+				}
+				this.$http.get(
+					getUrl,
+				).then( res=>{
+					if( res.data[this.key]['list'] && res.data[this.key]['list'].length > 0 ){
+						this.fields = true;
+					}else {
+						this.fields = false;
+					}
+
+					this.lists = res.data
+				})
+
+
+			},
+			aaa( params ){
+				const domain = '123';
+				let {
+					url = domain + params.url,
+					method = 'POST', 
+					data,
+					timeout = 10000
+				} = params;
+				
+				console.log(url)
+			}
+		},
+	}
+</script>
+
+<style>
+	 @import './my_focus.css';
+</style>

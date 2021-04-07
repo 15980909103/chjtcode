@@ -1,0 +1,8 @@
+@import '/dist/aui.wxss';
+.my-footer{width: 90vw;height: 5vh;padding: 1.5vh 5vw;background-color: #FFF;position: fixed;bottom: 0;display: flex;justify-content:space-between;}
+.footer-input{border: 0 !important;height:4vh !important;width: 64vw !important;padding:.5vh 3vw !important; margin-bottom: 0 !important;background-color: #F7F7F7 !important;}
+.van-button{height: 5vh !important;line-height: 5vh !important;background-color: #03A9F4;color: #FFF;}
+#scrollView{width: 100vw;height: 100vh;}
+.my-both{clear: both;}
+.aui-chat{min-height:90vh !important;}
+.my-both2{width:100vw;height: 1px;}

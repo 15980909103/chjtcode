@@ -1,0 +1,58 @@
+.box{
+	width: 100%;
+	box-sizing: border-box;
+	padding: 0 .32rem;
+}
+
+.nav-apply{
+	width: 100%;
+	height: 1.78rem;
+	box-sizing: border-box;
+	padding: 0.24rem 0.3rem 0.15rem;
+	margin: 0.4rem 0 .48rem;
+	background-color: rgba(255, 249, 242, 1);
+}
+
+.nav-apply-title{
+	font-size: 0.26rem;
+	font-weight: bold;
+}
+
+.nav-apply-box{
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-end;
+}
+
+.nav-apply-tip{
+	font-size: 0.26rem;
+	color: rgba(173, 173, 173, 1);
+	margin: 0.16rem 0;
+}
+
+.nav-apply-box{
+	font-size: 0.22rem;
+	color: rgba(173, 173, 173, 1);
+}
+
+.nav-apply-day{
+	color: rgba(252, 77, 57, 1);
+	margin-right: 0.2rem;
+}
+
+.van-button{
+	width: 100%;
+	height: .88rem;
+	border-radius: .04rem;
+}
+
+.rule-title{
+	font-size: .38rem;
+	font-weight: bold;
+	margin: 1rem 0 .2rem;
+}
+
+.rule-text{
+	font-size: .3rem;
+	line-height: .56rem;
+}

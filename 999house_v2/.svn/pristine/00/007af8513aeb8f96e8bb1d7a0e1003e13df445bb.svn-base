@@ -1,0 +1,144 @@
+<template>
+	<view>
+		<view>
+			<u-tabs class="tab" active-color="#FE841E" sticky :current="active" :is-scroll="false" :list="tabs" @change="change"></u-tabs>
+		</view>
+		<!-- <view v-for="(item,index) in list" >{{item.title}}</view> -->
+		<view v-if="pageShow" >
+			<view v-if="active==0">
+				<common-new-house :list="lists" @del="(e)=>{ $set(lists, 'list', e) }"></common-new-house>
+			</view>
+			<view v-if="active==1">
+				<view class="news">
+					<view class="news-box" v-for="(news,key) in lists" :key="key" @click="goPage('discover/news_detail',{id: news.id})">
+						<image :src="$api.imgDirtoUrl(news.img[0])">
+						<view class="news-right">
+							<h4 class="news-title u-multi-ellipsis--l3">
+								{{ news.title }}
+							</h4>
+							<view class="news-info">
+								<!-- <image :src="$api.imgDirtoUrl(news.author.head)"> -->
+								<span>
+								{{ news.author.name }}
+							</span>
+							</view>
+						</view>
+					</view>
+				</view>
+			</view>
+
+			<view v-if="lists.length==0"><u-empty image="error" text="暂无数据"/></view>
+		</view>
+				<!-- <template v-if="pageShow">
+					<template v-if="index != 1">
+						<common-template :list="item.list" @del="(e)=>{ $set(list[index], 'list', e) }"></common-template>
+					</template>
+					<template v-else>
+						<view class="news">
+							<view class="news-box" v-for="(news,key) in item.list" :key="key">
+								<image :src="news.img[0]">
+								<view class="news-right">
+									<h4 class="news-title u-multi-ellipsis--l3">
+										{{ news.title }}
+									</h4>
+									<view class="news-info">
+										<image :src="news.author.head">
+										<span>
+										{{ news.author.name }}
+									</span>
+									</view>
+								</view>
+							</view>
+						</view>
+					</template>
+				</template> -->
+	</view>
+</template>
+
+<script>
+	import commonNewHouse from '@/components/common/commonTemplate_newHouse.vue'
+	import commonInformation from '../../components/common/commontemplate_information'
+	export default {
+		data() {
+			return {
+				loading: false,
+				page: 0,
+				total_page:1,
+
+				active: 0,
+				active_url: '/user/myListings',
+				key:0,
+				pageShow: false,
+				tabs:[
+					{name: '房源'},
+					{name: '资讯'}
+				],
+				lists: []
+			}
+		},
+		components:{
+			commonNewHouse,
+			commonInformation
+		},
+		onLoad() {
+			this.getList(1);
+		},
+		onReachBottom() { 
+		  this.getList()
+		},
+		methods:{
+			change(index){
+				this.active = index
+				if(index == 0){
+					this.active_url = '/user/myListings'
+				}else if (index == 1){
+					this.active_url = '/user/myAdvisory'
+				}
+
+				this.getList(1);
+			},
+
+			getList(reset = 1){
+				let page = this.page+1;
+				if(reset==1){
+					page = 1;
+					this.lists = [];
+					this.pageShow = false;
+				}
+				if(page>this.total_page){
+					return
+				}
+				if(this.loading==true){
+					return
+				}
+				this.loading= true;
+
+				this.$http.post(
+					this.active_url,
+					{
+						page: page,
+					}
+				).then( res=>{
+					let list = []
+					if( res.data[this.active]['list'] && res.data[this.active]['list'].length > 0 ){
+						list = res.data[this.active]['list'];
+					}
+
+					this.lists = this.lists.concat(list);
+					
+					this.pageShow = true;
+					this.page = page;
+					this.total_page = res.data.last_page? res.data.last_page : 1;
+					this.loading= false;
+				}).catch(()=>{
+					this.pageShow = true;
+					this.loading= false;
+				})
+			},
+		},
+	}
+</script>
+
+<style>
+	 @import './my_focus.css';
+</style>

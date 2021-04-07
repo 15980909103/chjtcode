@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>定位</title>
+		<link rel="stylesheet" href="../../common/vant/index.css"/>
+		<link rel="stylesheet" href="../../common/css/public.css?v=1.18"/>
+		<link rel="stylesheet" href="../../static/css/index/location.css?v=1.18"/>
+	</head>
+	<body>
+		<div id="app" v-cloak>
+			<transition name="van-slide-right">
+				<div class="choose-location" v-show="show">
+					<div class="location-search">
+						<form action="/">
+							<van-search
+								v-model="searchValue"
+								show-action
+								placeholder="搜索城市"
+								maxlength="10"
+								@input="onSearch"
+								@cancel="onCancel"
+							/>
+						</form>
+					</div>
+					<div class="location-info">
+						<div class="location-info-left">
+							<span>{{city_name}}</span>GPS定位
+						</div>
+						<div class="location-info-right" @click="getUserSite">
+							<span class="iconfont iconmubiao"></span>重新定位
+						</div>
+					</div>
+					<div class="location-tip" v-show="!isSearch">
+						<span>热门城市</span>
+						<div class="city">
+							<span class="city-tip" v-for="(item,index) in cityList.hot" :key="index" @click="choose(item)">
+								{{item.cname}}
+							</span>
+						</div>
+					</div>
+					<div class="location-tip" v-show="!isSearch">
+						<span>所有城市</span>
+						<div class="city">
+								<span 
+									class="city-tip" 
+									v-for="(item,index) in cityList.all"
+									:key="index"
+									@click="choose(item)"
+								>
+									{{item.cname}}
+								</span>
+							
+						</div>
+					</div>
+					<div class="location-tip" v-show="isSearch">
+						<span>搜索城市</span>
+						<div class="city">
+							<template v-for="(item,index) in cityList.all">
+								<span 
+									class="city-tip" 
+									:key="index"
+									@click="choose(item)"
+									v-show="srarchShow.indexOf(index) != -1"
+								>
+									{{item.cname}}
+								</span>
+							</template>
+							<div v-if='srarchShow.length==0' class="nosearch-tip">暂无数据</div>
+						</div>
+					</div>
+				</div>
+			</transition>
+			<div id="container-user-site"></div>
+		</div>
+	</body>
+</html>
+
+<script src="../../common/js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/rem.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/public.js?v=1.18" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/vant/index.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=53da8183ca23918f2f81c79a5b2ede15&plugin=AMap.Geocoder"></script>
+<script type="module">
+	import { http, loginMixin } from '../../common/js/method/http.js?v=1.18';
+	Vue.use(http);
+	Vue.use(vant.Lazyload);
+	
+	const myComponents = [];
+
+	$api.addComponents(myComponents)
+		.then(()=>{
+		
+		var app = new Vue({
+			el: '#app',
+			data: {
+				city_name: '',
+				show: true,
+				searchValue: '',
+				cityList: {
+					hot: [],
+					all: []
+				},
+				isSearch: false,
+				srarchShow: [],
+				map: 0
+			},
+			mixins: [loginMixin],
+			created() {
+				this.getLocation();
+				this.getSite();
+			},
+			methods:{
+				init() {
+					this.searchValue = '';
+					this.srarchShow = [];
+					this.isSearch = false;
+				},
+				getLocation() {
+					this.$http.getCurrentCity().then( data=>{
+						this.city_name = data.city_name;
+					})
+				},
+				onSearch(val) {
+					if( !$api.isEmpty(val) ) {
+						this.cityList.all.map((item,index)=>{
+							if( item.cname&&item.cname.indexOf(val) != -1 ){
+								this.srarchShow.push(index);
+							}
+						});
+						
+						this.isSearch = true;
+					} else {
+						this.init();
+					}
+				},
+				onCancel() {
+					this.init();
+					$api.goPage('index/index.html');
+				},
+				choose(val, type) {
+					//console.log(val)
+					this.$http.getCurrentCity({
+						city_name: val.cname,
+						city_no: val.id,
+					});
+					
+					if( !type ){
+						this.onCancel();
+					}
+				},
+				getSite() {
+					const cityList = this.$api.localGet('city-list');
+					// console.log(cityList)
+					if( !cityList ){
+						this.$http.ajax({
+							url: '/index/City/getCityList',
+						}).then( res=>{
+							// console.log( res.data)
+							let hotList = [];
+							let allCity =[];
+							let obj;
+							res.data&&res.data.map((item)=>{
+								item.cname = item.cname.replace('市','');
+								item.is_hot&&hotList.push(item);
+								allCity.push(item);
+							});
+							
+							obj = {
+								hot: hotList,
+								all: allCity,
+							};
+							
+							this.$api.localSet('city-list', obj);
+							this.cityList = obj;
+						})
+					} else {
+						this.cityList = cityList;
+					}
+				},
+				getUserSite() {
+					this.$http.getMapCity().then( data=>{
+						if( this.city_name&&this.city_name.indexOf(data.city_name) != -1 ){
+							this.choose({
+								cname: data.city_name,
+								id: data.city_no
+							});
+						} else {
+							if(!data.city_no){//默认厦门
+								data = {
+									city_no: 350200,
+									city_name: '厦门'
+								}
+							}
+							
+							vant.Dialog.confirm({
+								title: '提示',
+								message: '确定将定位切换到'+data.city_name+'吗?',
+							}).then(() => {
+								this.choose({
+									cname: data.city_name,
+									id: data.city_no
+								});
+								
+								this.city_name = data.city_name;
+							})
+						}
+					})
+				}
+			},
+		})
+
+	})
+	
+	
+</script>

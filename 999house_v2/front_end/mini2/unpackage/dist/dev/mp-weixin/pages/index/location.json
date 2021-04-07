@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "城市定位",
+  "usingComponents": {
+    "u-search": "/uview-ui/components/u-search/u-search"
+  }
+}

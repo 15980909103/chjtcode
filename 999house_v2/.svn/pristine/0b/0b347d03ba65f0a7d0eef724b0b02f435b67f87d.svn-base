@@ -1,0 +1,144 @@
+// pages/my/my_history.js
+Page({
+
+  /**
+   * 页面的初始数据
+   */
+  data: {
+    activeId:-1,
+    fields:false,
+    lists:[
+      {
+        time: "2020-12-21",
+        list: [{
+          "id": 130,
+          "estates_id": 130,
+          "browse_time": 1608480000,
+          "name": "世茂·国风长安82",
+          "price": "0",
+          "built_area": "",
+          "area": "思明区",
+          "business_district": "",
+          "list_cover": "\/upload\/images\/admin\/estates\/t8cfc132e501dcd7bf7d06b8a6a48399e.png",
+          "sale_status": 1,
+          "house_purpose": "1",
+          "discount": "[{\"title\":\"666777\",\"content\":\"阿松大\",\"rule\":\"发噶手动阀十分\",\"start_time\":\"2020-12-02\",\"end_time\":\"2020-12-24\",\"btn\":\"\\\/upload\\\/images\\\/admin\\\/estates\\\/te34487aef82e800bde6c0d651d7c4035.jpeg\",\"list_cover_id\":[\"10384\"]}]",
+          "logo": "\/upload\/images\/admin\/estates\/t96c5a093d97b5edc820fb751a06afe80.png",
+          "detail_cover": "\/upload\/images\/admin\/estates\/tc2fab7c992528d668a27c73bff917684.png",
+          "status": 1,
+          "is_delete": 0,
+          "feature_tag": ["19", "27", "25"],
+          "sale_status_name": "待售",
+          "selling_point": [{
+            "title": "666777",
+            "type": "discount"
+          }],
+          "type": 8,
+          "info": {
+            "name": "世茂·国风长安82",
+            "tip": ["待售", "住宅", "地铁（商业）", "电商优惠"],
+            "price": "0",
+            "site": "思明区",
+            "area": "",
+            "lab": [{
+              "type": 0,
+              "name": "666777",
+              "img": "\/9house\/static\/logo.png"
+            }]
+          },
+          "cover": 1,
+          "status_delete": 0,
+          "img": ["\/upload\/images\/admin\/estates\/t8cfc132e501dcd7bf7d06b8a6a48399e.png"]
+        }, {
+          "id": 923,
+          "estates_id": 923,
+          "browse_time": 1608480000,
+          "name": "新新-1221",
+          "price": "15000",
+          "built_area": "",
+          "area": "湖里区",
+          "business_district": "",
+          "list_cover": "",
+          "sale_status": 1,
+          "house_purpose": "",
+          "discount": "[]",
+          "logo": "",
+          "detail_cover": "",
+          "status": 1,
+          "is_delete": 0,
+          "feature_tag": [],
+          "sale_status_name": "待售",
+          "selling_point": [],
+          "type": 8,
+          "info": {
+            "name": "新新-1221",
+            "tip": ["待售"],
+            "price": "15000",
+            "site": "湖里区",
+            "area": "",
+            "lab": []
+          },
+          "cover": 0,
+          "status_delete": 0,
+          "img": [""]
+        }]
+      }
+    ]
+  },
+
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function (options) {
+    console.log(this.data.lists)
+  },
+
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload: function () {
+
+  },
+
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function () {
+
+  },
+
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: function () {
+
+  },
+
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function () {
+
+  }
+})

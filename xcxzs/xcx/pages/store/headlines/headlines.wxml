@@ -1,0 +1,14 @@
+<scroll-view class="my-scroll" bindscrolltolower="onGetDataInfo" scroll-y>
+  <view class='my-li' wx:for="{{list}}" wx:key="index" bindtap='goto' data-id='{{item.id}}'>
+    <view class='my-li-1'>
+      <view class='my-title van-multi-ellipsis--l2'>{{item.title}}</view>
+      <view class='my-tag'>
+        <image src='{{domain_name+item.logo}}'></image>
+        <view class='my-tag-li'>{{item.aname}}</view>
+        <view class='my-tag-li'>{{item.release_time}}</view>
+        <view class='my-tag-li'>{{item.comments_num}}评论</view>
+      </view>
+    </view>
+    <view class='my-li-2'><image src='{{item.cover}}'></image></view>
+  </view>
+</scroll-view>

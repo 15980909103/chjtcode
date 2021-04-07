@@ -1,0 +1,65 @@
+//app.js
+const EventBusClass = require('./utils/eventbus')
+require('./utils/mixins/basemixin.js')
+const host = "https://act.999house.com"
+import {requests, getToken, getSid} from './utils/requests.js';
+const wxAuth = require('./utils/module/WxAuth.js');
+
+App({
+  onLaunch: function () {
+	
+  },
+  globalData: {
+    userInfo: null,
+    token: "", //用于访问
+    sid: "",//用于访问
+    host: host,
+    h5Host: host+"/9house/pages",
+    host_api: host+"/miniwechat/", 
+    imgHost: host+"/static/images/",
+    EventBusClass: EventBusClass.Int,
+    
+    whitePages: [
+      "pages/index/index",
+      "pages/login/index",
+    ]
+  },
+  onBeforeLoad(options,next,page_this){
+	next();
+	return
+	  if(!this.globalData.whitePages.includes(page_this.route)&&!this.globalData.userInfo){
+		this.wxAuthLogin().then((res)=>{
+			next();
+		});
+	  }else{
+		next();
+	  }
+  },
+  
+  /**
+ * /**
+ * 授权登陆
+ * 
+ * @param {*} appObj 从app.js调用时,appObj需要传this
+ * @param {*} postdata 额外的请求数据
+ */
+wxAuthLogin(){//用于全局调用
+    var that = this
+    return new Promise(function(resolve,reject){
+		wxAuth.authLogin(that).then(function(rs){
+		console.log(rs)		
+        if(rs.response){
+		  that.globalData.userInfo = rs.response.userInfo;
+		  that.globalData.sid = rs.response.sid;
+		  that.globalData.token = rs.response.token;
+		  
+          resolve(rs)
+        }else{
+          reject()
+        }
+      }).catch(function(){
+        reject()
+      })
+    })
+  },
+})

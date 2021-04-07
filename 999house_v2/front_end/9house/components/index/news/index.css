@@ -1,0 +1,69 @@
+/* 资讯tabber */
+.info{
+	position: sticky;
+	top: 0;
+	z-index: 91;
+}
+
+.info .van-tab{
+	flex: none;
+	width: 1.3rem;
+	font-size: 0.3rem;
+	touch-action: none;
+}
+
+.info .van-tab--active{
+	font-size: 0.38rem;
+}
+
+.info .van-tabs__line{
+	width: 0.24rem;
+	bottom: 18px;
+}
+
+.info .van-tabs__content{
+	background: #fff;
+}
+
+.info .van-tab__pane{
+	min-height: 100vh;
+	padding-bottom: 1.04rem;
+}
+
+.new-house-activity{
+	width: 100%;
+	height: 2rem;
+	overflow: scroll hidden;
+	-webkit-overflow-scrolling: touch;
+	display: flex;
+	padding: 0.5rem 0 0.2rem 0;
+	background-color: #fff;
+}
+
+.new-house-activity-item{
+	width: 2.08rem;
+	height: 1.98rem;
+	padding: 0.2rem;
+	background: #F0F5F6;
+	box-sizing: border-box;
+	margin-left: 0.32rem;
+}
+
+.new-house-activity-item:last-child{
+	margin-right: 0.32rem;
+}
+
+.new-house-activity-item:nth-child(2n-1){
+	background: rgba(245, 248, 255, 1);
+}
+
+.new-house-activity-item div{
+	width: 2.2rem;
+	font-size: 0.3rem;
+	margin-bottom: 0.1rem;
+}
+
+.new-house-activity-item img{
+	height: 1.1rem;
+	width: 100%;
+}

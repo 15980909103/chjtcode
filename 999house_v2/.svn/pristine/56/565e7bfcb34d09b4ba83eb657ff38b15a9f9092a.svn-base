@@ -1,0 +1,224 @@
+.find{
+	width: 100%;
+	box-sizing: border-box;
+	padding: 40rpx 32rpx 62rpx;
+}
+
+.find-title{
+	font-size: 30rpx;
+	font-weight: bold;
+	color: #212121;
+	margin: 24rpx 0;
+}
+
+.find-tip{
+	font-size: 26rpx;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.find-tip-item{
+	width: 206rpx;
+	height: 64rpx;
+	background: rgba(250, 250, 250, 1);
+	border-radius: 4rpx;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	margin-bottom: 24rpx;
+}
+
+.find-tip-item:nth-child(3n-1){
+	margin: 0 34rpx;
+}
+
+.van-slider__button{
+	position: relative;
+}
+
+.van-slider__button:after{
+	content: '';
+	width: 12px;
+	height: 12px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	pointer-events: none;
+	border-radius: 50%;
+	box-sizing: border-box;
+	border: 2px solid rgba(254, 130, 30, 1);
+}
+
+.u-price{
+	width: 100%;
+	height: 120rpx;
+	font-size: 40rpx;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 20rpx;
+	color: rgba(254, 130, 30, 1);
+}
+
+.price{
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	font-size: 24rpx;
+	margin: 40rpx 0;
+}
+
+.price span:first-child,
+.price span:last-child{
+	color: rgba(254, 130, 30, 1);
+}
+
+.idea{
+	width: 100%;
+	height: 240rpx;
+	border: 1rpx solid #E0E0E0;
+	border-radius: 4rpx;
+	overflow: hidden;
+	box-sizing: border-box;
+	padding: 15rpx 18rpx;
+	background: rgba(250, 250, 250, 1);
+	position: relative;
+}
+
+.idea textarea{
+	width: 100%;
+	height: 100%;
+	resize: none;
+	font-size: 26rpx;
+}
+
+.idea-num{
+	position: absolute;
+	right: 14rpx;
+	bottom: 12rpx;
+	font-size: 22rpx;
+	color: rgba(173, 173, 173, 1);
+	letter-spacing: 1rpx;
+}
+
+.commit{
+	width: 100%;
+	padding: 60rpx 0;
+}
+
+.commit-btn{
+	width: 100%;
+	height: 88rpx;
+}
+
+.find-active{
+	background-color: rgba(254, 130, 30, 1);
+	color: #fff;
+}
+
+.location{
+	width: 100%;
+	height: 64rpx;
+	box-sizing: border-box;
+	border: 1rpx solid #E0E0E0;
+	border-radius: 2rpx;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-size: 26rpx;
+	color: rgba(173, 173, 173, 1);
+	padding: 0 24rpx;
+	margin-bottom: 24rpx;
+}
+
+.location-choose{
+	width: 100%;
+	margin-left: 14rpx;
+}
+
+.iconquxiao{
+	height: 100%;
+	width: 60rpx;
+	margin-right: 14rpx;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.van-action-sheet__header{
+	display: none;
+}
+
+.content{
+	height: 716rpx;
+	display: flex;
+}
+
+.content-left{
+	
+	width: 16.6%;
+}
+
+.content-center{
+	width: 33.2%;
+	border-left: 1rpx solid rgba(240, 240, 240, 1);
+}
+
+.content-right{
+	width: 50.2%;
+	border-left: 1rpx solid rgba(240, 240, 240, 1);
+}
+
+.content-left,
+.content-center,
+.content-right{
+	display: flex;
+	flex-direction: column;
+	overflow-y: scroll;
+}
+
+.content-left-item{
+	width: 100%;
+	height: 100rpx;
+	display: flex;
+	align-items: center;
+	font-size: 32rpx;
+	text-indent: 26rpx;
+}
+
+.content-left-item .iconfont{
+	margin-right: 44rpx;
+}
+
+.content-active{
+	color: rgba(254, 130, 30, 1);
+}
+
+.location-btn{
+	width: 100%;
+	height: 128rpx;
+	position: fixed;
+	bottom: 0;
+	background-color: #fff;
+	border-top: 1rpx solid rgba(240, 240, 240, 1);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.location-btn-close,
+.location-btn-sure{
+	width: 328rpx;
+	height: 88rpx;
+}
+
+.location-btn-close{
+	border-color: rgba(134, 186, 122, 1);
+	color: rgba(134, 186, 122, 1);
+}
+
+.location-btn-sure{
+	margin-left: 26rpx;
+}

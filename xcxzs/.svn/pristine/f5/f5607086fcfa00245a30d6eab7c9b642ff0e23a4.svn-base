@@ -1,0 +1,2 @@
+[2020-12-01T14:52:54+08:00][error] [1]Allowed memory size of 134217728 bytes exhausted (tried to allocate 81793024 bytes)[/mnt/e/project/999house_V2/app/index/controller/NewsController.php:237]
+[2020-12-01T14:53:08+08:00][error] [1]Allowed memory size of 134217728 bytes exhausted (tried to allocate 81793024 bytes)[/mnt/e/project/999house_V2/app/index/controller/NewsController.php:237]

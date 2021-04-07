@@ -1,0 +1,365 @@
+<?php
+namespace app\server\admin;
+
+use app\common\traits\TraitInstance;
+use app\common\base\ServerBase;
+use Co\WaitGroup;
+use think\Db;
+use think\Exception;
+
+class News extends ServerBase
+{
+    /**
+     * 获取分类列表
+     */
+    public function getCategoryList($search = []){
+        $where = [];
+        if(!in_array($search['status'],['0','1'])){
+            unset($search['status']);
+        }
+        if(isset($search['status'])){//状态
+            $where[]=  ['c.status','=', $search['status']];
+        }
+
+
+        if(!in_array($search['has_comment'],['0','1'])){
+            unset($search['has_comment']);
+        }
+        if(isset($search['has_comment'])){//状态
+            $where[]=  ['c.has_comment','=', $search['has_comment']];
+        }
+
+        if( isset($search['name']) ){
+            $where[]=  ['c.title','like', "%".$search['name']."%"];
+        }
+        if( isset($search['pid']) ){
+            $where[]=  ['c.pid','=', $search['pid']];
+        }
+        $list = $this->db->name("column")->alias('c')->leftJoin('column c1','c.pid=c1.id')
+                         ->field('c.*,c1.title as p_title')
+                         ->where($where)
+                         ->where('c.pid','in',[9,13])
+                         ->select()
+                         ->toArray();
+//        echo $this->db->getLastSql();
+        if(empty($list)){
+            $result['list'] = [];
+        }else{
+            $result['list'] =   $list;
+        }
+        return $this->responseOk($result);
+    }
+
+    /**
+     * 状态修改
+     * @param $id
+     * @param $status
+     * @return bool
+     * @throws \think\db\exception\DbException
+     */
+    public function categoryEnable($id,$status){
+        $res  =  $this->db->name('column')->where('id','in',$id)->update(['status'=>$status]);
+        return  $res === false ? false :true;
+    }
+
+    /**
+     * @param $id
+     * @param $has_comment
+     * @return bool
+     * @throws \think\db\exception\DbException
+     */
+    public function commentEnable($id,$has_comment){
+        $res  =  $this->db->name('column')->where('id','in',$id)->update(['has_comment' => $has_comment]);
+        return  $res === false ? false :true;
+    }
+
+    /**
+     * 排序需改
+     * @param $id
+     * @param $sort
+     * @return bool
+     * @throws \think\db\exception\DbException
+     */
+    public function categoryChangeSort($id,$sort) {
+        $res  =  $this->db->name('column')->where('id','=',$id)->update(['sort' => $sort]);
+        return  $res === false ? false :true;
+    }
+
+    /**
+     *获取顶级模块
+     */
+    public function getCateList() {
+        return $this->db->name('column')->where('pid','=',0)->where('status','=',1)->select()->toArray();
+    }
+
+    /**
+     * 根据id修改分类
+     * @param $data
+     * @return array
+     */
+    public function categoryEdit($data)
+    {
+        try{
+           $res = $this->db->name('column')->where('id','=',$data['id'] )->update($data);
+           return  $res !==false ? $this->responseOk() : $this->responseFail();
+
+        }catch (Exception $e){
+            return $this->responseFail(['code'=>0,'msg'=>$e->getMessage()]);
+        }
+    }
+
+    /**
+     * 创建分类
+     * @param $data
+     * @return array
+     */
+    public function categoryCreate($data){
+        try{
+            $res = $this->db->name('column')->insert($data);
+            return  $res !==false ? $this->responseOk() : $this->responseFail();
+        }catch (Exception $e){
+            return $this->responseFail(['code'=>0,'msg'=>$e->getMessage()]);
+        }
+
+    }
+
+    /**
+     * 根据id获取信息
+     * @param $id
+     * @return array|\think\Model|null
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     */
+    public function getInfo($id){
+        $info  = $this->db->name('column')->where('id','=',$id)->find();
+        return $info;
+    }
+
+    /**
+     * 根据pid获取集合
+     * @param $pid
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\DbException
+     * @throws \think\db\exception\ModelNotFoundException
+     */
+    public function getSonList($pid){
+       $list  =   $this->db->name('article_category')->where('pid','=',$pid)->select();
+       return $list;
+    }
+
+    /**
+     * 根据id删除分类
+     * @param $id
+     * @return bool
+     * @throws \think\db\exception\DbException
+     */
+    public function categoryDel($id){
+        $list  =   $this->db->name('column')->where('id','=',$id)->delete();
+        return $list===false ? false:true;
+    }
+
+    /***
+     * 获取推荐文章排序
+     */
+    public function getArticleOrder($cate_id){
+        $redis = $this->getReids();
+        $key   = "9H:article_order:cate_".$cate_id;
+        return  $redis->incr($key);
+    }
+
+    /**
+     * 文章修改
+     * @param $data
+     * @return bool
+     */
+    public function edit($data){
+      $res =   $this->db->name('article')->where('id','=',$data['id'])->update($data);
+      return  $res===false ? false: true;
+
+    }
+    /**
+     * 文章新增
+     * @param $data
+     * @return bool
+     */
+    public function add($data){
+        $res =   $this->db->name('article')->insert($data,true);
+        return  $res===false ? false: $res;
+
+    }
+    public function getList($search){
+        $field = 'a.id,a.title,a.name,a.resource_type,a.keyword,a.order_type,a.is_original,a.is_top,
+        a.is_index,a.lable,a.source_id,a.num_thumbup,a.num_share,a.num_collect,a.num_read,a.num_read_real,
+        a.num_collect_real,a.num_share_real,a.num_thumbup_real,a.release_time,a.update_time,a.top_time,a.sort,
+        a.status,a.region_no,a.forid,a.img_url,a.is_propert_news,a.is_wx_material,a.city_list';
+        $where = [];
+        if(!in_array($search['status'],['0','1','2'])){
+            unset($search['status']);
+        }
+        if(isset($search['status'])){//状态
+            $where[]=  ['a.status','=', $search['status']];
+        }
+
+        if(isset($search['cate_id']) && $search['cate_id'] !=='all'){//状态
+            $where[]=  ['ac.column_id','=', $search['cate_id'] ];
+        }
+        if(!empty( $search['city']) ){
+            $where[] = ['a.city_list','like',"%{$search['city']}%"];
+        }
+        if( !empty($search['name']) ){
+            $where[]=  ['a.name','like', "%".$search['name']."%"];
+        }
+        $order = ['a.release_time'=>'desc','a.sort'=>'desc','a.id'=>'desc'];
+        $list = $this->db->name("article")->alias('a')
+            ->leftJoin('article_cloumn ac','a.id=ac.article_id')
+            ->field($field.',a.status as status1')
+            ->where($where)
+            ->order($order)
+            ->group('a.id')
+            ->paginate(16);
+//        var_dump($list);
+        if($list->isEmpty()){
+            $result['list'] = [];
+        }else{
+            $result['total'] = $list->total();
+            $result['last_page'] = $list->lastPage();
+            $result['current_page'] = $list->currentPage();
+            $result['list'] =$list->items();
+        }
+        return $this->responseOk($result);
+    }
+
+
+
+    /**
+     * 修改单字段
+     * @param $id
+     * @param $column_val
+     * @param $p_cate_id
+     * @param string $column_key
+     * @return bool
+     * @throws Exception
+     * @throws \think\db\exception\DbException
+     */
+    public function setColumnSort($id,$column_val,$column_key='sort'){
+        $res  =  $this->db->name('article')
+            ->where('id','=',$id)
+            ->update([$column_key=>$column_val]);
+        return $res ===false ? false:true;
+    }
+
+    public function getNewsInfo($id){
+        $info  = $this->db->name('article')
+                          ->where('id',$id)->find();
+
+        return $info;
+    }
+
+    /**
+     * 删除新闻
+     * @param $id
+     * @param $p_cate_id
+     * @return bool
+     * @throws Exception
+     * @throws \think\db\exception\DbException
+     */
+    public function delNews($id){
+        $res  = $this->db->name('article')
+            ->where('id',$id)->delete();
+
+        return $res === false ? false:true;
+    }
+
+    /**
+     * 根据条件获取 前端 文章列表
+     */
+    public function getArticleList($where){
+        $field = 'a.id,ad.account,a.title,a.name,a.resource_type,a.keyword,a.order_type,a.is_original,a.is_top,
+        a.is_index,a.lable,a.source_id,a.num_thumbup,a.num_share,a.num_collect,a.num_read,a.num_read_real,
+        a.num_collect_real,a.num_share_real,a.num_thumbup_real,a.release_time,a.update_time,a.top_time,a.sort,
+        a.status,a.region_no,a.forid,a.img_url,a.is_propert_news,a.is_wx_material,a.img_path,a.lable_string,ad.head_ico_path';
+        $list  = $this->db->name('article')->alias('a')
+            ->leftJoin('article_cloumn c','a.id = c.article_id')
+            ->leftJoin('admin ad',' a.source_id=ad.id')
+            ->field($field);
+        $order = [];
+
+        if( !empty( $where['cate_id'] ) ){
+             if(is_array($where['cate_id']) ){
+                 $list = $list->whereIn('c.column_id',$where['cate_id'] );
+             }else{
+                 $list = $list->where('c.column_id','=',$where['cate_id'] );
+             }
+
+        }
+        //去除单个id
+        if( !empty($where['not_id']) ){
+            $list = $list->where('a.id','<>',$where['not_id']);
+        }
+        if(!empty($where['is_propert_news'])) {
+            $list = $list->where('a.is_propert_news','=',$where['is_propert_news'] );
+        }
+        if( !empty($where['name']) ) {
+            $list = $list->whereLike('a.name',"%{$where['name']}%" );
+        }
+        if( !empty($where['city_no']) ) {
+            $list = $list->whereFindInSet('a.city_list',"{$where['city_no']}" );
+        }
+        if($where['is_top'] == 1){
+            
+            $order = ['a.is_top'=>'desc','a.sort'=>'desc','a.id'=>'desc'];
+//            $where[] = ['a.top_time','>=',time()];
+        }else{
+            $order = ['a.sort'=>'desc','a.id'=>'desc'];
+        }
+        if($where['is_index']==1 ){
+            $list->where('a.is_index','=',1);
+        }
+        $list = $list->order($order)
+            ->group('a.id')
+            ->paginate($where['pageSize'])
+            ->toArray();
+
+//        echo $this->db->getLastSql();
+
+        if(empty($list['data'])){
+            $result['list'] = [];
+        }else{
+            $result['total']        = $list['total'];
+            $result['last_page']    = $list['last_page'];
+            $result['current_page'] = $list['current_page'];
+            $result['list']         = $list['data'];
+        }
+        return $result;
+
+    }
+
+    /**
+     * 获取热讯排行
+     */
+    public function getHosList($city_ids){
+        $wg   = new WaitGroup();
+        $result = [];
+        foreach ($city_ids as $k => $v){
+            $wg->add();
+            go(function () use($v,&$result,$wg){
+                $list =  $this->db->name('article')
+                    ->whereLike('city_list',"%{$v}%")
+                    ->field('id,num_read + num_read_real as num_read,name')
+                    ->orderRaw('num_read+num_read_real desc')
+                    ->limit(7)
+                    ->select() ;
+//                echo $this->db->getLastSql();
+                $result[$v] = $list->toArray() ?? [];
+                $wg->done();
+            });
+
+        }
+
+        $wg->wait();
+
+        return $result;
+    }
+
+}

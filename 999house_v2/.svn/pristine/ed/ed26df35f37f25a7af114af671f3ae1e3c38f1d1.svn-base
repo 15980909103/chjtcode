@@ -1,0 +1,199 @@
+//页面跳转
+//bind:tap="openPage" data-page="/pages/logs/logs,(aa:bb)" data-hreftype
+
+var btnOpenPage = false
+var timer = null
+const openPage = function(url,urldata={}, hreftype='navigateTo'){
+	if(btnOpenPage==true){ return; }
+	btnOpenPage = true
+	//防止短时间内多次点击
+	timer = setTimeout(function () {
+		btnOpenPage = false
+	}, 300)
+	
+	var page_name='';//页面地址
+	var parmsarr={};//页面参数对象
+	
+	page_name = url;
+	parmsarr = urldata;
+	if(typeof page_name === 'number' && !isNaN(page_name)){//为数字回退时
+		hreftype = 'navigateBack';
+	}
+
+	page_name = String(page_name)
+	if(hreftype!='navigateBack'&&Object.keys(parmsarr).length>0){	
+		parmsarr = urlEncode(parmsarr);	//转成url&参数	
+		if(page_name.indexOf('?')!=-1){
+				page_name = page_name+'&'+parmsarr;			
+		}else{
+			page_name = page_name+'?'+parmsarr;	
+		}
+	}
+	
+	//判断是否是pages/开头是的话去除
+	if(hreftype!='navigateBack'){
+		if(page_name.indexOf('pages/')=='0'){
+			page_name = '/'+page_name
+		}
+		//判断是否从根开始找，若第一个是字符是/pages从根开始找
+		if(page_name.indexOf('/pages/')=='0'){
+			var pageurl=`${page_name}`
+		}else{
+			var pageurl=`/pages/${page_name}`
+		}
+	}
+	
+	//选择跳转类型
+  	switch (hreftype) {
+		case 'redirectTo':
+			uni.redirectTo({
+				url: pageurl,
+				fail: res=>{
+					if(res){
+						console.log(res);
+						uni.switchTab({
+							url: pageurl
+						})
+					}
+				}
+			});
+			break;
+		case 'reLaunch':
+			uni.reLaunch({
+				url: pageurl
+			})
+			break;
+		case 'switchTab':
+			uni.switchTab({
+				url: pageurl,
+				fail: res=>{
+					if(res){
+						console.log(res);
+						uni.navigateTo({
+							url: pageurl
+						})
+					}
+				}
+			});
+			break;	
+		case 'navigateBack':
+			if(isNaN(page_name)||parseInt(page_name)>=0){
+				console.log('页面返回层需要是小于0数字')
+				return
+			}else{
+				page_name = parseInt(page_name);
+				page_name = Math.abs(page_name);
+			}			
+			var pagelist = getCurrentPages();
+			var prePage = pagelist[pagelist.length - (page_name +1)];
+			//返回时的数据传参与上一页的调用函数navigatebackfun
+     		if (prePage && typeof prePage.navigatebackfun=='function'){
+				prePage.navigatebackfun(parmsarr);
+			}
+			
+			uni.navigateBack({
+				delta:page_name
+			});
+			break;		
+		default:
+			uni.navigateTo({
+				url: pageurl,
+				fail: res=>{
+					if(res){
+						console.log(res);
+						uni.switchTab({
+							url: pageurl
+						})
+					}
+				}
+			});
+			break;
+	}
+	
+}
+
+//获取页面跳转时先存的数据
+const thisPageData= function(){	
+	var thisPageData= uni.getStorageSync('thisPageData');
+	//console.log(thisPageData)
+	if(thisPageData){
+	   if(isJSON(thisPageData)){
+		 thisPageData=JSON.parse(thisPageData);
+	   }else{
+		 return thisPageData;
+	   }
+	   
+	}else{
+	  thisPageData='';
+	}
+	return thisPageData;
+}
+/**
+ * 判断是否是json格式
+ * @param {*} str 
+ */
+function isJSON(str) {
+	if (typeof str == 'string') {
+			try {
+					var obj=JSON.parse(str);
+					if(typeof obj == 'object' && obj ){
+							return true;
+					}else{
+							return false;
+					}
+
+			} catch(e) {
+					//console.log('error：'+str+'!!!'+e);
+					return false;
+			}
+	}
+	console.log('It is not a string!')
+}
+
+/** 
+ * param 将要转为URL参数字符串的对象 
+ * key URL参数字符串的前缀 
+ * encode true/false 是否进行URL编码,默认为true 
+ *  
+ * return URL参数字符串 
+ */
+var urlEncode = function (param, key, encode = false) {
+  if (param == null) return '';
+  var paramStr = '';
+  var t = typeof (param);
+  if (t == 'string' || t == 'number' || t == 'boolean') {
+    paramStr += '&' + key + '=' + ((encode == null || encode) ? encodeURIComponent(param) : param);
+  } else {
+    for (var i in param) {
+      var k = key == null ? i : key + (param instanceof Array ? '[' + i + ']' : '.' + i);
+      paramStr += urlEncode(param[i], k, encode);
+    }
+
+    //用于截取第一个&
+    if (k) {
+      paramStr = paramStr.substr(1);
+    }
+  }
+  return paramStr;
+};
+
+
+// 获取url的参数
+function getUrlParms(apiUrl) {
+	var data = apiUrl
+	var theRequest = {};//存储提取的参数
+	var index_flag=data.indexOf("?")
+	if (index_flag!= -1) {
+			var str = data.substr(index_flag+1);
+			str = str.split("&");
+			for (var i = 0; i < str.length; i++) {
+					theRequest[str[i].split("=")[0]] = decodeURIComponent(str[i].split("=")[1]);
+			}
+	} 
+	console.log(theRequest)
+	return theRequest;
+}
+
+
+
+module.exports = {openPage, thisPageData, urlEncode, getUrlParms}

@@ -1,0 +1,210 @@
+<?php
+
+
+namespace app\index\controller;
+
+
+use app\common\base\UserBaseController;
+use app\common\MyConst;
+use app\server\admin\CommentList;
+
+class CommentController extends UserBaseController
+{
+    //楼栋评论列表
+    public function propertyReviewsList()
+    {
+        $data = $this->request->param();
+        $data['id'] =  intval($data['id']);
+        $data['is_img'] =  intval($data['is_img']);
+        $pageSize = $this->request->get('pageSize', '10');
+        $res = (new CommentList())->propertyReviewsList([
+            'id' => $data['id'],
+            'is_img' => $data['is_img'],
+        ], $pageSize);
+
+        if ($res['code'] == 0) {
+            return $this->error($res['msg']);
+        }
+        return $this->success($res['result']);
+    }
+
+    //楼栋新房评论
+    public function propertyReviewsComment()
+    {
+        $user_id = $this->userId;
+        $params = $this->request->param();
+        $id = intval($params['id']); //楼栋id
+        $pid = intval($params['pid']);//上级id
+        $comment = strip_tags($params['comment']); //内容
+        $img = $params['img'];//图片
+        if(!empty($img)&&!is_array($img)){
+            return $this->error('数据格式错误');
+        }
+        try {
+            $new_img = [];
+            foreach ($img as $item){
+                if(false!==strpos($item,'data:image/')){//判断是否是base64格式图片
+                    $new_img[] = $this->base64ImgSave($item)['url'];
+                }
+            }
+            unset($img,$item);
+
+            $type = $this->deviceType;
+            if(!empty($pid) && !empty($user_id)){
+                if($pid == $user_id){
+                    return $this->error('用户本身不能回复自己的回复');
+                }
+            }
+            $param = [
+                'id'       => $id,
+                'user_id'  => $user_id,
+                'pid'      => $pid,
+                'type'     => $type,
+                'comment'  => $comment,
+                'listings' => MyConst::NEW_HOUSE,
+                'img'      => $new_img,
+                'house_inspection' => $params['label'] ?? 1,
+                'status' => 1
+            ];
+            $res = (new CommentList())->propertyReviewsComment($param);
+        }catch (\Exception $e){
+            return $this->error($e->getMessage());
+        } finally {
+            if ($res['code'] == 0) {
+                return $this->error($res['msg']);
+            }
+            return $this->success($res['result']);
+        }
+    }
+
+    //资讯评论列表
+    public function newsCommentList(){
+        $id = $this->request->get('id');
+        $pageSize = $this->request->get('pageSize', '10');
+        $res = (new CommentList())->newsCommentList(['id' => $id], $pageSize);
+
+        if ($res['code'] == 0) {
+            return $this->error($res['msg']);
+        }
+        return $this->success($res['result']);
+    }
+
+    //资讯评论
+    public function newsComment(){
+        $id = $this->request->param('id'); //文章id
+        $column_id = $this->request->param('column_id', '');// 模块id
+        $pid = $this->request->param('pid', '');// 文章上级id
+        $comment = $this->request->param('text'); //内容
+        $city_no = $this->request->param('city_no');
+        $user_id = $this->userId;
+        $type = $this->deviceType;
+        if(!$user_id || !$id ){
+            return  $this->erronewsCommentr('参数错误');
+        }
+
+        if(!empty($pid) && !empty($user_id)){
+            if($pid == $user_id){
+                return $this->error('用户本身不能回复自己的回复');
+            }
+        }
+        $param = [
+            'id'       => $id,
+            'user_id'  => $user_id,
+            'pid'      => $pid,
+            'type'     => $type,
+            'comment'  => $comment,
+            'city_no'  => $city_no,
+            'cate_pid' => $column_id,
+            'status'   => 1,
+        ];
+
+
+        $res = (new CommentList())->newsComment($param);
+
+        if ($res['code'] == 0) {
+            return $this->error($res['msg']);
+        }
+        return $this->success($res['result']);
+
+    }
+
+    //房源点赞
+    public function newsCommentLike(){
+        $param['id'] = $this->request->param('id');
+        $res = (new CommentList())->newsCommentLike($param);
+        if ($res['code'] == 0) {
+            return $this->error($res['msg']);
+        }
+        return $this->success();
+    }
+
+    //楼栋点赞
+    public function propertyReviewsLike(){
+        $param['id'] = $this->request->param('id');
+        $res = (new CommentList())->propertyReviewsLike($param);
+        if ($res['code'] == 0) {
+            return $this->error($res['msg']);
+        }
+        return $this->success();
+    }
+
+    /**
+     * base64图片格式存储
+     * @param $image
+     * @return string[]
+     * @throws \Exception
+     */
+    public function base64ImgSave($image){
+        try{
+            if(false===strpos($image,'data:image/')){//判断是否是base64格式图片
+                throw new \Exception('格式错误');
+            }
+
+            //设置图片名称
+            $rand_str = '_'.mt_rand(1000,9999);
+            $imageName = 't'.md5(strval(uniqid(md5(strval(microtime(true)).$rand_str,true)))).'.jpg';
+            //判断是否有逗号 如果有就截取后半部分
+            if (strstr($image,",")){
+                $image = explode(',',$image);
+                if(empty($image[1])){
+                    throw new \Exception('格式错误');
+                }
+                $image = $image[1];
+            }
+
+            $de_image = base64_decode($image);
+            if($image != base64_encode($de_image) ){
+                throw new \Exception('格式错误');
+            }
+            $image = $de_image;unset($de_image);
+
+            //设置图片保存路径
+            $img_movpathForTemporary= 'upload/images';
+            $img_movpath = $img_movpathForTemporary.'/'.$this->moduleName.'/user';
+            $disk_img_movpath = WEB_ROOT.$img_movpath;//磁盘实际位置
+
+            if (!is_dir($disk_img_movpath)){
+                $mk = mkdir($disk_img_movpath,0777,true);
+                if($mk===false){
+                    $this->error('文件目录创建失败');
+                }
+            }
+            $pathname = $img_movpath.'/'.$imageName;//数据库存储
+            $disk_pathname = $disk_img_movpath.'/'.$imageName;//磁盘地址
+
+            //生成文件夹和图片
+            $rs = file_put_contents($disk_pathname, $image);
+            if (!$rs) {
+                throw new \Exception('图片生成失败');
+            }else {
+                return [
+                    'name' => $imageName,
+                    'url' => '/' . $pathname,
+                ];
+            }
+        }catch (\Exception $e){
+            throw new \Exception($e->getMessage());
+        }
+    }
+
+}

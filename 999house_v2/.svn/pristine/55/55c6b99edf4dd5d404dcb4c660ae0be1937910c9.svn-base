@@ -1,0 +1,685 @@
+<template>
+	<view>
+		<swiper class="swiper-container" circular previous-margin='40' next-margin ='40' @change="swiperchange">
+			<swiper-item v-for="( item, index ) in list" :key="index">
+				<template v-if="item.type == 0 || item.type == 1">
+					<div 
+						class="box" 
+						:class="[ 
+							item.type == 1 ? 'box1' : '',
+							active != index ? 'box-not-active' : ''
+						]" 
+						:ref="'box'+index">
+						<img :src="item.bg" mode='scaleToFill' class="box-bg">
+						<img :src="$api.imgDirtoUrl('/houses/logo.png')" class="logo" :class="[item.type == 0 ? 'logo1' : 'logo2']">
+						<div class="box-content">
+							<h4>{{ contentText(item.title,32) }}</h4>
+							<div>
+								<mp-html class="content-text" v-if="item.content" :content="item.content" lazy-load />
+							<!-- {{ contentText(item.content,215) }} -->
+								<view class="shade"></view>
+							</div>
+							
+						</div>
+						<div class="box-info-box">
+							<div class="box-info">
+								<div class="box-info-head">
+									<img :src="$api.imgDirtoUrl(item.info.head)">
+									<h4>{{ item.info.name }}</h4>
+								</div>
+								<div class="box-info-nickname">
+									{{ item.info.nickName }}
+								</div>
+							</div>
+							<div class="box-qrcode" ref="qrcode">
+								<l-painter :board="base2" isRenderImage/>
+								<!-- <image mode="widthFix" :src="item.qrUrl"/> -->
+							</div>
+							<div class="box-tip">扫码识别二维码阅读资讯</div>
+						</div>
+					</div>
+				</template>
+				<template v-else>
+					<div 
+						class="box box3" 
+						:class="[ active != index ? 'box-not-active' : '' ]" 
+						:ref="'box'+index" 
+					>
+						<img :src="item.bg" class="box-bg">
+						<div class="box-info-box">
+							<img :src="$api.imgDirtoUrl(item.info.head)">
+							<div class="box-info-head">
+								<h4>{{ item.info.name }}</h4>
+								<div class="box-info-nickname">
+									{{ item.info.nickName }}
+								</div>
+							</div>
+						</div>
+						<div class="box-content">
+							<h4>{{ contentText(item.title,32) }}</h4>
+							<div >
+								<mp-html class="content-text" v-if="item.content" :content="item.content" lazy-load />
+								<!-- <i v-html="item.content"></i> -->
+								<!-- {{ contentText(item.content,215) }} -->
+								<view class="shade"></view>
+							</div>
+						</div>
+						<div class="box3-wrap">
+							<div class="box-qrcode" ref="qrcode">
+								<l-painter :board="base2" isRenderImage/>
+							</div>
+							<div class="box3-tip">
+								扫码识别二维码阅读资讯
+							</div>
+							<img :src="$api.imgDirtoUrl('/houses/logo2.png')" class="box3-logo">
+						</div>
+					</div>
+				</template>
+			</swiper-item>
+		</swiper>
+		<div class="pagination">
+			<span v-for="(item,index) in list" :key="index" :class="index == active ? 'pagination-active' : '' "></span>
+		</div>
+		<l-painter :board="base" isRenderImage @success="success" style="position: absolute; top: -999px;"/>
+		<!-- <l-painter :board="base2" isRenderImage @success="success2" style="position: absolute; top: -999px;"/> -->
+		<div class="create-btn">
+			<button 
+			color="rgba(254, 130, 30, 1)" 
+			loading-type="spinner"
+			loading-text="海报生成中..."
+			:loading="createState"
+			@click="createPoster"
+			>
+				生成海报
+			</button>
+		</div>
+		
+		<u-popup
+			v-model="load" 
+			mode="center" 
+			border-radius="6" 
+			width="200"
+			height ="200"
+			:mask-close-able="false"
+		>
+			<view class="box">
+				<u-loading mode="flower" size="60"></u-loading>
+				<view>
+					海报生成中~
+				</view>
+			</view>
+		</u-popup>
+		<u-popup
+			v-model="showimage" 
+			mode="center">
+			<image class="poster" :src="imgUrl" mode='widthFix' show-menu-by-longpress>
+		</u-popup>
+	</view>
+</template>
+
+<script>
+	import lPainter from '@/components/lime-painter/index';
+	import mpHtml from '@/components/mp-html/mp-html'
+	export default {
+		data() {
+			return {
+				showimage:false,
+				base: '',
+				base2:'',
+				option: '',
+				load: false,
+				imgUrl: '',
+				id: 0,
+				mySwiper: 0,
+				active: 0,
+				list: [],
+				
+				createState: false,
+				// 遮罩弹窗
+				chooseSrc: '',
+				showPic: false,
+				datas:{}
+			}
+		},
+		components: {
+			lPainter,
+			mpHtml
+		},
+		onLoad(option) {
+			const that = this;
+			
+			for(let i=0;i<3;i++){
+				let item = {
+					type: i,
+					bg: i>0? this.$api.imgDirtoUrl('/houses/bg'+(i+1)+'.png') : this.$api.imgDirtoUrl('/houses/bg.png')
+					,
+					title: '',
+					content: '',
+					info: {
+						head: '',
+						name: '',
+						nickName: ''
+					},
+					qrUrl: '',
+					logo: ''
+				}
+				// if(i=0){
+				// 	item.bg=that.$api.imgDirtoUrl('/houses/bg.png')
+				// }
+				that.list.push(item)
+			}
+			this.id = option.id;
+			this.cate_id = option.cate_id;
+			this.pid = option.pid;
+			this.getInfo();
+		},
+		methods:{
+			
+			getInfo(){
+				let that = this;
+				let id = this.id;
+				this.$http.post(
+					'/news/getShoreInfo',
+					{
+						id:id,
+						cate_id:this.cate_id,
+						pid:this.pid,
+					},
+					
+				).then(res=>{
+					let data  = res.data;
+					this.datas=res.data
+					if(res.code == 1){
+						let list  = that.list;
+						list.forEach(function (vaule,key) {
+							list[key].title 	= data.title;
+							list[key].content   = data.content;
+							list[key].info  	= data.info;
+							list[key].qrUrl 	= data.qrUrl;
+							list[key].logo 		= data.info.head;	
+						})
+						
+						that.list = list;
+						this.base2 = {
+							width: '108rpx',
+							height: '108rpx',
+							views: [
+								{
+									type: 'qrcode',
+									text: this.list[this.active].qrUrl,
+									css: {
+										left: '0rpx',
+										top: '0rpx',
+										width: '108rpx',
+										height: '108rpx'
+									}
+								},
+							]
+						}
+					}
+				}).catch(res=>{
+					that.$toast(res.msg);
+				});
+			},
+			swiperchange(event){
+				this.active = event.detail.current
+				this.base2 = {
+					width: '108rpx',
+					height: '108rpx',
+					views: [
+						{
+							type: 'qrcode',
+							text: this.list[this.active].qrUrl,
+							css: {
+								left: '0rpx',
+								top: '0rpx',
+								width: '108rpx',
+								height: '108rpx'
+							}
+						},
+					]
+				}
+			},
+			success( e ){
+				this.load = false;
+				this.imgUrl = e;
+			},
+			createPoster() {
+				const bg1 = this.$api.imgDirtoUrl('/houses/bg.png');
+				const bg2 = this.$api.imgDirtoUrl('/houses/bg2.png');
+				const bg3 = this.$api.imgDirtoUrl('/houses/bg3.png');
+				// logo
+				const logo = this.$api.imgDirtoUrl('/houses/logo.png');
+				const logo2 = this.$api.imgDirtoUrl('/houses/logo2.png');
+				const authorurl = this.$api.imgDirtoUrl(this.datas.info.head);
+				const page = this.datas.qrUrl
+				var base  ={}
+				var el =[]
+				if(this.active==0){
+					base = {
+						width: '600rpx',
+						height: '960rpx',
+						views: [
+							{
+								type: 'image',
+								src: bg1,
+								css: {
+									left: '0rpx',
+									top: '0rpx',
+									width: '100%',
+									height: '100%'
+								}
+							},
+							{
+								type: 'image',
+								src: logo,
+								css: {
+									left: '32rpx',
+									top: '41rpx',
+									width: '200rpx',
+									height: '60rpx'
+								}
+							},
+							{
+								type: 'view',
+								css: {
+									left: '32rpx',
+									top: '150rpx',
+									background: '#fff',
+									width: '530rpx',
+									height: '580rpx',
+									radius: '4rpx'
+								}
+							},
+							{
+								type: 'view',
+								css: {
+									left: '32rpx',
+									top: '406rpx',
+									width: '530rpx',
+									height: '256rpx',
+									radius: '4rpx'
+								}
+							},
+							{
+								type: 'image',
+								src: authorurl,
+								css: {
+									color: 'rgba(255, 255, 255, .5)',
+									left: '32rpx',
+									top: '764rpx',
+									fontSize: '24rpx',
+									width: '40rpx',
+									height: '40rpx',
+								}
+							},
+							{
+								type: 'text',
+								text: this.datas.info.name,
+								css: {
+									color: 'rgba(255, 255, 255, .5)',
+									left: '80rpx',
+									top: '764rpx',
+									fontSize: '24rpx',
+								}
+							},
+							{
+								type: 'text',
+								text: this.datas.info.nickName,
+								css: {
+									color: 'rgba(255, 255, 255, .5)',
+									left: '32rpx',
+									top: '810rpx',
+									fontSize: '24rpx',
+									width:'250rpx'
+								}
+							},
+							{
+								type: 'text',
+								text: '长按图片保存至手机',
+								css: {
+									color: 'rgba(255, 255, 255, .5)',
+									left: '170rpx',
+									top: '900rpx',
+									fontSize: '24rpx',
+								}
+							},
+							{
+							    type: 'qrcode',
+							    text: page,
+							    css: {
+							        left: '450rpx',
+							        top: '764rpx',
+							        width: '110rpx',
+							        height: '110rpx',
+							        color: '#000',
+							        backgroundColor: '#fff',
+							        border: '6rpx solid #fff',
+							    }
+							}
+						]
+					};
+					el = [
+						{
+							type: 'text',
+							text: this.contentText(this.datas.title,32),
+							css: {
+								color: '#000',
+								left: '40rpx',
+								top: '170rpx',
+								fontSize: '42rpx',
+								width:'500rpx',
+								height:'200rpx',
+								fontWeight:'bold',
+								textAlign: 'justify',
+								textJustify: 'newspaper',
+								wordBreak: 'break-all',
+							}
+						},
+						{
+							type: 'text',
+							text:this.contentText(this.datas.content,215),
+							css: {
+								color: '#4D4D4D',
+								left: '50rpx',
+								top: '370rpx',
+								fontSize: '22rpx',
+								lineHeight: '39rpx',
+								width:'500rpx',
+								height: '316rpx',
+								overflow: 'hidden',
+							}
+						},
+					]
+				}else if(this.active == 1){
+					base = {
+						width: '600rpx',
+						height: '960rpx',
+						views: [
+							{
+								type: 'image',
+								src: bg2,
+								css: {
+									left: '0rpx',
+									top: '0rpx',
+									width: '100%',
+									height: '100%'
+								}
+							},
+							{
+								type: 'image',
+								src: logo,
+								css: {
+									left: '32rpx',
+									top: '41rpx',
+									width: '200rpx',
+									height: '60rpx'
+								}
+							},
+							{
+								type: 'view',
+								css: {
+									left: '32rpx',
+									top: '150rpx',
+									background: '#fff',
+									width: '530rpx',
+									height: '580rpx',
+									radius: '4rpx'
+								}
+							},
+							{
+								type: 'view',
+								css: {
+									left: '32rpx',
+									top: '730rpx',
+									width: '530rpx',
+									height: '205rpx',
+									background: 'rgba(247, 247, 247, 1)',
+									radius: '4rpx'
+								},
+								views:[
+									{
+										type: 'image',
+										src: authorurl,
+										css: {
+											color: 'rgba(255, 255, 255, .5)',
+											left: '42rpx',
+											top: '740rpx',
+											fontSize: '24rpx',
+											width: '40rpx',
+											height: '40rpx',
+										}
+									},
+									{
+										type: 'text',
+										text: this.datas.info.name,
+										css: {
+											color: 'rgb(0, 0, 0)',
+											left: '90rpx',
+											top: '745rpx',
+											fontSize: '24rpx',
+										}
+									},
+									{
+										type: 'text',
+										text: this.datas.info.nickName,
+										css: {
+											color: 'rgb(0, 0, 0)',
+											left: '42rpx',
+											top: '790rpx',
+											fontSize: '24rpx',
+											width:'250rpx'
+										}
+									},
+								]
+							},
+							{
+								type: 'text',
+								text: '长按图片保存至手机',
+								css: {
+									color: 'rgba(0,0,0, .5)',
+									left: '170rpx',
+									top: '890rpx',
+									fontSize: '24rpx',
+								}
+							},
+							{
+							    type: 'qrcode',
+							    text: page,
+							    css: {
+							        left: '430rpx',
+							        top: '764rpx',
+							        width: '110rpx',
+							        height: '110rpx',
+							        color: '#000',
+							        backgroundColor: '#fff',
+							        border: '6rpx solid #fff',
+							    }
+							}
+						]
+					};
+					el = [
+						{
+							type: 'text',
+							text: this.contentText(this.datas.title,32),
+							css: {
+								color: '#000',
+								left: '40rpx',
+								top: '150rpx',
+								fontSize: '42rpx',
+								width:'510rpx'
+							}
+						},
+						{
+							type: 'text',
+							text: this.contentText(this.datas.content,215),
+							css: {
+								color: '#000',
+								left: '40rpx',
+								top: '350rpx',
+								fontSize: '24rpx',
+								width:'510rpx'
+							}
+						},
+					]
+				}else if (this.active = 2){
+					base = {
+						width: '600rpx',
+						height: '960rpx',
+						views: [
+							{
+								type: 'image',
+								src: bg3,
+								css: {
+									left: '0rpx',
+									top: '0rpx',
+									width: '100%',
+									height: '100%'
+								}
+							},
+							{
+								type: 'image',
+								src: authorurl,
+								css: {
+									color: 'rgba(255, 255, 255, .5)',
+									left: '32rpx',
+									top: '20rpx',
+									fontSize: '24rpx',
+									width: '82rpx',
+									height: '82rpx',
+								}
+							},
+							{
+								type: 'text',
+								text: this.datas.info.name,
+								css: {
+									color: 'rgba(255, 255, 255, .5)',
+									left: '134rpx',
+									top: '20rpx',
+									fontSize: '24rpx',
+								}
+							},
+							{
+								type: 'text',
+								text: this.datas.info.nickName,
+								css: {
+									color: 'rgba(255, 255, 255, .5)',
+									left: '134rpx',
+									top: '55rpx',
+									fontSize: '24rpx',
+									width:'250rpx'
+								}
+							},
+							{
+								type: 'view',
+								css: {
+									left: '32rpx',
+									top: '150rpx',
+									background: '#fff',
+									width: '530rpx',
+									height: '580rpx',
+									radius: '4rpx'
+								}
+							},
+							{
+								type: 'view',
+								css: {
+									left: '32rpx',
+									top: '730rpx',
+									width: '530rpx',
+									height: '205rpx',
+									background: 'rgba(255, 255, 255, 1)',
+									radius: '4rpx'
+								},
+							},
+							{
+								type: 'text',
+								text: '长按图片保存至手机',
+								css: {
+									color: 'rgba(255, 255, 255, .5)',
+									left: '170rpx',
+									top: '900rpx',
+									fontSize: '24rpx',
+								}
+							},
+							{
+							    type: 'qrcode',
+							    text: page,
+							    css: {
+							        left: '52rpx',
+							        top: '780rpx',
+							        width: '130rpx',
+							        height: '130rpx',
+							        color: '#000',
+							        backgroundColor: '#fff',
+							        border: '6rpx solid #fff',
+							    }
+							},
+							{
+								type: 'text',
+								text: '扫码识别二维码阅读资讯',
+								css: {
+									color: 'rgb(0,0,0)',
+									left: '220rpx',
+									top: '800rpx',
+									fontSize: '24rpx',
+									width:'150rpx'
+								}
+							},
+							{
+							    type: 'image',
+							    src: logo2,
+							    css: {
+							        left: '420rpx',
+							        top: '780rpx',
+							        width: '130rpx',
+							        height: '130rpx',
+							        color: '#000',
+							        backgroundColor: '#fff',
+							        border: '6rpx solid #fff',
+							    }
+							},
+						]
+					};
+					el = [
+						{
+							type: 'text',
+							text: this.contentText(this.datas.title,32),
+							css: {
+								color: '#000',
+								left: '40rpx',
+								top: '150rpx',
+								fontSize: '42rpx',
+								width:'510rpx'
+							}
+						},
+						{
+							type: 'text',
+							text: this.contentText(this.datas.content,215),
+							css: {
+								color: '#000',
+								left: '40rpx',
+								top: '350rpx',
+								fontSize: '24rpx',
+								width:'510rpx'
+							}
+						},
+					]
+				}
+				base.views.push(...el);
+				this.base = base
+				const that = this;
+				this.showimage = true
+			},
+			contentText(text,num){
+				const ellipsis = text.length > num ? '...' : '';
+				return text.slice(0,num) + ellipsis;
+			},
+		},
+	}
+</script>
+
+<style>
+	@import './share.css'
+	
+</style>

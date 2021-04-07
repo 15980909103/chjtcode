@@ -1,0 +1,124 @@
+
+//全局混入操作
+let state = 0;//标识执行顺序
+function init(){
+	return {
+		initLaunched: function(){
+			//监听启动完成
+			uni.$on('myBeforeLoad',function(that, original_onLoad, args){//监听onLoad拦截
+				original_onLoad.apply(that,args);
+			})
+			uni.$on('myLaunched',function(res){
+				if(state==0){//延迟执行保证监听顺序，即initOnLoad先执行
+					setTimeout(()=>{
+						uni.$emit('can_myBeforeLoad');
+					},120)
+				}else{
+					uni.$emit('can_myBeforeLoad');
+				}
+			})
+		},
+		initOnLoad: function(that,args){
+			state = 1;
+			let page_onLoad_idx = that.$options.onLoad.length-1
+			let original_onLoad= that.$options.onLoad[page_onLoad_idx];
+			that.$options.onLoad[page_onLoad_idx] = function(){ }
+			uni.$on('can_myBeforeLoad',function(){//监听onLoad拦截
+				uni.$emit('myBeforeLoad',that, original_onLoad, args)
+			})
+		}
+	}
+}
+
+
+import {openPage,imgDirtoUrl} from './utils/util.js'
+const install = (Vue,app) => {
+	let t_version = new Date().getTime();
+	app = app.$options;
+	let initObj = init()
+	initObj.initLaunched();
+	
+	const mixin = {
+		data(){ 
+			return {
+				t_version: '_isMini=1&t='+t_version, //用于webview的版本生成
+				host: app.globalData.host,
+				h5Host: app.globalData.h5Host,
+				host_api: app.globalData.host_api,
+				imgHost: app.globalData.imgHost,
+				city_no: app.globalData.city_no,
+			}
+		},
+		onLoad() {
+			initObj.initOnLoad(this,arguments);
+		},
+		methods:{
+			//标签转换为文字
+			getTagsText(e){
+				const allTags = app.getConst();
+				let update =0;
+				let list_obj = {
+					estatesnew_sale_status: [],
+					house_purpose: [],
+					feature_tag: [],
+				}
+				for(let i in e){
+					let item = e[i]
+					let res = formatItem(allTags,i,item, update);
+					list_obj[i] = res.list
+					if(res.update==1){
+						update = 1;
+					}
+				}
+				let tagarr = [];
+				if(list_obj.estatesnew_sale_status.length){
+					tagarr = tagarr.concat(list_obj.estatesnew_sale_status);
+				}
+				if(list_obj.house_purpose.length){
+					tagarr = tagarr.concat(list_obj.house_purpose);
+				}
+				if(list_obj.feature_tag.length){
+					tagarr = tagarr.concat(list_obj.feature_tag);
+				}
+				
+				if(update==1){
+					app.getConst(1)
+				}
+				return tagarr;
+				
+				function formatItem(tag, key, list, update){
+					let arr = []
+					
+					if(typeof(list)!='object'){
+						list = String(list)
+						list = list.split(',')
+					}
+					
+					for(let i in list){
+						let item = list[i]
+						if(tag[key]&&tag[key]){
+							if(tag[key][item]){
+								arr.push(tag[key][item]);
+							}else{
+								update = 1
+							}
+						}
+					}
+					return {
+						list: arr,
+						update
+					};
+				}
+			},
+			//获取图片地址
+			imgDirtoUrl: imgDirtoUrl,
+			goPage: openPage,
+		}
+	}
+	
+	Vue.mixin(mixin);
+}
+
+export default {
+	install
+}

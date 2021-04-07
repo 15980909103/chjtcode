@@ -1,0 +1,145 @@
+<?php
+
+namespace app\miniwechat\controller;
+
+use app\common\base\UserBaseController;
+use app\common\MyConst;
+use app\common\traits\TraitEstates;
+use app\server\estates\Estatesnew;
+use app\server\marketing\Liveroom;
+use app\server\marketing\Subject;
+
+
+class RankController extends UserBaseController
+{
+    use TraitEstates;
+
+
+    /**
+     * 楼盘排行榜
+     */
+    public function getEstatesRank()
+    {
+        $params = $this->request->param();
+
+        $time = time();
+        // 地区
+        if(empty($params['region_id'])) {
+            $this->error('缺少必要参数');
+        }
+        $regionCode = $params['region_id'];
+        $limit = $params['limit'] ?? 20;
+        // 类型
+        $type = !empty($params['type']) ? $params['type'] : 0;
+        switch($type) {
+            // 人气榜
+            case 1:
+                $key = MyConst::ESTATES_LIST_POPULAR;
+                break;
+            // 热搜榜
+            case 2:
+                $key = MyConst::ESTATES_LIST_SEARCH;
+                break;
+            // 下发所有榜
+            case 0:
+                $key = MyConst::ESTATES_LIST_POPULAR;
+                $keyOther = MyConst::ESTATES_LIST_SEARCH;
+                break;
+            default:
+                $this->error('类型有误');
+                break;
+        }
+
+        $redis = $this->getReids();
+
+        $regionIds = [];
+        $result = [];
+
+        $rankIds = $redis->hGet($key, $regionCode);
+        if(!empty($rankIds)) {
+            $mainIds = explode(',', $rankIds);
+            $regionIds = $mainIds;
+        }
+        if(!empty($keyOther)) {
+            $otherIds = $redis->hGet($keyOther, $regionCode);
+            if(!empty($otherIds)) {
+                $otherIds = explode(',', $otherIds);
+                $regionIds = array_merge($regionIds, $otherIds);
+            }
+        }
+
+        if(!empty($regionIds) && is_array($regionIds)) {
+            $data = [];
+            $data['fields']= 'en.id, en.name, en.city_str, en.area_str, en.price, en.built_area, en.business_area_str, en.list_cover, detail_cover, logo, GROUP_CONCAT(tag_id) as feature_tag';
+            // 标签联表
+            $data['join'][] = ['table' => 'estates_has_tag eht', 'cond' => '(en.id=eht.estate_id and eht.type=1)', 'type' => 'left'];
+            $data['join_already'][] = 'estates_has_tag';
+            $data['group'][] = 'en.id';
+            $params['estate_id'] = $regionIds;
+            $this->buildWhere($params, $data);
+            $estates = (new Estatesnew())->getListByParams($data);
+            // var_dump($estates);
+            if(empty($estates['code']) || 1 != $estates['code']) {
+                $this->error($estates);
+            }
+            $estates = $estates['result'];
+            if(!empty($estates)) {
+                // 楼盘处理
+                $estatesNew = [];
+                foreach($estates as $e) {
+                    $estatesNew[$e['id']] = $e;
+                }
+                unset($estates);
+
+                $rankMain = $this->dealRank($mainIds, $estatesNew, $limit);
+                if(empty($keyOther)) {// 只下发一个榜单
+                    $result = $rankMain;
+                } else {// 下发多个榜单
+                    $result['popular'] = $rankMain;
+                    $result['hot_search'] = $this->dealRank($otherIds, $estatesNew, $limit);
+                }
+            }
+            
+        }
+
+        $this->success($result);
+    }
+
+    /**
+     * 榜单生成
+     */
+    protected function dealRank($ids, $estates, $limit = 20)
+    {
+        $rankList = [];
+
+        $rank = 1;
+        if(!empty($ids)) {
+            foreach($ids as $id) {
+                if(isset($estates[$id])) {
+                    $e = $estates[$id];
+                    $featureTag = !empty($e['feature_tag']) ? explode(',', $e['feature_tag']) : [];
+                    $rankList[] = [
+                        'rank' => $rank, 
+                        'estate_id' => $id, 
+                        'estate' => $e['name'], 
+                        'city' => $e['city_str'],
+                        'area' => $e['area_str'],
+                        'business_area' => $e['business_area_str'],
+                        'price' => (int)$e['price'],
+                        'built_area' => $e['built_area'],
+                        'img'        => $e['list_cover'],
+                        'feature_tag' => array_slice($featureTag, 0, 3),// 取出前两个
+                    ];
+                    if($rank >= $limit) {
+                        break;
+                    }
+                    $rank++;
+                }
+            }
+        }
+
+        return $rankList;
+    }
+
+
+}

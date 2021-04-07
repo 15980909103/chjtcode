@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>图片素材</title>
+		<link rel="stylesheet" href="../../common/vant/index.css"/>
+		<link rel="stylesheet" href="../../common/css/public.css"/>
+		<style>
+			.box{
+				box-sizing: border-box;
+				padding: 0.2rem 0.32rem 0;
+			}
+			
+			.box:first-child{
+				padding-top: 0.5rem;
+			}
+			
+			.box:last-child{
+				padding-bottom: 0.54rem;
+			}
+			
+			.box h4{
+				font-size: 0.3rem;
+				margin-bottom: 0.24rem;
+			}
+			
+			.img-wrap img{
+				width: 2.1rem;
+				height: 1.45rem;
+				margin-right: 0.28rem;
+				margin-bottom: 0.3rem;
+			}
+			
+			.img-wrap img:nth-child(3n){
+				margin-right: 0;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<div id="app" v-cloak>
+			<div class="box" v-for="(item,index) in list" :key="index">
+				<h4>{{ item.name }}</h4>
+				<div class="img-wrap">
+					<img :src="img" v-for="(img,key) in item.list" :key="key" @click="imgClick(item.type,item.list,key)">
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
+
+<script src="../../common/js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/rem.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/public.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/vant/index.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+<script>
+	Vue.use(vant.Lazyload);
+	 
+
+	const app = new Vue({
+		el: '#app',
+		data: {
+			list: [
+				{
+					type: 0,
+					name: 'VR看房',
+					list: ['/9house/static/logo.png','/9house/static/logo.png']
+				},
+				{
+					type: 1,
+					name: '视频看房',
+					list: ['/9house/static/logo.png','/9house/static/logo.png']
+				},
+				{
+					type: 2,
+					name: '效果图',
+					list: ['/9house/static/logo.png','/9house/static/logo.png','/9house/static/logo.png','/9house/static/logo.png','/9house/static/logo.png',]
+				},
+				{
+					type: 2,
+					name: '样板房',
+					list: ['/9house/static/logo.png','/9house/static/logo.png']
+				},
+				{
+					type: 2,
+					name: '区位',
+					list: ['/9house/static/logo.png','/9house/static/logo.png']
+				},
+				{
+					type: 2,
+					name: '楼栋',
+					list: ['/9house/static/logo.png','/9house/static/logo.png']
+				},
+				{
+					type: 2,
+					name: '小区配套',
+					list: ['/9house/static/logo.png','/9house/static/logo.png']
+				}
+			]
+		},
+		components: {
+	
+		},
+		created() {
+			
+		},
+		mounted() {
+			
+		},
+		methods:{
+			imgClick( type, item, index ) {
+				if( type == 2 ){
+					vant.ImagePreview({
+						images: item,
+						startPosition: index,
+						swipeDuration: 300,
+						loop: false
+					});
+				}
+			}
+			
+		},
+	})
+	
+</script>

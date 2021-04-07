@@ -1,0 +1,315 @@
+<?php
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ * Description of main
+ *
+ * @author Goods0
+ */
+include System . DS . 'Encryption.php';
+include System . DS . 'Session.php';
+include System . DS . 'RedisBase.php';
+class PublicAjax extends Controller{
+    //此控制器不用登陆验证
+    public function __construct(){
+        $this->db = new Query();
+        $this->redis = RedisBase::getInstance();
+    }
+    //分享次数纪录
+    public function addShare(){
+        $data['agent_id']=Session::get('agent_id');   //经纪人id
+        $data['share_type']=Context::Post('share_type');    //分享类型 1：名片  2：文章  3：楼盘
+        $data['article_id']=Context::Post('article_id');
+        $data['building_id']=Context::Post('building_id');
+        $data['client_type']='2';
+        $data['create_time']=time();
+        $data['update_time']=time();
+        if(!empty($data['agent_id'])){
+            $this->db->Name('xcx_agent_share')->insert($data)->execute();
+        }
+        echo json_encode(['success'=>true]);
+    }
+    //请求分享数据
+    public function getShare(){
+        $jsapiTicket = $this->getJsApiTicket();
+        if(empty($jsapiTicket)){
+            echo json_encode(['success'=>false,'message'=>'获取异常']);
+            return;
+        }
+        $url = $_SERVER['HTTP_REFERER'];
+        $timestamp = time();
+        $nonceStr = $this->createNonceStr();
+        // 这里参数的顺序要按照 key 值 ASCII 码升序排序
+        $string = "jsapi_ticket=$jsapiTicket&noncestr=$nonceStr&timestamp=$timestamp&url=$url";
+        $signature = sha1($string);
+        $data = array(
+            "appId"     => WXAPPID,
+            "nonceStr"  => $nonceStr,
+            "timestamp" => $timestamp,
+            "signature" => $signature,
+        );
+        echo json_encode(['data'=>$data],JSON_UNESCAPED_UNICODE);
+    }
+    //获取access_toke
+    public function getAccessToken($reflash=0){
+//        $access_token_time = $this->db->Name('xcx_setting')->select()->where_equalTo('`key`','ACCESSTOKENTIME')->firstRow()['value'];
+        $key = 'AccessTokenH5';
+        $accessTokenData = $this->redis->get($key);
+        if(!$accessTokenData) {
+            $expires_time = null;
+        } else {
+            $accessTokenData = json_decode($accessTokenData, TRUE);
+            $access_token_time = $accessTokenData['expires_in'];
+        }
+        if($reflash==1||(time() > $access_token_time || empty($access_token_time))){
+            $appid = WXAPPID;
+            $secret = WXSECRET;
+            $url = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=$appid&secret=$secret";
+            $token = $this->getJson($url);
+            //打印获得的数据
+            $arr=json_decode($token,true);
+            if(empty($arr['access_token'])){
+                return '';
+            }
+            $access_token = $arr['access_token'];
+            $expires_in = $arr['expires_in']-3600+time();
+//            (new Query())->Name('xcx_setting')->update(['value'=>$access_token])->where_equalTo('`key`','ACCESSTOKEN')->execute();
+//            (new Query())->Name('xcx_setting')->update(['value'=>$expires_in])->where_equalTo('`key`','ACCESSTOKENTIME')->execute();
+            $accessTokenData = [
+                'access_token' => $access_token,
+                'expires_in' => $expires_in,
+            ];
+            $this->redis->set($key, json_encode($accessTokenData));
+            $this->redis->expireAt($key, $expires_in);
+            return $access_token;
+        }else{
+//            return $this->db->Name('xcx_setting')->select()->where_equalTo('`key`','ACCESSTOKEN')->firstRow()['value'];
+            return $accessTokenData['access_token'];
+        }
+    }
+    //获取jsapi_ticket
+    public function getJsApiTicket(){
+        $jsapi_ticket_time = $this->db->Name('xcx_setting')->select()->where_equalTo('`key`','JSAPITICKETTIME')->firstRow()['value'];
+        if(time() > $jsapi_ticket_time || empty($jsapi_ticket_time)){
+            $accessToken = $this->getAccessToken();
+            if(empty($accessToken)){
+                $accessToken = $this->getAccessToken(1);
+                if(empty($accessToken)){
+                    return '';
+                }
+            }
+            $url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi&access_token=$accessToken";
+            $token = $this->getJson($url);
+            //打印获得的数据
+            $jsapi_ticket = '';
+            $arr=json_decode($token,true);
+            if(!empty($arr)){
+                $jsapi_ticket = $arr['ticket'];
+            }
+            if(empty($jsapi_ticket)){
+                $accessToken = $this->getAccessToken(1);
+                $url = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?type=jsapi&access_token=$accessToken";
+                $token = $this->getJson($url);
+                //打印获得的数据
+                $arr=json_decode($token,true);
+                $jsapi_ticket = $arr['ticket'];
+            }
+
+            $expires_in = $arr['expires_in']-3600+time();
+            (new Query())->Name('xcx_setting')->update(['value'=>$jsapi_ticket])->where_equalTo('`key`','JSAPITICKET')->execute();
+            (new Query())->Name('xcx_setting')->update(['value'=>$expires_in])->where_equalTo('`key`','JSAPITICKETTIME')->execute();
+            return $jsapi_ticket;
+        }else{
+            return $this->db->Name('xcx_setting')->select()->where_equalTo('`key`','JSAPITICKET')->firstRow()['value'];
+        }
+    }
+    private function createNonceStr($length = 16) {
+        $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        $str = "";
+        for ($i = 0; $i < $length; $i++) {
+            $str .= substr($chars, mt_rand(0, strlen($chars) - 1), 1);
+        }
+        return $str;
+    }
+    //获取小程序access_token
+    public function getAccessToken2(){
+        //获取小程序二维码
+        $access_token="";
+//        $expires_time=$this->db->Name('xcx_setting')->select()->where_equalTo('`key`','expires_time')->firstRow();
+        $key = 'AccessTokenMini';
+        $accessTokenData = $this->redis->get($key);
+        if(!$accessTokenData) {
+            $expires_time = null;
+        } else {
+            $accessTokenData = json_decode($accessTokenData, TRUE);
+            $expires_time = $accessTokenData['expires_in'];
+        }
+
+        if(!empty($expires_time) && time()<intval($expires_time['value'])){
+            $access_token=$this->db->Name('xcx_setting')->select()->where_equalTo('`key`','access_token')->firstRow()['value'];
+        }else{
+            //防止本地请求token，使其失效
+            if(!(strtoupper(substr(PHP_OS,0,3))==='WIN')){
+                $getAccessToken=$this->getJson("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=".APPID."&secret=".SECRET);
+                //$getAccessToken=$this->getJson("https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wx77d12f2497be2502&secret=88579921c6cea5a386e96b1373e1d6bd");
+                $getAccessToken=json_decode($getAccessToken,true);
+                if(empty($getAccessToken['errcode'])){
+                    $access_token=$getAccessToken['access_token'];
+//                    $this->db->Name('xcx_setting')->update(['value'=>$getAccessToken['access_token']])->where_equalTo('`key`','access_token')->execute();
+//                    $this->db->Name('xcx_setting')->update(['value'=>time()+$getAccessToken['expires_in']-200])->where_equalTo('`key`','expires_time')->execute();
+                    $expires_in = time() + $getAccessToken['expires_in'] - 200;
+                    $accessTokenData = [
+                        'access_token' => $access_token,
+                        'expires_in' => $expires_in,
+                    ];
+                    $this->redis->set($key, json_encode($accessTokenData));
+                    $this->redis->expireAt($key, $expires_in);
+                }
+            }
+        }
+        return $access_token;
+    }
+    function getJson($url){
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, FALSE);
+        curl_setopt($curl, CURLOPT_POST, TRUE);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, FALSE);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
+        $output = curl_exec($curl);
+        curl_close($curl);
+        return $output;
+    }
+    protected function sendPost($url,$data){
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        $output = curl_exec($ch);
+        curl_close($ch);
+        return $output;
+    }
+    //获取文章海报信息
+    public function getArticlePoster(){
+        $id=Context::Post('id');    //文章id
+        if(empty(Context::Post('agent_id'))){      //经纪人id
+            $agent_id=Session::get('agent_id');
+        }else{
+            $agent_id=Context::Post('agent_id');
+        }
+        //获取文章信息
+        $data['articleInfo']=$this->db->Name('xcx_article_article')->select()->where_equalTo('id',$id)->firstRow();
+        //经纪人信息
+        $data['agentInfo']=$this->db->Name('xcx_agent_user')->select()->where_equalTo('id',$agent_id)->firstRow();
+        $data['agentInfo']['name']=empty($data['agentInfo']['name'])?$data['agentInfo']['nickname']:$data['agentInfo']['name'];
+        $data['agentInfo']['phone']=empty($data['agentInfo']['phone'])?'暂无':$data['agentInfo']['phone'];
+        //获取二维码信息
+        $access_token=$this->getAccessToken2();
+        $parameter=["scene"=>$id.','.$agent_id,"page"=>"pages/index/article_detail/article_detail"];
+        //$parameter=["scene"=>$id.','.$agent_id,"page"=>"pages/list_two/phone/index/index"];
+        $qrCode=$this->sendPost('https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token='.$access_token,json_encode($parameter));
+        $qrCode=$this->data_uri($qrCode,'image/png');
+        $data['qrCode']=$qrCode;
+        echo json_encode($data,JSON_UNESCAPED_UNICODE);
+    }
+    //获取楼盘海报信息
+    public function getBuildPoster(){
+        $id=Context::Post('id');    //楼盘id
+        if(empty(Context::Post('agent_id'))){      //经纪人id
+            $agent_id=Session::get('agent_id');
+        }else{
+            $agent_id=Context::Post('agent_id');
+        }
+        //获取楼盘信息
+        $data['buildingInfo']=$this->db->Name('xcx_building_building')->select()->where_equalTo('id',$id)->firstRow();
+        $data['buildingInfo']['fold']=floatval($data['buildingInfo']['fold']);
+        //经纪人信息
+        $data['agentInfo']=$this->db->Name('xcx_agent_user')->select()->where_equalTo('id',$agent_id)->firstRow();
+        $data['agentInfo']['name']=empty($data['agentInfo']['name'])?$data['agentInfo']['nickname']:$data['agentInfo']['name'];
+        $data['agentInfo']['phone']=empty($data['agentInfo']['phone'])?'暂无':$data['agentInfo']['phone'];
+        //获取二维码信息
+        $access_token=$this->getAccessToken2();
+        $parameter=["scene"=>$id.','.$agent_id,"page"=>"pages/store/house_detail/house_detail"];
+        //$parameter=["scene"=>$id.','.$agent_id,"page"=>"pages/list_two/phone/index/index"];
+        $qrCode=$this->sendPost('https://api.weixin.qq.com/wxa/getwxacodeunlimit?access_token='.$access_token,json_encode($parameter));
+        $qrCode=$this->data_uri($qrCode,'image/png');
+        $data['qrCode']=$qrCode;
+        echo json_encode($data,JSON_UNESCAPED_UNICODE);
+    }
+
+    //获取用户信息
+    protected function getUserInfo($id){
+        $data=[];
+        //获取用户信息
+        $agentRow=$this->db->Name('xcx_agent_user')->select()->where_equalTo('id',$id)->firstRow();
+        if(!empty($agentRow)){
+            //查询是否有所属店铺
+            $isStore=$this->db->Name('xcx_store_agent')->select()->where_equalTo('agent_id',$id)->firstRow();
+            $storeData=$this->db->Name('xcx_store_store')->select()->where_equalTo('id',$isStore['store_id'])->firstRow();
+            $data['userInfo']['storename']=empty($isStore)?"暂无店铺(您还不是经纪人)":$storeData['title']; //所属店铺
+            $data['userInfo']['province']=empty($isStore)?"":$storeData['province'];     //省份
+            $data['userInfo']['city']=empty($isStore)?"":$storeData['city'];     //城市
+            $data['userInfo']['area']=empty($isStore)?"":$storeData['area'];     //区域
+            $data['userInfo']['status']=empty($isStore)?"":$storeData['status'];     //店铺状态
+            $data['userInfo']['typename']=empty($isStore)?"":(empty($isStore['type'])?'店员':'店长');    //所属职位
+            $data['userInfo']['phone']=empty($agentRow['phone'])?'':$agentRow['phone'];    //电话
+            $data['userInfo']['signature']=empty($agentRow['signature'])?'':$agentRow['signature'];    //个性签名
+            $data['userInfo']['special_label']=empty($agentRow['special_label'])?[]:explode(',',$agentRow['special_label']);    //标签
+            $data['userInfo']['headimgurl']=$agentRow['headimgurl'];    //头像
+            $data['userInfo']['mestatus']=$agentRow['status'];    //经纪人状态
+            $data['userInfo']['name']=empty($agentRow['name'])?$agentRow['nickname']:$agentRow['name']; //姓名
+        }
+        return $data;
+    }
+    //二进制转图片image/png
+    public function data_uri($contents, $mime)
+    {
+        $base64   = base64_encode($contents);
+        return ('data:' . $mime . ';base64,' . $base64);
+    }
+
+    // 博饼项目的请求转发
+    public function requestProxyPass()
+    {
+//        var_dump($_GET);exit();
+        $url = Context::Get('url');
+        $code = Context::Get('code');
+        $state = Context::Get('state');
+
+        if(empty($url) || empty($code) || empty($state)) {
+            echo '参数缺失';
+            exit();
+        }
+        unset($_GET['url'],$_GET['code'],$_GET['state']);
+
+
+        if(strpos($url, '?')) {
+            $url = "{$url}&code={$code}&state={$state}";
+        } else {
+            $url = "{$url}?code={$code}&state={$state}";
+        }
+
+        foreach ($_GET as $key => $value){
+            $url .= '&'.$key.'='.$value;
+        }
+
+
+//        var_dump($url);exit();
+        header("Location: {$url}");
+        exit;
+    }
+
+    public function test()
+    {
+        return 23432;
+    }
+}

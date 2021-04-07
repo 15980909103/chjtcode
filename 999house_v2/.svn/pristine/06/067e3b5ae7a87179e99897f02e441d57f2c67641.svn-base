@@ -1,0 +1,660 @@
+<template>
+	<view >
+		<view class="set">
+			<!-- <span class="iconfont iconsaoma"></span> -->
+			<span class="iconfont iconkefu" @click='showKeFu=true'></span>
+			<!-- <span class="iconfont iconshezhi"></span> -->
+		</view>
+		<view class="my">
+			<view class="info" @click="changeInfoShow">
+				<view class="info-left">
+					<image v-if='uInfo&&uInfo.headimgurl' :src="uInfo.headimgurl">
+					<image v-else src="../../static/my/touxiang.png">
+					<view class="info-content-box">
+						<span class="info-name">{{ uInfo.nickname }}</span>
+						<span class="info-phone">{{ $api.encryptPhone(uInfo.phone) }}</span>
+					</view>
+				</view>
+				<view class="info-right">
+					<!-- <i class="iconfont iconerweima"></i> -->
+					<u-icon name="arrow" />
+				</view>
+			</view>
+		
+			<view class="tab">
+				<view class="tab-item" @click="goPage('/pages/my/my_history')">
+					<view>
+						<image mode="widthFix" src="../../static/my/history.png"></image>
+					</view>
+					<span>浏览记录</span>
+				</view>
+				<view class="tab-item" @click="goPage('/pages/my/my_focus')">
+					<view>
+						<image mode="widthFix" src="../../static/my/like.png">
+					</view>
+					<span>我的关注</span>
+				</view>	
+				<!-- <view class="tab-item">
+					<view>
+						<image src="../../static/my/deal.png">
+					</view>
+					<span>交易报告</span>
+				</view>
+				<view class="tab-item">
+					<view>
+						<image src="../../static/my/sale.png">
+					</view>
+					<span>优惠券</span>
+				</view> -->
+			</view>
+		
+			<image :src="$api.imgDirtoUrl(ad.img)" @click='goAd(ad)' class="ad">
+		
+			<view class="common">
+				<span class="common-title">常用模块</span>
+				<view class="common-box">
+					<view class="common-item" :style="{ backgroundimg: 'url(../../static/my/common.png)' }" @click="goFindHouse">
+						<span class="common-item-title">买房方案</span>
+						<span class="common-item-text">智能匹配，精准推送</span>
+					</view>
+				</view>
+			</view>
+		
+			<view class="tool">
+				<span class="common-title">我的工具</span>
+				<view class="tool-box">
+				<!-- 	<view class="tool-item" @click="goPage('discover/index.html',{active:'研究院'})">
+						<i class="iconfont iconfangjia"></i>
+						<span>查房价</span>
+					</view> -->
+					<view class="tool-item" @click="goPage('/pages/houses/loan')">
+						<i class="iconfont iconbianzu141"></i>
+						<span>房贷计算</span>
+					</view>
+					<!-- <view class="tool-item">
+						<i class="iconfont iconhuida-2"></i>
+						<span>我的回答</span>
+					</view>
+					<view class="tool-item">
+						<i class="iconfont iconbianzu162"></i>
+						<span>我的点评</span>
+					</view>
+					<view class="tool-item">
+						<i class="iconfont icontiezi-copy"></i>
+						<span>我的帖子</span>
+					</view> -->
+				</view>
+			</view>
+		</view>
+		
+		<!-- 底部栏 -->
+		<!-- <common-tabbar active="我的"></common-tabbar> -->
+		
+		<!-- 个人信息 -->
+		<u-popup v-model="infoShow" class="info-wrap" position="bottom" :style="{ height: '100%', width: '100vw'}" :overlay="false"
+		 :closeable="true" close-icon-position="top-left">
+			<view class="info-title">
+				个人信息
+			</view>
+			<view class="info-content">
+				<u-cell-group>
+					<u-cell-item size="large" title="头像" is-link @click="changeInfo(1)">
+						<image v-if='uInfo&&uInfo.headimgurl' :src="uInfo.headimgurl">
+						<image v-else src="../../static/my/touxiang.png">
+					</u-cell-item>
+					<u-cell-item size="large" title="昵称" :value="uInfo.nickname" is-link @click="changeInfo(2)"></u-cell-item>
+					<u-cell-item size="large" title="手机号" :value="$api.encryptPhone(uInfo.phone)" is-link @click="changeInfo(3)"></u-cell-item>
+				</u-cell-group>
+			</view>
+			
+			<view v-if="loginLab" class="botton-logout" @click='logOut'>
+				<u-button>退出登录</u-button>
+			</view>
+		</u-popup>
+		
+		<!-- 修改个人信息 -->
+		<u-popup 
+			v-model="changeShow" 
+			position="bottom" 
+			:style="{ height: '100%', width: '100vw'}" 
+			:overlay="false"
+			:closeable="true"
+			close-icon-position="top-left"
+		>
+			<template v-if="changeShowType == 1">
+				<view class="info-title">
+					修改信息
+				</view>
+				<view class="change-box">
+					<view class="change-head">
+						<image v-if='uChange&&uChange.headimgurl' :src="uChange.headimgurl" ref="userHead">
+						<image v-else src="../../static/my/touxiang.png" ref="userHead">
+						<p>点击图片修改头像</p>
+					</view>
+					<view class="change-name">
+						<view class="change-name-box">
+							<span>昵称</span>
+							<van-field v-model="uChange.nickname" :placeholder="uInfo.nickname"></van-field>
+						</view>
+						<p>请输入要修改的昵称</p>
+					</view>
+				</view>
+				
+				<input type="file" accept="img/*" class="img-up" @change="headChange" ref="imgChange">
+				
+				<view class="botton-logout" >
+					<u-button @click="sureChange">修改信息</u-button>
+				</view>
+			</template>
+			<template v-if="changeShowType == 2">
+				<view class="change-phone">
+					<h4>{{ changePhoneText }}</h4>
+					<van-field
+						v-model="phoneNum"
+						type="tel"
+						center
+						class="apply_alert_phone"
+						clearable
+						placeholder="请输入手机号码"
+						maxlength="11"
+					>
+						<template #button>
+							<u-button 
+								size="small" 
+								class="apply_alert_msg"
+								:disabled="msgDisabled"
+								@click="getMsg"
+							>
+								{{ msgText }}
+							</u-button>
+						</template>
+					</van-field>
+					<van-field 
+						v-model="msg" 
+						type="digit" 
+						center
+						clearable
+						placeholder="请输入验证码"
+						maxlength="6"
+					>
+					</van-field>
+					<u-button
+						class="apply_phone"
+						:disabled="applyDisabled"
+						@click="apply"
+					>
+						{{ upBtn }}
+					</u-button>
+				</view>
+			</template>
+		</u-popup>
+		
+		<view class="kefu-box">
+			<u-modal v-model="showKeFu" close-on-click-overlay :show-confirm-button='false'>
+				<image :src="serverCode" />
+				<view class="kefu-tips">联系客服咨询</view>
+			</u-modal>
+		</view>
+		<view id="container-user-site"></view>
+	</view>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+				showKeFu: false,
+				uInfo: {
+					headimgurl:'',
+					nickname: '登录/注册',
+					phone: ''
+				},
+				ad: '',
+				find_house_total: 0,
+				// 个人信息
+				infoShow: false,
+				serverCode:'',
+				// 修改信息
+				changeShow: false,
+				changeShowType: 1,
+				uChange: {
+					nickname: '',
+					headimgurl: ''
+				},
+				changePhoneText: '验证当前手机号',
+				msgDisabled: false,
+				applyDisabled: false,
+				phoneNum: '',
+				msg: '',
+				timeOut: 0,
+				msgText: '获取验证码',
+				upBtn: '验证',
+				loginLab:''
+			}
+		},
+		onLoad() {
+		},
+		created() {
+			this.myInfo()
+			this.serverCodeInfo()
+			this.getUserLocation()
+			this.isWechat()
+		},
+		mounted() {
+			
+		},
+		methods:{
+			goAd(e){
+				if(!this.$api.trim(e.href)&&e.info){
+					e.href = 'houses/index.html?id='+e.info.estate_id+'&cover='+e.cover;
+				}
+				if(!e.href){
+					return
+				}
+				this.openPage(e.href)
+			},
+			// 获取位置
+			getUserLocation() {
+				this.$http.getCurrentCity().then( data=>{
+					this.city_no = data.city_no;
+					this.getAdvs();
+					this.getEstatesList();
+				})
+			},
+		
+			isWechat(){
+				let isMini = this.$http.isWechat().isMini;
+				let inWechat = this.$http.isWechat().inWechat;
+				if(inWechat==true){
+					this.loginLab = false;
+				}else{
+					this.loginLab = true;
+				}
+		
+				// const ua = window.navigator.userAgent.toLowerCase();
+		
+				// let isMini = false;
+				// wx.miniProgram.getEnv(function(res) {
+				// 	isMini = true;
+				// })
+				// return new Promise((resove,reject)=>{
+				// 	setTimeout(() => {
+				// 		if (ua.match(/micromessenger/i) == 'micromessenger'&&isMini!=false) {
+				// 			// console.log('是微信客户端')
+				// 			this.loginLab = false;
+				// 		} else {
+				// 			// console.log('不是微信客户端')
+				// 			this.loginLab = true;
+				// 		}
+				// 	}, 300);
+				// })
+			},
+			getAdvs(){
+				const data = {
+					falg: ['h5_my_ad'],
+					city_no: this.city_no
+				};
+				
+				this.$http.ajax({
+					url: '/index/adv/getAdvByFlag',
+					data: data,
+				}).then( res=>{
+					let data = res.data;
+					let banners = [];
+					for(let i in data.h5_my_ad){
+						data.h5_my_ad[i]&&data.h5_my_ad[i].img&&banners.push({
+							img: data.h5_my_ad[i].img[0],
+							href: data.h5_my_ad[i].href,
+							info: data.h5_my_ad[i].info,
+							cover: data.h5_my_ad[i].cover,
+						});
+					}
+					
+					if(banners[0]){
+						this.ad = {
+							img: banners[0].img,
+							href: banners[0].href,
+							info: banners[0].info,
+							cover: banners[0].cover,
+						};
+					}
+				}).catch( res=>{
+					this.$toast(res.msg);
+				})
+			},
+			goFindHouse(){
+				if(this.find_house_total > 0){
+					uni.navigateTo({
+					    url: '/pages/index/find_result'
+					});
+				}else{
+					uni.navigateTo({
+					    url: '/pages/index/find_house'
+					});
+				}
+			},
+			changeInfoShow(e){
+				if(this.isLogin()){
+					this.infoShow = true
+				}else{
+					//this.$http.hrefMobileLogin(false);
+					this.goPage('authorize/index')
+				} 
+			},
+			myInfo(){
+				// setLocal('info',{
+				// 	head: data.headimgurl,
+				// 	name: data.nickname
+				// });
+				const info = uni.getStorageSync('info')
+				// const info = this.$api.localGet( 'info' );
+				
+				if(this.isLogin()){
+					this.$http.ajax({
+						method: 'GET',
+						url: '/index/user/getInfo',
+					}).then( res=>{
+						const obj = res.data;
+						
+						obj.headimgurl = this.imgDirtoUrl(obj.headimgurl);
+						this.uInfo = obj;
+					}).catch( res=>{
+						this.$toast(res.msg);
+					})
+				}
+			},
+			serverCodeInfo(){
+				this.$http.ajax({
+					method: 'GET',
+					url: '/index/public/serverCode',
+				}).then( res=>{
+					this.serverCode = res.data
+				}).catch( res=>{
+					this.$toast(res.msg);
+				})
+			},
+			logOut(){
+				let token = this.$http.getLocal('token');
+				console.log(token)
+				this.$http.ajax({
+					method: 'POST',
+					url: '/index/public/logout',
+					data: {'token':token},
+				}).then( res=>{
+					localStorage.removeItem('token');
+					localStorage.removeItem('is_login');
+					localStorage.removeItem('info');
+					this.openPage('my/login.html');
+				}).catch( res=>{
+					this.$toast(res.msg);
+				})
+		
+			},
+			changeInfo( type ) {
+				if( type == 1 || type == 2 ){
+					this.changeShowType = 1;
+					this.$set(this.uChange, 'headimgurl', this.uInfo.headimgurl);
+				} else {
+					this.changeShowType = 2;
+					this.upBtn = '验证'
+					this.changePhoneText = '验证当前手机号';
+					this.msgDisabled = false;
+					this.applyDisabled = false;
+					this.phoneNum = '';
+					this.msg = '';
+				}
+				
+				this.changeShow = true;
+			},
+			headChange(e) {
+				const that = this;
+				var img = e.path[0].files[0]
+				var reader = new FileReader();
+				
+				reader.addEventListener("load", function (){
+					that.$set(that.uChange, 'headimgurl', reader.result);
+				}, false);
+				
+				if (img) {
+					reader.readAsDataURL(img);
+				}
+			},
+			sureChange() {
+				const img = this.uChange.headimgurl;
+				const name = this.uChange.nickname;
+				const data = {};
+				const dispose = (option)=>{
+					this.$http.ajax({
+						url: '/index/user/editUserInfo',
+						data: option
+					}).then( res=>{
+						let info = uni.getStorageSync('user_info')
+						// let info = this.$api.localGet('user_info');
+						
+						if( !info ){
+							info = {};
+						}
+						
+						for( let i in option ){
+							this.$set( this.uInfo, i, option[i] );
+							
+							if( i == 'nickname' ){
+								info.user_name = option[i];
+							} else {
+								info.user_avatar = option[i];
+							}
+						}
+						this.$api.localSet('user_info',info);
+		
+						
+						this.changeShow = false;
+						this.$toast('修改成功');
+					}).catch( res=>{
+						this.$toast(res.msg);
+					})
+				}
+			
+				if( name.length > 0 || img ){
+					if( name.length > 0 ){
+						data.nickname = name;
+					}
+					
+					if( img ){
+						data.headimgurl = img;
+						dispose(data);
+						
+						return;
+					}
+					
+					dispose(data);
+				}
+			},
+			urlToBase64(el) {
+				console.log(el)
+			    return new Promise ((resolve,reject) => {
+					let image = new Image();
+					image.src = el.src;
+					image.setAttribute('width',el.width);
+					image.setAttribute('height',el.height);
+					image.onload = function() {
+						let canvas = document.createElement('canvas');
+						canvas.width = el.width*2;
+						canvas.height = el.height*2;
+						// 将图片插入画布并开始绘制
+						canvas.getContext('2d').drawImage(image, 0, 0, el.width*2, el.height*2);
+						// result
+						let result = canvas.toDataURL('image/png',1.0)
+						resolve(result);
+					};
+				
+					// 图片加载失败的错误处理 
+					image.onerror = () => {
+						reject(new Error('图片流异常'));
+			        };
+			    })  
+			},
+			getMsg() {
+				if( this.$api.mobile(this.phoneNum) ){
+					this.sendCode()
+				} else {
+					this.$toast('请输入正确手机号')
+				}
+			},
+			// 发送验证码
+			sendCode(){
+				this.$http.ajax({
+					url: '/index/public/sendMsg',
+					data: {
+						phone: this.phoneNum,
+						sence: 'sign_up',
+						is_limit: this.changeShowType-1
+					},
+				}).then( res=>{
+					let data = res.data;
+					
+					this.msgDisabled = true;
+					this.msgText = 60;
+					this.timeOut = setInterval(()=>{
+						if( this.msgText != 1 ){
+							this.msgText -= 1;
+						} else {
+							this.msgDisabled = false;
+							clearInterval(this.timeOut);
+							this.msgText = '获取验证码';
+						}
+					},1000)
+					
+					this.$toast(res.data);
+					
+					console.log(res);
+				}).catch( res=>{
+					this.$toast(res.msg);
+				})
+			},
+			// 验证
+			apply() {
+				if( this.phoneNum.length > 0 && this.msg.length == 6 ){
+					let type = 0;
+					
+					if( this.changePhoneText == '验证当前手机号' ){
+						type = 1;
+					} else {
+						type = 2;
+					}
+					
+					this.$http.ajax({
+						url: '/index/user/editUserPhone',
+						data: {
+							mobile: this.phoneNum,
+							code: this.msg,
+							type: type
+						},
+					}).then( res=>{
+						if( type == 1 ){
+							clearInterval(this.timeOut);
+							this.changePhoneText = '绑定新手机号';
+							this.upBtn = '绑定'
+							this.msgDisabled = false;
+							this.msgText = '获取验证码';
+							this.phoneNum = '';
+							this.msg = '';
+						} else {
+							// const info = this.$api.localGet('user_info');
+							// info.phone = this.phoneNum;
+							// this.$api.localSet('user_info',info);
+							this.$set( this.uInfo, 'phone', this.phoneNum );
+							this.changeShow = false;
+							this.$toast('绑定成功');
+						}
+						
+					}).catch( res=>{
+						this.$toast(res.msg);
+					})
+					
+				} else {
+					this.$toast('请正确填写信息');
+				}
+			},
+		
+		
+			getEstatesList(){
+				let uChoose = this.intLocalUChoose();
+				
+				if(Object.keys(uChoose).length==0){
+					this.find_house_total = 0;
+					return
+				}
+				
+				this.$http.ajax({
+					url: '/index/estates/getEstatesList',
+					data: {
+						...uChoose,
+						page: 1,
+					},
+				}).then( res =>{
+					res = res.data
+					this.find_house_total = res.total?res.total:0;
+				}).catch( res=>{
+					this.$toast(res.msg);
+				})
+			},
+			intLocalUChoose(){
+				let uChoose = $api.localGet('user_find_house');
+				let new_uChoose = {};
+				if(!uChoose||Object.keys(uChoose).length==0){
+					return new_uChoose
+				}
+				if(uChoose.like){
+					uChoose.like.map((item,index)=>{
+						new_uChoose['tags['+index+']'] = item;
+					})
+				}
+				if(uChoose.area){
+					new_uChoose.built_area = uChoose.area;
+				}
+				if(!uChoose.site_id){
+					new_uChoose.city_no = this.city_no;
+				}else{
+					if(typeof(uChoose.site_id)=='object'){
+						uChoose.site_id.map((item,index)=>{
+							if(uChoose.site_center.type=='area'){
+								if(item){
+									new_uChoose['business_no['+index+']'] = item;
+								}
+							}else if(uChoose.site_center.type=='subway'){//地铁站点
+								if(item){
+									new_uChoose['sites['+index+']'] = item;
+									new_uChoose.city_no = this.city_no;
+								}
+							}
+						})
+					}else{
+						if(String(uChoose.site_id).indexOf('p_')!=-1){//去除父级标识
+							uChoose.site_id = uChoose.site_id.replace('p_','')
+						}
+		
+						if(uChoose.site_center.type=='area'){
+							new_uChoose.area_no = uChoose.site_id;
+						}else if(uChoose.site_center.type=='subway'){//地铁
+							new_uChoose.subway = uChoose.site_id;
+							new_uChoose.city_no = this.city_no;
+						}
+					}
+				}
+				if(uChoose.budget_str&&uChoose.budget&&Number(uChoose.budget)<1000){
+					new_uChoose.price_type = 'total' 
+					new_uChoose.price = uChoose.budget_str
+				}
+				new_uChoose.no_adv = 1;
+				new_uChoose.page_size = 20;
+				new_uChoose.purpose = uChoose.aim;
+				new_uChoose.has_num = uChoose.manyHouse;
+		
+				return new_uChoose
+			},
+		},
+	}
+</script>
+<style>
+	 @import './index.css';
+</style>

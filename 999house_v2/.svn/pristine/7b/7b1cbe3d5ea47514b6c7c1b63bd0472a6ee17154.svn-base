@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+		<title>小视频</title>
+		<link rel="stylesheet" href="../../common/vant/index.css" />
+		<link rel="stylesheet" href="../../common/css/public.css?v=1.18" />
+		<link rel="stylesheet" href="../../static/css/discover/small_video.css"/>
+		<link rel="stylesheet" href="http://at.alicdn.com/t/font_2099285_p3d7ycogffo.css"/>
+	</head>
+	<body>
+		<div id="app" v-cloak ref="DOM">
+			<div class="container_box" id="video_box">
+				<div class="van_swipe">
+					<!--vant van-swipe 滑动组件 -->
+					<van-swipe :show-indicators="false" ref='vant_swipe' @change="onChange" vertical :loop="false">
+						<van-swipe-item v-for="(item, index) in videoList" :key="index" class="product_swiper">
+							<div class="video_container">
+								<!--video属性
+							webkit-playsinline ios 小窗播放，使视频不脱离文本流，安卓则无效
+							微信内置x5内核，
+							x5-video-player-type="h5-page" 启用H5播放器,是wechat安卓版特性，添加此属性，微信浏览器会自动将视频置为全屏
+							x5-video-player-fullscreen="true" 全屏设置，设置为 true 是防止横屏
+							x5-video-orientation 控制横竖屏 landscape 横屏，portrain竖屏； 默认portrain
+							poster：封面
+							src：播放地址
+							-->
+								<video id="audios" class="video_box" loop webkit-playsinline="true" x5-video-player-type="h5-page"
+									   x5-video-player-fullscreen="true" playsinline preload="auto"
+									   :poster="$http.imgDirtoUrl(item.cover)" :src="$http.imgDirtoUrl(item.url)" :playOrPause="playOrPause"
+									   @click="pauseVideo" @ended="onPlayerEnded($event)"
+								>
+								</video>
+								<!-- 封面 -->
+								<img v-show="isVideoShow" class="play" @click="playvideo" :src="$http.imgDirtoUrl(item.cover)"/>
+								<!-- 播放暂停按钮 -->
+								<img v-show="iconPlayShow" class="icon_play" @click="playvideo"
+									 src="/9house/static/small_video/icon_play.png"/>
+							</div>
+							<!-- 右侧头像、点赞、评论、分享功能 -->
+							<div class="tools_right">
+								<div class="tools_r_li">
+									<img :src="item.tag_image" class="tag_image">
+									<!-- <i class="iconfont icon-jiahao tag_add" v-show="!item.tagFollow"
+									   @click="checkSubscribe(item,index)"></i>
+									<i class="iconfont icon-duihao tag_dui" v-show="item.tagFollow"
+									   :class="item.tagFollow?'tag_dui_active':''"></i> -->
+								</div>
+								<div class="tools_r_li" @click="changeThump(item,index)">
+									<i class="iconfont icondianzan2 icon_right"
+									   :class="item.is_thump?'is_thump_active':''"></i>
+									<div class="tools_r_num">{{item.num_thumbup}}</div>
+								</div>
+								<!-- <div class="tools_r_li" @click="changeFabulous(item,index)">
+									<i class="iconfont icondianzan2 icon_right"
+									   :class="item.fabulous?'fabulous_active':''"></i>
+									<div class="tools_r_num">52.1w</div>
+								</div> -->
+								<div class="tools_r_li" @click="changeComment">
+									<i class="iconfont icon90 icon_right icon_right_change"></i>
+									<div class="tools_r_num">{{item.commentNum}}</div>
+								</div>
+								<!-- <div class="tools_r_li" @click="changeShare">
+									<i class="iconfont iconjichutubiao--21 icon_right"></i>
+									<div class="tools_r_num">{{item.num_share}}</div>
+								</div> -->
+							</div>
+							<!-- 底部作品描述 -->
+							<div class="production_box">
+								<div class="production_name">
+									{{item.author}}
+								</div>
+								<div class="production_des">
+									{{item.title}}-{{item.id}}
+								</div>
+							</div>
+						</van-swipe-item>
+					</van-swipe>
+
+					<!--切换操作栏-->
+					<div class="container_tabbox">
+						<div class="fl">
+							<i class="iconfont iconjiantou11"></i>
+						</div>
+						<!-- <div class="container_item_tab">
+							<div class="item_tab fl" :class="tabIndex==0?'tab_active':''" @click="changeTab(0)">
+								<span class="item_tab_span ">推荐</span>
+							</div>
+							<div class="item_tab fr" :class="tabIndex==1?'tab_active':''" @click="changeTab(1)">
+								<span class="item_tab_span">热门</span>
+							</div>
+							<div class="clear"></div>
+						</div> -->
+					</div>
+
+					<div class="border_progress" :style="'width:'+videoProcess+'%'"></div>
+					<!--分享弹框-->
+					<div class="share_box" :class="showShareBox?'share_active':''">
+						<div class="share_tips">分享到</div>
+						<ul class="share_ul">
+							<li class="share_li pengyouquan_li">
+								<i class="iconfont icon-pengyouquan pengyouquan"></i>
+							</li>
+							<li class="share_li">
+								<i class="iconfont icon-weixin weixin"></i>
+							</li>
+							<li class="share_li" @click="copyUrl">
+								<i class="iconfont icon-lianjie lianjie"></i>
+							</li>
+							<div class="clear"></div>
+						</ul>
+						<div class="share_cancel" @click="cancelShare">取消</div>
+					</div>
+					<!--留言弹窗-->
+					<discover-reply-box
+						:show="commentPop" 
+						:id="to_comment_id"
+						:nav-show="false"
+						:list="videoComment"
+						:column="13"
+						:show-send="true"
+						@send="sendSome" 
+						@close="commentPop = false" 
+						@like="replylikeSome"
+						ref="replyBox"
+					>
+					</discover-reply-box>
+				</div>
+			</div>
+			<div id="container-user-site"></div>
+		</div>
+	</body>
+</html>
+
+<script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+<script src="../../common/js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/rem.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/public.js?v=1.18" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/vant/index.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=53da8183ca23918f2f81c79a5b2ede15&plugin=AMap.Geocoder"></script>
+<script type="module">
+	import { http, loginMixin } from '../../common/js/method/http.js?v=1.18';
+	
+	let videoProcessInterval;
+	
+	const myComponents = [
+		'../../components/common/like/index',
+		'../../components/discover/reply/index',
+		'../../components/discover/reply_box/index',
+	];
+	
+	$api.addComponents(myComponents)
+		.then(()=>{
+			
+			Vue.use(http);
+			Vue.use(vant.Lazyload);
+			Vue.component('commonLike', commonLike);
+			Vue.component('discoverReply', discoverReply);
+			
+			const app = new Vue({
+				el: '#app',
+				data() {
+					let u = navigator.userAgent;
+					return {
+						submitting: false,
+						current: 0,
+						last_page: 1,
+						videoList: [],
+						/* videoList: [{
+							url: 'http://video.jishiyoo.com/3720932b9b474f51a4cf79f245325118/913d4790b8f046bfa1c9a966cd75099f-8ef4af9b34003bd0bc0261cda372521f-ld.mp4',//视频源
+							cover: 'http://oss.jishiyoo.com/images/file-1575341210559.png',//封面
+							tag_image: 'http://npjy.oss-cn-beijing.aliyuncs.com/images/file-1575449277018pF3XL.jpg',//作者头像
+							is_thump: false,//是否赞过
+							tagFollow: false,//是否关注过该作者
+							author_id: 1,//作者ID
+							author: 'superKM',
+							des: '世贸湖边首府二期沙盘户型讲解#89平3房'
+						}], */
+						isVideoShow: true,
+						playOrPause: true,
+						video: null,
+						iconPlayShow: true,
+						isAndroid: u.indexOf('Android') > -1 || u.indexOf('Adr') > -1, // android终端
+						isiOS: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/), // ios终端
+						tabIndex: 0,
+						showShareBox: false,//展示分享框
+						commentPop: false,//是否展示评论弹框
+						// 评论相关
+						to_comment_id: '',
+						videoComment: [],
+						
+						
+						// comment_text: '',//评论输入内容
+						// canSend: false,//是否可以发送
+						// commentPlaceholder: '留下你精彩的评论吧',//评论Placeholder
+						// replayUserData: '',
+						
+						videoProcess: 0,//视频播放进度
+					}
+				},
+				mixins: [loginMixin],
+				components: {
+					discoverReplyBox
+				},
+				watch: {
+					//监听输入变化
+					// comment_text(newV, oldV) {
+					// 	newV == '' ? this.canSend = false : this.canSend = true
+					// },
+				},
+				created(){
+					this.id = $api.funcUrlDel().option.id;
+					// this.city_no = this.getCurrentCity().city_no;
+					this.page = $api.funcUrlDel().option.page;
+					this.page = this.page?this.page:1;
+				},
+				mounted() {
+					this.$http.getCurrentCity().then( data=>{
+						this.city_no = data.city_no;
+						
+						//获取到视频资源后默认自动播放
+						this.getInfo({
+							page: this.page,
+							city_no: this.city_no,
+						},(res) => {
+							console.log(888)
+							let id = this.id
+							res = res.data;
+							let idx = 0;
+							if(res.list&&res.list.length){
+								res.list = this.formatData(res.list);
+								this.videoList = res.list;
+								this.last_page = res.last_page;
+								for(var i in this.videoList){
+									let item = this.videoList[i]
+									if(item.id==id){
+										idx = i
+										break;
+									}
+								}
+						
+								console.log(id,idx==0&&this.last_page&&this.page!=1)
+								if(idx==0&&this.last_page&&this.page!=1){
+									this.preOrNext('pre')
+								}
+							}
+							
+							idx&&this.$refs.vant_swipe.swipeTo(idx,{immediate: true});
+							this.current = idx
+							
+							//this.recommendList = res.recommend
+							//this.replyList = res.replyList
+						
+							//this.playvideo()
+							document.addEventListener("WeixinJSBridgeReady", function () {
+								this.playvideo()
+								//document.getElementById("audios").play();
+							}, false);
+						});
+					})
+				},
+				methods: {
+					getInfo(data,callfun=null){
+						this.$http.ajax({
+							url: '/index/news/getSmallvideo',
+							data: data,
+						}).then( res=>{
+							if(res.code==1){
+								if(callfun){
+									callfun(res)
+								}
+							}
+						})
+					},
+					// ----评论
+					sendSome(option) {
+						const info = this.$api.localGet('info');
+						const time = this.$api.timeFormat(Date.parse(new Date()),'mm-dd hh:MM');
+						const id = Number(this.videoComment[0].id) + 1;
+						const obj = {
+							id: id,
+							content: option.text,
+							head: info.head,
+							name: info.name,
+							lik: 0,
+							num: 0,
+							pid: 0,
+							reply: [],
+							time: time,
+							user_id: 0
+						};
+						
+						if( option.pid == 0 ){
+							this.videoComment.unshift(obj);
+						} else {
+							this.videoComment.map( (item,index)=>{
+								if( item.id == option.pid ){
+									
+									this.$set(this.videoComment[index],'reply',[...this.videoComment[index]['reply'],...[obj]]);
+								}
+							})
+						}
+					},
+					replylikeSome( e ) {
+						this.$set( this.videoComment[e.index], 'lik', e.num );
+					},
+					//弹出评论窗口
+					changeComment() {
+						// console.log(this.current)
+						
+						// console.log(this.videoList[this.current])
+						
+						this.to_comment_id = this.videoList[this.current].id;
+						this.videoComment = [];
+						this.commentPop = true;
+						this.getComment(this.to_comment_id);
+					},
+					//获取评论
+					getComment(id) {
+						this.$http.ajax({
+							method: 'GET',
+							url: '/index/news/getComment',
+							data: {
+								id: id,
+								pid: 13,
+								page: 1,
+								pageSize: 999
+							},
+						}).then( res=>{
+							console.log(res.data.list)
+							this.videoComment = res.data.list;
+						})
+					},
+
+					//关注该作者
+					checkSubscribe(item, index) {
+						this.videoList.map(v => {
+							v.author_id == item.author_id ? v.tagFollow = true : '';
+						})
+					},
+					//改变菜单
+					changeTab(index) {
+						this.tabIndex = index
+					},
+					//点赞操作
+					changeThump(item, index) {
+						let id = item.id
+						if(this.$http.isLogin()!=true){
+							this.$http.hrefMobileLogin();
+							return false;
+						}
+						if(this.submitting==true){
+							return
+						}
+						this.submitting = true
+						
+						this.$http.ajax({
+							url: '/index/news/addFabulous',
+							data: {pid:13,id: id},
+						}).then( res=>{
+							if(res.code!=1){
+								this.$toast(res.msg);
+								return
+							}
+							this.submitting = false
+							
+							let is_thumbup = res.data.is_fabulous
+							this.videoList[index].is_thump = is_thumbup
+							let num_thumbup = this.videoList[index].num_thumbup;
+							if(is_thumbup==1){
+								this.videoList[index].num_thumbup = num_thumbup + 1
+							}else{
+								this.videoList[index].num_thumbup = num_thumbup-1>=0?num_thumbup-1:0;
+							}
+						})
+					},
+					//改变收藏状态
+					changeFabulous(item, index) {
+						this.videoList[index].fabulous = !this.videoList[index].fabulous
+					},
+					//展示分享弹窗
+					changeShare() {
+						this.showShareBox = true
+					},
+					//取消分享
+					cancelShare() {
+						this.showShareBox = false
+					},
+					//滑动改变播放的视频
+					onChange(index) {
+						//改变的时候 暂停当前播放的视频
+						clearInterval(videoProcessInterval)
+						this.videoProcess = 0;
+						let video = document.querySelectorAll('video')[this.current];
+						video.pause();
+						this.playOrPause = false;
+						this.showShareBox = false;
+						this.current = index;
+						//非ios切换直接自动播放下一个
+						if (!this.isiOS) {
+							this.isVideoShow = false;
+							setTimeout(() => {
+								this.pauseVideo()
+							}, 350)
+						} else {
+							//ios官方禁止video自动播放，未找到合适的方法，如果您发现了，麻烦告诉我一下谢谢啦
+							this.playOrPause = true;
+							this.iconPlayShow = true;
+						}
+
+						if(index==0){//上一页
+							this.preOrNext('pre');
+							
+						}
+						//下一页
+						let idx = this.videoList.length-1
+						if(idx>0&&index==idx){
+							this.preOrNext('next');
+						}
+					},
+					preOrNext(type='pre'){
+						let page;
+						if(type=='next'){
+							page = Number(this.page);
+							if(page>=this.last_page){
+								return;
+							}
+							page+= 1
+						}
+						if(type=='pre'){
+							page = this.page-1;
+							if(page<=0){
+								return;
+							}
+						}
+
+					
+						this.getInfo({
+							page: page,
+							city_no: this.city_no,
+						},(res)=>{
+							this.page = page
+							
+							let arr = []
+							res = res.data;
+							this.last_page = res.last_page;
+							if(res.list&&res.list.length){
+								arr = this.formatData(res.list);
+							}
+							this.videoList = arr.concat(this.videoList)
+							
+							this.current = arr.length
+							this.$refs.vant_swipe.swipeTo(this.current,{immediate: true});
+						});
+					},
+					// 开始播放
+					playvideo(event) {
+						try{
+							let video = document.querySelectorAll('video')[this.current];
+							console.log("playvideo：" + this.current);
+							this.isVideoShow = false;
+							this.iconPlayShow = false;
+							this.showShareBox = false;
+							console.log(video)
+							video.play();
+
+							if (this.isiOS) {
+								setTimeout(() => {
+									//处理ios宽视频
+									let documentW = (document.documentElement.clientWidth || document.body.clientWidth);
+									let docB = parseFloat(video.videoWidth / documentW);
+									console.log("获取视频宽和屏幕比：" + docB)
+									// 计算视频最适高度
+									let realH = parseInt(video.videoHeight / docB);
+									this.realH = realH + 'px'
+									console.log("视频最适高度：" + this.realH)
+									this.$forceUpdate();
+								}, 200);
+							}
+
+							videoProcessInterval = setInterval(() => {
+								this.changeProcess(video)
+							}, 100)
+						}catch (e) {
+							console.log(e)
+						}
+					},
+					pauseVideo() { //暂停\播放
+						try {
+							let video = document.querySelectorAll('video')[this.current];
+							console.log("pauseVideo" + this.current);
+							if (this.playOrPause) {
+								video.pause();
+								this.iconPlayShow = true;
+								clearInterval(videoProcessInterval)
+							} else {
+								// wx.ready(() => {
+								//     // 在微信的ready中进行播放 不管成功配置与否 都会执行ready
+								//     video.play();
+								// })
+								video.play();
+								video.pause();
+								setTimeout(() => {
+									video.play();
+									this.iconPlayShow = false;
+									videoProcessInterval = setInterval(() => {
+										this.changeProcess(video)
+									}, 100)
+								}, 100)
+							}
+							this.playOrPause = !this.playOrPause;
+							this.showShareBox = false;
+						} catch (e) {
+							alert(e)
+						}
+
+
+					},
+					//记录播放进度
+					changeProcess() {
+						let video = document.querySelectorAll('video')[this.current];
+						let currentTime = video.currentTime.toFixed(1);
+						let duration = video.duration.toFixed(1);
+						this.videoProcess = parseInt((currentTime / duration).toFixed(2) * 100)
+					},
+					onPlayerEnded(player) { //视频结束
+						this.isVideoShow = true
+						this.current += this.current
+					},
+					//复制当前链接
+					copyUrl() {
+						let httpUrl = window.location.href;
+						var oInput = document.createElement('input');
+						oInput.value = httpUrl;
+						document.body.appendChild(oInput);
+						oInput.select(); // 选择对象
+						document.execCommand("Copy"); // 执行浏览器复制命令
+						oInput.className = 'oInput';
+						oInput.style.display = 'none';
+						alert("链接复制成功")
+					},
+
+					formatData(list){
+						let arr = []
+						for(var i in list){
+							let info = list[i]
+							arr.push({
+								id: info.id,
+								tag_image: info.author&&info.author.head?info.author.head:'',//作者头像
+								cover: info.img,//封面
+								title: info.title,
+								//nickName: '九房淘房师',
+								is_thump: info.is_thump,
+								num_thumbup: this.formatNum9999(info.num_thumbup),
+								commentNum: this.formatNum9999(info.commentNum),
+								num_share: this.formatNum9999(info.num_share),
+								url: '/'+info.url,
+								author: info.author&&info.author.name?info.author.name:'',
+								//tagFollow: false,//是否关注过该作者
+								// 	author_id: 1,//作者ID
+							})
+						}
+						return arr;
+					},
+					formatNum9999(val){
+						if(!val){
+							return val = 0;
+						}
+						if(val>9999){
+							val = String(val/10000);
+							let idx = val.indexOf(".");
+							if(idx!=-1){
+								val = val.substring(0,idx+2) + 'w'; 
+							}
+							val = val + 'w';
+						}
+						return val;
+					}
+				}
+			})
+		})
+	
+	
+</script>

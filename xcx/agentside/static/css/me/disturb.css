@@ -1,0 +1,16 @@
+.my-content{width: 100vw;min-height: 100vh;background-color: #FFF;}
+[v-cloak] {display: none;}
+.my-div1{width: 100vw;padding: 1vh 5vw 0;}
+.my-scroll-li{border-bottom: 1px solid #eee;padding: 2vh 0;display: flex;justify-content:space-between;align-items:center;}
+.my-scroll-li-1{display: flex;align-items:center;}
+.my-scroll-li-2{position: relative;display: flex;align-items:center;}
+.my-scroll-li-2 i{margin-left: 3vw;}
+.my-scroll-li-1 div{font-size: 4vw;}
+.my-tag-color{color:#999;}
+.mui-switch.mui-active{border-color: #D33233;background-color: #D33233;}
+.my-tishi{font-size: 3.5vw;color: #B2B2B2;padding: 2vw 0;}
+.my-btn{width: 90vw;height: 7vh;line-height: 7vh;text-align: center;color: #fff;background-color: #D22527;border-radius: 2vw;margin-top: 3vh;}
+
+
+
+

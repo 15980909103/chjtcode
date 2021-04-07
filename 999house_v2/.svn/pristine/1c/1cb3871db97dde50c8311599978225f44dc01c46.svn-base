@@ -1,0 +1,115 @@
+{
+	"easycom": {
+		"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
+	},
+	"pages": [ 
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "首页"
+			}
+		},
+		{
+			"path": "pages/discover/index",
+			"style": {
+				"navigationBarTitleText": "发现"
+			}
+		},
+		{
+			"path": "pages/my/index",
+			"style": {
+				"navigationBarTitleText": "我的"
+			}
+		},
+		{
+			"path": "pages/authorize/index"
+		},
+		{
+			"path": "pages/houses/loan",
+			"style": {
+				"navigationBarTitleText": "房贷计算器"
+			}
+		},
+		{
+			"path": "pages/new_house/index",
+			"style": {
+				"navigationBarTitleText": "新房"
+			}
+		},
+		{
+			"path": "pages/new_house/find_house",
+			"style": {
+				"navigationBarTitleText": "买房方案"
+			}
+		},
+		{
+			"path": "pages/index/search",
+			"style": {
+				"navigationBarTitleText": "搜索"
+			}
+		},
+		{
+			"path": "pages/houses/sand",
+			"style": {
+				"navigationBarTitleText": "沙盘图"
+			}
+		},
+		{
+			"path": "pages/discover/search",
+			"style": {
+				"navigationBarTitleText": "搜索"
+			}
+		},
+		{
+			"path": "pages/my/my_history",
+			"style": {
+				"navigationBarTitleText": "浏览记录"
+			}
+		},
+
+		{
+			"path": "pages/test/index",
+			"style": {
+				"navigationBarTitleText": "666"
+			}
+		}
+	],
+	"tabBar": {
+	    "color": "#757575",
+	    "selectedColor": "#FE821E",
+	    "borderStyle": "black",
+	    "backgroundColor": "#ffffff",
+	    "list": [{
+	        "pagePath": "pages/index/index",
+	        "iconPath": "static/home.png",
+	        "selectedIconPath": "static/home_active.png",
+	        "text": "首页"
+	    }, {
+	        "pagePath": "pages/discover/index",
+	        "iconPath": "static/discover.png",
+	        "selectedIconPath": "static/discover_active.png",
+	        "text": "发现"
+	    }, {
+	        "pagePath": "pages/my/index",
+	        "iconPath": "static/mine.png",
+	        "selectedIconPath": "static/mine_active.png",
+	        "text": "我的"
+	    }]
+	},
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "九房网",
+		"navigationBarBackgroundColor": "#F8F8F8",
+		"backgroundColor": "#F8F8F8"
+	},
+	"condition" : { //模式配置，仅开发期间生效
+		"current": 0, //当前激活的模式(list 的索引项)
+		"list": [
+			{
+				"name": "666", //模式名称
+				"path": "pages/test/index", //启动页面，必选
+				"query": "" //启动参数，在页面的onLoad函数里面得到
+			}
+		]
+	}
+}

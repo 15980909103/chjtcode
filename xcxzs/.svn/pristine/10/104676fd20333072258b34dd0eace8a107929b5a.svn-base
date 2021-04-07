@@ -1,0 +1,299 @@
+[2021-01-25T08:43:09+08:00][error] [1]Uncaught think\exception\ErrorException: Undefined index: name in /mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php:128
+Stack trace:
+#0 /mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php(128): think\initializer\Error->appError()
+#1 {main}
+  thrown[/mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php:128]
+[2021-01-25T08:43:10+08:00][error] [1]Uncaught think\exception\ErrorException: Undefined index: name in /mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php:128
+Stack trace:
+#0 /mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php(128): think\initializer\Error->appError()
+#1 {main}
+  thrown[/mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php:128]
+[2021-01-25T08:43:10+08:00][error] [1]Uncaught think\exception\ErrorException: Undefined index: name in /mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php:128
+Stack trace:
+#0 /mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php(128): think\initializer\Error->appError()
+#1 {main}
+  thrown[/mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php:128]
+[2021-01-25T08:43:10+08:00][error] [1]Uncaught think\exception\ErrorException: Undefined index: name in /mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php:128
+Stack trace:
+#0 /mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php(128): think\initializer\Error->appError()
+#1 {main}
+  thrown[/mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php:128]
+[2021-01-25T08:43:10+08:00][error] [1]Uncaught think\exception\ErrorException: Undefined index: name in /mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php:128
+Stack trace:
+#0 /mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php(128): think\initializer\Error->appError()
+#1 {main}
+  thrown[/mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php:128]
+[2021-01-25T08:43:10+08:00][error] [1]Uncaught think\exception\ErrorException: Undefined index: name in /mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php:128
+Stack trace:
+#0 /mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php(128): think\initializer\Error->appError()
+#1 {main}
+  thrown[/mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php:128]
+[2021-01-25T08:43:10+08:00][error] [1]Uncaught think\exception\ErrorException: Undefined index: name in /mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php:128
+Stack trace:
+#0 /mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php(128): think\initializer\Error->appError()
+#1 {main}
+  thrown[/mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php:128]
+[2021-01-25T08:43:10+08:00][error] [1]Uncaught think\exception\ErrorException: Undefined index: name in /mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php:128
+Stack trace:
+#0 /mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php(128): think\initializer\Error->appError()
+#1 {main}
+  thrown[/mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php:128]
+[2021-01-25T08:43:11+08:00][error] [1]Uncaught think\exception\ErrorException: Undefined index: name in /mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php:128
+Stack trace:
+#0 /mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php(128): think\initializer\Error->appError()
+#1 {main}
+  thrown[/mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php:128]
+[2021-01-25T08:45:17+08:00][error] [1]Uncaught think\exception\ErrorException: Undefined index: name in /mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php:129
+Stack trace:
+#0 /mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php(129): think\initializer\Error->appError()
+#1 {main}
+  thrown[/mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php:129]
+[2021-01-25T08:45:17+08:00][error] [1]Uncaught think\exception\ErrorException: Undefined index: name in /mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php:129
+Stack trace:
+#0 /mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php(129): think\initializer\Error->appError()
+#1 {main}
+  thrown[/mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php:129]
+[2021-01-25T08:45:17+08:00][error] [1]Uncaught think\exception\ErrorException: Undefined index: name in /mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php:129
+Stack trace:
+#0 /mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php(129): think\initializer\Error->appError()
+#1 {main}
+  thrown[/mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php:129]
+[2021-01-25T08:45:17+08:00][error] [1]Uncaught think\exception\ErrorException: Undefined index: name in /mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php:129
+Stack trace:
+#0 /mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php(129): think\initializer\Error->appError()
+#1 {main}
+  thrown[/mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php:129]
+[2021-01-25T08:45:17+08:00][error] [1]Uncaught think\exception\ErrorException: Undefined index: name in /mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php:129
+Stack trace:
+#0 /mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php(129): think\initializer\Error->appError()
+#1 {main}
+  thrown[/mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php:129]
+[2021-01-25T08:45:17+08:00][error] [1]Uncaught think\exception\ErrorException: Undefined index: name in /mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php:129
+Stack trace:
+#0 /mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php(129): think\initializer\Error->appError()
+#1 {main}
+  thrown[/mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php:129]
+[2021-01-25T08:45:18+08:00][error] [1]Uncaught think\exception\ErrorException: Undefined index: name in /mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php:129
+Stack trace:
+#0 /mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php(129): think\initializer\Error->appError()
+#1 {main}
+  thrown[/mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php:129]
+[2021-01-25T08:45:42+08:00][error] [1]Uncaught think\exception\ErrorException: Undefined index: name in /mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php:130
+Stack trace:
+#0 /mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php(130): think\initializer\Error->appError()
+#1 {main}
+  thrown[/mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php:130]
+[2021-01-25T08:45:42+08:00][error] [1]Uncaught think\exception\ErrorException: Undefined index: name in /mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php:130
+Stack trace:
+#0 /mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php(130): think\initializer\Error->appError()
+#1 {main}
+  thrown[/mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php:130]
+[2021-01-25T08:46:21+08:00][error] [1]Uncaught think\exception\ErrorException: Undefined index: name in /mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php:130
+Stack trace:
+#0 /mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php(130): think\initializer\Error->appError()
+#1 {main}
+  thrown[/mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php:130]
+[2021-01-25T08:46:21+08:00][error] [1]Uncaught think\exception\ErrorException: Undefined index: name in /mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php:130
+Stack trace:
+#0 /mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php(130): think\initializer\Error->appError()
+#1 {main}
+  thrown[/mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php:130]
+[2021-01-25T08:46:21+08:00][error] [1]Uncaught think\exception\ErrorException: Undefined index: name in /mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php:130
+Stack trace:
+#0 /mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php(130): think\initializer\Error->appError()
+#1 {main}
+  thrown[/mnt/e/project/9house_test/fenxiao_v2/app/common/lib/delayQueue/DelayQueue.php:130]
+[2021-01-25T15:30:36+08:00][error] [1]Uncaught think\exception\ErrorException: Illegal string offset 'time_out' in /mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:175
+Stack trace:
+#0 /mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php(175): think\initializer\Error->appError()
+#1 /mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php(144): app\common\base\CoTaskPoolBase->doTask()
+#2 {main}
+  thrown[/mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:175]
+[2021-01-25T15:30:36+08:00][error] [1]Uncaught think\exception\ErrorException: Illegal string offset 'time_out' in /mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:175
+Stack trace:
+#0 /mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php(175): think\initializer\Error->appError()
+#1 /mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php(144): app\common\base\CoTaskPoolBase->doTask()
+#2 {main}
+  thrown[/mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:175]
+[2021-01-25T15:33:02+08:00][error] [1]Uncaught think\exception\ErrorException: Illegal string offset 'time_out' in /mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:175
+Stack trace:
+#0 /mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php(175): think\initializer\Error->appError()
+#1 /mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php(144): app\common\base\CoTaskPoolBase->doTask()
+#2 {main}
+  thrown[/mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:175]
+[2021-01-25T15:33:02+08:00][error] [1]Uncaught think\exception\ErrorException: Illegal string offset 'time_out' in /mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:175
+Stack trace:
+#0 /mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php(175): think\initializer\Error->appError()
+#1 /mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php(144): app\common\base\CoTaskPoolBase->doTask()
+#2 {main}
+  thrown[/mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:175]
+[2021-01-25T15:45:26+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:26+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:27+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:27+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:28+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:28+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:28+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:29+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:29+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:30+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:30+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:30+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:31+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:31+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:32+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:32+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:32+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:33+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:33+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:34+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:34+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:34+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:35+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:35+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:36+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:36+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:36+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:37+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:37+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:38+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:38+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:38+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:39+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:39+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:39+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:40+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:40+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:40+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:40+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:40+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:41+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:41+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:41+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:41+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:42+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:42+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:43+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:43+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:43+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:44+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:44+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:45+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:45+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:45+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T15:45:46+08:00][notice] 延迟队列投递任务错误count() expects at least 1 parameter, 0 given
+[2021-01-25T16:44:51+08:00][error] [1]Uncaught think\exception\ErrorException: Undefined variable: checkDoneChannel in /mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:235
+Stack trace:
+#0 /mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php(235): think\initializer\Error->appError()
+#1 {main}
+  thrown[/mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:235]
+[2021-01-25T16:44:51+08:00][error] [1]Uncaught think\exception\ErrorException: Undefined variable: checkDoneChannel in /mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:235
+Stack trace:
+#0 /mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php(235): think\initializer\Error->appError()
+#1 {main}
+  thrown[/mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:235]
+[2021-01-25T16:44:51+08:00][error] [1]Uncaught think\exception\ErrorException: Undefined variable: checkDoneChannel in /mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:235
+Stack trace:
+#0 /mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php(235): think\initializer\Error->appError()
+#1 {main}
+  thrown[/mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:235]
+[2021-01-25T16:44:55+08:00][error] [1]Uncaught think\exception\ErrorException: Undefined variable: checkDoneChannel in /mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:235
+Stack trace:
+#0 /mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php(235): think\initializer\Error->appError()
+#1 {main}
+  thrown[/mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:235]
+[2021-01-25T16:44:55+08:00][error] [1]Uncaught think\exception\ErrorException: Undefined variable: checkDoneChannel in /mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:235
+Stack trace:
+#0 /mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php(235): think\initializer\Error->appError()
+#1 {main}
+  thrown[/mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:235]
+[2021-01-25T16:50:08+08:00][error] [1]Uncaught think\exception\ErrorException: Cannot use a scalar value as an array in /mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:232
+Stack trace:
+#0 /mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php(232): think\initializer\Error->appError()
+#1 {main}
+  thrown[/mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:232]
+[2021-01-25T16:50:08+08:00][error] [1]Uncaught think\exception\ErrorException: Cannot use a scalar value as an array in /mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:232
+Stack trace:
+#0 /mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php(232): think\initializer\Error->appError()
+#1 {main}
+  thrown[/mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:232]
+[2021-01-25T16:50:08+08:00][error] [1]Uncaught think\exception\ErrorException: Cannot use a scalar value as an array in /mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:232
+Stack trace:
+#0 /mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php(232): think\initializer\Error->appError()
+#1 {main}
+  thrown[/mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:232]
+[2021-01-25T16:50:08+08:00][error] [1]Uncaught think\exception\ErrorException: Cannot use a scalar value as an array in /mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:232
+Stack trace:
+#0 /mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php(232): think\initializer\Error->appError()
+#1 {main}
+  thrown[/mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:232]
+[2021-01-25T16:50:09+08:00][error] [1]Uncaught think\exception\ErrorException: Cannot use a scalar value as an array in /mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:232
+Stack trace:
+#0 /mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php(232): think\initializer\Error->appError()
+#1 {main}
+  thrown[/mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:232]
+[2021-01-25T16:50:09+08:00][error] [1]Uncaught think\exception\ErrorException: Cannot use a scalar value as an array in /mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:232
+Stack trace:
+#0 /mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php(232): think\initializer\Error->appError()
+#1 {main}
+  thrown[/mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:232]
+[2021-01-25T16:52:49+08:00][error] [4]syntax error, unexpected ';', expecting ')'[/mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:274]
+[2021-01-25T16:52:49+08:00][error] [4]syntax error, unexpected ';', expecting ')'[/mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:274]
+[2021-01-25T16:52:50+08:00][error] [4]syntax error, unexpected ';', expecting ')'[/mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:274]
+[2021-01-25T16:52:50+08:00][error] [4]syntax error, unexpected ';', expecting ')'[/mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:274]
+[2021-01-25T16:52:50+08:00][error] [4]syntax error, unexpected ';', expecting ')'[/mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:274]
+[2021-01-25T16:52:50+08:00][error] [4]syntax error, unexpected ';', expecting ')'[/mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:274]
+[2021-01-25T16:52:50+08:00][error] [4]syntax error, unexpected ';', expecting ')'[/mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:274]
+[2021-01-25T16:52:50+08:00][error] [4]syntax error, unexpected ';', expecting ')'[/mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:274]
+[2021-01-25T16:52:50+08:00][error] [4]syntax error, unexpected ';', expecting ')'[/mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:274]
+[2021-01-25T16:53:17+08:00][error] [4]syntax error, unexpected ';', expecting ')'[/mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:274]
+[2021-01-25T16:53:17+08:00][error] [4]syntax error, unexpected ';', expecting ')'[/mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:274]
+[2021-01-25T16:53:17+08:00][error] [4]syntax error, unexpected ';', expecting ')'[/mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:274]
+[2021-01-25T16:53:18+08:00][error] [4]syntax error, unexpected ';', expecting ')'[/mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:274]
+[2021-01-25T16:53:18+08:00][error] [4]syntax error, unexpected ';', expecting ')'[/mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:274]
+[2021-01-25T16:53:18+08:00][error] [4]syntax error, unexpected ';', expecting ')'[/mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:274]
+[2021-01-25T16:55:29+08:00][error] [1]Uncaught TypeError: json_decode() expects parameter 1 to be string, bool given in /mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:229
+Stack trace:
+#0 /mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php(229): json_decode()
+#1 {main}
+  thrown[/mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:229]
+[2021-01-25T16:55:29+08:00][error] [1]Uncaught TypeError: json_decode() expects parameter 1 to be string, bool given in /mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:229
+Stack trace:
+#0 /mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php(229): json_decode()
+#1 {main}
+  thrown[/mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:229]
+[2021-01-25T16:55:29+08:00][error] [1]Uncaught TypeError: json_decode() expects parameter 1 to be string, bool given in /mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:229
+Stack trace:
+#0 /mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php(229): json_decode()
+#1 {main}
+  thrown[/mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:229]
+[2021-01-25T16:55:29+08:00][error] [1]Uncaught TypeError: json_decode() expects parameter 1 to be string, bool given in /mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:229
+Stack trace:
+#0 /mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php(229): json_decode()
+#1 {main}
+  thrown[/mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:229]
+[2021-01-25T16:55:29+08:00][error] [1]Uncaught TypeError: json_decode() expects parameter 1 to be string, bool given in /mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:229
+Stack trace:
+#0 /mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php(229): json_decode()
+#1 {main}
+  thrown[/mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:229]
+[2021-01-25T16:55:30+08:00][error] [1]Uncaught TypeError: json_decode() expects parameter 1 to be string, bool given in /mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:229
+Stack trace:
+#0 /mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php(229): json_decode()
+#1 {main}
+  thrown[/mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:229]
+[2021-01-25T16:55:30+08:00][error] [1]Uncaught TypeError: json_decode() expects parameter 1 to be string, bool given in /mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:229
+Stack trace:
+#0 /mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php(229): json_decode()
+#1 {main}
+  thrown[/mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:229]
+[2021-01-25T16:55:31+08:00][error] [1]Uncaught TypeError: json_decode() expects parameter 1 to be string, bool given in /mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:229
+Stack trace:
+#0 /mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php(229): json_decode()
+#1 {main}
+  thrown[/mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:229]
+[2021-01-25T16:55:31+08:00][error] [1]Uncaught TypeError: json_decode() expects parameter 1 to be string, bool given in /mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:229
+Stack trace:
+#0 /mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php(229): json_decode()
+#1 {main}
+  thrown[/mnt/e/project/9house_test/fenxiao_v2/app/common/base/CoTaskPoolBase.php:229]

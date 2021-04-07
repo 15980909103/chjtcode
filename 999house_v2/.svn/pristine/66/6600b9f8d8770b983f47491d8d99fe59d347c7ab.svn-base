@@ -1,0 +1,224 @@
+.find{
+	width: 100%;
+	box-sizing: border-box;
+	padding: 0.4rem 0.32rem 0.62rem;
+}
+
+.find-title{
+	font-size: 0.3rem;
+	font-weight: bold;
+	color: #212121;
+	margin: 0.24rem 0;
+}
+
+.find-tip{
+	font-size: 0.26rem;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.find-tip-item{
+	width: 2.06rem;
+	height: 0.64rem;
+	background: rgba(250, 250, 250, 1);
+	border-radius: 0.04rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	margin-bottom: 0.24rem;
+}
+
+.find-tip-item:nth-child(3n-1){
+	margin: 0 0.34rem;
+}
+
+.van-slider__button{
+	position: relative;
+}
+
+.van-slider__button:after{
+	content: '';
+	width: 12px;
+	height: 12px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%,-50%);
+	pointer-events: none;
+	border-radius: 50%;
+	box-sizing: border-box;
+	border: 2px solid rgba(254, 130, 30, 1);
+}
+
+.u-price{
+	width: 100%;
+	height: 1.2rem;
+	font-size: 0.4rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-bottom: 0.2rem;
+	color: rgba(254, 130, 30, 1);
+}
+
+.price{
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	font-size: 0.24rem;
+	margin: 0.4rem 0;
+}
+
+.price span:first-child,
+.price span:last-child{
+	color: rgba(254, 130, 30, 1);
+}
+
+.idea{
+	width: 100%;
+	height: 2.4rem;
+	border: 0.01rem solid #E0E0E0;
+	border-radius: 0.04rem;
+	overflow: hidden;
+	box-sizing: border-box;
+	padding: 0.15rem 0.18rem;
+	background: rgba(250, 250, 250, 1);
+	position: relative;
+}
+
+.idea textarea{
+	width: 100%;
+	height: 100%;
+	resize: none;
+	font-size: 0.26rem;
+}
+
+.idea-num{
+	position: absolute;
+	right: 0.14rem;
+	bottom: 0.12rem;
+	font-size: 0.22rem;
+	color: rgba(173, 173, 173, 1);
+	letter-spacing: 0.01rem;
+}
+
+.commit{
+	width: 100%;
+	padding: 0.6rem 0;
+}
+
+.commit-btn{
+	width: 100%;
+	height: 0.88rem;
+}
+
+.find-active{
+	background-color: rgba(254, 130, 30, 1);
+	color: #fff;
+}
+
+.location{
+	width: 100%;
+	height: 0.64rem;
+	box-sizing: border-box;
+	border: 0.01rem solid #E0E0E0;
+	border-radius: 0.02rem;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-size: 0.26rem;
+	color: rgba(173, 173, 173, 1);
+	padding: 0 0.24rem;
+	margin-bottom: 0.24rem;
+}
+
+.location-choose{
+	width: 100%;
+	margin-left: 0.14rem;
+}
+
+.iconquxiao{
+	height: 100%;
+	width: 0.6rem;
+	margin-right: 0.14rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.van-action-sheet__header{
+	display: none;
+}
+
+.content{
+	height: 7.16rem;
+	display: flex;
+}
+
+.content-left{
+	
+	width: 16.6%;
+}
+
+.content-center{
+	width: 33.2%;
+	border-left: 0.01rem solid rgba(240, 240, 240, 1);
+}
+
+.content-right{
+	width: 50.2%;
+	border-left: 0.01rem solid rgba(240, 240, 240, 1);
+}
+
+.content-left,
+.content-center,
+.content-right{
+	display: flex;
+	flex-direction: column;
+	overflow-y: scroll;
+}
+
+.content-left-item{
+	width: 100%;
+	height: 1rem;
+	display: flex;
+	align-items: center;
+	font-size: 0.32rem;
+	text-indent: 0.26rem;
+}
+
+.content-left-item .iconfont{
+	margin-right: 0.44rem;
+}
+
+.content-active{
+	color: rgba(254, 130, 30, 1);
+}
+
+.location-btn{
+	width: 100%;
+	height: 1.28rem;
+	position: fixed;
+	bottom: 0;
+	background-color: #fff;
+	border-top: 0.01rem solid rgba(240, 240, 240, 1);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.location-btn-close,
+.location-btn-sure{
+	width: 3.28rem;
+	height: 0.88rem;
+}
+
+.location-btn-close{
+	border-color: rgba(134, 186, 122, 1);
+	color: rgba(134, 186, 122, 1);
+}
+
+.location-btn-sure{
+	margin-left: 0.26rem;
+}

@@ -1,0 +1,267 @@
+.title-box,
+.title-like{
+margin-top: 40rpx;
+box-sizing: border-box;
+padding: 0 32rpx 0 32rpx;
+display: flex;
+justify-content: space-between;
+align-items: center;
+font-size: 34rpx;
+color: #212121;
+}
+.scrollbox{
+	height: 100vh;
+}
+.title-tip{
+height: 100%;
+display: flex;
+align-items: center;
+}
+
+.title-tip div{
+height: 100%;
+color: rgba(134, 186, 122, 1);
+font-size: 28rpx;
+margin-left: 44rpx;
+}
+
+.title-tip span{
+font-size: 28rpx;
+margin-left: 12rpx;
+}
+
+.title-like{
+margin-top: 70rpx;
+}
+.all-template{
+	width: 100%;
+}
+
+.template{
+	width: 100%;
+	box-sizing: border-box;
+	padding: 34rpx 32rpx 24rpx;
+	display: flex;
+	flex-direction: column;
+	position: relative;
+}
+
+.template::after{
+	content: '';
+	width: 90%;
+	height: 1rpx;
+	background-color: rgba(240, 240, 240, 1);
+	position: absolute;
+	bottom: 0;
+}
+.template-top-houses-site{
+	margin: 0 20rpx 0 30rpx;
+	position: relative;
+}
+
+.template-top-houses-site:after{
+	content: '';
+	width: 1rpx;
+	height: 20rpx;
+	background-color: #757575;
+	position: absolute;
+	right: -7%;
+	top: 53%;
+	transform: translate(50%,-50%);
+}
+
+.template-top-houses-price{
+	display: flex;
+	align-items: center;
+	color: #757575;
+	margin: 20rpx 0;
+}
+
+.template-top-houses-price view{
+	color: #FC4D39;
+}
+.template3-top{
+	display: flex;
+	height: 210rpx;
+}
+
+.template3-top image{
+	width: 210rpx;
+	height: 210rpx;
+}
+
+.template3-top-right{
+	margin-left: 42rpx;
+}
+
+.template3-title{
+	font-size: 34rpx;
+	display: flex;
+	align-items: center;
+}
+
+.template3-title span{
+	color: #fff;
+	font-size: 26rpx;
+	width: 70rpx;
+	height: 36rpx;
+	margin-right: 16rpx;
+	/* background: linear-gradient(90deg, #6BCFFF 0%, #1EA5FE 100%); */
+	border-radius: 2rpx;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	line-height: 30rpx;
+}
+
+.template3-title image{
+	width: 94rpx;
+	height: 34rpx;
+	margin-right: 14rpx;
+}
+
+.template3-tip{
+	display: flex;
+	margin: 18rpx 0;
+}
+
+.template3-tip div{
+	font-size: 22rpx;
+	color: rgba(173, 173, 173, 1);
+	border: 0.01rpx solid #E0E0E0;
+	border-radius: 2rpx;
+	padding: 0 14rpx;
+	display: flex;
+	text-align: center;
+	line-height: 38rpx;
+	height: 38rpx;
+	max-width: 136rpx;
+
+	overflow : hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1; /* 限制在一个块元素显示的文本的行数 */
+    -webkit-box-orient: vertical; /* 垂直排列 */
+    word-break: break-all;  /* 内容自动换行 */
+}
+
+.template3-tip div:nth-child(2){
+	margin: 0 15rpx;
+}
+
+.template3-site {
+	font-size: 28rpx;
+	color: rgba(117, 117, 117, 1);
+}
+
+.template3-site .template-top-houses-site{
+	margin-left: 0;
+}
+
+.template3-top-right .template-top-houses-price{
+	font-size: 28rpx
+}
+
+.template3-top-right .template-top-houses-price{
+	margin: 10rpx 0 0 0;
+}
+
+.template3-bottom{
+	color: rgba(33, 33, 33, 1);
+	font-size: 24rpx;
+	margin-top: 10rpx;
+	margin-left: 252rpx;
+	display: flex;
+	align-items: center;
+	position: relative;
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.template3-bottom-tip{
+	display: flex;
+	align-items: center;
+	margin-right: 30rpx;
+	margin-top: 10rpx;
+}
+
+/* .template3-bottom-tip:nth-child(1){
+	margin-top: 0;
+} */
+
+.template3-bottom-tip image{
+	width: 30rpx;
+	height: 30rpx;
+	margin-right: 10rpx;
+	border-radius: 2rpx;
+}
+
+.template3-bottom-vr span{
+	height: 30rpx;
+	font-size: 22rpx;
+	color: #fff;
+	background: linear-gradient(90deg, #FF813A 0%, #FE4533 100%);
+	border-radius: 2rpx;
+	padding: 0 10rpx;
+}
+
+.template3-bottom-apply{
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	margin-top: 30rpx;
+}
+
+.template3-bottom-apply .van-button{
+	width: 149rpx;
+	height: 54rpx;
+	font-size: 26rpx;
+	padding: 0;
+}
+
+.template3-bottom-apply-box{
+	width: 490rpx;
+	display: flex;
+	flex-direction: column;
+	
+}
+
+.template3-bottom-apply-info{
+	color: rgba(252, 77, 57, 1);
+	font-size: 26rpx;
+	margin-bottom: 10rpx;
+}
+
+.template3-bottom-apply-info .iconfont{
+	font-size: 26rpx;
+	margin-right: 14rpx;
+}
+
+.template3-bottom-apply-people{
+	font-size: 22rpx;
+	color: rgba(173, 173, 173, 1);
+}
+
+.template3-bottom-apply-people span{
+	color: rgba(252, 77, 57, 1);
+}
+
+.template3-top-image-sale{
+	position: relative;
+}
+
+.template3-top-image-sale::after{
+	content: '津贴券';
+	color: #fff;
+	font-size: 20rpx;
+	width: 74rpx;
+	height: 30rpx;
+	border-radius: 0 0 14rpx 0;
+	background: linear-gradient(90deg, #FCA36A 0%, #FC4D39 100%);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	left: 0;
+	top: 0;
+}

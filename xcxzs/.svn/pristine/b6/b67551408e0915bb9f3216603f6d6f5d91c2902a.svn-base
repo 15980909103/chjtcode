@@ -1,0 +1,190 @@
+<van-tabs id="my-van-tabs" active="{{1}}" bind:change="onChange" swipeable animated>
+  <van-tab title="公积金贷款">
+    <scroll-view scroll-y class='my-scroll'>
+      <view class='my-li' data-index='10' data-title='计算方式' bindtap='showOptions'>
+        <view class='my-key'>计算方式</view>
+        <view class='my-val'>{{results[1][0]}} <van-icon name="arrow" size="3vw"/></view>
+      </view>
+      <view class='my-li'>
+        <view class='my-key'>贷款总额</view>
+        <view class='my-val2'><input class='my-input' type='number' value='{{results[1][1]}}' data-index='11' bindfocus="focusInput" bindblur="blurInput" bindinput="setInput"></input><view> 万</view></view>
+      </view>
+      <view class='my-li' data-index='12' data-title='贷款年限' bindtap='showOptions'>
+        <view class='my-key'>贷款年限</view>
+        <view class='my-val'>{{results[1][2]}}年 <van-icon name="arrow" size="3vw"/></view>
+      </view>
+      <view class='my-li' data-index='13' data-title='贷款利率' bindtap='showOptions'>
+        <view class='my-key'>贷款利率</view>
+        <view class='my-val'>{{results[1][3]=='3.25'?'公积金基准利率(3.25%)':'自定义利率('+results[1][3]+'%)'}} <van-icon name="arrow" size="3vw"/></view>
+      </view>
+      <view class='my-btn' data-index='1' bindtap='onSubmit'>计算</view>
+      <view class='my-tag'>贷款利率仅供计算使用，实际交易利率折扣由银行评估</view>
+    </scroll-view>
+  </van-tab>
+  <van-tab title="商业贷款">
+    <scroll-view scroll-y class='my-scroll'>
+      <view class='my-li' data-index='20' data-title='计算方式' bindtap='showOptions'>
+        <view class='my-key'>计算方式</view>
+        <view class='my-val'>{{results[2][0]}} <van-icon name="arrow" size="3vw"/></view>
+      </view>
+      <view class='my-li'>
+        <view class='my-key'>贷款总额</view>
+        <view class='my-val2'><input class='my-input' type='number' value='{{results[2][1]}}' data-index='21' bindfocus="focusInput" bindblur="blurInput" bindinput="setInput"></input><view> 万</view></view>
+      </view>
+      <view class='my-li' data-index='22' data-title='贷款年限' bindtap='showOptions'>
+        <view class='my-key'>贷款年限</view>
+        <view class='my-val'>{{results[2][2]}}年 <van-icon name="arrow" size="3vw"/></view>
+      </view>
+      <view class='my-li' data-index='23' data-title='商贷利率' bindtap='showOptions'>
+        <view class='my-key'>商贷利率</view>
+        <view class='my-val'>{{'最新基准利率('+results[2][3]+'%)'}} <van-icon name="arrow" size="3vw"/></view>
+      </view>
+      <view class='my-btn' data-index='2' bindtap='onSubmit'>计算</view>
+      <view class='my-tag'>贷款利率仅供计算使用，实际交易利率折扣由银行评估</view>
+    </scroll-view>
+  </van-tab>
+  <van-tab title="组合贷款">
+    <scroll-view scroll-y class='my-scroll'>
+      <view class='my-li' data-index='30' data-title='计算方式' bindtap='showOptions'>
+        <view class='my-key'>计算方式</view>
+        <view class='my-val'>{{results[3][0]}} <van-icon name="arrow" size="3vw"/></view>
+      </view>
+      <view class='my-li'>
+        <view class='my-key'>公积金贷款</view>
+        <view class='my-val2'><input class='my-input' type='number' value='{{results[3][1]}}' data-index='31' bindfocus="focusInput" bindblur="blurInput" bindinput="setInput"></input><view> 万</view></view>
+      </view>
+      <view class='my-li' data-index='32' data-title='公积金利率' bindtap='showOptions'>
+        <view class='my-key'>公积金利率</view>
+        <view class='my-val'>{{results[3][2]=='3.25'?'公积金基准利率(3.25%)':'自定义利率('+results[3][2]+'%)'}} <van-icon name="arrow" size="3vw"/></view>
+      </view>
+      <view class='my-li'>
+        <view class='my-key'>商业贷款</view>
+        <view class='my-val2'><input class='my-input' type='number' value='{{results[3][3]}}' data-index='33' bindfocus="focusInput" bindblur="blurInput" bindinput="setInput"></input><view> 万</view></view>
+      </view>
+      <view class='my-li' data-index='34' data-title='商贷利率' bindtap='showOptions'>
+        <view class='my-key'>商贷利率</view>
+        <view class='my-val'>{{'最新基准利率('+results[3][4]+'%)'}} <van-icon name="arrow" size="3vw"/></view>
+      </view>
+      <view class='my-li' data-index='35' data-title='贷款年限' bindtap='showOptions'>
+        <view class='my-key'>贷款年限</view>
+        <view class='my-val'>{{results[3][5]}}年 <van-icon name="arrow" size="3vw"/></view>
+      </view>
+      <view class='my-btn' data-index='3' bindtap='onSubmit'>计算</view>
+      <view class='my-tag'>贷款利率仅供计算使用，实际交易利率折扣由银行评估</view>
+    </scroll-view>
+  </van-tab>
+</van-tabs>
+<van-popup show="{{is_options}}" position="bottom" data-tag='options' bind:close="onClose">
+  <view class='pop-title'>{{optionsTitle}} <image src='/image/icon-close.png' data-tag='options' bindtap='onClose'></image></view>
+  <scroll-view scroll-y class='options-scroll'>
+    <!-- 公积金贷款 -->
+    <block wx:if="{{optionsIndex=='10'}}">
+      <view class="options-li {{results[1][0]=='按贷款总额'?'op-tick':''}}" data-index='10' data-val='按贷款总额' bindtap='setResults'>按贷款总额</view>
+    </block>
+    <block wx:if="{{optionsIndex=='12'}}">
+      <block wx:for="{{constData['dknx']}}" wx:key="index">
+        <view class="options-li {{results[1][2]==item?'op-tick':''}}" data-index='12' data-val='{{item}}' bindtap='setResults'>{{item}}年</view>
+      </block>
+    </block>
+    <block wx:if="{{optionsIndex=='13'}}">
+      <view class="options-li {{results[1][3]=='3.25'?'op-tick':''}}" data-index='13' data-val='3.25' bindtap='setResults'>最新基准利率</view>
+      <view class="options-li {{results[1][3]=='3.58'?'op-tick':''}}" data-index='13' data-val='3.58' bindtap='setResults'>最新基准利率1.1倍</view>
+      <view class="options-li {{results[1][3]=='3.9'?'op-tick':''}}" data-index='13' data-val='3.9' bindtap='setResults'>最新基准利率1.2倍</view>
+      <view class="options-li options-flex">
+        <view>自定义利率 <input class='my-op-input' type='digit' value='{{results[1][3]}}' bindinput="setCustom"></input> %</view>
+        <view data-index='13' data-val='{{custom}}' bindtap='setResults'>确定</view>
+      </view>
+    </block>
+    <!-- 商业贷款 -->
+    <block wx:if="{{optionsIndex=='20'}}">
+      <view class="options-li {{results[2][0]=='按贷款总额'?'op-tick':''}}" data-index='20' data-val='按贷款总额' bindtap='setResults'>按贷款总额</view>
+    </block>
+    <block wx:if="{{optionsIndex=='22'}}">
+      <block wx:for="{{constData['dknx']}}" wx:key="index">
+        <view class="options-li {{results[2][2]==item?'op-tick':''}}" data-index='22' data-val='{{item}}' bindtap='setResults'>{{item}}年</view>
+      </block>
+    </block>
+    <block wx:if="{{optionsIndex=='23'}}">
+      <view class="options-li {{results[2][3]=='4.9'?'op-tick':''}}" data-index='23' data-val='4.9' bindtap='setResults'>最新基准利率</view>
+      <view class="options-li {{results[2][3]=='4.66'?'op-tick':''}}" data-index='23' data-val='4.66' bindtap='setResults'>最新基准利率9.5折</view>
+      <view class="options-li {{results[2][3]=='4.41'?'op-tick':''}}" data-index='23' data-val='4.41' bindtap='setResults'>最新基准利率9折</view>
+      <view class="options-li {{results[2][3]=='4.31'?'op-tick':''}}" data-index='23' data-val='4.31' bindtap='setResults'>最新基准利率8.8折</view>
+      <view class="options-li {{results[2][3]=='4.26'?'op-tick':''}}" data-index='23' data-val='4.26' bindtap='setResults'>最新基准利率8.7折</view>
+      <view class="options-li {{results[2][3]=='4.21'?'op-tick':''}}" data-index='23' data-val='4.21' bindtap='setResults'>最新基准利率8.6折</view>
+      <view class="options-li {{results[2][3]=='4.17'?'op-tick':''}}" data-index='23' data-val='4.17' bindtap='setResults'>最新基准利率8.5折</view>
+      <view class="options-li {{results[2][3]=='4.02'?'op-tick':''}}" data-index='23' data-val='4.02' bindtap='setResults'>最新基准利率8.2折</view>
+      <view class="options-li {{results[2][3]=='3.92'?'op-tick':''}}" data-index='23' data-val='3.92' bindtap='setResults'>最新基准利率8折</view>
+      <view class="options-li {{results[2][3]=='3.68'?'op-tick':''}}" data-index='23' data-val='3.68' bindtap='setResults'>最新基准利率7.5折</view>
+      <view class="options-li {{results[2][3]=='3.43'?'op-tick':''}}" data-index='23' data-val='3.43' bindtap='setResults'>最新基准利率7折</view>
+      <view class="options-li {{results[2][3]=='5.39'?'op-tick':''}}" data-index='23' data-val='5.39' bindtap='setResults'>最新基准利率1.1倍</view>
+      <view class="options-li {{results[2][3]=='5.88'?'op-tick':''}}" data-index='23' data-val='5.88' bindtap='setResults'>最新基准利率1.2倍</view>
+      <view class="options-li {{results[2][3]=='6.37'?'op-tick':''}}" data-index='23' data-val='6.37' bindtap='setResults'>最新基准利率1.3倍</view>
+      <view class="options-li options-flex">
+        <view>自定义利率 <input class='my-op-input' type='digit' value='{{results[2][3]}}' bindinput="setCustom"></input> %</view>
+        <view data-index='23' data-val='{{custom}}' bindtap='setResults'>确定</view>
+      </view>
+    </block>
+    <!-- 组合贷款 -->
+    <block wx:if="{{optionsIndex=='30'}}">
+      <view class="options-li {{results[3][0]=='按贷款总额'?'op-tick':''}}" data-index='30' data-val='按贷款总额' bindtap='setResults'>按贷款总额</view>
+    </block>
+    <block wx:if="{{optionsIndex=='32'}}">
+      <view class="options-li {{results[3][2]=='3.25'?'op-tick':''}}" data-index='32' data-val='3.25' bindtap='setResults'>最新基准利率</view>
+      <view class="options-li {{results[3][2]=='3.58'?'op-tick':''}}" data-index='32' data-val='3.58' bindtap='setResults'>最新基准利率1.1倍</view>
+      <view class="options-li {{results[3][2]=='3.9'?'op-tick':''}}" data-index='32' data-val='3.9' bindtap='setResults'>最新基准利率1.2倍</view>
+      <view class="options-li options-flex">
+        <view>自定义利率 <input class='my-op-input' type='digit' value='{{results[3][2]}}' bindinput="setCustom"></input> %</view>
+        <view data-index='32' data-val='{{custom}}' bindtap='setResults'>确定</view>
+      </view>
+    </block>
+    <block wx:if="{{optionsIndex=='34'}}">
+      <view class="options-li {{results[3][4]=='4.9'?'op-tick':''}}" data-index='34' data-val='4.9' bindtap='setResults'>最新基准利率</view>
+      <view class="options-li {{results[3][4]=='4.66'?'op-tick':''}}" data-index='34' data-val='4.66' bindtap='setResults'>最新基准利率9.5折</view>
+      <view class="options-li {{results[3][4]=='4.41'?'op-tick':''}}" data-index='34' data-val='4.41' bindtap='setResults'>最新基准利率9折</view>
+      <view class="options-li {{results[3][4]=='4.31'?'op-tick':''}}" data-index='34' data-val='4.31' bindtap='setResults'>最新基准利率8.8折</view>
+      <view class="options-li {{results[3][4]=='4.26'?'op-tick':''}}" data-index='34' data-val='4.26' bindtap='setResults'>最新基准利率8.7折</view>
+      <view class="options-li {{results[3][4]=='4.21'?'op-tick':''}}" data-index='34' data-val='4.21' bindtap='setResults'>最新基准利率8.6折</view>
+      <view class="options-li {{results[3][4]=='4.17'?'op-tick':''}}" data-index='34' data-val='4.17' bindtap='setResults'>最新基准利率8.5折</view>
+      <view class="options-li {{results[3][4]=='4.02'?'op-tick':''}}" data-index='34' data-val='4.02' bindtap='setResults'>最新基准利率8.2折</view>
+      <view class="options-li {{results[3][4]=='3.92'?'op-tick':''}}" data-index='34' data-val='3.92' bindtap='setResults'>最新基准利率8折</view>
+      <view class="options-li {{results[3][4]=='3.68'?'op-tick':''}}" data-index='34' data-val='3.68' bindtap='setResults'>最新基准利率7.5折</view>
+      <view class="options-li {{results[3][4]=='3.43'?'op-tick':''}}" data-index='34' data-val='3.43' bindtap='setResults'>最新基准利率7折</view>
+      <view class="options-li {{results[3][4]=='5.39'?'op-tick':''}}" data-index='34' data-val='5.39' bindtap='setResults'>最新基准利率1.1倍</view>
+      <view class="options-li {{results[3][4]=='5.88'?'op-tick':''}}" data-index='34' data-val='5.88' bindtap='setResults'>最新基准利率1.2倍</view>
+      <view class="options-li {{results[3][4]=='6.37'?'op-tick':''}}" data-index='34' data-val='6.37' bindtap='setResults'>最新基准利率1.3倍</view>
+      <view class="options-li options-flex">
+        <view>自定义利率 <input class='my-op-input' type='digit' value='{{results[3][4]}}' bindinput="setCustom"></input> %</view>
+        <view data-index='34' data-val='{{custom}}' bindtap='setResults'>确定</view>
+      </view>
+    </block>
+    <block wx:if="{{optionsIndex=='35'}}">
+      <block wx:for="{{constData['dknx']}}" wx:key="index">
+        <view class="options-li {{results[3][5]==item?'op-tick':''}}" data-index='35' data-val='{{item}}' bindtap='setResults'>{{item}}年</view>
+      </block>
+    </block>
+  </scroll-view>
+</van-popup>
+<van-popup class='my-res' show="{{is_result}}" position="bottom" data-tag='result' bind:close="onClose">
+  <view class='pop-title'>{{resTitle}} <image src='/image/icon-close.png' data-tag='result' bindtap='onClose'></image></view>
+  <scroll-view scroll-y class='result-scroll'>
+    <view class='res-chart'>
+        <canvas canvas-id="ringCanvas" class="canvas"></canvas>
+        <view class='chart-content'>
+          <view class='chart-li'><view class='chart-icon1'></view>贷款总额：<text>{{resArr.dkze}}元</text></view>
+          <view class='chart-li'><view class='chart-icon2'></view>支付利息：<text>{{resArr.zflx}}元</text></view>
+        </view>
+    </view>
+    <view class='res-li'>
+      <view class='my-50'>贷款总额：<text>{{resArr.dkze}}</text></view>
+      <view class='my-50'>还款总额：<text>{{resArr.hkze}}</text></view>
+    </view>
+    <view class='res-li'>
+      <view class='my-50'>支付利息：<text>{{resArr.zflx}}</text></view>
+      <view class='my-50'>贷款月数：<text>{{resArr.dkys}}月</text></view>
+    </view>
+    <view class='res-li'>
+      <view class='my-50'>月均还款：<text>{{resArr.yjhk}}</text></view>
+    </view>
+    <view class='res-prompt'>以上结果仅供参考，请以当地实际情况为准</view>
+  </scroll-view>
+</van-popup>

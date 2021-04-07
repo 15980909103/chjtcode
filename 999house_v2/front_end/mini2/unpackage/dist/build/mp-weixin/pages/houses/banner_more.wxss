@@ -1,0 +1,1 @@
+.box{box-sizing:border-box;padding:20rpx 32rpx 0}.box:first-child{padding-top:50rpx}.box:last-child{padding-bottom:54rpx}.box ._h4{font-size:30rpx;margin-bottom:24rpx}.img-wrap .img{width:210rpx;height:145rpx;margin-right:28rpx;margin-bottom:30rpx}.img-wrap ._img:nth-child(3n){margin-right:0}

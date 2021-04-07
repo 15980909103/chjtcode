@@ -1,0 +1,243 @@
+
+//全局混入操作
+let initLifeCycle = {
+	canNextFailMsging: false,//可以往下执行时的信息提醒中的标识，防抖处理
+	whitePages: null,
+	vueBaseObj : null, //用于获取为mixin混入的对象
+	lifeCycle_hook_flag : 0,//标识生命周期初始化完
+	initLaunched_first: null, //是否已经myLaunched完成
+	initLaunched_first_ok: 0,
+	initLaunched: function(){
+		let ta = this;
+		return new Promise((resolve,reject)=>{
+			if(!ta.initLaunched_first){
+				ta.initLaunched_first = resolve//第一次myLaunched挂起
+			}else{
+				console.log('p—initLaunched')
+				if(ta.initLaunched_first_ok==1){
+					resolve();
+				}else{
+					let timeId = setInterval(()=>{
+						if(ta.initLaunched_first_ok==1){
+							clearInterval(timeId)
+							resolve();
+						}
+					},50)
+				}
+			}
+		})
+	},
+	onMLaunched: function(){
+		//console.log('initLaunched')
+		//监听启动完成
+		let ta = this
+		uni.$on('myLaunched',function(res){
+			//console.log('myLaunched',ta.lifeCycle_hook_flag)
+			if(ta.lifeCycle_hook_flag==0){//延迟执行保证监听事件顺序，即initOnLoad,initOnShow先执行
+				let timeId = setInterval(()=>{
+					if(ta.initLaunched_first){
+						clearInterval(timeId)
+						ta.initLaunched_first_ok = 1;
+						console.log(ta.initLaunched_first_ok)
+						ta.initLaunched_first()//第一次已经myLaunched完成
+					}
+				},50)
+			}else{
+				ta.initLaunched_first_ok = 1;
+				ta.initLaunched_first()//第一次已经myLaunched完成
+			}
+		})
+	},
+	canNext: async function(that){
+		let ta = this;
+		return new Promise((resolve,reject)=>{
+			let app = getApp()
+			if(!ta.whitePages){
+				ta.whitePages = app.globalData.whitePages;
+			}
+			
+			let whiteAlertMsg = [
+				"pages/my/index",
+			];//不弹窗提示的白名单
+			
+			let pages = getCurrentPages();
+			let route = pages[pages.length-1].route;//当前页面路由
+			let route_fullPath = pages[pages.length-1].$page.fullPath;//当前页面路由含页面参数
+			let res = ta.whitePages.includes(route)==true||that.isLogin()==true;
+			if(res == false){//进行提示操作
+				if(ta.canNextFailMsging == true||whiteAlertMsg.includes(route)==true){//判断页面栈中只有一个页面的时候不弹出
+					return
+				}
+				ta.canNextFailMsging = true;
+				setTimeout(()=>{
+					ta.canNextFailMsging = false;
+				},100);
+				// uni.showModal({
+				// 	title: '提示',
+				// 	content: '请先进行登录',
+				// 	success: function(rs){
+				// 		if(rs.confirm==true){
+				// 			app.globalData.restopen = route_fullPath;
+				// 			that.goPage('authorize/index','','redirectTo');
+				// 		}
+				// 		if(rs.cancel==true){
+				// 			that.goPage(-1);
+				// 		}
+				// 	},
+				// 	fail: function(){
+				// 		that.goPage(-1);
+				// 	}
+				// });
+				
+				console.log(route_fullPath)
+				app.globalData.restopen = route_fullPath;
+				uni.redirectTo({
+					url: '/pages/authorize/index'
+				})
+			}
+			
+			resolve(res);
+		})
+	},
+	initOnLoad: async function(that,args){
+		//console.log('initOnLoad')
+		/* if(that.isLogin()==true){
+			await initLifeCycle.initLaunched();
+			return;
+		} */
+		
+		this.vueBaseObj = new that.$options._base();
+		let page_onLoad_idx = this.vueBaseObj.$options.onLoad.length;
+		let original_onLoad = null;
+		if(page_onLoad_idx&&that.$options.onLoad[page_onLoad_idx]){
+			original_onLoad = that.$options.onLoad[page_onLoad_idx];
+			if(!that.$options.ishookOnLoad){
+				that.$options.onLoad[page_onLoad_idx] = async function(){
+					await initLifeCycle.initLaunched();
+					let can = await initLifeCycle.canNext(that);
+					//console.log(can)
+					if(can == true){
+						original_onLoad.apply(that,args);
+					}
+				};
+				that.$options.ishookOnLoad = 1;//标识已改写
+			}
+		}
+	},
+	initOnShow: async function(that,args){
+		//console.log('initOnShow')
+		/* if(that.isLogin()==true){
+			await initLifeCycle.initLaunched();
+			return;
+		} */
+			
+		this.lifeCycle_hook_flag = 1;//标识生命周期初始化完
+		if(!this.vueBaseObj){
+			this.vueBaseObj = new that.$options._base();
+		}
+		let page_onShow_idx = this.vueBaseObj.$options.onShow.length;
+		let original_onShow = null;
+		this.vueBaseObj = null;
+		if(page_onShow_idx&&that.$options.onShow[page_onShow_idx]){
+			if(!that.$options.ishookOnShow){
+				original_onShow = that.$options.onShow[page_onShow_idx];
+				that.$options.onShow[page_onShow_idx] = async function(){ 
+					await initLifeCycle.initLaunched();
+					let can = await initLifeCycle.canNext(that);
+					//console.log(can)
+					if(can == true){
+						original_onShow.apply(that,args);
+					}
+				};
+				that.$options.ishookOnShow = 1;//标识已改写
+			}
+		}
+	}
+}
+
+
+
+import {openPage,imgDirtoUrl,getTagsText} from './utils/util.js'
+import httpInterceptor from '@/utils/http.interceptor.js';
+
+const install = (Vue,app) => {
+	let t_version = new Date().getTime();
+	app = app.$options;
+	initLifeCycle.onMLaunched();
+	
+	const mixin = {
+		data(){ 
+			return {
+				city_no: app.globalData.city_no,
+				city_name: app.globalData.city_name,
+				t_version: '', //用于webview的版本生成
+				host: app.globalData.host,
+				h5Host: app.globalData.h5Host,
+				host_api: app.globalData.host_api,
+				imgHost: app.globalData.imgHost,
+			}
+		},
+		onLoad() {
+			//#ifdef MP-WEIXIN
+			initLifeCycle.initOnLoad(this,arguments);
+			//#endif
+		},
+		onShow() {
+			//#ifdef MP-WEIXIN
+			this.t_version = '_isMini=1&t='+t_version+'&_city_no='+app.globalData.city_no+'&_city_name='+app.globalData.city_name;//用于webview的版本生成
+			initLifeCycle.initOnShow(this,arguments);
+			//#endif
+		},
+		methods:{
+			//标签转换为文字
+			getTagsText,
+			//获取图片地址
+			imgDirtoUrl: imgDirtoUrl,
+			goPage: openPage,
+			isLogin(){
+				// return true
+				return app.globalData.userInfo&&app.globalData.token? true : false;
+			},
+			alertLogin(){//弹出登录提醒
+				let that = this
+				if(that.isLogin()==false){
+					uni.showModal({
+						title: '提示',
+						content: '请先进行登录',
+						success: function(rs){
+							if(rs.confirm==true){
+								let pages = getCurrentPages();
+								let route_fullPath = pages[pages.length-1].$page.fullPath;
+								app.globalData.restopen = route_fullPath;
+								that.goPage('authorize/index','','redirectTo');
+							}
+							if(rs.cancel==true){
+								//that.goPage(-1);
+							}
+						},
+						fail: function(){
+							//that.goPage(-1);
+						}
+					});
+					throw Error("请登录");
+				}
+			},
+			$toast(msg){
+				uni.showToast({
+					title: msg,
+					duration: 1500,
+					icon: 'none'
+				})
+			},
+			getToken(){
+				return httpInterceptor.getToken();
+			}
+		}
+	}
+	
+	Vue.mixin(mixin);
+}
+
+export default {
+	install
+}

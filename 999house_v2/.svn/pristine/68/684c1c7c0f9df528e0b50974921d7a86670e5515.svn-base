@@ -1,0 +1,112 @@
+/* 便捷模块 */
+.speedy{
+	width: 100%;
+	/* height: 3.05rem; */
+	height: 1.48rem;
+	margin: 0.52rem 0;
+	padding: 0 0.32rem;
+	box-sizing: border-box;
+	touch-action: pan-y;
+}
+
+.speedy-card{
+	width: 100%;
+	/* height: 100%; */
+	background: #FFFFFF;
+	box-shadow: 0 0.02rem 0.18rem 0 #F5F5F5;
+	border-radius: 0.06rem;
+	border: 1px solid #EBEBEB;
+	position: relative;
+}
+
+.speedy-card .van-tab{
+	flex: none;
+	padding: 0 0.26rem;
+	font-size: 0.34rem;
+	font-weight: 600;
+	color: #212121;
+}
+
+.speedy-card .van-tabs__wrap{
+	height: 30%;
+}
+
+.speedy-card .van-tab__text{
+	position: relative;
+	z-index: 2;
+}
+
+.speedy-card .van-tabs__nav--line{
+	padding-bottom: 0.05rem;
+}
+
+.speedy-card .van-tabs__line{
+	height: 0.14rem;
+	width: 0.94rem;
+	border-radius: 0.01rem;
+	left: -0.2rem;
+	background: linear-gradient(270deg, rgba(255, 203, 79, 1) 0%, rgba(255, 141, 48, 1) 100%);
+}
+
+.speedy-card .van-tabs__content{
+	height: 70%;
+	font-size: 0.28rem;
+	font-weight: 500;	
+	color: #212121;
+}
+
+.speedy-card .van-tabs__track,
+.speedy-card .van-tab__pane-wrapper,
+.speedy-card .van-tab__pane{
+	height: 100%;
+}
+
+.speedy-wrap{
+	/* height: 60%; */
+	/* display: flex; */
+	/* height: 1.48rem; */
+	/* justify-content: space-between; */
+	padding: 0.2rem 0.26rem;
+	/* box-sizing: border-box; */
+}
+.speedy-wrap .speedy-item{
+	display: inline-block;
+	vertical-align: middle;
+	width: 3.58rem;
+}
+.speedy-text{
+	font-size: 0.22rem;
+	margin-top: 0.18rem;
+	color: #ADADAD;
+	font-weight: 400;	
+}
+
+.speedy-img{
+	display: inline-block;
+	vertical-align: middle;
+	width: 1.4rem;
+	height: 1.24rem;
+	margin-left: 0.68rem;
+	/* position: relative;
+    top: -0.2rem; */
+}
+
+.speedy-btn{
+	position: absolute;
+	top: 0.63rem;
+	right: 0.34rem;
+	/* margin: 0 0.26rem; */
+	width: 1.6rem;
+	height: 0.6rem;
+	background-color: #FFF2E7;
+	
+	/* height: 40%; */
+	color: #FE821E;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-top: 0.01rem solid rgba(240, 240, 240, 1);
+}
+.speedy-text-active{
+	color: #ED3335;
+}

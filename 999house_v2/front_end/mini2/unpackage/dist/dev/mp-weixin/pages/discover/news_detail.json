@@ -1,0 +1,11 @@
+{
+  "navigationBarTitleText": "资讯详情",
+  "usingComponents": {
+    "mp-html": "/components/mp-html/mp-html",
+    "u-button": "/uview-ui/components/u-button/u-button",
+    "common-like": "/components/common/like",
+    "common-information": "/components/common/template_information",
+    "discover-reply": "/components/discover/reply",
+    "discover-reply-box": "/components/discover/reply_box"
+  }
+}

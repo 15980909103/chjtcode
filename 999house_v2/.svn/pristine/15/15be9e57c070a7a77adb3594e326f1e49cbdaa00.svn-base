@@ -1,0 +1,158 @@
+<template>
+	<view>
+		<view class="active_conten">
+			<view class="user_box">
+				<view class="user_info">
+					<image class="user_img" mode="widthFix" v-if="infos.user_info&&infos.user_info.user_avatar" :src="infos.user_info.user_avatar"></image>
+					<view class="user_name">
+						<view class="name" v-if="infos.user_info">{{infos.user_info.user_name}}</view>
+						<view class="identity" v-if="infos.user_info&&infos.user_info.is_receive"><icon type="success" size="13" color="#03B272"/>资格用户</view>
+						<view class="identity" v-else style="color:#666666 ;"><icon type="cancel" size="13" color="#666666"/>未获得资格</view>
+					</view>
+				</view>
+				<view class="tab_box">
+					<view class="tab_item" @click="goPages('/pages/activitySount/record?activity_id='+id)">
+						<image src="../../static/activity/bill.png"></image>
+						优惠账单
+					</view>
+					<view class="tab_item" @click="showKeFu = true">
+						<image src="../../static/activity/gain.png"></image>
+						获取资格
+					</view>
+				</view>
+			</view>
+			<view class="explain">
+				<image src="../../static/activity/explain.png"></image>
+				优惠资格说明：关注公众号且活动期间未使用
+			</view>
+			<view>
+				<swiper class="advertising" v-if="infos.adv_list&&infos.adv_list.length>0">
+					<swiper-item v-for="item in infos.adv_list">
+						<image :src="$api.imgDirtoUrl(item.imghurl[0].url)"></image>
+					</swiper-item>
+				</swiper>
+			</view>
+			<!-- <view class="advertising" v-if="infos.adv_list&&infos.adv_list.length>0" >
+				<image :src="$api.imgDirtoUrl(infos.adv_list)"></image>
+			</view> -->
+			<view class="coupon_box">
+				<view class="coupon"  v-for="(item,index) in infos.coupon_list">
+					<view class="time">优惠时间：{{index}}</view>
+					<view class="coupon_item" v-for="coponitem in item" @click="goto(coponitem)">
+						<image class="shop_img" :src="$api.imgDirtoUrl(coponitem.shop_img)"></image>
+						<view class="coupon_shop">
+							<view class="shop_title">{{coponitem.shop_name}}</view>
+							<view class="shop_type">{{coponitem.shop_type_string}}</view>
+							<view class="coupon_type">{{coponitem.shop_lable_string}}</view>
+						</view>
+						<view class="discounts">
+							<view class="discounts_number">{{coponitem.coupon_describe}}</view>
+							<!-- <view class="discounts_amount">剩余500位</view> -->
+						</view>
+					</view>
+				</view>
+				<u-empty v-if="infos.coupon_list&&infos.coupon_list.length<=0" text="暂无数据" mode="list"></u-empty>
+			</view>
+		</view>
+		<view class="kefu-box">
+			<u-modal v-model="showKeFu" title='活动提示' :mask-close-able="true" close-on-click-overlay :show-cancel-button="false" confirm-color="#3EB88B">
+				<view class="h4_title">关注公众号参与活动</view>
+				<image show-menu-by-longpress v-if="infos.act_inof" :src="$api.imgDirtoUrl(infos.act_inof.gzh_qrcode)" />
+				<view class="activity_title">活动资格说明：</view>
+				<view class="kefu-tips">① 需要关注公众号 <span style="font-size: 0;width: 80rpx;"></span></view>
+				<view class="kefu-tips" style="padding-bottom: 44rpx;">② 活动期间只能使用一次</view>
+			</u-modal>
+		</view>
+	</view>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+				infos:{},
+				showKeFu:false,
+				timer: '',
+			}
+		},
+		props: {
+			id: {
+				type: [String, Number],
+				default() {
+					return 10
+				}
+			},
+		},
+		onShow() {
+		},
+
+		mounted() {
+			
+			if(sessionStorage.getItem('token')){
+				this.activityinfo()
+			}else{
+				uni.$on('h5login', ()=>{console.log(4);this.activityinfo()})
+			}
+			// this.timer = setInterval(this.onshow,500)
+			// this.activityinfo()
+		},
+		methods:{
+			// onshow(){
+			// 	if(this.$api.localStore.localGet('token')){
+			// 		this.activityinfo()
+			// 	}
+			// },
+			activityinfo(){
+				
+				this.$http.post(
+					'/ActivityCoupon/index',
+					{
+						activity_id:this.id
+					}
+				).then( res=>{
+					if(res.code==1){
+						this.infos = res.data
+						this.infos.adv_list&&this.infos.adv_list.forEach((item,index)=>{
+							item['imghurl'] = JSON.parse(item.cover_path)
+							console.log(JSON.parse(item.cover_path))
+						})
+						console.log(this.infos)
+						clearInterval(this.timer)
+					}else{
+						this.$toast(res.msg);
+						console.log('wxLogin')
+						if(res.code == 50008){
+							this.$api.wxLogin(1)
+						}
+					}
+				})
+			},
+			goto(coponitem){
+				if(this.infos.user_info.is_receive){
+					this.goPages('/pages/activitySount/activityDetails?coupon_id='+ coponitem.cop_id+'&activity_id='+this.id)
+				}else{
+					this.$toast('暂无优惠资格，请关注公众号后重试');
+				}
+				
+			},
+			goPages(item){
+				// this.goPage(item)
+				uni.navigateTo({
+					url: item,
+					fail: function(res){
+						if(res){
+							console.log(res);
+							uni.switchTab({
+								url: item
+							})
+						}
+					}
+				});
+			}
+		}
+	}
+</script>
+
+<style lang="scss">
+	 @import './indexActivity.scss';
+</style>

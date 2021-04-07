@@ -1,0 +1,12 @@
+// pages/instrument/calculator.js
+const app = getApp()
+
+Page({
+  data: {
+    
+  },
+  mixins: [require('../../myMixin.js')],
+  onLoad: function () {
+    console.log(this.data)
+  },
+})

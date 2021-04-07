@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>报备客户</title>
+    <link rel="stylesheet" type="text/css" href="../../static/css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/mui/css/mui.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/css/me/my_clients.css" />
+    <script type="text/javascript" src="../../static/js/jquery-2.0.0.min.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.min.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.pullToRefresh.js"></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.pullToRefresh.material.js"></script>
+    <!-- <script type="text/javascript" src="../../static/js/vue.min.js" ></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script type="text/javascript" src="../../static/js/vue-tap.js" ></script>
+    <script type="text/javascript" src="../../static/js/public.js?v=2" ></script>
+    <style>.mui-btn-blue{background-color: #D33233;border: 1px solid #D33233;}</style>
+</head>
+<body>
+  <div id="app" class="my_client">
+    <div class="search">
+        <div class="mui-input-row mui-search ">
+            <input
+              type="search"
+              placeholder="请输入客户名字"
+              v-model.trim="searchText"
+              v-on:keyup.enter="searchName"
+            >
+        </div>
+    </div>
+    <div class="client-panel">
+      <div class="mui-scroll-wrapper">
+        <div class="mui-scroll">
+          <ul class="client-list">
+            <li
+              v-for="(client, index) in clientList"
+              :key="index"
+              class="client-list__item"
+              v-tap="{methods: selectedClientRadio, index}"
+            >
+              <div class="client-list__item-avatar">
+                <img :src="client.avatarUrl">
+              </div>
+              <div class="client-list__item-info">
+                <p class="primary line">
+                  <span class="name">{{ client.user_name }}</span>
+                </p>
+                <p class="other line">
+                  <span class="nick-name">{{ client.nickName }}</span>
+                  <span class="phone">{{ client.user_phone }}</span>
+                </p>
+              </div>
+              <div class="client-list__item-radio">
+                <div :class="['radio', client.isSelected? 'active': '']"></div>
+              </div>
+            </li>
+          </ul>
+        </div>
+        <template v-if="!isInit && clientList.length == 0">
+          <p class="empty-message">暂无数据</p>
+        </template>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+
+<script>
+  Vue.config.devtools = true;
+  new Vue({
+    el: '#app',
+    data() {
+      return {
+        isInit: true,
+        isRefreash: false,
+        searchText: '',
+        clientList: [],
+        pullToRefresh: null
+      }
+    },
+    mounted() {
+      this.$nextTick(() => {
+        this.initScroll();
+      });
+    },
+    methods: {
+      initScroll(){
+        mui('.mui-scroll-wrapper').scroll({
+          deceleration: 0.0005
+        });
+        this.pullToRefresh = mui('.mui-scroll').pullToRefresh({
+          up: {
+            auto: false,
+            show: false,
+            callback: this.fetchClientList
+          }
+        });
+        this.fetchClientList();
+      },
+      searchName() {
+        this.clientList = [];
+        this.isRefreash = true;
+        this.fetchClientList();
+      },
+      fetchClientList() {
+        const page = this.isRefreash? 1: parseInt(this.clientList.length / 10) + 1;
+        ajax('agentAjax/getUserList', {
+          name: this.searchText,
+          page,
+          page_size: 10
+        }, res => {
+          if (res.success) {
+            this.clientList = this.clientList.concat(res.data);
+          } else if (!this.isInit) {
+            mui.toast(res.message);
+          }
+          this.isInit = false;
+          this.isRefreash = false;
+          const isEnd = res.data.length < 10;
+          this.pullToRefresh.endPullUpToRefresh(isEnd);
+        })
+      },
+      selectedClientRadio(options) {
+        const index = options.index;
+        const client = this.clientList[index];
+        window.sessionStorage.setItem('client', JSON.stringify({
+          user_id: client.id || '0',
+          name: client.user_name || '',
+          wechatNickname: client.nickName || '',
+          phone: client.user_phone || '',
+          sex: client.gender || '1'
+        }));
+        // this.$set(this.clientList[index], 'isSelected', !Boolean(this.clientList[index].isSelected));
+        setLocation('pages/me/report.html');
+      }
+    }
+  })
+</script>

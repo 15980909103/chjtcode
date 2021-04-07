@@ -1,0 +1,237 @@
+const md5 = require('/module/md5.js');
+
+//固定位数随机字符串,默认32位
+const randomString=function(len) {
+　　len = len || 32;
+	/****默认去掉了容易混淆的字符oOLl,9gq,Vv,Uu,I1****/
+　　var $chars = 'ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678';    
+　　var maxPos = $chars.length;
+　　var pwd = '';
+　　for (var i = 0; i < len; i++) {
+　　　　pwd += $chars.charAt(Math.floor(Math.random() * maxPos));
+　　}
+　　return pwd;
+}
+ //对象键值排序
+ const objKeySort=function(obj) {
+	var newkey = Object.keys(obj).sort()
+	var newObj = {}
+	for (var i = 0; i < newkey.length; i++) {
+		newObj[newkey[i]] = obj[newkey[i]];
+	}
+	return newObj;
+}
+
+
+/** 
+ * param 将要转为URL参数字符串的对象 
+ * key URL参数字符串的前缀 
+ * encode true/false 是否进行URL编码,默认为true 
+ *  
+ * return URL参数字符串 
+ */  
+var urlEncode = function (param, key, encode=true) {  
+	if(param==null) return '';
+	var paramStr = '';  
+	var t = typeof (param);  
+	if (t == 'string' || t == 'number' || t == 'boolean') {  
+	  paramStr += '&' + key + '=' + ((encode==null||encode) ? encodeURIComponent(param) : param);  
+	} else {  
+	    for (var i in param) {  		
+			var k = key == null ? i : key + (param instanceof Array ? '[' + i + ']' : '.' + i);  	
+			paramStr += urlEncode(param[i], k, encode);  	
+		}  
+		  
+		//用于截取第一个&
+		if(k){
+			paramStr=paramStr.substr(1);
+		}
+	  }  	
+	return paramStr;  
+};  
+
+
+//签名使用
+const makeSign=function(data){
+	data=objKeySort(data)
+	if(data.hasOwnProperty('sign')){
+		delete data['sign']
+	}
+	data=urlEncode(data)
+	//console.log(data)
+	var appkey='vOyu8XW37nBjHENPThfPWsOl4WY0HvqE'
+	data=data+'&key='+appkey
+	
+	//console.log(data,'-----------',md5.hexMD5(data).toLowerCase())
+	return md5.hexMD5(data).toLowerCase()
+}
+
+function getToken(val=''){
+	var token =''
+	if(val !== null){
+		if(val){
+			token = val
+		}else{
+			var app = getApp();
+			if(app&&app.globalData){
+				token = app.globalData.token
+			}
+		}
+	}else{//null为重置
+		var app = getApp();
+		if(app&&app.globalData){
+			app.globalData.token = ''
+		}
+	}
+	return token
+}
+function getSid(val=''){
+	var sid =''
+	if(val !== null){
+		if(val){
+			sid = val
+		}else{
+			var app = getApp();
+			if(app&&app.globalData){
+				sid = app.globalData.sid
+			}
+		}
+	}else{//null为重置
+		var app = getApp();
+		if(app&&app.globalData){
+			app.globalData.sid = ''
+		}
+	}
+
+	return sid
+}
+
+
+/**
+ * url请求封装
+ * @param {*} method 
+ * @param {*} e 
+ */
+const requests=function(method,e){
+	var app = getApp();
+	
+	if(typeof(method)=='object'){
+		e=method;
+		method='';
+	}
+	method=method?method.toUpperCase():'POST';
+
+	var host = ''
+	if(e.host){
+		host = e.host
+	}else{
+		if(app&&app.globalData){
+			host = app.globalData.host
+		}
+	}
+	if(!host){
+		console.log('host缺失')
+		return
+	}
+
+	if(!e.header){
+		e.header = {}
+	}
+	var headerObj = {
+		"XX-Api-Version" : 1,
+		"XX-Device-Type" : 'wxapp',
+		"XX-Token" : getToken(),
+		"XX-Sid" : getSid(),
+	}
+	
+	let headertype = (method=='POST')? Object.assign(headerObj,{
+		"content-type": "application/x-www-form-urlencoded", //
+	},e.header) : Object.assign(headerObj,{
+		"content-type": "application/json",// 
+	},e.header);
+
+	if(!e.data){
+		e.data={}
+	}else{
+		for(var i in e.data){
+			if((!e.data[i]&&e.data[i]!='0')||(typeof e.data[i]=='string'&&e.data[i].trim()=='')){
+				delete e.data[i] //去除无值参数
+			}else{
+				if(typeof e.data[i]=='string'){
+					e.data[i]=e.data[i].trim() //去除空格
+				}
+			}
+		}
+	}
+
+	var data=mergeCommonRequestData(e.data)//合并公共的请求数据
+	wx.request({
+		url: host + e.url,
+		data: data,
+		method: method,
+		header: headertype,
+		dataType: 'json',
+		success: function (res) {
+			if (e.success){
+				if(res.data.code=='50008'){
+					var pages = getCurrentPages()
+					var currentPage = pages[pages.length-1]
+					
+					//白名单页面不进行弹窗
+					if(app.globalData.whitePages.includes(currentPage.route)){
+						wx.hideLoading()
+						e.success(res);
+						return
+					}
+					//当前页面非白名单页面进行弹窗提醒//未登录提示操作
+					wx.showModal({
+						title: '提示',
+						content: res.data.msg,
+						showCancel: false,
+						success (r) {
+							if (r.confirm) { 
+								//=========================//
+								if(!app.wxAuthLogin){//未登录重新连接
+									console.log('请在app.js封装wxAuthLogin用于调用WxAuth文件中的authLogin')
+								}
+								
+								//微信登陆时执行用户久未操作断线重连
+								/* app.wxAuthLogin().then(function(e){
+									// 重新刷新此次失败的页面
+									currentPage.onLoad(currentPage.options)
+									currentPage.onShow()
+								}) */
+								
+								app.logout()//账号登陆时退出登录
+							 } 
+						}
+					})
+					return
+				}
+				e.success(res);
+			}
+		},
+		fail: function (res) {
+			if(e.fail){
+				e.fail(res);
+			}
+		}
+	})
+	
+	//请求时合并公共请求参数
+	function mergeCommonRequestData(data){
+		var newdata= Object.assign({},data)
+		newdata['nonce']=randomString(8)
+		newdata['timestamp']=Date.parse(new Date())/1000
+		newdata['sign']=makeSign(newdata)
+		
+		return newdata
+	}
+}
+
+
+module.exports = {
+	requests,
+	getToken,
+	getSid,
+} 

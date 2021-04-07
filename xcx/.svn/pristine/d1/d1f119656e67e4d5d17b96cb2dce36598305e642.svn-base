@@ -1,0 +1,25 @@
+<view id='my-feedback'>
+  <view class='my-title2'>问题和建议</view>
+  <view class='my-ta-content'>
+    <textarea class='my-textarea' placeholder="简要描述您要反馈的问题和建议" maxlength="100" value='{{textareaText}}' bindinput="onInput" />
+    <view class='my-num'>{{textareaText.length}}/100</view>
+  </view>
+  <view class='my-title'>
+    <view class='title1'>图片<text>(选填、提交问题的截图)</text></view>
+    <view class='title2'>{{feedbackimg.length}}/4</view>
+  </view>
+  <scroll-view class='my-scroll' scroll-x>
+    <view class='my-scroll-content' style="width:{{feedbackWidth}}vw;">
+      <view class='my-image-view' wx:for="{{feedbackimg}}" wx:key="index">
+        <image class='image' src="{{item.url}}"></image>
+        <image class='close' src="/image/close.png" data-index='{{index}}' bindtap='onCloseImage'></image>
+      </view>
+      <image class='image' src="/image/upload.png" bindtap='onAddImage'></image>
+    </view>
+  </scroll-view>
+  <view class='my-contact'>
+    <view class='contact1'>联系方式 <text>*</text></view>
+    <view class='contact2'><input placeholder="请输入微信/QQ/邮箱" value='{{feedbackText}}' bindinput="onFeedback"></input></view>
+  </view>
+  <view class='my-btn-success' bindtap="onSave">保存</view>
+</view>

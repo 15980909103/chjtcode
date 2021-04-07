@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>户型图</title>
+		<link rel="stylesheet" href="../../common/vant/index.css"/>
+		<link rel="stylesheet" href="../../common/css/public.css?v=1.18"/>
+		<style>
+			.wrap{
+				padding: 0.2rem 0.32rem 1rem;
+				box-sizing: border-box;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app" v-cloak ref="DOM" v-if='pageShow'>
+			<template v-if="list.all.list.length > 0">
+				<van-tabs class="tabs" v-model="active" sticky>
+					<van-tab v-for="(item,index) in list" :name='index' :title="item.rooms_name + '('+ item.list.length +')'" :key="index">
+						<div class="wrap">
+							<houses-template :list="item.list"/>
+						</div>
+					</van-tab>
+				</van-tabs>
+			</template>
+			<template v-else>
+				<div class="list_null">
+					<img src="../../static/null.png">
+					<p>暂无数据</p>
+				</div>
+			</template>
+			
+			<div id="container-user-site"></div>
+		</div>
+	</body>
+</html>
+
+<script src="../../common/js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/rem.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/public.js?v=1.18" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/vant/index.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=53da8183ca23918f2f81c79a5b2ede15&plugin=AMap.Geocoder"></script>
+<script type="module">
+	import { http, loginMixin } from '../../common/js/method/http.js?v=1.18';
+	
+	Vue.use(http);
+	
+	const myComponents = [
+		'../../components/houses/template_house/index'
+	];
+	
+	$api.addComponents(myComponents)
+		.then(()=>{
+			
+			Vue.use(vant.Lazyload);
+			 
+			
+			const app = new Vue({
+				el: '#app',
+				data: {
+					active: 0,
+					pageShow: false,
+					list:{
+						all:{
+							rooms_name:'全部',
+							list:[],
+						}
+					},
+				},
+				mixins: [loginMixin],
+				components: {
+					housesTemplate
+				},
+				created() {
+					
+					// this.$nextTick(()=>{
+					// 	this.$refs.DOM.scrollTo(0,3500)
+					// })
+					
+					this.getList();
+				},
+				mounted() {
+					
+				},
+				methods:{
+					// 历史价图表数据
+					getList() {
+						const data = {
+							estate_id: this.$api.funcUrlDel().option.id,
+							is_group: 1
+						};
+						
+						this.$http.ajax({
+							url: '/index/estates/getEstatesnewHouseList',
+							data: data,
+						}).then( res=>{
+							let data = res.data;
+							let allTag = this.$api.localGet('u-tag');
+							const rooms = allTag.rooms;
+							const tip = allTag.house_purpose;
+							const way = allTag.orientation;
+
+							let arr = this.formatData(data.all,{
+								rooms: rooms,
+								tip: tip,
+								way: way
+							});
+							
+							this.list.all = {
+								rooms_name:'全部',
+								list: arr
+							}
+						
+							if( data.group&&Object.keys(data.group).length > 0 ){
+								for( let i in data.group ){
+									let newObj = {
+										rooms_name: rooms[i],
+										list: []
+									};
+
+									newObj.list = this.formatData(data.group[i],{
+										rooms: rooms,
+										tip: tip,
+										way: way
+									});
+									this.list[newObj.rooms_name] = newObj;
+								}
+							}
+
+							this.pageShow = true
+						})
+					},
+					formatData(data, e){
+						let arr = [];
+						let tip = e.tip;
+						let way = e.way;
+						let rooms = e.rooms;
+
+						data&&data.map( item=>{
+							const obj = {};
+							
+							obj.img = item.img;
+							obj.title = item.name;
+							obj.tip = tip&&tip[item.house_purpose]?[tip[item.house_purpose]]:[];
+							obj.area = item.built_area;
+							obj.way = way&&way[item.orientation]?way[item.orientation]:'';
+							obj.price = item.price;
+							obj.price_ave = item.price_ave;
+							
+							arr.push(obj);
+						});
+						return arr;
+					}
+				},
+			})
+			
+		})
+	
+</script>

@@ -1,0 +1,304 @@
+/* pages/new_house/good_house.wxss */
+.ad_top{
+	width: 100%;
+	height: 320rpx;
+}
+.list_null{
+    background: #fff;
+    height: 100vh;
+}
+.list_null image{
+    margin: 0 auto;
+}
+.list_null view{
+    text-align: center;
+}
+.tabs{
+	display: flex;
+	justify-content: center;
+	margin-top: 14rpx;
+}
+
+.van-tabs__nav{
+	width: 608rpx;
+	height: 94rpx;
+}
+
+.van-tabs__wrap{
+	display: flex;
+	justify-content: center;
+}
+
+.van-tab{
+	font-size: 30rpx;
+	color: rgba(255, 255, 255, .5);
+}
+
+.van-tab--active{
+	font-size: 34rpx;
+	font-weight: 800;;
+}
+
+.van-tabs__line{
+	width: 24rpx;
+	bottom: 20px;
+} 
+.tabs .van-tabs__wrap{
+	border-bottom: none;
+	display: none;
+}
+
+.live-box{
+	width: 686rpx;
+	height: 289rpx;
+	background-color: #fff;
+	border-radius: 4rpx;
+}
+
+.live-swipe{
+	height: 100%;
+	font-size: 26rpx;
+}
+
+.van-tabs__content{
+	margin-top: 24rpx;
+}
+
+.live-swipe-wrap{
+	display: flex;
+	justify-content: center;
+	
+}
+
+.live-swipe-item{
+	width: 306rpx;
+	height: 22rpx;
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	margin-top: 20rpx;
+	position: relative;
+}
+
+.live-swipe-item:nth-child(2){
+	margin-left: 34rpx;
+}
+
+.live-swipe-title{
+	width: 100%;
+	box-sizing: border-box;
+	padding: 4rpx 16rpx;
+	background: rgba(0,0,0,.4);
+	color: #fff;
+	position: absolute;
+	bottom: 0;
+}
+
+.van-swipe__indicators{
+	bottom: 8px;
+}
+
+.van-swipe__indicator{
+	background-color: rgba(254, 114, 71, 1) !important;
+	opacity: .9;
+}
+
+.van-swipe__indicator--active{
+	width: 24rpx;
+	border-radius: 5rpx;
+	opacity: 1;
+}
+
+.live-swipe-tip{
+	font-size: 24rpx;
+	height: 33rpx;
+	border-radius: 4rpx;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	top: 16rpx;
+	left: 16rpx;
+	color: #fff;
+}
+
+.live-swipe-tip1{
+	width: 120rpx;
+	background: #ED3335;
+	overflow: hidden;
+}
+
+.live-swipe-tip1 img{
+	width: 26rpx;
+	height: 26rpx;
+}
+
+.live-swipe-tip1 span{
+	margin-left: 8rpx;
+	line-height: 10rpx;
+}
+
+.live-swipe-tip2{
+	background-color: rgba(0, 0, 0, .4);
+}
+
+.live-swipe-tip2-title{
+	width: 104rpx;
+	background-color: rgba(40, 94, 228, 1);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.live-swipe-tip2-title .iconfont{
+	margin: 4rpx 8rpx 0 0;
+	font-size: 22rpx;
+}
+
+.live-swipe-tip2-time{
+	padding: 0 10rpx;
+}
+
+.list-box{
+	width: 686rpx;
+	margin: 30rpx auto;
+	background-color: #fff;
+	
+}
+
+.list-tip{
+	width: 100%;
+	padding: 40rpx 0 20rpx;
+	display: flex;
+	overflow-x: scroll;
+	-webkit-overflow-scrolling: touch;
+}
+
+.list-tip-item{
+	width: 150rpx;
+	height: 54rpx;
+	margin-left: 26rpx;	
+	text-align: center;
+}
+
+.list-tip-item div{
+	width: 150rpx;
+	height: 54rpx;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: rgba(245, 248, 254, 1);
+	border-radius: 2rpx;
+	box-sizing: border-box;
+}
+
+.list-tip-item:last-child{
+	padding-right: 26rpx;
+}
+
+.tip-active{
+	background-color: rgba(255, 238, 224, 1) !important;
+	color: rgba(254, 130, 30, 1);
+	border: 1px solid #FE821E;
+}
+
+.list-end-tips{
+	text-align: center;
+	color: #ADADAD;
+	padding: 45rpx;
+}
+
+
+.template{
+	width: 100%;
+	box-sizing: border-box;
+	padding: 34rpx 32rpx 24rpx;
+	display: flex;
+	flex-direction: column;
+	position: relative;
+}
+
+.template::after{
+	content: '';
+	width: 90%;
+	height: 1rpx;
+	background-color: rgba(240, 240, 240, 1);
+	position: absolute;
+	bottom: 0;
+}
+.template-top-houses-site{
+	margin: 0 20rpx 0 30rpx;
+	position: relative;
+}
+
+.template-top-houses-site:after{
+	content: '';
+	width: 1rpx;
+	height: 20rpx;
+	background-color: #757575;
+	position: absolute;
+	right: -7%;
+	top: 53%;
+	transform: translate(50%,-50%);
+}
+
+.template-top-houses-price{
+	display: flex;
+	align-items: center;
+	color: #757575;
+	margin: 20rpx 0;
+}
+
+.template-top-houses-price view{
+	color: #FC4D39;
+}
+
+.template-top-houses-name{
+	font-size: 30rpx;
+	color: #212121;
+	display: flex;
+	align-items: center;
+}
+
+.template-top-houses-name .tiplist text{
+	font-size: 22rpx;
+	color: #ADADAD;
+	margin-left: 20rpx;
+	padding: 0 10rpx;
+	border-radius: 2px;
+	border: 1px solid #E0E0E0;
+	box-sizing: content-box;
+
+	text-align: center;
+    line-height: 38rpx;
+    height: 38rpx;
+    max-width: 136rpx;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    word-break: break-all;
+}
+
+.template-top-houses-name-tip{
+	border: none !important;
+	color: #fff !important;
+	padding-top: 1px!important;
+	padding-bottom: 1px!important;
+}
+.template-top-houses-name span{
+	font-size: 22rpx;
+	color: #ADADAD;
+	margin-left: 20rpx;
+	padding: 0 10rpx;
+	border-radius: 2px;
+	border: 1px solid #E0E0E0;
+	box-sizing: content-box;
+
+	text-align: center;
+    line-height: 38rpx;
+    height: 38rpx;
+    max-width: 136rpx;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    word-break: break-all;
+}

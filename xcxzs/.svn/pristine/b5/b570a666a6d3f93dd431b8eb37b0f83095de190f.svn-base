@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>户型详情</title>
+    <link rel="stylesheet" type="text/css" href="../../static/css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/mui/css/mui.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/css/build/model_detail.css" />
+    <script type="text/javascript" src="../../static/js/jquery-2.0.0.min.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.min.js" ></script>
+    <script type="text/javascript" src="../../static/js/vue.min.js" ></script>
+    <script type="text/javascript" src="../../static/js/vue-tap.js" ></script>
+    <script type="text/javascript" src="../../static/js/public.js?v=2" ></script>
+</head>
+<body>
+<div id="app" class="my-content">
+    <div class="mui-slider my-swiper">
+        <div class="mui-slider-group">
+            <div class="mui-slider-item" v-for="item in doorImgInfo">
+                <img v-cloak :src="item.img" class="slide-image"/>
+            </div>
+        </div>
+        <div class="mui-slider-indicator">
+            <div class="mui-indicator" :class="[index==0?'mui-active':'']" v-for="(item2,index) in doorImgInfo"></div>
+        </div>
+    </div>
+    <div id="my-view1">
+        <div class="view1-1"><div class='view1-title van-ellipsis' v-cloak>{{buildingInfo.name}}</div></div>
+        <div class="view1-2" v-tap="{methods:onCalculator}"><img src='../../static/image/icon-fangdaijisuanqi.png'/></div>
+    </div>
+    <div id='my-view2'>
+        <div class='view2-li1'>
+            <div>浏览<span v-cloak>{{buildingInfo.views_number}}</span></div>
+            <div>经纪人<span v-cloak>{{buildingInfo.myAgentNum}}</span></div>
+            <div>带客量<span v-cloak>{{buildingInfo.myCustomerNum}}</span></div>
+        </div>
+        <div class='view2-li2'>58000元/m²</div>
+    </div>
+    <div id='my-view3'>
+        <div class='view3-li'>面积：<span v-cloak>建面{{doorInfo.construction_area}}m²</span></div>
+        <div class='view3-li'>类型：<span v-cloak>{{doorInfo.house_type}}</span></div>
+        <div class='view3-li'>朝向：<span v-cloak>{{doorInfo.orientation}}</span></div>
+        <div class='view3-li'>户型结构：<span v-cloak>{{doorInfo.family_structure}}</span></div>
+    </div>
+    <div id='my-view4'>
+        <div class='my-h2'>
+            <div class='my-h2-1'>空间信息</div>
+        </div>
+        <div class='view4-content' v-html="doorInfo.spatial_information" v-cloak></div>
+    </div>
+    <div id='my-view5'>
+        <div class='my-h2'>
+            <div class='my-h2-1'>所属楼盘</div>
+        </div>
+        <div class='my-lp-list'>
+            <div class='my-lpimg'>
+                <img class='my-lp-ig' :src='buildingInfo.pic' v-cloak/>
+            </div>
+            <div class='my-lp-center'>
+                <div class='my-lp-c1'><div class="my-c-1-1 van-ellipsis" v-cloak>{{buildingInfo.name}}</div><div class='my-c-1-2' v-cloak>{{buildingInfo.sales_status}}</div></div>
+                <div class='my-lp-c2' v-cloak>{{buildingInfo.house_type}} | {{buildingInfo.city}} {{buildingInfo.area}}</div>
+                <div class='my-lp-c3' v-cloak>{{buildingInfo.fold}}元/m²<span v-cloak>佣金{{buildingInfo.commission}}元</span></div>
+            </div>
+        </div>
+    </div>
+    <div id='my-view6'>
+        <div class='my-h2'>
+            <div class='my-h2-1'>本楼盘其他户型</div>
+        </div>
+        <div class='view6-center'>
+            <div class='view6-li' v-for="item in remainingDoorInfo" v-tap="{methods:onModelDetail,id:item.id}">
+                <img :src="item.pic" v-cloak/>
+                <div class='view6-col1'>
+                    <div class='view6-row1' v-cloak>{{item.title}}</div>
+                    <div class='view6-row2' v-cloak>{{item.sales_status}}</div>
+                    <div class='view6-row3' v-cloak>{{item.house_type}}</div>
+                </div>
+                <div class='view6-col2' v-cloak>建面{{item.construction_area}}m²朝向{{item.orientation}}</div>
+                <div class='view6-col3' v-cloak>约{{item.price_total}}</div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            current: 0, //当前轮播图索引
+            doorImgInfo: [],  //轮播图数据
+            buildingInfo: {},  //楼盘信息
+            doorInfo: {},  //户型信息
+            remainingDoorInfo:[]  //本楼盘其他户型
+        },
+        mounted: function () {
+        this.$nextTick(function () {
+            var _this=this;
+            //获取户型详情数据
+            ajax('buildingAjax/getBuildingDoorDetail',{id:getQueryString('id')},function(res){
+                _this.doorImgInfo=res.doorImgInfo;
+                _this.buildingInfo=res.buildingInfo;
+                _this.doorInfo=res.doorInfo;
+                _this.remainingDoorInfo=res.remainingDoorInfo;
+            });
+        })
+        },
+        methods:{
+            onCalculator(){
+                setLocation('pages/build/calculator.html');
+            },
+            onModelDetail(event){
+                setLocation('pages/build/model_detail.html?id='+event.id);
+            }
+        }
+    })
+</script>

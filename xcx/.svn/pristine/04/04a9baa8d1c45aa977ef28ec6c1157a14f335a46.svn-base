@@ -1,0 +1,517 @@
+<?php
+
+/*
+ * 报备流程相关
+ */
+
+/**
+ * Description of main
+ *
+ * @author Goods0
+ */
+include 'Common.php';
+include 'phpqrcode.php';
+class ReportNew extends Common{
+
+    protected $worker = [2, 3, 4, 5, 6, 7];// 工作人员类型
+    protected $manager = [3, 6];// 组长类型（项目、渠道）
+    protected $teamMember = [2, 5, 7, 8];// 可审批类型
+    protected $nomalAgent = [0, 1];// 普通经纪人
+    protected $chargeType = [4];// 项目负责人操作环节
+    protected $projectType = [1, 2, 3];// 项目组员操作环节
+    protected $channelType = [5, 6];// 渠道组员操作环节
+    protected $channelUser = [5, 6];// 渠道组类型
+
+
+    public function __construct()
+    {
+        parent::__construct();
+        $userinfo = $this->getUserInfo();
+        if($userinfo['mestatus']==-1){
+            if($userinfo['storeInfo']['status']==-1){
+                $this->error('您所在店铺已被禁用');
+            }else{
+                $this->error('该账号已经被禁用，请联系管理者');
+            }
+            exit();
+        }elseif ($userinfo['mestatus']=='0'){
+            $this->error('您的账号正在审核中请耐心等待开通');
+            exit();
+        }elseif ($userinfo['mestatus']=='-2'){
+            $this->error('您还不是经纪人');
+            exit();
+        }elseif ($userinfo['is_emptyinfo']=='-3'){
+            $this->error('请先完善个人信息');
+            exit();
+        }
+    }
+
+    protected function redisLog($field, $data)
+    {
+        $saId = $this->saId;
+        $agentId = $this->agentId;
+        $key = 'fx_log';
+        $redis = RedisBase::getInstance();
+        if(49 == $agentId || 570 == $saId) {
+            $save['said'] = $saId;
+            $save['agent_id'] = $agentId;
+            $save['data'] = $data;
+            $redis->hset($key, $field, json_encode($data, JSON_UNESCAPED_UNICODE));
+        }
+    }
+
+    // 构建wherein
+    protected function buildWhereIn($key = ':where', $value = [])
+    {
+        $in = '';
+        $whereValue = [];
+        if(empty($value)) {
+            $value[]=0;
+        }
+        foreach ($value as $k => $v) {
+            $keyStr = "{$key}_$k,";
+            $keyStrT = rtrim($keyStr, ',');
+            $in .= $keyStr;
+            $whereValue[$keyStrT] = $v;
+        }
+        $in = rtrim($in, ',');
+        $in = "($in)";
+        return [$in, $whereValue];
+    }
+
+    //获取经纪人用户名头像
+    protected function getAgentImgName($agent_id){
+        $agentInfo=$this->db->Name('xcx_agent_user')->select()->where_equalTo('id',$agent_id)->firstRow();
+        $data[]=empty($agentInfo['name'])?$agentInfo['nickname']:$agentInfo['name'];
+        $data[]=$agentInfo['headimgurl'];
+        return $data;
+    }
+
+    /**
+     * 校验保护期
+     * @param $param
+     * @return bool
+     */
+    protected function checkProtectTime($param)
+    {
+        $check = TRUE;
+        $status = $param['status'];
+        $takeTime = $param['take_time'];
+        $updateTime = $param['update_time'];
+        $protectSet = $param['protect_set'];
+
+//        var_dump($param);
+
+        // 带看的保护期从带看时间算起，其他环节保护期从状态变更那时算起
+        // if(2 == $status) {
+        //     $startTime = $takeTime;
+        // } else {
+        //     $startTime = $updateTime;
+        // }
+        $startTime = $updateTime;
+
+        // 当前记录状态如果与所查询状态一致，则判断是否过期
+        $protect = json_decode($protectSet, TRUE);
+        if($status >=1 && $status <= 3) {
+            //每个流程环节保护时间-规范到小时
+            $keyStatus = 'status' . $status . '_hours';
+            $protect_set_hours = intval($protect[$keyStatus]);
+            if($protect_set_hours > 0) {// 有设置才判断保护期
+                if(1 == $status) {
+                    $protect_time = $protect_set_hours * 60;// 报备保护期按分钟算
+                } else {
+                    $protect_time = $protect_set_hours * 3600;
+                }
+                $protectTimeEnd = $startTime + $protect_time;//按最后的更新时间-小时
+                if($protectTimeEnd <= time()){
+                    $check = FALSE;
+                }
+            }
+        }
+
+        return $check;
+    }
+
+    /**
+     * 获取报备列表的数据库语句公共部分
+     */
+    protected function getReportDB($field)
+    {
+        $myDB = $this->db->Name('xcx_building_reported')
+                        ->select($field, "br")
+                        ->innerJoin("xcx_building_building", "bb", "bb.id=br.building_id")
+                        ->innerJoin("xcx_store_agent", "sa", "sa.said=br.said")
+                        ->leftJoin("xcx_agent_user", "au", "sa.agent_id=au.id")
+                        ;
+
+        return $myDB;
+    }
+
+    /**
+     * 接收参数处理
+     */
+    protected function filterParam()
+    {
+        $page = !empty(Context::Post('page')) ? Context::Post('page') : 1;// 页码
+        $pageSize = !empty(Context::Post('page_size')) ? Context::Post('page_size') : self::MYLIMIT;// 每页记录条数
+        if($pageSize > 100) {
+            return $this->error('请求数据超出限制');
+        }
+
+        $type = !empty(Context::Post('type')) ? Context::Post('type') : 0;// 环节
+        
+        $orderBy = !empty(Context::Post('order_by')) ? Context::Post('order_by') : "";
+        switch ($orderBy) {
+            case "asc":
+                $orderBy = "ASC";
+                break;
+            case "desc":
+            default:
+                $orderBy = "DESC";
+                break;
+        }
+
+        $startTime = 0;
+        $endTime = 0;
+        if(!empty(Context::Post('nowDate'))) {
+            $nowDate = Context::Post('nowDate');  //搜查询的日期
+            $startTime = strtotime($nowDate);    //当天开始时间戳
+            $endTime = $startTime + 86400;      //当天结束时间戳
+        }
+
+        return [
+            'page' => $page,
+            'pageSize' => $pageSize,
+            'type' => $type,
+            'orderBy' => $orderBy,
+            'startTime' => $startTime,
+            'endTime' => $endTime,
+        ];
+    }
+
+    /**
+     * 通过不同的联系获取不同的报备单
+     * relation 联系方式
+     * ids 相关ID（saId或adminId）
+     */
+    protected function getRelation($relation = '')
+    {
+        try {
+            switch($relation) {
+                // 绑定的楼盘
+                case 'building':
+                    $saids = $this->whichSaids('building');
+                    $ids = array_keys($saids);
+                    $mb = $this->db->Name('xcx_manager_building')->select('building_ids')->where_in('said', $ids)->execute();
+                    $buildings = [];
+                    if(!empty($mb)) {
+                        foreach($mb as $v) {
+                            $build = !empty($v['building_ids']) ? explode(',', $v['building_ids']) : [];// 拆成数组
+                            $build = array_filter($build, function($v) {
+                                if(!empty($v) && is_numeric($v)) {// 不为空且为数字
+                                    return TRUE;
+                                }
+                                return FALSE;
+                            });
+                            $buildings = array_merge($buildings, $build);
+                        }
+                    }
+                    break;
+                // 创建的楼盘
+                case 'create-building':
+                    $buildings = $this->db->Name('xcx_building_building')->select('id')->where_in('aid', $ids)->execute();
+                    if(empty($buildings)) {
+                        $buildings = [];
+                    }
+                    break;
+                // 创建的店铺
+                case 'create-store':
+                    $stores = $this->db->Name('xcx_store_store')->select('id')->where_in('aid', $ids)->execute();
+                    if(empty($stores)) {
+                        $stores = [];
+                    }
+                    break;
+                default:
+                    break;
+            }
+        } catch(Exception $e) {
+            throw $e;
+        }
+    }
+
+    public function whichSaids($key)
+    {
+        $saids = [];
+        if(!is_array($this->saIds)) {
+            return $saids;
+        }
+        foreach($this->saIds as $k => $s) {
+            $role = $this->RoleAuth[$s];
+            switch($key){
+                case 'building':
+                    if(!empty($role['examine'])){
+                        foreach($role['examine'] as $s2){
+                            if(in_array($key, $s2)){
+                                $saids[$k][] = $s2;
+                            }
+                        }
+                    }
+                break;
+            }
+        }
+        return $saids;
+    }
+
+    /**
+     * 获取发起单
+     */
+    public function getLaunch()
+    {
+        try {
+            $param = $this->filterParam();
+
+            extract($param);
+
+            $saId = $this->saId;
+
+            // 获取当前账号信息
+            $userInfo = $this->getUserInfo();
+            // 报备权限
+            $auth = !empty($userInfo['type']) ? $userInfo['type'] : [];
+
+            if(empty($auth['add'])) {// 没有发起报备单的能力
+                return $this->error('您无报备楼盘的权限');
+            }
+
+            $field = "br.id, br.said, br.agent_type, br.status_type, br.examine_said, br.examine_type, br.update_time, br.user_name, br.user_gender, br.take_time, br.user_phone, sa.agent_name as sa_name, sa.agent_img as sa_img, au.nickname as agent_nickname, au.headimgurl, au.name as agent_name, au.sex, u.nickName as customer_nickname, u.avatarUrl, bb.name as building_name, bb.pic as cover, bb.house_type, bb.city, bb.area, bb.sales_status, bb.flag, bb.fold, bb.commission, bb.store_manager_commission, bb.team_member_commission, bb.protect_set";
+
+            $myDB = $this->getReportDB($field);
+            $myDB->leftJoin("xcx_user", "u", "br.user_id=u.id");
+            // 自己提交的单
+            if(is_array($saId)) {
+                $myDB->where_in('br.said', $saId);
+            } else {
+                $myDB->where_equalTo('br.said', $saId);
+            }
+            // 状态筛选
+            if(!empty($type)) {
+                $myDB->where_equalTo('status_type', $type);// 指定状态
+            } else {
+                // 发起流程不包括已处理
+                $myDB->where_greatThan('status_type', 0);
+                $myDB->where_lessThan('status_type', 6);
+            }
+            $myDB->where_in('examine_type', [1]);
+            // 时间筛选
+            if(!empty($startTime) && !empty($endTime)) {
+                $myDB->where_greatThanOrEqual('br.update_time', $startTime)->where_lessThanOrEqual('br.update_time', $endTime);
+            }
+            // 排序
+            if(!empty($orderBy)) {
+                $myDB->orderBy('br.update_time', $orderBy);
+            }
+            // 分页
+            $myDB->page($page, $pageSize);
+            // 执行
+            $list = $myDB->execute();
+            // 数据处理
+            $data = [];
+            if(!empty($list)) {
+                foreach($list as $k => $v) {
+                    $data[$k]['id'] = $v['id'];
+                    // 状态信息
+                    $data[$k]['status_type'] = $v['status_type'];
+                    $data[$k]['examine_type'] = $v['examine_type'];
+                    $statusKey = "{$data[$k]['status_type']}|{$data[$k]['examine_type']}";
+                    $data[$k]['status_str'] = $this->getReportStatus()[$statusKey];
+                    // 经纪人信息
+                    $defaultAgentImg = $this->manImg;// 默认头像
+                    if(isset($v['sex']) && 2 == $v['sex']) {
+                        $defaultAgentImg = $this->womanImg;
+                    }
+                    $data[$k]['nickname'] = empty($v['agent_name']) ? empty($v['sa_name']) ? empty($v['agent_nickname']) ? "" : $v['agent_nickname'] : $v['sa_name'] : $v['agent_name'];
+                    $data[$k]['headimgurl'] = empty($v['headimgurl']) ? empty($v['sa_img']) ? $defaultAgentImg : $v['sa_img'] : $v['headimgurl'];
+                    $data[$k]['position'] = $agentType[$v['agent_type']];
+                    // 客户信息
+                    $defaultCustomerImg = $this->manImg;// 默认头像
+                    if(isset($v['user_gender']) && 2 == $v['user_gender']) {
+                        $defaultCustomerImg = $this->womanImg;
+                    }
+                    $data[$k]['customer_name'] = empty($v['user_name']) ? empty($v['customer_nickname']) ? "" : $v['customer_nickname'] : $v['user_name'];
+                    $data[$k]['customer_img'] = !empty($v['avatarUrl']) ? $v['avatarUrl'] : $defaultCustomerImg;
+                    $data[$k]['customer_phone'] = !empty($v['user_phone']) ? $v['user_phone'] : '';
+                    $data[$k]['customer_position'] = "客户";
+                    // 楼盘信息
+                    $data[$k]['name'] = $v['building_name'];
+                    $data[$k]['cover'] = $v['cover'];
+                    $data[$k]['house_type'] = $v['house_type'];
+                    $data[$k]['city'] = $v['city'];
+                    $data[$k]['area'] = $v['area'];
+                    $data[$k]['sales_status'] = $v['sales_status'];
+                    $data[$k]['fold'] = $v['fold'];
+                    $data[$k]['commission'] = $v['commission'];
+                    $data[$k]['flag'] = empty($v['flag']) ? [] : explode(',', $v['flag']);
+
+                    $data[$k]['update_time'] = date("Y.m.d", $v['update_time']);
+
+                    // 当前记录状态如果与所查询状态一致，则判断是否过期
+                    if($v['status_type'] >=1 && $v['status_type'] <= 3) {
+                        $paramCheck = [
+                            'status' => $v['status_type'],
+                            'take_time' => $v['take_time'],
+                            'update_time' => $v['update_time'],
+                            'protect_set' => $v['protect_set'],
+                        ];
+                        $checkProtect = $this->checkProtectTime($paramCheck);
+                        if(!$checkProtect) {
+                            $data[$k]['examine_type'] = -2;
+                        }
+                    }
+                }
+            }
+
+        } catch(Exception $e) {
+            return $this->error($e->getMessage());
+        }
+    }
+
+    /**
+     * 未处理列表
+     */
+    public function getPending()
+    {
+        try {
+            $param = $this->filterParam();
+
+            extract($param);
+
+            $saId = $this->saId;
+
+            // 获取当前账号信息
+            $userInfo = $this->getUserInfo();
+            // 报备权限
+            $auth = !empty($userInfo['type']) ? $userInfo['type'] : [];
+            
+            $relation = [];
+            if(!empty($auth['examine'])) {
+                foreach($auth['examine'] as $t => $r) {
+                    if(!empty($r)) {
+                        foreach($r as $ri) {
+                            $relation[$ri][] = $t;
+                            array_unique($relation[$ri]);
+                        }
+                    }
+                }
+            }
+        } catch(Exception $e) {
+            return $this->error($e->getMessage());
+        }
+    }
+
+    /**
+     * 抄送列表
+     */
+    public function getCopyList()
+    {
+        try {
+            $param = $this->filterParam();
+
+            extract($param);
+
+            // 获取当前账号信息
+            $userInfo = $this->getUserInfo();
+
+            // 报备权限
+            $auth = !empty($userInfo['type']) ? $userInfo['type'] : [];
+
+            if(!empty($auth['duplicate'])) {
+                foreach($auth['duplicate'] as $val) {
+                    switch($val) {
+                        // 下级店铺
+                        case 'subordinate':
+                            $saidData = $this->getSaid($val);
+                            $ids = array_keys($saidData);
+                            // 找出店铺
+                            $sa = $this->db->Name('xcx_store_agent')->select('said, store_id')->where_in('said', $ids)->execute();
+                            if(!empty($sa)) {
+                                foreach($sa as $sVal) {
+                                    if(!empty($sVal['store_id']) && !empty($saidData[$sVal['said']]['status'])) {
+                                        $status = implode(',', $saidData[$sVal['said']]['status']);
+                                        $sqlStr = "(br.store_id in ({$sVal['store_id']}) and br.status_type in ({$status}))";
+                                    }
+                                    if(!empty($sqlStr)) {
+                                        $sql[] = $sqlStr;
+                                    }
+                                }
+                            }
+                            break;
+                        // 绑定楼盘相关
+                        case 'building':
+                            $saidData = $this->getSaid($val);
+                            $ids = array_keys($saidData);
+                            // 找出绑定的楼盘
+                            $builds = $this->db->Name('xcx_manager_building')->select('said, building_ids')->where_in('said', $ids)->execute();
+                            if(!empty($builds)) {
+                                foreach($builds as $bVal) {
+                                    if(!empty($bVal['building_ids']) && !empty($saidData[$bVal['said']]['status'])) {
+                                        $status = implode(',', $saidData[$sVal['said']]['status']);
+                                        $sqlStr = "(br.building_id in ({$sVal['building_ids']}) and br.status_type in ({$status}))";
+                                    }
+                                    if(!empty($sqlStr)) {
+                                        $sql[] = $sqlStr;
+                                    }
+                                }
+                            }
+                            break;
+                        // 创建的店铺
+                        case 'create-store':
+                            $saidData = $this->getSaid($val);
+                            $ids = array_column(array_values($saidData), 'aid');
+                            $stores = $this->db->Name('xcx_store_store')->select('aid, id')->where_in('aid', $ids)->execute();
+                            if(!empty($stores)) {
+                                foreach($stores as $ss) {
+                                    
+                                }
+                            }
+                            break;
+                    }
+                }
+            }
+        } catch(Exception $e) {
+            return $this->error($e->getMessage());
+        }
+    }
+
+    protected function getSaid($key)
+    {
+        try {
+            $saId = $this->saId;
+            if(empty($saId) || !is_array($saId)) {
+                return [];
+            }
+
+            $res = [];
+            foreach($saId as $id => $idData) {
+                if(empty($idData['type'])) {
+                    continue;
+                }
+                $type = $idData['type'];
+                // 获取不同type的权限
+                if(!empty($this->RoleAuth[$type]['duplicate'])) {
+                    $duplicate = $this->RoleAuth[$type]['duplicate'];
+                    foreach($duplicate as $status => $dup) {
+                        if(in_array($key, $dup)) {
+                            $res[$id]['status'][] = $status;
+                            $res[$id]['aid'][] = $idData['aid'] ?? 0;
+                        }
+                    }
+                }
+            }
+
+            return $res;
+        } catch(Exception $e) {
+            throw $e;
+        }
+    }
+    
+}

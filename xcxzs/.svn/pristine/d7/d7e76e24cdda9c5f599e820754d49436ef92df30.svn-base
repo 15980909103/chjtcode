@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>系统通知</title>
+    <link rel="stylesheet" type="text/css" href="../../static/css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/mui/css/mui.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/css/me/chat.css" />
+    <script type="text/javascript" src="../../static/js/jquery-2.0.0.min.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.min.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.pullToRefresh.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.pullToRefresh.material.js" ></script>
+    <script type="text/javascript" src="../../static/js/vue.min.js" ></script>
+    <script type="text/javascript" src="../../static/js/vue-tap.js" ></script>
+    <script type="text/javascript" src="../../static/js/public.js" ></script>
+    <style>.mui-pull-bottom-tips{display: none;}.aui-chat .aui-chat-content{max-width:60vw !important;}.my-both2{width:100vw;height: 1px;}</style>
+</head>
+<body>
+<div id="app" class="my-content">
+    <div class="my-chat-content">
+        <section class="aui-chat">
+            <template v-for="(item,index) in systemList">
+                <div class="aui-chat-header" v-cloak>{{item.release_time}}</div>
+                <div class="aui-chat-item aui-chat-left">
+                    <div class="aui-chat-media">
+                        <img :src="DOMAINNAME+systemInfo.system_logo" v-cloak/>
+                    </div>
+                    <div class="aui-chat-inner">
+                        <div class="aui-chat-name" v-cloak>{{systemInfo.system_name}}</div>
+                        <div class="aui-chat-content" v-cloak>
+                            <div class="aui-chat-arrow"></div>
+                            《{{item.inform_title}}》
+                            <div v-cloak>{{item.inform_content}}</div>
+                            <!--<img src="https://dpic.tiankong.com/a5/bm/QJ6835002114.jpg?x-oss-process=style/670ws" />-->
+                        </div>
+                    </div>
+                </div>
+            </template>
+            <div class="empty" v-show="systemListshow" style="width:100%;min-height: 20vh;">
+                <img src="../../static/image/empty.png" alt="">
+            </div>
+            <div class="my-both2"></div>
+        </section>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    page=1;
+    new Vue({
+        el: '#app',
+        data: {
+            systemInfo:{},  //系统透与昵称
+            systemList:[],  //聊天消息记录
+            systemListshow:false
+        },
+        mounted: function () {
+        this.$nextTick(function () {
+            var _this=this;
+            ajax('agentAjax/getSystemInfo',{},function(res){
+                _this.systemInfo=res.systemInfo;
+            });
+            //修改成已读
+            ajax('agentAjax/updateSystenRead',{},function(res){});
+            _this.pullupRefresh();
+            $(document).scroll(function(){
+                var scroH = $(document).scrollTop();  //滚动高度
+                if(scroH<10 && page>1){
+                    _this.pullupRefresh();
+                }
+            });
+        })
+        },
+        methods:{
+            onscrollBottom(){   //滚动到底部
+                $('html,body').animate({scrollTop:$('.my-both2').offset().top},800);
+            },
+            pullupRefresh(){    //下拉加载
+                var _this=this;
+                ajax('agentAjax/getSystenInforms',{page:page},function(res){
+                    if(res.success){
+                        if(res.data.lenght==0){
+                            _this.systemListshow==true
+                        }
+                        _this.systemList=res.data.concat(_this.systemList);
+                        if(page==1){_this.$nextTick(function () {_this.onscrollBottom();});}
+                        setTimeout(function(){
+                            page++;
+                        },200);
+                    }
+                });
+            }
+        }
+    })
+</script>

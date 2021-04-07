@@ -1,0 +1,387 @@
+<template>
+	<!-- <van-dropdown-menu>
+		<template v-for="(sezer, k) in list">
+			<van-dropdown-item 
+			:title="sezer.title"  
+			@closed="setCloseMethod(k)" 
+			:ref="setRef(k)" 
+			:title-class="(sezer.title != '区域' && sezer.title != '价格' && sezer.title != '户型' && sezer.title != '更多') ? 'text-active' : 'text-none'">
+				
+				<template v-if=" k == 0 ">
+					<common-area v-if='flag' :height="7.16" :list="sezer.list" @sure="siteSure" @close="siteClose" :default_data='value' ref="area"></common-area>
+				</template>
+				
+				<template v-else-if=" k == 1 ">
+					<div class="drop-price">
+						<div class="drop-price-box">
+							<div class="drop-price-left">
+								<div 
+									class="drop-price-item" 
+									:class="[ priceActive.left == index ? 'drop-price-item-active' : '' ]"
+									v-for="(item,index) in sezer.list" 
+									:key="index" 
+									@click="priceChoose('left',index)"
+								>
+									{{ item.title }}
+								</div>
+							</div>
+							<div class="drop-price-right">
+								<template v-for="(item,index) in sezer.list">
+									<span :key="index" v-if="priceActive.left == index">
+										<div
+											class="drop-price-item" 
+											:class="[ priceActive.right.indexOf(key) != -1 ? 'drop-price-item-active' : '' ]"
+											v-for="(money,key) in item.list" 
+											:key="key"
+											@click="priceChoose('right',key)"
+										>
+											<p>{{ money.name }}</p>
+											<i class="iconfont " :class="[ priceActive.right.indexOf(key) != -1 ? 'iconnewxuanzhongduoxuan' : 'iconweixuanzhong' ]"></i>
+										</div>
+									</span>
+								</template>
+							</div>
+						</div>
+						<div class="drop-price-input">
+							<div class="drop-price-input-price"> 
+								<span class="drop-price-input-title">自定义(万元)</span>
+								<div class="drop-price-input-box">
+									<van-field v-model="priceMin" placeholder="最低价" type="digit" @input="priceInput"></van-field>
+									<span class="drop-price-input-interval"></span>
+									<van-field v-model="priceMax" placeholder="最高价" type="digit" @input="priceInput"></van-field>
+								</div>
+							</div>
+							<div class="drop-price-input-wrap">
+								<van-button plain type="primary" class="drop-del drop-btn-item" @click="priceDel">重置</van-button>
+								<van-button type="default" color="rgba(254, 130, 30, 1)"  class="drop-btn-item" @click="priceSure">确定</van-button>
+							</div>
+						</div>
+					</div>
+				</template>
+				
+				<template v-else-if=" k == 2 ">
+					<div class="drop-type">
+						<div class="drop-type-wrap" >
+							<div class="drp-type-box" v-for="(item,index) in sezer.list" :key="index" @click="typeChange(index)">
+								<span :class="[ typeChoose.indexOf(index) != -1 ? 'drop-price-item-active' : '' ]">{{ item.name }}</span>
+								<i class="iconfont " :class="[ typeChoose.indexOf(index) != -1 ? 'iconnewxuanzhongduoxuan' : 'iconweixuanzhong' ]"></i>
+							</div>
+						</div>
+						<div class="drop-btn">
+							<van-button plain type="primary" class="drop-del drop-btn-item" @click="typeDel">重置</van-button>
+							<van-button type="default" color="rgba(254, 130, 30, 1)"  class="drop-btn-item" @click="typeSure">确定</van-button>
+						</div>
+					</div>
+				</template>
+				
+				<template v-else>
+					<div class="drop-more" v-if=" Object.keys(moreChooseSure).length > 0 ">
+						<div class="drop-more-wrap">
+							<div class="drop-more-item" v-for="(item,index) in sezer.list" :key="index">
+								<h4 class="drop-more-title">{{ item.title }}</h4>
+								<div class="drop-more-box">
+									<span 
+										class="drop-more-tip van-ellipsis" 
+										:class="[ (moreClass.indexOf(item.type+tip.id) != -1) ? 'drop-more-tip-active' : '' ]"
+										v-for="(tip,key) in item.list"
+										:key="key"
+										@click="chooseMore(index,tip.id)"
+									>
+										{{ tip.name }}
+									</span>
+								</div>
+							</div>
+						</div>
+						<div class="drop-btn">
+							<van-button plain type="primary" class="drop-del drop-btn-item" @click="moreDel">重置</van-button>
+							<van-button type="default" color="rgba(254, 130, 30, 1)"  class="drop-btn-item" @click="moreSure(k)">确定</van-button>
+						</div>
+					</div>
+				</template>
+			</van-dropdown-item>
+		</template>
+	</van-dropdown-menu> -->
+	<u-dropdown class="u-dropdown">
+		<u-dropdown-item v-model="value1" title="距离" :options="options1">
+			<view class="slot-content">
+				
+			</view>
+		</u-dropdown-item>
+	</u-dropdown>
+</template>
+
+<script>
+	import cArea from "@/components/common/cArea";
+	
+	export default {
+		data() {
+			return {
+				value1: 1,
+				value2: 2,
+				options1: [{
+						label: '默认排序',
+						value: 1,
+					},
+					{
+						label: '距离优先',
+						value: 2,
+					},
+					{
+						label: '价格优先',
+						value: 3,
+					}
+				],
+				options2: [
+					{
+						label: '去冰',
+						value: 1,
+					},
+					{
+						label: '加冰',
+						value: 2,
+					},
+				]
+			}
+		},
+		props: {
+			cArea
+		},
+		created() {
+		
+			
+		},
+		methods: {
+			
+		},
+	}
+</script>
+
+<style lang="scss" scoped>
+	.van-dropdown-menu__bar{
+		box-shadow: none;
+	}
+	
+	.van-dropdown-item__content{
+		max-height: none;
+	}
+	
+	.van-dropdown-menu__title--active{
+		font-size: 28rpx;
+		color: rgba(254, 130, 30, 1);
+	}
+	
+	/* 更多 */
+	.drop-more{
+		width: 100%;
+		height: 716rpx;
+		position: relative;
+	}
+	
+	.drop-more-item{
+		padding: 3rpx 34rpx;
+		box-sizing: border-box;
+	}
+	
+	.drop-more-item:last-child{
+		padding-bottom: 128rpx;
+	}
+	
+	
+	.drop-more-title{
+		margin-bottom: 24rpx;
+		font-size: 3rpx;
+	}
+	
+	.drop-more-box{
+		display: flex;
+		flex-wrap: wrap;
+	}
+	
+	.drop-more-tip{
+		width: 206rpx;
+		height: 64rpx;
+		background-color: rgba(250, 250, 250, 1);
+		margin-bottom: 24rpx;
+		line-height: 64rpx;
+		text-align: center;
+	}
+	
+	.drop-more-tip:nth-child(3n-1){
+		margin: 32rpx;
+	}
+	
+	.drop-more-tip-active{
+		background-color: rgba(254, 130, 30, 1);
+		color: #fff;
+	}
+	
+	.drop-more-wrap{
+		height: 666rpx;
+		overflow-y: scroll;
+		-webkit-overflow-scrolling: touch;
+	}
+	
+	.drop-btn{
+		width: 100%;
+		height: 128rpx;
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		background-color: #fff;
+		border-top: 1px solid rgba(240, 240, 240, 1);
+	}
+	
+	.drop-del{
+		margin-right: 26rpx;
+	}
+	
+	.drop-btn-item{
+		width: 328rpx;
+		height: 88rpx;
+		font-size: 3rpx;
+	}
+	
+	.drop-price{
+		width: 100%;
+		height: 716rpx;
+		position: relative;
+	}
+	
+	.drop-price-box{
+		width: 100%;
+		height: 53rpx;
+		display: flex;
+	}
+	
+	.drop-price-left{
+		width: 343rpx;
+		border-right: 1px solid rgba(240, 240, 240, 1);
+	}
+	
+	.drop-price-right{
+		width: 406rpx;
+	}
+	
+	.drop-price-left,
+	.drop-price-right{
+		height: 495rpx;
+		overflow-y: scroll;
+		-webkit-overflow-scrolling: touch;
+	}
+	
+	.drop-price-right span{
+		width: 100%;
+		height: 100%;
+		text-indent: none;
+		overflow-y: scroll;
+		-webkit-overflow-scrolling: touch;
+		box-sizing: border-box;
+		padding-right: 4rpx;
+	}
+	
+	.drop-price-item{
+		width: 100%;
+		height: 104rpx;
+		/* border-bottom: 0.01rpx solid rgba(240, 240, 240, 1); */
+		box-sizing: border-box;
+		padding-left: 4rpx;
+		line-height: 104rpx;
+		font-size: 32rpx;
+		display: flex;
+		justify-content: space-between;
+	}
+	
+	.drop-price-item-active{
+		color: rgba(254, 130, 30, 1);
+	}
+	
+	.drop-price-input{
+		width: 100%;
+		height: 22rpx;
+		position: absolute;
+		bottom: 0;
+		border-top: 1px solid rgba(240, 240, 240, 1);
+		box-sizing: border-box;
+		padding: 22rpx 32rpx 28rpx;
+	}
+	
+	.drop-price-input-title{
+		font-size: 32rpx;
+	}
+	
+	.drop-price-input-price{
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+	
+	.drop-price-input-wrap{
+		display: flex;
+		justify-content: space-between;
+		margin-top: 22rpx;
+	}
+	
+	.drop-price-input-box{
+		display: flex;
+		align-items: center;
+	}
+	
+	.drop-price-input-box .van-cell{
+		width: 158rpx;
+		height: 64rpx;
+		padding: 0;
+		border: 1px solid #E0E0E0;
+	}
+	
+	.drop-price-input-box .van-field__control{
+		height: 64rpx;
+		text-align: center;
+	}
+	
+	.drop-price-input-interval{
+		height: 02rpx;
+		width: 3rpx;
+		background-color: rgba(117, 117, 117, 1);
+		margin: 0 12rpx;
+	}
+	
+	.drop-price-btn{
+		width: 236rpx;
+		height: 88rpx;
+	}
+	
+	.drop-type{
+		width: 100%;
+		height: 716rpx;
+		position: relative;
+		box-sizing: border-box;
+		padding: 0 32rpx;
+	}
+	
+	.drop-type-wrap{
+		height: 588rpx;
+		overflow-y: scroll;
+		-webkit-overflow-scrolling: touch;
+	}
+	
+	.drp-type-box{
+		width: 100%;
+		height: 106rpx;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		font-size: 32rpx;
+		border-bottom: 01rpx solid rgba(240, 240, 240, 1);
+	}
+	
+	.drp-type-box .iconnewxuanzhongduoxuan{
+		color: rgba(254, 130, 30, 1);
+	}
+	
+	.text-none{
+		
+	}
+</style>

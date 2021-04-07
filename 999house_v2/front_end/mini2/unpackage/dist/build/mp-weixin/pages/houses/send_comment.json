@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "楼盘点评",
+  "usingComponents": {
+    "u-tag": "/uview-ui/components/u-tag/u-tag",
+    "u-input": "/uview-ui/components/u-input/u-input",
+    "u-upload": "/uview-ui/components/u-upload/u-upload",
+    "u-button": "/uview-ui/components/u-button/u-button"
+  }
+}

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title></title>
+		<link rel="stylesheet" href="../../common/vant/index.css?v=1.19"/>
+		<link rel="stylesheet" href="../../common/css/public.css?v=1.19"/>
+		<link rel="stylesheet" href="../../static/css/12/vote.css?v=1.19"/>
+		<style>
+
+
+		</style>
+	</head>
+	<body>
+		<div id="app" v-cloak ref="DOM" :style="{ backgroundColor: bgColor }">
+			<img v-lazy="$http.imgDirtoUrl(topPic)" class="top">
+			<div class="rule" @click="ruleShow = true">规则</div>
+			
+			<div class="box">
+				<div class="count" :style="{ backgroundColor: countColor }">
+					<span>距离投票结束还剩:</span>
+					<van-count-down :time="time" format="DD 天 HH 时 mm 分 ss 秒" />
+				</div>
+				<span class="user-num">
+					您当前可投票{{ userNum }}次
+				</span>
+			</div>
+			
+			<img v-lazy="titlePic" class="title">
+			<div class="house house2">
+				<div class="house-item" v-for="(item,index) in voteList" :key="index" @click="goDetil( item.id )">
+					<img v-lazy="$http.imgDirtoUrl(item.list_cover)" class="house-top">
+					<div class="house-wrap">
+						<h4>{{ item.name }}</h4>
+						<span class="house-vote">
+							当前票数：{{ item.num }}
+						</span>
+						
+						<div class="house-btn">
+							<van-button color="rgba(219, 30, 30, 1)" @click.stop="voteSome(item.id)">投票</van-button>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+			
+			<van-overlay :show="ruleShow" @click="ruleShow = false">
+				<div class="wrapper" @click.stop>
+					<van-icon class="close" name="cross"  @click="ruleShow = false"></van-icon>
+					<div class="content" v-html="ruleText" @touchmove.stop></div>
+				</div>
+			</van-overlay>
+		</div>	
+	</body>
+</html>
+
+<script src="../../common/js/vue.js?v=1.19" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/rem.js?v=1.19" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/public.js?v=1.19" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/vant/index.js?v=1.19" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/fastclick.js?v=1.19" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/wxsdk.js?v=1.19" type="text/javascript" charset="utf-8"></script>
+<script type="module">
+	import { http, loginMixin } from '../../common/js/method/http.js?v=1.19';
+
+	Vue.use(http);
+	Vue.use(vant.Lazyload);
+	
+	const app = new Vue({
+		el: '#app',
+		data: {
+			bgColor: '',
+			countColor: '',
+			topPic: '',
+			titlePic: '/9house/static/12/title2.png',
+			robPic: '/9house/static/12/buy.png',
+			votePic: '/9house/static/12/vote_btn.png',
+			voteList: [
+				// {
+				// 	id: 1,
+				// 	img: '/9house/static/logo.png',
+				// 	name: '大唐世家二期',
+				// 	num: 100
+				// },
+			],
+			time: 0,
+			canVote: true,
+			firstLoad: true,
+			userNum: 0,
+			ruleShow: false,
+			ruleText: '',
+			// 活动id
+			activeId: -1,
+		},
+		components: {
+			
+		},
+		mixins: [loginMixin],
+		created(){
+			console.log('create')
+			const option = this.$api.funcUrlDel().option;
+			
+			if( Object.keys(option).length > 0 ){
+				this.activeId = option.active_id;
+			}
+			
+			this.getList()
+		},
+		mounted() {
+			
+		},
+		methods:{
+			getList(){
+				// let id = 1 //传参数 投票活动的id
+				this.$http.ajax({
+					method: 'GET',
+					url: '/index/Promotions/voteActivityList',
+					data:{'active_id': this.activeId}
+				}).then( res=>{
+					// console.log(res)
+					document.title = res.data.name;
+					this.bgColor = res.data.bgcolor;
+					this.countColor = res.data.fontbgcolor;
+					
+					this.voteList = res.data.list?res.data.list:[]; //数据
+					
+					res.data.nowtime = res.data.nowtime? res.data.nowtime : 0; //当前时间
+					res.data.end_time = res.data.end_time? res.data.end_time : 0; //截至时间
+					this.time = Number(res.data.end_time)-Number(res.data.nowtime); 
+					if(this.time<=0){	
+						this.time = 0; 
+					}else{
+						this.time = Number(this.time)*1000
+					}
+					
+					this.topPic = res.data.cover_url; //头部图片
+					this.ruleText = res.data.context_rule; //规则
+					
+					if( this.firstLoad == true ){
+						this.userNum = Number(res.data.userNum);
+						this.firstLoad = false;
+					}
+					
+					// console.log( res.data)
+					this.wxShare(res);
+				})
+			},
+
+			goDetil( id ) {
+				this.$api.goPage('12/vote_detil.html', { id: id, active_id: this.activeId });
+			},
+			voteSome( id ) {
+				if( !this.canVote ){
+					this.$toast('点击过快，请稍后再试')
+					return false; 
+				}
+				
+				this.canVote = false;
+
+				if( this.userNum > 0 ) {
+					this.$http.ajax({
+						method: 'GET',
+						url: '/index/Promotions/voteAddLog',
+						data:{'vote_id': this.activeId,'vote_detail_id': id}
+					}).then( res=>{
+						this.userNum--;
+						
+						this.$toast('投票成功');
+						
+						this.getList();
+					}).catch( res=>{
+						this.$toast(res.msg);
+					})
+				} else {
+					this.$toast('今日投票次数已用完~');
+				}
+				
+				this.canVote = true;
+			}
+		},
+	})
+</script>

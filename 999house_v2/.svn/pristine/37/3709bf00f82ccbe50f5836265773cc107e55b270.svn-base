@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>资讯详情</title>
+		<link rel="stylesheet" href="../../common/vant/index.css"/>
+		<link rel="stylesheet" href="../../common/css/public.css?v=1.18"/>
+		<link rel="stylesheet" href="../../static/css/discover/news_detail.css"/>
+		<style>
+			.van-overlay{
+				z-index: 8888!important;
+			}
+			.van-dialog{
+				z-index: 8889!important;
+			}
+			.reply_wrap .van-overlay{
+				z-index: 2001!important;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app" v-cloak ref="DOM">
+			<top-bar title="资讯详情"></top-bar>
+			<div v-if="pageShow">
+				<div v-if="content.id">
+					<div class="content">
+						<div class="content-title">
+							<span v-if=" content.isWrite == 1 ">原创</span>{{ content.title }}
+						</div>
+						<div class="content-time">{{ content.time }}</div>
+						<div class="content-info" v-if="content.head || content.name">
+							<img :src="content.head" v-if="content.head">
+							<span v-if="content.name">{{ content.name }}</span>
+						</div>
+						<div class="content-text" v-html="content.text" v-if="content.text"></div>
+						<div class="content-read">阅读{{content.read }}</div>
+						<div class="content-like">
+							<span >
+								 <div class="content-url" v-if="content.source_link" @click="goPage(content.source_link)" >阅读原文</div>
+		<!--						{{ content.time }}-->
+							</span>
+							<common-like 
+								:id="content.id" 
+								:num="content.like" 
+								type="0" 
+								:state="content.likeStatus"
+								padding=".2rem 0 0 .5rem"
+								@like="likeSome"
+							>
+							</common-like>
+						</div>
+					</div>
+					<common-template :list="adList" @del="(e)=>{ adList = e }" :show_adclose='false'></common-template>
+					
+					<div class="talk-box">
+						<h4 class="talk-title">相关留言</h4>
+						
+						<discover-reply v-if='replyList&&replyList.length' :list="replyList" :reply="false" @like="replylikeSome" @reply="replySome"></discover-reply>
+						<div class="talk-box-notext" v-else>暂无数据</div>
+						
+						<van-button color="rgba(246, 246, 246, 1)" @click="replyPop = true ">更多评论</van-button>
+					</div>
+					
+					<div class="recommend">
+						<h4 class="recommend-title">推荐阅读</h4>
+						<common-template :list="recommendList" @del="(e)=>{ recommendList = e }" :limit_num='recommendList_limitNum'></common-template>
+						<van-button v-if='recommendList&&recommendList.length>=recommendList_limitNum&&showRecommendMore'
+							class="recommend-btn" 
+							:loading="recommendLoad" 
+							loading-text="加载中..."
+							@click="recommendLoadMore"
+						>
+							查看更多推荐
+							<i class="iconfont iconjiantou"></i>
+						</van-button>
+						<div class="allwrap"></div>
+					</div>
+				</div>
+				<div class="list_null" v-else >
+					<img src="../../static/null.png">
+					<p>该文章已被下架或删除啦</p>
+				</div>
+			</div>
+			<discover-reply-box
+				:show="replyPop" 
+				:id="id"
+				:pid="pid"
+				:cate_id ="cate_id"
+				:favorite="content.favorite" 
+				:list="replyList"
+				@send="sendSome" 
+				@close="replyPop = false" 
+				@like="replylikeSome"
+				ref="replyBox"
+				v-if="pageShow && content.id"
+			>
+			</discover-reply-box>
+			<div id="container-user-site"></div>
+		</div>	
+	</body>
+</html>
+
+<script src="../../common/js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/rem.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/public.js?v=1.18" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/vant/index.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=53da8183ca23918f2f81c79a5b2ede15&plugin=AMap.Geocoder"></script>
+<script type="module">
+	import { http, loginMixin } from '../../common/js/method/http.js?v=1.18';
+	Vue.use(http);
+	const myComponents = [
+		'../../components/common/topBar/index',
+		'../../components/common/like/index',
+		'../../components/common/template/index',
+		'../../components/discover/reply/index',
+		'../../components/discover/reply_box/index',
+	];
+	
+	$api.addComponents(myComponents)
+		.then(()=>{
+			
+			Vue.use(vant.Lazyload);
+			Vue.component('commonLike', commonLike);
+			Vue.component('discoverReply', discoverReply);
+			
+			const app = new Vue({
+				el: '#app',
+				data: {
+					pageShow: false,
+					showRecommendMore:true,
+					content: {
+						id: 0,
+						isWrite: 1,
+						title: '',
+						time: '',
+						head: '',
+						name: '',
+						text:'',
+						read: 0,
+						like: 0,
+						favorite: 0,
+						likeStatus: 0,
+						comeUrl: '',
+					},
+					city_no: 0,
+					// 广告
+					adList: [],
+					
+					// 留言
+					replyList: [],
+					replyPop: false,
+					text: '',
+					pid:'',
+					cate_id:'',
+					id:'',
+					// 推荐
+					recommendList: [],
+					recommendList_limitNum: 5,
+					recommendLoad: false,
+					recommendMore: true,
+				},
+
+				components: {
+					topBar,
+					commonTemplate,
+					discoverReplyBox
+				},
+				mixins: [loginMixin],
+				created() {
+					//
+					console.log(window.location.search);
+					this.pid = Number(this.$http.getUrlParamValue('pid'));
+					this.cate_id = Number(this.$http.getUrlParamValue('cate_id'));
+					this.id = Number(this.$http.getUrlParamValue('id'));
+
+					this.getInfo();
+				},
+				computed:{
+				
+				},
+				methods:{
+					recommendLoadMore() {
+						this.recommendList_limitNum = 10
+						this.showRecommendMore = false;
+						// if( this.recommendMore == true ){
+						// 	this.recommendLoad = true;
+						// 	this.$api.goPage('discover/index.html',{pid:this.pid,cate_id:this.cate_id,id:this.id});
+						// }
+					},
+					
+					getInfo(){
+						if( !this.pid  || !this.cate_id || !this.id ){
+							this.$toast('该文章呗删除了哦！');
+						}
+						let that = this;
+						that.$http.ajax({
+							data:{
+								pid:this.pid,
+								cate_id:this.cate_id,
+								id:this.id,
+							},
+							url:'/index/news/getArticleInfo'
+						}).then(res=>{
+							if(res.code == 1){
+								that.content = res.data.info;
+								if(res.data.adv){
+									res.data.adv = this.formatAdv(res.data.adv)
+									that.adList  = [res.data.adv];
+								}
+								console.log(that.content,55555)
+								
+								that.replyList  = res.data.replyList;
+								console.log( res.data.replyList)
+								console.log( res.data.replyList)
+								that.recommendList  = res.data.recommend;
+
+								//处理i资讯
+								let newList =that.recommendList;
+								newList.forEach(function (item,index) {
+
+									if( item.img instanceof  Array ){
+										if(item.img&&item.img.length > 0){
+											item.img.forEach(function(img,i) {
+												newList[index]['img'][i] = that.$http.imgDirtoUrl(img);
+											})
+
+										}
+									}else{
+										newList[index]['url'] = that.$http.imgDirtoUrl(item.url);
+									}
+
+								});
+
+								that.recommendList =  newList;
+							}
+
+							that.pageShow = true
+						}).catch(res=>{
+							//this.$toast(res.msg);
+							that.pageShow = true
+						});
+					},
+					likeSome(e) {
+						if( !this.$http.isLogin()){
+							this.$http.hrefMobileLogin();
+							return;
+						}
+						
+						let that = this;
+						//执行点赞
+						that.$http.ajax({
+							data:{
+								pid:this.pid,
+								cate_id:this.cate_id,
+								id:this.id,
+							},
+							url:'/index/news/addFabulous'
+						}).then(res=>{
+							console.log(res);
+							if(res.code == 1){
+								if(res.code == 1){
+									this.$toast(res.msg);
+									this.content.likeStatus = Number(res.data.is_fabulous);
+									if(this. content.likeStatus  ==1){
+										this.content.like ++;
+									}else{
+										this.content.like --;
+									}
+								}
+							}
+						}).catch(res=>{
+							this.$toast(res.msg);
+						});
+
+
+					},
+					replylikeSome( e ) {
+						this.$set(this.replyList[e.index],'lik',e.num);
+					},
+					replySome( id ) {
+						this.$refs.replyBox.replySome(id);
+					},
+					sendSome( option ) {
+						if(!option){
+							return;
+						}
+						const info = this.$api.localGet('user_info');
+						const time = this.$api.timeFormat(Date.parse(new Date()),'mm-dd hh:MM');
+						const id = Number(option.new_id);
+						const obj = {
+							id: id,
+							content: option.text,
+							head: info.user_avatar?info.user_avatar:'../../static/my/touxiang.png',
+							name: info.user_name?info.user_name:'手机用户',
+							lik: 0,
+							num: 0,
+							pid: 0,
+							reply: [],
+							time: time,
+							user_id: option.user_id?option.user_id:0
+						};
+						
+						//console.log(option,666);
+						if( option.pid == 0 ){
+							this.replyList.unshift(obj);
+						} else {
+							this.replyList.map( (item,index)=>{
+								if( item.id == option.pid ){
+									
+									this.$set(this.replyList[index],'reply',[...this.replyList[index]['reply'],...[obj]]);
+								}
+							})
+						}
+					},
+
+					goPage(e){
+						if(!e){
+							return;
+						}
+						this.$api.goPage(e);
+					},
+					formatAdv(advlist){
+						if(!advlist.href&&advlist.info){
+							advlist.href = 'houses/index.html?id='+advlist.info.estate_id+'&cover='+advlist.cover;
+						}
+						
+						let tips = [];	
+						let new_lab = [];	
+						if(advlist.info){
+							let adv_info = advlist.info															
+							tips = tips.concat($api.getTagsText('estatesnew_sale_status',advlist.info.sale_status));
+							tips = tips.concat($api.getTagsText('house_purpose',advlist.info.house_purpose));
+							if(advlist.info.feature_tag){
+								tips = tips.concat($api.getTagsText('feature_tag',advlist.info.feature_tag));
+							}
+							advlist.info.tip = tips;
+
+							if(advlist.info.lab){
+								let lab = advlist.info.lab
+								
+								for(let i in lab){
+									let item = lab[i]
+									if(item.type == 'discount'){
+										item.type = 1;
+										new_lab.push({
+											name: item.title,
+											type: item.type,
+										})
+									}
+									if(item.type == 'hot'){
+										item.type = 0;
+										new_lab.push({
+											name: item.title,
+											type: item.type,
+										})
+									}
+								}
+							}
+							advlist.info.lab = new_lab;
+						}
+						
+						return advlist;
+					},
+				},
+			})
+		})
+	
+	
+</script>

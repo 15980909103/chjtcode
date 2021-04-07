@@ -1,0 +1,353 @@
+<?php
+
+namespace app\admin\controller;
+
+
+use app\common\base\AdminBaseController;
+use app\common\lib\delayQueue\DelayQueue;
+use app\common\manage\TaskManage;
+
+
+
+class NotifyController extends AdminBaseController
+{
+
+    /**
+     * 角色与权限
+     */
+    protected $RoleAuth = [
+        /**
+         * 与报备单的联系
+         * self:自己 subordinate:下级店员 building:绑定的楼盘 subordinate-building：下级绑定的楼盘 create-store:创建的店铺 subordinate-store:下级绑定的店铺 create-building:创建的楼盘 city:城市
+         */
+        // 店员（经纪人）
+        '0' => [
+            'name'=> '店员',
+            'duplicate'=> [], //抄送
+            'examine' => [],//待处理
+            'log'=>[
+                1 => ['self'],
+                2 => ['self'],
+                3 => ['self'],
+                4 => ['self'],
+                5 => ['self'],
+                6 => ['self'],
+            ],//日志追加
+            'add'=> [1],//添加操作 [报备]
+        ],
+        // 店长（经纪人）
+        '1' => [
+            'name'=> '店长',
+            'duplicate'=> [
+                1 => ['subordinate'],
+                2 => ['subordinate'],
+                3 => ['subordinate'],
+                4 => ['subordinate'],
+                5 => ['subordinate'],
+                6 => ['subordinate'],
+            ], //抄送
+            'examine' => [],//待处理
+            'log'=>[
+                1 => ['self'],
+                2 => ['self'],
+                3 => ['self'],
+                4 => ['self'],
+                5 => ['self'],
+                6 => ['self'],
+            ],//日志追加
+            'add'=> [1],//添加操作 [报备]
+            'store_manager' => true  //标识店长
+        ],
+        // 项目经理（原项目经理）
+        '2' => [
+            'name'=> '项目经理',
+            'duplicate'=> [], //抄送
+            'examine' => [
+                1 => ['building'],
+                2 => ['building'],
+                3 => ['building'],
+            ],//待处理
+            'log'=>[
+                1 => ['building'],
+                2 => ['building'],
+                3 => ['building'],
+            ],//日志追加
+            'add'=> [],//添加操作 [报备]
+        ],
+        // 项目主管（原项目组长）
+        '3' => [
+            'name'=> '项目主管',
+            'duplicate'=> [
+                1 => ['subordinate-building'],
+                2 => ['subordinate-building'],
+                3 => ['subordinate-building'],
+            ], //抄送
+            'examine' => [],//待处理
+            'log'=>[],//日志追加
+            'add'=> [],//添加操作 [报备]
+        ],
+        // 渠道专员（原渠道组员）
+        '5' => [
+            'name'=> '渠道专员',
+            'duplicate'=> [
+                1 => ['create-store'],
+                2 => ['create-store'],
+                3 => ['create-store'],
+                4 => ['create-store'],
+                5 => ['create-store'],
+                6 => ['create-store'],
+            ], //抄送
+            'examine' => [
+                5 => ['create-store'],
+                6 => ['create-store'],
+            ],//待处理
+            'log'=>[
+                5 => ['create-store'],
+                6 => ['create-store'],
+            ],//日志追加
+            'add'=> [],//添加操作 [报备]
+        ],
+        // 渠道总监（原渠道组长）
+        '6' => [
+            'name'=> '渠道总监',
+            'duplicate'=> [
+                1 => ['create-store', 'subordinate-store'],
+                2 => ['create-store', 'subordinate-store'],
+                3 => ['create-store', 'subordinate-store'],
+                4 => ['create-store', 'subordinate-store'],
+                5 => ['create-store', 'subordinate-store'],
+                6 => ['create-store', 'subordinate-store'],
+            ], //抄送
+            'examine' => [
+                5 => ['create-store'],
+                6 => ['create-store'],
+            ],//待处理
+            'log'=>[
+                5 => ['create-store'],
+                6 => ['create-store'],
+            ],//日志追加
+            'add'=> [],//添加操作 [报备]
+        ],
+        // 项目总监（原项目负责人）
+        '7' => [
+            'name'=> '项目总监',
+            'duplicate'=> [], //抄送
+            'examine' => [
+                4 => ['create-building']
+            ],//待处理
+            'log'=>[
+                4 => ['create-building']
+            ],//日志追加
+            'add'=> [],//添加操作 [报备]
+        ],
+        // 总负责人（原区域负责人）
+        '8' => [
+            'name'=> '总负责人',
+            'duplicate'=> [
+                1 => ['city'],
+                2 => ['city'],
+                3 => ['city'],
+                4 => ['city'],
+                5 => ['city'],
+                6 => ['city'],
+            ], //抄送
+            'examine' => [],//待处理
+            'log'=>[],//日志追加
+            'add'=> [],//添加操作 [报备]
+        ],
+    ];
+
+    //微信通知
+    public function DistributionWxMsg(){
+        $data = $this->request->param();
+        if($data['auth'] = 'Nldo4g59sEkW2v7DCmIOruPc6FAMn'){
+            //TaskManage::getInstance()->asyncPost($data['data'],\app\task\Test::class);
+            $this->sendTmpMsg($data['data']);
+        }
+    }
+
+    private function sendTmpMsg($data=[]){
+//        if(empty($data['order_no'])){
+//            $this->error('抱歉，缺失参数');
+//        }
+//        if(empty($data['status_type'])){
+//            $this->error('抱歉，缺失参数');
+//        }
+        $data = [];
+        $data['order_no'] = 'R202101125710197938308';
+        $info = $this->db->name('xcx_building_reported')->where([
+            'order_no' => $data['order_no']
+        ])->find();
+        if(empty($info)){
+            $this->error('抱歉，找不到该报备申请单');
+        }
+        $step = 2;//当前操作的环节
+        $said = 197;//操作该环节的said
+
+        //找出拥有该环节的角色
+        $roles_duplicate = [
+            'detail'=>[],
+            'roleIds'=>[],
+        ];
+        $roles_examine = [
+            'detail'=>[],
+            'roleIds'=>[],
+        ];
+        //self:自己 subordinate:我的店员 building:绑定的楼盘 subordinate-building：下级绑定的楼盘 create-store:创建的店铺 subordinate-store:下级绑定的店铺 create-building:创建的楼盘 city:城市
+        foreach ($this->RoleAuth as $k=>$item){
+            $duplicate = $this->transforRoles( 'duplicate', $step,  $item, $k);
+            if(!empty($duplicate)){
+                $roles_duplicate['detail'] = $roles_duplicate['detail']+ $duplicate['detail'];
+                $roles_duplicate['roleIds'] = $roles_duplicate['roleIds']+ $duplicate['roleIds'];
+            }
+
+            $examine = $this->transforRoles( 'examine', $step,  $item, $k);
+            if(!empty($examine)){
+                $roles_examine['detail'] = $roles_examine['detail']+ $examine['detail'];
+                $roles_examine['roleIds'] = $roles_examine['roleIds']+ $examine['roleIds'];
+            }
+            //$roles['examine'] = $roles['examine']+ $this->transforRoles('examine', 2,  $item, $k);
+        }
+
+        print_r($roles_examine);
+
+
+        //申请者的一些信息
+//        $apply_user = $this->db->name('xcx_store_agent')->where(
+//            ['said', '=', $info['said']]
+//        )->find();
+
+
+        $openIds = [];
+
+        //抄送人员
+        //通知有 我的店员权限的
+        if(!empty($roles_duplicate['detail']['subordinate'])){
+            //操作自己的不进行抄送
+            /*if(!empty($roles_duplicate['detail']['subordinate'][$apply_user['type']])){
+
+            }*/
+
+            //查找出店长
+            $openIds[] = $this->db->name('xcx_store_agent')->where([
+                ['store_id', '=', $info['store_id']],
+                ['type', '=', 1]
+            ])->find();
+        }
+
+        //通知有 我创建的店铺权限的
+        if(!empty($roles_duplicate['detail']['create-store'])){
+            //找出店铺创建者
+            $this->db->name('xcx_store_store xs')
+                ->field('xa.aid')
+                ->join('admin a','a.id = xs.aid')
+                ->join('xcx_store_agent xa','xa.aid = xs.aid')
+                ->where([
+                    ['xs.store_id', '=', $info['store_id']],
+                ])->select();
+        }
+
+        //通知有 下级绑定的店铺权限的
+        if(!empty($roles_duplicate['detail']['subordinate-store'])){
+
+            //找出创建店铺的
+
+
+            //找出后台账号channel_id关联的said
+
+            //再找said找所在的组长
+
+            //查找出店长
+//            $openIds[] = $this->db->name('xcx_store_agent')->where(
+//                ['store_id', '=', $info['store_id']],
+//                ['type', '=', 1]
+//            )->find();
+        }
+//
+//        //通知有 我绑定的楼盘权限的
+//        $roles['duplicate']['building'];
+//
+//        //通知有 下级绑定的楼盘权限的
+//        $roles['duplicate']['subordinate-building'];
+//
+
+//
+//        //通知有 我创建的楼盘权限的
+//        $roles['duplicate']['create-building'];
+//
+//        //通知有 城市权限的
+//        $roles['duplicate']['city'];
+
+
+
+        //审批人员
+
+
+        //申请人员
+    }
+
+    private function transforRoles($action, $step, $roleInfo, $roleId){
+        $action_step_auths = $roleInfo[$action][$step];//该环节步骤内的权限集合
+        //print_r($action_step_auths);
+        $roleIds = [];
+        $auths = [
+            'subordinate',//我的店员
+            'subordinate-store', //下级绑定的店铺
+            'building',//我绑定的楼盘
+            'subordinate-building',//下级绑定的楼盘
+            'create-store', //我创建的店铺
+            'create-building', //我创建的楼盘
+            'city' //城市
+        ];
+        $roles = [];
+        foreach ($auths as $item){
+            if(in_array($item, $action_step_auths)){
+                $roles[$item][$roleId] = $roleInfo;
+                $roleIds[$roleId] = $roleId;
+            }
+        }
+
+        return [
+            'detail' => $roles,
+            'roleIds'=> $roleIds
+        ];
+    }
+
+    //保护期时间到了进行验证
+    public function CheckProtection(){
+        $data = $this->request->param();
+        $data['delay'] = intval($data['delay']);
+
+        if($data['auth'] != 'Nldo4g59sEkW2v7DCmIOruPc6FAMn'){
+            $this->error('校验错误');
+        }
+        if(empty($data['data'])||empty($data['order_no'])||empty($data['status_type'])){
+            $this->error('缺失报备订单参数');
+        }
+
+        DelayQueue::getInstance()->addTask('checkProtection',$data['delay'],\app\task\CheckProtection::class,$data['data']);
+        $this->success();
+
+        //==============test===============//
+        //添加延时队列
+        /*for ($i=0;$i<26;$i++){
+            $data['data']= $i;
+            echo $data['data'].'-------------';
+            DelayQueue::getInstance()->addTask('checkProtection',$data['delay'],\app\task\CheckProtection::class,$data['data']);
+        }*/
+        /* echo PHP_EOL;
+         for ($i=0;$i<100;$i++){
+             $data['data'] = $i;
+             echo $data['data'].'-------------';
+             DelayQueue::getInstance()->addTask('checkProtection2',$data['delay'],\app\task\CheckProtection::class,$data['data']);
+         }
+         echo PHP_EOL;
+         for ($i=0;$i<100;$i++){
+             $data['data'] = $i;
+             echo $data['data'].'-------------';
+             DelayQueue::getInstance()->addTask('checkProtection3',$data['delay'],\app\task\CheckProtection::class,$data['data']);
+         }
+         echo PHP_EOL;*/
+    }
+
+}

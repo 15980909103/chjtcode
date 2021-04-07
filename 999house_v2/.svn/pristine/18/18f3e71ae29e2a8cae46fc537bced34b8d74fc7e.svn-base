@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title></title>
+		<link rel="stylesheet" href="../../common/vant/index.css?v=1.12"/>
+		<link rel="stylesheet" href="../../common/css/public.css?v=1.12"/>
+		<style>
+			.wrap{
+				width: 100%;
+				box-sizing: border-box;
+				padding: .3rem;
+			}
+			
+			.title{
+				width: 100%;
+				display: flex;
+				justify-content: center;
+				font-size: .4rem;
+				margin-bottom: .6rem;
+			}
+			
+			.wrap img{
+				width: 100%;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app" v-cloak ref="DOM">
+			<div class="wrap">
+				<h4 class="title">
+					{{ title }}
+				</h4>
+				<div v-html="content"></div>
+			</div>
+			<div id="container-user-site"></div>
+		</div>	
+	</body>
+</html>
+
+<script src="../../common/js/vue.js?v=1.12" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/rem.js?v=1.12" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/public.js?v=1.15" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/vant/index.js?v=1.12" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/fastclick.js?v=1.12" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=53da8183ca23918f2f81c79a5b2ede15&plugin=AMap.Geocoder"></script>
+<script type="module">
+	import { http, loginMixin } from '../../common/js/method/http.js?v=1.1';
+
+	const myComponents = [];
+	Vue.use(http);
+	
+	$api.addComponents(myComponents)
+		.then(()=>{
+			Vue.use(vant.Lazyload);
+			
+			const app = new Vue({
+				el: '#app',
+				data: {
+					title: '',
+					content: ''
+				},
+				mixins: [loginMixin],
+				created(){
+					this.getInfo();
+				},
+				methods:{
+					getInfo(){
+						const type = this.$api.funcUrlDel().option.type;
+						
+						document.title = type == 1 ? '九房双十二活动说明' : '九房使用协议';
+						
+						this.$http.ajax({
+							url: 'index/PublicArticles/list'
+						}).then( res=>{
+							const data = res.data;
+
+							this.title = data[type].title;
+							this.content = data[type].context;
+
+						})
+					}
+				},
+			})
+	
+		})
+	
+	
+</script>

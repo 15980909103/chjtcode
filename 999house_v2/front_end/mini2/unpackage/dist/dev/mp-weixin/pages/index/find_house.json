@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "买房方案",
+  "usingComponents": {
+    "u-popup": "/uview-ui/components/u-popup/u-popup",
+    "u-button": "/uview-ui/components/u-button/u-button",
+    "u-toast": "/uview-ui/components/u-toast/u-toast",
+    "common-area": "/components/common/cArea"
+  }
+}

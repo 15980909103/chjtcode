@@ -1,0 +1,4 @@
+<!--pages/new_house/sand.wxml-->
+<view class="container">
+  <web-view src='{{h5Host}}/houses/sand.html?id=130' />
+</view>

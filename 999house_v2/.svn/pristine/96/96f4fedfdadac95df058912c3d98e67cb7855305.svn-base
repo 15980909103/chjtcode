@@ -1,0 +1,15 @@
+//const requestsObj = require('requests.js');
+//const openPageObj = require('/module/openPage.js');
+//const wxAuth = require('/module/WxAuth.js');
+const localStore = require('./module/localStore.js');
+const getUserLocation = require('./module/getUserLocation.js');
+
+
+
+
+// module.exports = {
+//   // requests: requestsObj.requests,
+//   // getToken: requestsObj.getToken,
+//   // getSid: requestsObj.getSid,
+//   // openPage: openPageObj.openPage,
+// }

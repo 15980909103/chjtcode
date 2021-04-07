@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+		<title>地图</title>
+		<link rel="stylesheet" href="../../common/vant/index.css" />
+		<link rel="stylesheet" href="../../common/css/public.css?v=1.18" />
+		<style>
+			body,html{
+				width: 100%;
+				height: 100%;
+			}
+			.drop {
+			position: sticky;
+			top: 0;
+			background-color: #fff;
+			z-index: 8;
+		}
+
+		#container {
+			width: 100%;
+			height:100vh;
+		}
+
+		.amap-cluster {
+			display: flex;
+			justify-content: center;
+			flex-direction: column;
+			align-items: center;
+			font-size: 12px;
+		}
+
+		.showName {
+			font-size: 14px;
+		}
+
+		.showCount,
+		.showName {
+			display: block;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			overflow: hidden;
+			width: 80%;
+		}
+
+		.detail {
+			background: #FEFFFE;
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			width: 100%;
+			z-index: 999;
+		}
+
+		.btn {
+			text-align: center;
+			color: #212121;
+			font-weight: bold;
+			padding: .3rem;
+			border-top: 1px solid #EBEBEB;
+			width: 80%;
+			margin: 0 auto;
+		}
+
+		.btn img {
+			width: 0.4rem;
+			vertical-align: middle;
+			position: relative;
+			bottom: 3px;
+		}
+
+		.detail .main {
+			width: 80%;
+			margin: 0 auto;
+			padding: 0.3rem 0;
+			position: relative;
+		}
+
+		.main-imgBox,
+		.main-data {
+			display: inline-block;
+			vertical-align: middle;
+		}
+
+		.main-data {
+			margin-left: 0.2rem;
+		}
+
+		.main-title {
+			font-size: 18px;
+			color: #212121;
+			font-weight: bold;
+			margin-bottom: .15rem;
+		}
+
+		.main-label {
+			margin-bottom: .15rem;
+		}
+
+		.label {
+			color: #ADADAD;
+			border: 1px solid #E0E0E0;
+			padding: 0 0.07rem;
+			margin-right: 0.07rem;
+			border-radius: 0.05rem;
+		}
+
+		.main-location {
+			color: #757575;
+			font-size: 16px;
+			margin-bottom: .15rem;
+		}
+
+		.main-price {
+			color: #FC4D39;
+			font-size: 18px;
+			font-weight: bold;
+		}
+
+		#panel {
+			position: fixed;
+			background-color: white;
+			max-height: 90%;
+			overflow-y: auto;
+			top: 10px;
+			right: 10px;
+			width: 280px;
+			border-bottom: solid 1px silver;
+		}
+		
+		.top{
+			position: absolute;
+			top: 0;
+			left: 0;
+			z-index: 999;
+			width: 100%;
+		}
+	</style>
+	</head>
+
+	<body>
+		<div id="app" v-cloak ref="DOM">
+			<top-bar title="新房"></top-bar>
+			<div class="drop">
+				<div class="top">
+					<common-sizer @result="chooseResult" v-if='selectFlag'></common-sizer>
+				</div>
+				<Marker-Map :checkdata='checkdata'></Marker-Map>
+			</div>
+		</div>
+	</body>
+
+</html>
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=53da8183ca23918f2f81c79a5b2ede15&plugin=AMap.IndexCluster,AMap.Geocoder">
+</script>
+<script src="../../common/js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/rem.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/public.js?v=1.18" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/vant/index.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+<script type="module">
+	const myComponents = [
+		'../../components/common/topBar/index',
+		'../../components/common/area/index',
+		'../../components/common/sizer/index',
+		'../../components/common/map/index',
+	];
+	import {
+		http,
+	} from '../../common/js/method/http.js?v=1.18';
+	Vue.use(http);
+		$api.addComponents(myComponents)
+		.then(() => {
+			Vue.use(vant.Lazyload);
+			Vue.component('commonArea', commonArea);
+			const app = new Vue({
+				el: '#app',
+				data: {
+					zoom:10,
+					checkdata:{},
+					selectFlag: true
+				},
+				components: {
+					topBar,
+					commonSizer,
+					MarkerMap
+				},
+				created() {
+
+				},
+				mounted() {
+					let url_params = this.$api.funcUrlDel().option
+					if(url_params&&url_params.type&&['floor','find_house'].includes(url_params.type)){
+						this.selectFlag = false
+					}
+					console.log(this.selectFlag)
+				},
+				methods: {
+					// 返回筛选id列表
+					chooseResult(e) {
+						this.checkdata = e
+						console.log(this.checkdata)
+					},
+				},
+			})
+
+		})
+</script>

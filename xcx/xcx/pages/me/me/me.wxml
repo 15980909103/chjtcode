@@ -1,0 +1,35 @@
+<view class='card' bindtap="getUserInfo">
+  <image src='{{userInfo.avatarUrl}}'></image>
+  <view class='name'>{{userInfo.nickName}}</view>
+  <view style='clear:both;'></view>
+</view>
+<!-- <button class='my-button' open-type="getUserInfo" bindgetuserinfo="onUser"></button> -->
+<view class='list'>
+  <van-cell is-link>
+    <view slot="title" bindtap='onCollection'>
+      <image src='/image/icon-personal-building.png'></image>
+      <view class="van-cell-text">楼盘收藏</view>
+    </view>
+  </van-cell>
+  <van-cell is-link>
+    <view slot="title" bindtap='onRecord'>
+      <image src='/image/icon-personal-record.png'></image>
+      <view class="van-cell-text">浏览历史</view>
+    </view>
+  </van-cell>
+</view>
+<view class='list'>
+  <van-cell is-link>
+    <view slot="title" bindtap='onFeedback'>
+      <image src='/image/icon-personal-feedback.png'></image>
+      <view class="van-cell-text">意见反馈</view>
+    </view>
+  </van-cell>
+  <van-cell is-link>
+    <view slot="title">
+      <image src='/image/icon-personal-service.png'></image>
+      <view class="van-cell-text">客服咨询</view>
+      <button class='my-kh' open-type="contact"></button>
+    </view>
+  </van-cell>
+</view>

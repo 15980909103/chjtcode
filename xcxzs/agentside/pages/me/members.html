@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>成员</title>
+    <link rel="stylesheet" type="text/css" href="../../static/css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/mui/css/mui.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/css/me/members.css" />
+    <script type="text/javascript" src="../../static/js/jquery-2.0.0.min.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.min.js" ></script>
+    <!-- <script type="text/javascript" src="../../static/js/vue.min.js" ></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script type="text/javascript" src="../../static/js/vue-tap.js" ></script>
+    <script type="text/javascript" src="../../static/js/public.js?v=2" ></script>
+    <script type="text/javascript" src="../../static/js/clipboard.min.js" charset="utf-8"></script>
+    <style>.mui-pull-bottom-tips{display: none;}</style>
+</head>
+<body>
+<div id="app" class="my-content">
+    <div id="my-div1" v-if="bindingInfo.length>0">
+        <div class="mui-table-view-cell" v-for="(item,index) in bindingInfo">
+            <div class="mui-slider-right mui-disabled">
+                <a
+                    :data-index="index"
+                    class="mui-btn my-ignore options-mui-btn"
+                    v-tap="{methods: refuseToRequest}"
+                >
+                    忽略
+                </a>
+            </div>
+            <div class="mui-slider-handle">
+                <div class="mui-table-cell">
+                    <div class="my-li-content">
+                        <div class="my-li1">
+                            <img class="my-li1-img" :src="item.headimgurl"/>
+                            <div class="my-li1-name"><div class="my-li1-time" v-cloak>{{item.name}}</div></div>
+                        </div>
+                        <div class="my-li2" :data-index="index" v-tap="{methods: agreeToRequest}">申请通过</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="my-div2">
+        <div class="div2-title">
+            <div>成员</div>
+            <div id="select-all" v-cloak>
+                <label for="select-all__input">全选</label>
+                <input id="select-all__input" type="checkbox" v-model="isSelectAll"/>
+            </div>
+        </div>
+        <div class="div2-content">
+            <div class="mui-scroll-wrapper">
+                <div class="mui-scroll">
+                    <div class="profile-list">
+                        <div class="my-ren"
+                            v-for="(item, index) in members"
+                            :key="index"
+                            :class="[item.isSelected? 'active': '']"
+                            v-tap="{methods: selectMember, index}"
+                        >
+                            <div class="avatar">
+                                <img :src="item.headimgurl" v-cloak class="avatar-img">
+                                <img v-if="index == 0" src="../../static/image/owner-avatar-icon.png" class="owner-avatar__icon">
+                            </div>
+                            <div class="aui-ellipsis-1" v-cloak>{{item.name}}</div>
+                        </div>
+                        <div class="my-ren add-button" v-tap="{methods:inviteMember}">
+                            <div class="avatar"></div>
+                            <div class="aui-ellipsis-1" v-cloak>添加成员</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="operating">
+        <button
+            id="remove-member"
+            type="button"
+            class="mui-btn mui-btn-primary mui-btn-outlined"
+            v-tap="{methods: removeMember}"
+        >
+            踢出成员
+        </button>
+        <button
+            id="back-page"
+            type="button"
+            class="mui-btn mui-btn-danger"
+            v-tap="{methods: backToStorePage}"
+        >确认</button>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    Vue.config.devtools = true;
+    new Vue({
+        el: '#app',
+        data: {
+            store_id: 0, //店铺id
+            bindingInfo: [],    //申请数据
+            members: [],  //成员数据
+            isSelectAll: false,
+            checkAll: ''
+        },
+        mounted: function () {
+            this.$nextTick(function () {
+                var _this=this;
+
+                mui('.div2-content .mui-scroll-wrapper').scroll({});
+
+                this.getCurrentMembers();
+            })
+        },
+        watch: {
+            isSelectAll(value) {
+                this.selectAll();
+            }
+        },
+        methods:{
+            getCurrentMembers() {
+                ajax('agentAjax/getSortAgent',{}, res => {
+                    this.members = res.members;
+                    this.bindingInfo = res.bindingInfo;
+                    this.store_id = res.store_id;
+                });
+            },
+            backToStorePage() {
+                const currentSelectIds = this.getSelectList('said');
+                if (currentSelectIds.length > 0 || this.isSelectAll) {
+                    setLocation(`pages/me/my_store_new.html${
+                        this.isSelectAll || currentSelectIds.length == this.members.length
+                            ? ''
+                            : ('?members='+ currentSelectIds.join(','))
+                    }`);
+                } else {
+                    mui.toast('至少选中一位');
+                }
+            },
+            selectAll() {
+                const selectCount = this.getSelectList().length;
+                if (this.isSelectAll || (selectCount == this.members.length)) {
+                    for (let i = 0; i < this.members.length; i++) {
+                        this.$set(this.members[i], 'isSelected', this.isSelectAll);
+                    }
+                }
+            },
+            selectMember(options) {
+                const index = typeof(options) == 'number' ? options: options.index;
+                const member = this.members[index];
+                if (this.isSelectAll) { // 已经是全选然后选中某个
+                    this.isSelectAll = false;
+                }
+                this.$set(this.members[index], 'isSelected', !Boolean(member.isSelected));
+            },
+            getSelectList(key='id') {
+                const result = [];
+                this.members.forEach(item => {
+                    if (item.isSelected) {
+                        result.push(item[key]);
+                    }
+                });
+                return result;
+            },
+            inviteMember() {
+                setLocation('pages/me/erweima_store.html');
+            },
+            agreeToRequest(e) {
+                var elem = e.event.target;
+                var li = elem.parentNode.parentNode;
+                var index=$(elem).data('index');
+                this.openConfirm('确认申请通过？', () => {
+                    this.addMember(index, () => {
+                        this.swipeoutClose(li);
+                        this.getCurrentMembers();
+                    });
+                });
+            },
+            addMember(index, cb) {
+                ajax('agentAjax/storeSqThrough',{
+                        sqid: this.bindingInfo[index].id
+                    }, res => {
+                        if(res.success){
+                            cb && typeof(cb) == 'function'? cb(): '';
+                            this.getCurrentMembers();
+                        }else{
+                            mui.toast(res.message);
+                        }
+                });
+            },
+            refuseToRequest(e) {
+                var elem = e.event.target;
+                var li = elem.parentNode.parentNode;
+                var index = $(elem).data('index');
+                this.openConfirm('确认忽略该申请？', () => {
+                    this.removeRequest(index, () => {
+                        this.swipeoutClose(li);
+                        this.getCurrentMembers();
+                    });
+                });
+            },
+            removeRequest(index, cb) {
+                ajax('agentAjax/storeSqIgnore',{
+                    sqid: this.bindingInfo[index].id
+                }, res =>{
+                    if(res.success){
+                        mui.toast('忽略成功！');
+                        this.bindingInfo= this.bindingInfo.splice(index, 1);
+                        typeof(cb) == 'function' && cb();
+                    }else{
+                        mui.toast(res.message);
+                    }
+                });
+            },
+            swipeoutClose(li) {
+                setTimeout(function() {
+                    mui.swipeoutClose(li);
+                }, 0);
+            },
+            openConfirm(text, success=null, fail=null) {
+                mui.confirm(text, '提示', ['确认', '取消'], e => {
+                    if (e.index == 0) {
+                        typeof(success) == 'function' && success();
+                    } else {
+                        typeof(fail) == 'function' && fail();
+                    }
+                });
+            },
+            removeMember() {
+                const ids = this.getSelectList().join(',');
+                if (ids.length > 0) {
+                    ajax('agentAjax/getKicking', {
+                        member_ids: ids
+                    }, res => {
+                        mui.toast(res.message);
+                        if (res.success) {
+                            this.getCurrentMembers();
+                        }
+                    })
+                } else {
+                    mui.toast('至少选中一位');
+                }
+            }
+        }
+    })
+</script>

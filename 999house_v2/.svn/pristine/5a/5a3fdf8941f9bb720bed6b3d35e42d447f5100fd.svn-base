@@ -1,0 +1,10 @@
+//const requestsObj = require('requests.js');
+//const openPageObj = require('/module/openPage.js');
+//const wxAuth = require('/module/WxAuth.js');
+
+// module.exports = {
+//   // requests: requestsObj.requests,
+//   // getToken: requestsObj.getToken,
+//   // getSid: requestsObj.getSid,
+//   // openPage: openPageObj.openPage,
+// }

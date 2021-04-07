@@ -1,0 +1,58 @@
+<?php
+declare (strict_types = 1);
+
+namespace app\task;
+
+
+use app\common\pool\RedisPool;
+use app\server\admin\Chat;
+use app\server\index\BoMessageLog;
+use app\server\user\User;
+use app\websocket\Gateway;
+use Swoole\IDEHelper\StubGenerators\Swoole;
+use Swoole\Runtime;
+use think\cache\driver\Redis;
+use function Co\run;
+
+class SystemMsg
+{
+    public function run($msg_data= null){
+        //todo 整理系统消息发送
+        //分批次获取用户推送消息c
+        $pageSize  = 20;
+        $page = 1;
+        $user_server = new User();
+        $data  = $user_server->getListBypage($pageSize,$page);
+        $ChatServer  = new Chat();
+        while (!empty($data)){
+            foreach ($data as $v){
+                if(Gateway::isUidOnline($v['id'])){
+                    //在线发送sorket 数据给我给前端
+                    $send_data = [
+                        'code'          => 1,
+                        'msg'           => '系统消息',
+                        'type'          =>  'systemmsg',
+                        'returndata'    => [
+                            'title'           => $data['title'],
+                            'context'         => htmlspecialchars_decode($data['context']),
+                            'status'          => $data['status'],
+                            'chat_type'       => $data['chat_type'],
+                            'sub_context'     => $data['sub_context'],
+                            'id'              => $data['id']
+                        ],
+                    ];
+
+                    Gateway::sendToUid($v['id'],json_encode($send_data));
+                    $ChatServer->addSyetemMsgByUser($data,$v['id']);
+
+                }else{
+                    $ChatServer->addSyetemMsgByUser($data,$v['id']);
+                }
+            }
+            $page++;
+            $data = $user_server->getListBypage($pageSize,$page);
+        }
+
+
+    }
+}

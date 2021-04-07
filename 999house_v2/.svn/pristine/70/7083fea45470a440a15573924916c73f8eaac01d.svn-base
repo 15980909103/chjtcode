@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>房源推荐</title>
+		<link rel="stylesheet" href="../../common/vant/index.css"/>
+		<link rel="stylesheet" href="../../common/css/public.css"/>
+		<style>
+			.title-box,
+			.title-like{
+				margin-top: 0.4rem;
+				box-sizing: border-box;
+				padding: 0 0.32rem;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				font-size: 0.34rem;
+				color: #212121;
+			}
+			
+			.title-tip{
+				height: 100%;
+				display: flex;
+				align-items: center;
+			}
+			
+			.title-tip div{
+				height: 100%;
+				color: rgba(134, 186, 122, 1);
+				font-size: 0.24rem;
+				margin-left: 0.44rem;
+			}
+			
+			.title-tip span{
+				font-size: 0.26rem;
+				margin-left: 0.12rem;
+			}
+			
+			.title-like{
+				margin-top: 0.7rem;
+			}
+			
+			
+			
+		</style>
+	</head>
+	<body>
+		<div id="app" v-cloak>
+			<van-list
+			  v-model="loading"
+			  :finished="finished"
+			  finished-text="没有更多了"
+			  @load="onLoad"
+			>
+				<div class="title-box">
+					<h4 class="title-text">为您智能匹配{{list.get.length}}个房源</h4>
+					<div class="title-tip">
+						<div class="iconfont iconlocation-2"><span>地图</span></div>
+						<div class="iconfont iconxingzhuang"><span>修改</span></div>
+					</div>
+				</div>
+				<common-template :list="list.get"></common-template>
+				
+				<h4 class="title-like">
+					猜你喜欢
+				</h4>
+				<common-template :list="list.recommend"></common-template>
+			</van-list>
+		</div>
+	</body>
+</html>
+
+<script src="../../common/js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/rem.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/public.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/vant/index.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+<script>
+	const myComponents = [
+		'../../components/common/template/index',
+	];
+	
+	$api.addComponents(myComponents)
+		.then(()=>{
+			
+			Vue.use(vant.Lazyload);
+			 
+			Vue.component('commonTemplate', commonTemplate);
+			
+			const app = new Vue({
+				el: '#app',
+				data: {
+					loading: false,
+					finished: false,
+					list: {
+						get: [
+							{
+								// 8-新房（数据和类型4-广告楼盘有图 雷同）
+								id: 14,
+								type: 8,
+								info: {
+									name: '世贸湖边首府',
+									tip: ['售完','住宅','热楼盘','装修交付'],
+									price: 34000,
+									site: '湖里 软件园',
+									area: 108,
+									lab: [
+										{ type: 0, name: '入围护理人气楼盘榜', img: '../../static/logo.png' },
+										{ type: 0, name: '享9.5折', img: '../../static/logo.png' },
+										{ type: 0, name: '777', img: '../../static/logo.png' },
+										{ type: 0, name: '888', img: '../../static/logo.png' }
+									]
+								},
+								img:  ['../../static/logo.png']
+							},
+							{
+								// 8-新房（数据和类型4-广告楼盘有图 雷同）
+								id: 14,
+								type: 8,
+								info: {
+									name: '世贸湖边首府',
+									tip: ['售完','住宅','热楼盘','装修交付'],
+									price: 34000,
+									site: '湖里 软件园',
+									area: 108,
+									lab: [
+										{ type: 0, name: '入围护理人气楼盘榜', img: '../../static/logo.png' },
+										{ type: 0, name: '享9.5折', img: '../../static/logo.png' },
+										{ type: 0, name: '777', img: '../../static/logo.png' },
+									]
+								},
+								img:  ['../../static/logo.png']
+							},
+							{
+								// 8-新房（数据和类型4-广告楼盘有图 雷同）
+								id: 14,
+								type: 8,
+								info: {
+									name: '世贸湖边首府',
+									tip: ['售完','住宅','热楼盘','装修交付'],
+									price: 34000,
+									site: '湖里 软件园',
+									area: 108,
+									lab: [
+										{ type: 0, name: '入围护理人气楼盘榜', img: '../../static/logo.png' },
+										{ type: 0, name: '享9.5折', img: '../../static/logo.png' },
+										{ type: 0, name: '777', img: '../../static/logo.png' },
+										{ type: 1, name: 'VR看房'},
+									]
+								},
+								img:  ['../../static/logo.png']
+							},
+						],
+						recommend: [
+							{
+								// 8-新房（数据和类型4-广告楼盘有图 雷同）
+								id: 14,
+								type: 8,
+								info: {
+									name: '世贸湖边首府',
+									tip: ['售完','住宅','热楼盘','装修交付'],
+									price: 34000,
+									site: '湖里 软件园',
+									area: 108,
+									lab: [
+										{ type: 1, name: 'VR看房'},
+										{ type: 0, name: '入围护理人气楼盘榜', img: '../../static/logo.png' },
+										{ type: 0, name: '享9.5折', img: '../../static/logo.png' },
+										{ type: 0, name: '777', img: '../../static/logo.png' },
+										
+									]
+								},
+								img:  ['../../static/logo.png']
+							},
+							{
+								// 8-新房（数据和类型4-广告楼盘有图 雷同）
+								id: 14,
+								type: 8,
+								info: {
+									name: '世贸湖边首府',
+									tip: ['售完','住宅','热楼盘','装修交付'],
+									price: 34000,
+									site: '湖里 软件园',
+									area: 108,
+									lab: [
+										{ type: 0, name: '入围护理人气楼盘榜', img: '../../static/logo.png' },
+										{ type: 0, name: '享9.5折', img: '../../static/logo.png' },
+										{ type: 0, name: '777', img: '../../static/logo.png' },
+									]
+								},
+								img:  ['../../static/logo.png']
+							},
+							{
+								// 8-新房（数据和类型4-广告楼盘有图 雷同）
+								id: 14,
+								type: 8,
+								info: {
+									name: '世贸湖边首府',
+									tip: ['售完','住宅','热楼盘','装修交付'],
+									price: 34000,
+									site: '湖里 软件园',
+									area: 108,
+									lab: [
+										{ type: 0, name: '入围护理人气楼盘榜', img: '../../static/logo.png' },
+										{ type: 0, name: '享9.5折', img: '../../static/logo.png' },
+										{ type: 0, name: '777', img: '../../static/logo.png' },
+									]
+								},
+								img:  ['../../static/logo.png']
+							},
+						]
+					},
+				},
+				created() {
+
+				},
+				methods:{
+					onLoad() {
+						// 异步更新数据
+						// setTimeout 仅做示例，真实场景中一般为 ajax 请求
+						setTimeout(() => {
+							
+					
+							// 加载状态结束
+							// this.loading = false;
+							console.log('1')
+					
+							// this.finished = true;
+							console.log('2')
+						}, 1000);
+					},
+				},
+			})
+		})
+	
+	
+</script>

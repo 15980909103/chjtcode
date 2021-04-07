@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "房源推荐",
+  "usingComponents": {
+    "common-new-house": "/components/common/template_newHouse"
+  }
+}

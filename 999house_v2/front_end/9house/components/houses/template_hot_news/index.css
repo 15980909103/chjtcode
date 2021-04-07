@@ -1,0 +1,54 @@
+/* 实时资讯 */	
+.nav-news{
+	box-sizing: border-box;
+	padding: 0.24rem 0 0.28rem;
+	border-bottom: 0.01rem solid rgba(235, 235, 235, 1);
+}
+
+.nav-news:last-child{
+	border-bottom: none;
+}
+
+.nav-news-top{
+	font-size: 0.26rem;
+	line-height: 0.4rem;
+}
+
+.nav-news-top .van-tag{
+	font-size: 0.2rem;
+}
+
+.nav-news-bottom{
+	display: flex;
+	align-items: center;
+	position: relative;
+	margin-top: 0.24rem;
+}
+
+.nav-news-bottom img{
+	width: 2.18rem;
+	height: 2.18rem;
+	margin-right: 0.16rem;
+}
+
+.nav-news-bottom img:nth-child(3){
+	width: 2.18rem;
+	height: 2.18rem;
+	margin-right: 0;
+}
+
+.nav-news-bottom .van-tag{
+	position: absolute;
+	right: 0.1rem;
+	bottom: 0.1rem;
+	font-size: 0.22rem;
+}
+
+
+
+.nav-news-video{
+	width: 2.5rem;
+	height: 3.3rem;
+	margin-right: 0.36rem;
+	background-color: pink;
+}

@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+		<title>地图</title>
+		<link rel="stylesheet" href="../../common/vant/index.css" />
+		<link rel="stylesheet" href="../../common/css/public.css?v=1.19" />
+		<style>
+			#container{
+				width: 100vw;
+				height: calc(100vh - 0.88rem - 48px) ;
+				z-index: 1;
+				touch-action: none;
+			}
+			
+			#container div div div div a{
+				display:none !important; 
+			}
+			
+			.logo-text{ 
+				display:none !important; 
+			}
+			
+			.my_House:after{
+				content: '';
+				position: absolute;
+				left: 50%;
+				bottom: 0;
+				transform: translate(-50%,100%);
+				border-right: .12rem solid transparent;
+				border-left: .12rem solid transparent;
+				border-top: .14rem solid rgba(254, 130, 30, 1);
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="app" v-cloak ref="DOM">
+			<top-bar title="新房"></top-bar>
+			<common-sizer @result="chooseResult" v-if="selectShow"></common-sizer>
+			<div id="container"></div>
+		</div>
+	</body>
+
+</html>
+
+<!-- 高德地图定位组件 -->
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=53da8183ca23918f2f81c79a5b2ede15&plugin=AMap.CitySearch"></script> 
+<script src="https://map.qq.com/api/gljs?v=1.exp&key=2YQBZ-V22W3-QWE3V-3G2KA-YWVK5-X4BZR"></script>
+<script src="../../common/js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/rem.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/vant/index.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/public.js?v=1.19" type="text/javascript" charset="utf-8"></script>
+<script>
+	// 自定义区饼图 - 继承DOMOverlay
+	function Donut(options) {
+		TMap.DOMOverlay.call(this, options);
+	}
+
+	Donut.prototype = new TMap.DOMOverlay();
+
+	// 初始化
+	Donut.prototype.onInit = function(options) {
+		this.position = options.position;
+		this.content = options.content || '请输入content内容';
+		this.count = options.count || '';
+	};
+
+	// 销毁时需解绑事件监听
+	Donut.prototype.onDestroy = function() {
+		if (this.onClick) {
+			this.dom.removeEventListener(this.onClick);
+		}
+	};
+
+	// 创建DOM元素，返回一个DOMElement，使用this.dom可以获取到这个元素
+	Donut.prototype.createDOM = function() {
+		let circle = document.createElement("div");
+		let name = document.createElement("div");
+		let count = document.createElement("div");
+		let width = this.width;
+		let height = this.height;
+		
+		circle.className = 'my_Circle';
+		
+		circle.style.cssText = `
+			background: rgba(254, 130, 30, 1);
+			width: 1.2rem;
+			height: 1.2rem;
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			border-radius: 50%;
+			font-size: .24rem;
+			color: #fff;
+			text-align: center;
+			position: absolute;
+			transition: .3s;
+		`;
+		
+		name.style.cssText = count.style.cssText = `
+			width: 80%;
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+		`;
+		
+		name.innerHTML = this.content;
+		
+		// console.log(this.count)
+		
+		if( this.count < 1000 ){
+			count.innerHTML = this.count + '套';
+		} else {
+			count.innerHTML = '999+套';
+		}
+		
+		circle.appendChild(name);
+		circle.appendChild(count);
+		
+		// click事件监听
+		this.onClick = () => {
+			// DOMOverlay继承自EventEmitter，可以使用emit触发事件
+			this.emit('click');
+		};
+		
+		circle.addEventListener('click', this.onClick);
+		
+		return circle;
+	};
+
+	// 更新DOM元素，在地图移动/缩放后执行
+	Donut.prototype.updateDOM = function(e) {
+
+		if (!this.map) {
+			return;
+		}
+		
+		// 经纬度坐标转容器像素坐标
+		let pixel = this.map.projectToContainer(this.position);
+		
+		// 使饼图中心点对齐经纬度坐标点
+		let left = pixel.getX() - this.dom.clientWidth / 2 + 'px';
+		let top = pixel.getY() - this.dom.clientHeight / 2 + 'px';
+		this.dom.style.transform = `translate(${left}, ${top})`;
+		
+		if( e ){
+			const zoom = e.target.getZoom();
+			
+			if( zoom >= 13.5 ){
+				this.dom.style.display = 'none'
+			} else {
+				this.dom.style.display = 'flex';
+			}
+		}
+	};
+
+	window.Donut = Donut;
+</script>
+<script>
+	// 自定义楼盘标签 - 继承DOMOverlay
+	function House(options) {
+		TMap.DOMOverlay.call(this, options);
+	}
+
+	House.prototype = new TMap.DOMOverlay();
+
+	// 初始化
+	House.prototype.onInit = function(options) {
+		this.position = options.position;
+		this.content = options.content || '请输入楼盘内容';
+		this.price = options.price || '价格待定';
+		this.id = options.id;
+	};
+
+	// 销毁时需解绑事件监听
+	House.prototype.onDestroy = function() {
+		if (this.onClick) {
+			this.dom.removeEventListener(this.onClick);
+		}
+	};
+
+	// 创建DOM元素，返回一个DOMElement，使用this.dom可以获取到这个元素
+	House.prototype.createDOM = function() {
+		let tip = document.createElement("div");
+		let name = document.createElement("div");
+		let price = document.createElement("div");
+		let width = this.width;
+		let height = this.height;
+		
+		tip.className = 'my_House';
+		
+		tip.style.cssText = `
+			background: rgba(254, 130, 30, 1);
+			height: .6rem;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			box-sizing: border-box;
+			padding: 0 .26rem;
+			border-radius: .4rem;
+			font-size: .26rem;
+			color: #fff;
+			text-align: center;
+			position: absolute;
+			transition: .3s;
+		`;
+		
+		price.style.cssText = `
+			margin-left: .1rem;
+		`;
+		
+		name.innerHTML = this.content;
+		price.innerHTML = this.price;
+		
+		tip.appendChild(name);
+		tip.appendChild(price);
+		
+		// click事件监听
+		this.onClick = () => {
+			// DOMOverlay继承自EventEmitter，可以使用emit触发事件
+			this.emit('click');
+		};
+		
+		tip.addEventListener('click', this.onClick);
+		
+		return tip;
+	};
+
+	// 更新DOM元素，在地图移动/缩放后执行
+	House.prototype.updateDOM = function(e) {
+		if (!this.map) {
+			return;
+		}
+		
+		// 经纬度坐标转容器像素坐标
+		let pixel = this.map.projectToContainer(this.position);
+		
+		// 使饼图中心点对齐经纬度坐标点
+		let left = pixel.getX() - this.dom.clientWidth / 2 + 'px';
+		let top = pixel.getY() - this.dom.clientHeight / 2 + 'px';
+		this.dom.style.transform = `translate(${left}, ${top})`;
+		
+		// if( e ){
+		// 	const zoom = e.target.getZoom();
+			
+		// 	if( zoom >= 13.5 ){
+		// 		this.dom.style.display = 'flex'
+		// 	} else {
+		// 		this.dom.style.display = 'none';
+		// 	}
+		// }
+	};
+
+	window.House = House;
+</script>
+
+<script type="module">
+	import { http } from '../../common/js/method/http.js?v=1.19';
+	
+	const myComponents = [
+		'../../components/common/topBar/index',
+		'../../components/common/area/index',
+		'../../components/common/sizer/index',
+		
+	];
+	
+	$api.addComponents(myComponents)
+		.then(() => {
+			
+			Vue.use(http);
+			Vue.use(vant.Lazyload);
+			Vue.component('commonArea', commonArea);
+			
+			const app = new Vue({
+				el: '#app',
+				data: {
+					// 筛选
+					checkdata:{},
+					selectShow: true,
+					
+					// 地图
+					city_no: 0,
+					mapEl: null,
+					zoom: 10.3,		//	初始地图缩放级别，支持3～20。
+					cityData: '',	//	城市区级数据
+					houseData: '',	//	城市楼盘数据
+					
+				},
+				components: {
+					topBar,
+					commonSizer
+				},
+				watch: {
+					zoom( newV ){
+						if(newV >= 13.5){
+							
+						} else {
+							
+						}
+					}
+				},
+				created() {
+					this.init();
+				},
+				mounted() {
+					
+				},
+				methods: {
+					init() {
+						// 以城市为中心点 => 显示区域信息
+						this.getCity(res=>{
+							console.log(res)
+							const lat = (res.bounds.northEast.lat + res.bounds.southWest.lat)/2;
+							const lng = (res.bounds.northEast.lng + res.bounds.southWest.lng)/2;
+							this.city_no = res.adcode;
+							
+							this.initMap({
+								lat: lat,
+								lng: lng
+							});
+							
+							this.getAreaList({
+								type: 'area',
+								is_count: 1,
+								city_no: res.adcode,
+							}, res=>{
+								// console.log(res.data)
+								if( res.data && Object.keys(res.data).length > 0 ){
+									if( !this.cityData ){
+										this.cityData = res.data;
+									}
+									
+									// this.initAreaCircle();
+								}
+							})
+							
+							this.getMapList({
+								city_no: res.adcode
+							}, res=>{
+								console.log(res)
+								if( res.data && res.data.length > 0 ){
+									if( !this.houseData ){
+										this.houseData = res.data;
+									}
+									
+									this.initHouseTip();
+								}
+							})
+						})
+					},
+					// 高德地图获取城市定位
+					getCity(call) {
+						const that = this;
+						//实例化城市查询类
+						var citysearch = new AMap.CitySearch();
+						//自动获取用户IP，返回当前城市
+						citysearch.getLocalCity(function(status, result) {
+							if (status === 'complete' && result.info === 'OK') {
+								if (result && result.city && result.bounds) {
+									call(result);
+								}
+							} else {
+								console.log(result);
+								that.$toast('城市定位失败');
+							}
+						});
+					},
+					// 高德地图获取用户精准定位
+					getSite(call) {
+						const that = this;
+						
+						// 精准定位
+						AMap.plugin('AMap.Geolocation', function() {
+							var geolocation = new AMap.Geolocation({
+								enableHighAccuracy: true,//是否使用高精度定位，默认:true
+								timeout: 10000,          //超过10秒后停止定位，默认：5s
+							});
+		
+							geolocation.getCurrentPosition(function(status,result){
+								if(status=='complete'){
+									onComplete(result)
+								}else{
+									onError(result)
+								}
+							});
+						});
+						//解析定位结果
+						function onComplete(data) {
+							console.log(data,'精准定位');
+							call(data);
+						}
+						//解析定位错误信息
+						function onError(data) {
+							console.log(data);
+							that.$toast('定位失败');
+						}
+					},
+					initMap(res) {
+						const center = new TMap.LatLng(res.lat, res.lng);
+	
+						//定义map变量，调用 TMap.Map() 构造函数创建地图
+						this.mapEl = new TMap.Map(document.getElementById('container'), {
+							center: center,//设置地图中心点坐标
+							viewMode: '2D',
+							zoom: this.zoom,   //设置地图缩放级别
+							showControl: false
+						});
+						
+						this.mapEl.on('zoom', (e)=>{
+							const zoom = e.target.getZoom();
+							this.zoom = zoom;
+						})
+					},
+					// 添加区级圈 
+					initAreaCircle() {
+						const data = this.cityData;
+						const donutList = [];
+
+						for( let i in data ){
+							const site = data[i].lnglat.split(',');
+							
+							// LatLng.lat 取值应在 [-85.051128, 85.051128] 区间内
+							// LatLng.lng 取值应在 [-180, 180] 区间内
+							if( site[1]<85.051128 && site[1]>-85.051128 && site[0]<180 && site[0]>-180){
+								const obj = {
+									map: this.mapEl,
+									position: new TMap.LatLng(site[1], site[0]),
+									content: data[i].cname,
+									count: data[i].count
+								}
+								
+								donutList.push(new Donut(obj));
+							}
+						}
+									
+						donutList.forEach((donut, index) => {
+							donut.on('click', () => {
+								this.mapEl.easeTo({
+									center: donut.position,
+									zoom: 13.5
+								});
+								
+							});
+						});
+					},
+					// 添加楼盘标签
+					initHouseTip() {
+						const data = this.houseData;
+						const houseList = [];
+						
+						data.map( item=>{
+							// LatLng.lat 取值应在 [-85.051128, 85.051128] 区间内
+							// LatLng.lng 取值应在 [-180, 180] 区间内
+							if( item.lnglat.lat<85.051128 && item.lnglat.lat>-85.051128 && item.lnglat.lng<180 && item.lnglat.lng>-180){
+								const position = new TMap.LatLng(item.lnglat.lat, item.lnglat.lng);
+								
+								const obj = {
+									map: this.mapEl,
+									position: new TMap.LatLng(item.lnglat.lat, item.lnglat.lng),
+									content: item.name,
+									count: item.price,
+									id: item.id
+								}
+								
+								houseList.push(new House(obj));
+							}
+						})
+									
+						houseList.forEach((house, index) => {
+							house.on('click', () => {
+								// this.mapEl.easeTo({
+								// 	center: house.position,
+								// 	zoom: 13.5
+								// });
+								console.log(888)
+							});
+						});
+					},
+					// 获取城市区数据
+					getAreaList(data,call) {
+						this.$http.ajax({
+							method: 'GET',
+							data: data,
+							url: '/index/city/getAreaList',
+						}).then(res => {
+							call(res);
+						})
+					},
+					// 获取楼盘数据
+					getMapList(data,call) {
+						this.$http.ajax({
+							method: 'GET',
+							data: data,
+							url: '/index/estates/getMapList',
+						}).then(res => {
+							call(res);
+						})
+					},
+					// 返回筛选id列表
+					chooseResult(e) {
+						this.checkdata = e;
+						console.log(this.checkdata);
+					},
+				},
+			})
+
+		})
+</script>

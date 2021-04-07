@@ -1,0 +1,83 @@
+.box{
+	box-sizing: border-box;
+	padding: 33rpx 32rpx 1rpx;
+}
+
+.choose{
+	display: flex;
+	align-items: center;
+}
+
+
+.choose .tag .u-mode-light-primary{
+	margin-right: 26rpx;
+	border-radius: 4rpx;
+	border: none!important;
+	font-size: 26rpx;
+	background: #F7F7F7;
+	color: rgba(117, 117, 117, 1);
+}
+
+.choose .tag-active .u-mode-light-primary{
+	margin-right: 26rpx;
+	border-radius: 4rpx;
+	border: none!important;
+	font-size: 26rpx;
+	background-color: rgba(240, 255, 236, 1);
+	color: rgba(121, 183, 107, 1);
+}
+
+.input .u-input__textarea{
+	padding: 80rpx 0 32rpx!important;
+	font-size: 24rpx!important;
+}
+
+.up .van-uploader__preview-image,
+.up .van-uploader__upload{
+	width: 130rpx;
+	height: 130rpx;
+}
+
+.up .van-uploader__upload{
+	border: 1rpx solid #E0E0E0;
+	background-color: #fff;
+	position: relative;
+	justify-content: flex-start;
+}
+
+.up .van-uploader__upload .van-icon{
+	font-size: 54rpx;
+	margin-top: 20rpx;
+	color: rgba(173, 173, 173, 1);
+}
+
+.up .van-uploader__upload::after{
+	content: '添加照片';
+	width: 100%;
+	font-size: 24rpx;
+	color: rgba(173, 173, 173, 1);
+	position: absolute;
+	bottom: 18rpx;
+	left: 50%;
+	transform: translate(-50%,0);
+	text-align: center;
+	pointer-events: none;
+}
+
+.btn{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	padding: 100rpx 0 100rpx;
+}
+
+.btn u-button{
+	width: 100%!important;
+}
+.btn button.u-btn--default{
+	width: 100%!important;
+	height: 88rpx!important;
+	background: rgba(254, 130, 30, 1);
+	color: rgb(255, 255, 255)!important;
+	borderColor: rgb(254, 130, 30)!important;
+}

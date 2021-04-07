@@ -1,0 +1,198 @@
+[2020-10-10T08:47:26+08:00][error] [1]Uncaught RedisException: Connection refused in /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php(10): Redis->connect()
+#1 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(262): Smf\ConnectionPool\Connectors\PhpRedisConnector->connect()
+#2 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(94): Smf\ConnectionPool\ConnectionPool->createConnection()
+#3 {main}
+  thrown[/mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10]
+[2020-10-10T08:47:26+08:00][error] [1]Uncaught RedisException: Connection refused in /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php(10): Redis->connect()
+#1 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(262): Smf\ConnectionPool\Connectors\PhpRedisConnector->connect()
+#2 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(94): Smf\ConnectionPool\ConnectionPool->createConnection()
+#3 {main}
+  thrown[/mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10]
+[2020-10-10T08:47:26+08:00][error] [1]Uncaught RedisException: Connection refused in /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php(10): Redis->connect()
+#1 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(262): Smf\ConnectionPool\Connectors\PhpRedisConnector->connect()
+#2 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(94): Smf\ConnectionPool\ConnectionPool->createConnection()
+#3 {main}
+  thrown[/mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10]
+[2020-10-10T08:47:27+08:00][error] [1]Uncaught RedisException: Connection refused in /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php(10): Redis->connect()
+#1 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(262): Smf\ConnectionPool\Connectors\PhpRedisConnector->connect()
+#2 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(94): Smf\ConnectionPool\ConnectionPool->createConnection()
+#3 {main}
+  thrown[/mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10]
+[2020-10-10T08:47:27+08:00][error] [1]Uncaught RedisException: Connection refused in /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php(10): Redis->connect()
+#1 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(262): Smf\ConnectionPool\Connectors\PhpRedisConnector->connect()
+#2 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(94): Smf\ConnectionPool\ConnectionPool->createConnection()
+#3 {main}
+  thrown[/mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10]
+[2020-10-10T08:47:27+08:00][error] [1]Uncaught RedisException: Connection refused in /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php(10): Redis->connect()
+#1 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(262): Smf\ConnectionPool\Connectors\PhpRedisConnector->connect()
+#2 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(94): Smf\ConnectionPool\ConnectionPool->createConnection()
+#3 {main}
+  thrown[/mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10]
+[2020-10-10T08:47:27+08:00][error] [1]Uncaught RedisException: Connection refused in /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php(10): Redis->connect()
+#1 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(262): Smf\ConnectionPool\Connectors\PhpRedisConnector->connect()
+#2 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(94): Smf\ConnectionPool\ConnectionPool->createConnection()
+#3 {main}
+  thrown[/mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10]
+[2020-10-10T08:47:27+08:00][error] [1]Uncaught RedisException: Connection refused in /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php(10): Redis->connect()
+#1 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(262): Smf\ConnectionPool\Connectors\PhpRedisConnector->connect()
+#2 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(94): Smf\ConnectionPool\ConnectionPool->createConnection()
+#3 {main}
+  thrown[/mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10]
+[2020-10-10T08:47:27+08:00][error] [1]Uncaught RedisException: Connection refused in /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php(10): Redis->connect()
+#1 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(262): Smf\ConnectionPool\Connectors\PhpRedisConnector->connect()
+#2 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(94): Smf\ConnectionPool\ConnectionPool->createConnection()
+#3 {main}
+  thrown[/mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10]
+[2020-10-10T08:47:27+08:00][error] [1]Uncaught RedisException: Connection refused in /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php(10): Redis->connect()
+#1 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(262): Smf\ConnectionPool\Connectors\PhpRedisConnector->connect()
+#2 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(94): Smf\ConnectionPool\ConnectionPool->createConnection()
+#3 {main}
+  thrown[/mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10]
+[2020-10-10T08:47:27+08:00][error] [1]Uncaught RedisException: Connection refused in /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php(10): Redis->connect()
+#1 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(262): Smf\ConnectionPool\Connectors\PhpRedisConnector->connect()
+#2 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(94): Smf\ConnectionPool\ConnectionPool->createConnection()
+#3 {main}
+  thrown[/mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10]
+[2020-10-10T08:47:27+08:00][error] [1]Uncaught RedisException: Connection refused in /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php(10): Redis->connect()
+#1 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(262): Smf\ConnectionPool\Connectors\PhpRedisConnector->connect()
+#2 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(94): Smf\ConnectionPool\ConnectionPool->createConnection()
+#3 {main}
+  thrown[/mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10]
+[2020-10-10T08:47:27+08:00][error] [1]Uncaught RedisException: Connection refused in /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php(10): Redis->connect()
+#1 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(262): Smf\ConnectionPool\Connectors\PhpRedisConnector->connect()
+#2 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(94): Smf\ConnectionPool\ConnectionPool->createConnection()
+#3 {main}
+  thrown[/mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10]
+[2020-10-10T08:47:27+08:00][error] [1]Uncaught RedisException: Connection refused in /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php(10): Redis->connect()
+#1 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(262): Smf\ConnectionPool\Connectors\PhpRedisConnector->connect()
+#2 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(94): Smf\ConnectionPool\ConnectionPool->createConnection()
+#3 {main}
+  thrown[/mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10]
+[2020-10-10T08:47:27+08:00][error] [1]Uncaught RedisException: Connection refused in /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php(10): Redis->connect()
+#1 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(262): Smf\ConnectionPool\Connectors\PhpRedisConnector->connect()
+#2 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(94): Smf\ConnectionPool\ConnectionPool->createConnection()
+#3 {main}
+  thrown[/mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10]
+[2020-10-10T08:47:27+08:00][error] [1]Uncaught RedisException: Connection refused in /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php(10): Redis->connect()
+#1 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(262): Smf\ConnectionPool\Connectors\PhpRedisConnector->connect()
+#2 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(94): Smf\ConnectionPool\ConnectionPool->createConnection()
+#3 {main}
+  thrown[/mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10]
+[2020-10-10T08:47:27+08:00][error] [1]Uncaught RedisException: Connection refused in /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php(10): Redis->connect()
+#1 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(262): Smf\ConnectionPool\Connectors\PhpRedisConnector->connect()
+#2 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(94): Smf\ConnectionPool\ConnectionPool->createConnection()
+#3 {main}
+  thrown[/mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10]
+[2020-10-10T08:47:27+08:00][error] [1]Uncaught RedisException: Connection refused in /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php(10): Redis->connect()
+#1 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(262): Smf\ConnectionPool\Connectors\PhpRedisConnector->connect()
+#2 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(94): Smf\ConnectionPool\ConnectionPool->createConnection()
+#3 {main}
+  thrown[/mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10]
+[2020-10-10T08:47:27+08:00][error] [1]Uncaught RedisException: Connection refused in /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php(10): Redis->connect()
+#1 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(262): Smf\ConnectionPool\Connectors\PhpRedisConnector->connect()
+#2 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(118): Smf\ConnectionPool\ConnectionPool->createConnection()
+#3 /mnt/e/project/999house_v2/app/common/websocket/BroadcastProcess.php(277): Smf\ConnectionPool\ConnectionPool->borrow()
+#4 /mnt/e/project/999house_v2/app/common/websocket/BroadcastProcess.php(98): app\common\websocket\BroadcastProcess->runWithRedis()
+#5 {main}
+  thrown[/mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10]
+[2020-10-10T08:47:27+08:00][error] [1]Uncaught RedisException: Connection refused in /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php(10): Redis->connect()
+#1 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(262): Smf\ConnectionPool\Connectors\PhpRedisConnector->connect()
+#2 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(118): Smf\ConnectionPool\ConnectionPool->createConnection()
+#3 /mnt/e/project/999house_v2/app/common/websocket/BroadcastProcess.php(277): Smf\ConnectionPool\ConnectionPool->borrow()
+#4 /mnt/e/project/999house_v2/app/common/websocket/BroadcastProcess.php(98): app\common\websocket\BroadcastProcess->runWithRedis()
+#5 {main}
+  thrown[/mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10]
+[2020-10-10T08:47:27+08:00][error] [1]Uncaught RedisException: Connection refused in /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php(10): Redis->connect()
+#1 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(262): Smf\ConnectionPool\Connectors\PhpRedisConnector->connect()
+#2 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(118): Smf\ConnectionPool\ConnectionPool->createConnection()
+#3 /mnt/e/project/999house_v2/app/common/websocket/BroadcastProcess.php(277): Smf\ConnectionPool\ConnectionPool->borrow()
+#4 /mnt/e/project/999house_v2/app/common/websocket/BroadcastProcess.php(98): app\common\websocket\BroadcastProcess->runWithRedis()
+#5 {main}
+  thrown[/mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10]
+[2020-10-10T08:47:27+08:00][error] [1]Uncaught RedisException: Connection refused in /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php(10): Redis->connect()
+#1 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(262): Smf\ConnectionPool\Connectors\PhpRedisConnector->connect()
+#2 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(118): Smf\ConnectionPool\ConnectionPool->createConnection()
+#3 /mnt/e/project/999house_v2/app/common/websocket/BroadcastProcess.php(277): Smf\ConnectionPool\ConnectionPool->borrow()
+#4 /mnt/e/project/999house_v2/app/common/websocket/BroadcastProcess.php(98): app\common\websocket\BroadcastProcess->runWithRedis()
+#5 {main}
+  thrown[/mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10]
+[2020-10-10T08:47:27+08:00][error] [1]Uncaught RedisException: Connection refused in /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php(10): Redis->connect()
+#1 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(262): Smf\ConnectionPool\Connectors\PhpRedisConnector->connect()
+#2 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(118): Smf\ConnectionPool\ConnectionPool->createConnection()
+#3 /mnt/e/project/999house_v2/app/common/websocket/BroadcastProcess.php(277): Smf\ConnectionPool\ConnectionPool->borrow()
+#4 /mnt/e/project/999house_v2/app/common/websocket/BroadcastProcess.php(98): app\common\websocket\BroadcastProcess->runWithRedis()
+#5 {main}
+  thrown[/mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10]
+[2020-10-10T08:47:27+08:00][error] [1]Uncaught RedisException: Connection refused in /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php(10): Redis->connect()
+#1 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(262): Smf\ConnectionPool\Connectors\PhpRedisConnector->connect()
+#2 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(118): Smf\ConnectionPool\ConnectionPool->createConnection()
+#3 /mnt/e/project/999house_v2/app/common/websocket/BroadcastProcess.php(277): Smf\ConnectionPool\ConnectionPool->borrow()
+#4 /mnt/e/project/999house_v2/app/common/websocket/BroadcastProcess.php(98): app\common\websocket\BroadcastProcess->runWithRedis()
+#5 {main}
+  thrown[/mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10]
+[2020-10-10T08:47:27+08:00][error] [1]Uncaught RedisException: Connection refused in /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php(10): Redis->connect()
+#1 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(262): Smf\ConnectionPool\Connectors\PhpRedisConnector->connect()
+#2 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(118): Smf\ConnectionPool\ConnectionPool->createConnection()
+#3 /mnt/e/project/999house_v2/app/common/websocket/BroadcastProcess.php(277): Smf\ConnectionPool\ConnectionPool->borrow()
+#4 /mnt/e/project/999house_v2/app/common/websocket/BroadcastProcess.php(98): app\common\websocket\BroadcastProcess->runWithRedis()
+#5 {main}
+  thrown[/mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10]
+[2020-10-10T08:47:27+08:00][error] [1]Uncaught RedisException: Connection refused in /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php(10): Redis->connect()
+#1 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(262): Smf\ConnectionPool\Connectors\PhpRedisConnector->connect()
+#2 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(118): Smf\ConnectionPool\ConnectionPool->createConnection()
+#3 /mnt/e/project/999house_v2/app/common/websocket/BroadcastProcess.php(277): Smf\ConnectionPool\ConnectionPool->borrow()
+#4 /mnt/e/project/999house_v2/app/common/websocket/BroadcastProcess.php(98): app\common\websocket\BroadcastProcess->runWithRedis()
+#5 {main}
+  thrown[/mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:10]

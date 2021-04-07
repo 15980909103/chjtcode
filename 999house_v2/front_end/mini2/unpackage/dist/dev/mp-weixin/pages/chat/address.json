@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "通讯录",
+  "usingComponents": {
+    "u-search": "/uview-ui/components/u-search/u-search",
+    "u-mask": "/uview-ui/components/u-mask/u-mask",
+    "l-painter": "/components/lime-painter/index"
+  }
+}

@@ -1,0 +1,794 @@
+.banner{
+	width: 100%;
+	height: 3.8rem;
+	position: relative;
+}
+
+.banner-type{
+	display: flex;
+	position: absolute;
+	bottom: 0.2rem;
+	left: 50%;
+	transform: translate(-50%,0);
+}
+
+.banner-type div{
+	width: 1.1rem;
+	height: 0.6rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.banner-type div span,
+.banner-swipe-point{
+	width: 0.74rem;
+	height: 0.4rem;
+	font-size: 0.2rem;
+	color: #fff;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: rgba(0,0,0,.5);
+	border-radius: 0.2rem;
+	padding: 0 0.04rem;
+}
+
+.banner-share{
+	width: 0.78rem;
+	height: 0.78rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+
+.banner-share img{
+	width: 0.5rem;
+	height: 0.5rem;
+}
+
+.banner-item{
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+
+.banner-item img{
+	width: 100%;
+	height: 100%;
+}
+
+.banner-item .vr-logo{
+	width: 0.8rem;
+	height: 0.8rem;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%,-50%);
+}
+
+.banner-swipe{
+	width: 100%;
+	height: 100%;
+}
+
+.banner-swipe-point{
+	position: absolute;
+	bottom: 0.3rem;
+	right: 0.2rem;
+	letter-spacing: 2px;
+}
+
+.vr{
+	width: 100%;
+	box-sizing: border-box;
+	padding: 0.4rem 0.32rem;
+}
+
+.vr-wrap{
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding-bottom: 0.2rem;
+	border-bottom: 0.01rem solid rgba(240, 240, 240, 1);
+}
+
+.vr-title{
+	font-size: 0.26rem;
+	font-weight: bold;
+}
+
+.vr-title span:first-child{
+	font-size: 0.3rem;
+}
+
+.vr-title span{
+	margin-right: 0.05rem;
+}
+
+.vr-btn .van-button{
+	width: 1.5rem;
+	height: 0.6rem;
+	padding: 0;
+	font-size: 0.26rem;
+	border-radius: 0.02rem;
+}
+
+/* info */
+.info{
+	width: 100%;
+	box-sizing: border-box;
+	padding: 0.2rem 0.32rem;
+}
+
+.info-item{
+	font-size: 0.3rem;
+	color: rgba(117, 117, 117, 1);
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.info-title-wrap{
+	margin-bottom: 0.24rem;
+}
+
+.info-item,
+.info-price-wrap{
+	margin-bottom: 0.15rem;
+}
+
+.info-area-wrap{
+	margin-bottom: 0.3rem;
+}
+
+.info-title{
+	font-size: 0.4rem;
+	color: rgba(33, 33, 33, 1);
+	font-weight: bold;
+}
+
+.info-count .iconfont{
+	font-size: 0.28rem;
+	margin-left: 0.1rem;
+}
+
+.info-price span{
+	color: rgba(252, 77, 57, 1);
+}
+
+.info-detile{
+	width: 50%;
+}
+
+.info-detile:nth-child(2n){
+	box-sizing: border-box;
+	padding-left: .6rem;
+}
+
+.info-detile span{
+	color: rgba(33, 33, 33, 1);
+}
+
+.info-site{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.info-site span{
+	color: rgba(134, 186, 122, 1);
+}
+
+.info-site-wrap .iconfont{
+	color: rgba(117, 117, 117, 1);
+	font-size: 0.4rem;
+}
+
+.info-btn{
+	margin: 0.4rem 0 0.1rem;
+}
+
+.info-btn .van-button{
+	width: 100%;
+	height: 0.8rem;
+	font-size: 0.32rem;
+	color: rgba(134, 186, 122, 1) !important;
+}
+
+/* cut-line */
+.cut-line{
+	width: 100%;
+	height: 0.2rem;
+	background-color: rgba(250, 250, 250, 1);
+}
+
+/* nav */
+.nav{
+	width: 100%;
+	position: static;
+	/* top: 0; */
+	padding-bottom: 2rem;
+	z-index: 888;
+	background-color: #fff;
+}
+
+.nav .van-tabs__wrap{
+	height: 0.9rem;
+	border-bottom: 0.01rem solid rgba(240, 240, 240, 1);
+	/* position: relative; */
+	
+}
+
+.nav .van-tab{
+	font-size: 0.26rem;
+	font-weight: 600;
+}
+
+.nav .van-tab--active{
+	color: rgba(254, 130, 30, 1);
+}
+
+.nav .van-tabs__line{
+	width: 0.3rem;
+	background-color: rgba(254, 130, 30, 1);
+}
+
+.nav-item{
+	padding: 0.28rem 0.32rem;
+	box-sizing: border-box;
+}
+
+.nav-item-new{
+	padding: 0.28rem 0;
+	box-sizing: border-box;
+}
+
+.nav-item-new .nav-title{
+	padding: 0 0.32rem;
+	box-sizing: border-box;
+}
+
+.nav-title{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.nav-title span{
+	font-size: 0.34rem;
+	font-weight: bold;
+}
+
+.nav-title div{
+	font-size: 0.24rem;
+	color: rgba(117, 117, 117, 1);
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.nav-title .iconfont{
+	height: 100%;
+	font-size: 0.24rem;
+	font-weight: 400;
+	margin: 0.04rem 0 0 0.06rem;
+}
+
+.nav-sale{
+	width: 100%;
+	height: 2.1rem;
+	background-size: contain;
+	margin-top: 0.24rem;
+	box-sizing: border-box;
+	padding: 0.24rem 0.3rem 0.15rem;
+	position: relative;
+	z-index: 2;
+}
+
+.nav-sale-info{
+	width: 100%;
+	font-size: 0.26rem;
+	background-color: #FFF8F7;
+	min-height: 0.6rem;
+	box-sizing: border-box;
+	padding: 0.2rem 0.3rem;
+	position: relative;
+	border-width: 0 0.01rem 0.01rem 0.01rem;
+	border-style: dashed;
+	border-color: pink;
+}
+
+.nav-sale-top{
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.nav-sale-box{
+	width: 100%;
+	margin-bottom: 0.33rem;
+}
+
+.nav-sale-title{
+	font-size: 0.26rem;
+	display: flex;
+	align-items: center;
+	margin-bottom: 0.16rem;
+	font-weight: bold;
+}
+
+.nav-sale-title .iconfont{
+	font-size: 0.38rem;
+	color: rgba(252, 77, 57, 1);
+	margin-right: 0.14rem;
+	font-weight: 400;
+}
+
+.nav-sale-name{
+	width: 100%;
+	font-size: 0.34rem;
+	font-weight: bold;
+}
+
+.nav-sale-num{
+	color: rgba(252, 77, 57, 1);
+	font-size: 0.6rem;
+	font-weight: bold;
+}
+
+.nav-sale-num span{
+	font-size: 0.26rem;
+	font-weight: 400;
+}
+
+.nav-sale-bottom{
+	width: 92%;
+	font-size: 0.26rem;
+	color: rgba(173, 173, 173, 1);
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	position: absolute;
+	bottom: .12rem;
+}
+
+.nav-sale-bottom .iconfont{
+	font-size: 0.4rem;
+	transition: .3s;
+}
+
+.apply{
+	box-sizing: border-box;
+	padding: .3rem .32rem;
+	border-bottom: .01rem solid rgba(240, 240, 240, 1);
+}
+
+.nav-apply{
+	width: 100%;
+	height: 1.78rem;
+	box-sizing: border-box;
+	padding: 0.24rem 0.3rem 0.15rem;
+	background-color: rgba(255, 249, 242, 1);
+}
+
+.nav-apply-title{
+	font-size: 0.26rem;
+	font-weight: bold;
+}
+
+.nav-apply-box{
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-end;
+}
+
+.nav-apply-tip{
+	font-size: 0.26rem;
+	color: rgba(173, 173, 173, 1);
+	margin: 0.16rem 0;
+}
+
+.nav-apply-box{
+	font-size: 0.22rem;
+	color: rgba(173, 173, 173, 1);
+}
+
+.nav-apply-day{
+	color: rgba(252, 77, 57, 1);
+	margin-right: 0.2rem;
+}
+
+.nav-apply-btn{
+	padding-bottom: .1rem;
+}
+
+.nav-apply-btn .van-button{
+	width: 1.49rem;
+	height: 0.54rem;
+	padding: 0;
+	font-size: 0.26rem;
+	color: #fff;
+}
+
+.nav-house{
+	margin: 0.3rem 0 0;
+	display: flex;
+	overflow-y: scroll;
+	-webkit-overflow-scrolling: touch;
+}
+
+.nav-house-wrap,
+.nav-house-box{
+	width: 3.08rem;
+}
+
+.nav-house-box img{
+	width: 100%;
+	height: 3.08rem;
+	box-sizing: border-box;
+	border: 0.01rem solid rgba(230, 230, 230, 1);
+}
+
+.nav-house-title{
+	font-size: 0.3rem;
+	margin: 0.15rem 0 0.1rem;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.nav-house-title .van-tag{
+	font-size: 0.22rem;
+	color: rgba(117, 117, 117, 1);
+	display: flex;
+	align-items: center;
+}
+
+.nav-house-info{
+	font-size: 0.24rem;
+	color: rgba(117, 117, 117, 1);
+	margin-bottom: 0.08rem;
+}
+
+.nav-house-price{
+	font-size: 0.32rem;
+	color: rgba(252, 77, 57, 1);
+}
+
+.nav-house-wrap{
+	margin-left: 0.34rem;
+}
+
+.nav-house-wrap:last-child .nav-house-box{
+	padding-right: 0.34rem;
+}
+
+.myChart{
+	width: 100% !important;
+	height: 4rem !important;
+}
+
+.margin-top-28{
+	padding-top: 0.28rem;
+}
+
+.nav-item-new .template2{
+	margin-bottom: 0;
+}
+
+/* 用户点评 */
+.nav-comment-btn .van-button,
+.nav-Sandboxie .van-button{
+	width: 100%;
+	height: 0.8rem;
+	font-size: 0.32rem;
+	color: rgba(134, 186, 122, 1) !important;
+	margin-top: 0.4rem;
+}
+
+/* nav-沙盘 */
+.nav-Sandboxie{
+	margin: 0.28rem 0 0.34rem;
+	display: flex;
+	flex-direction: column;
+}
+
+.nav-Sandboxie img{
+	width: 6.83rem;
+	height: 3.8rem;
+}
+
+/* 底部栏 */
+.bottom-tabber{
+	width: 100%;
+	height: 0.98rem;
+	display: flex;
+	position: fixed;
+	bottom: 0;
+	z-index: 1000;
+	background-color: #fff;
+	box-shadow: 0 -0.02rem 0.1rem 0 rgba(0, 0, 0, 0.1);
+}
+
+.bottom-tabber-item{
+	flex: 1;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.bottom-tabber-item-icon{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.bottom-tabber-item img{
+	width: 0.32rem;
+	height: 0.32rem;
+}
+
+.bottom-tabber-item a{
+	width: 100%;
+	height: 100%;
+}
+
+.bottom-tabber-icon{
+	width: 1.6rem;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.bottom-tabber-icon .icon-text{
+	font-size: 0.26rem;
+	margin-top: 0.06rem;
+}
+
+.bottom-tabber-item .van-button{
+	width: 100%;
+	height: 100%;
+	font-size: 0.3rem;
+	box-sizing: border-box;
+	border-radius: 0;
+}
+
+.bottom-tabber-12{
+	width: 100%;
+	height: 1.2rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: fixed;
+	bottom: 0;
+	z-index: 1000;
+	background-color: #fff;
+	box-shadow: 0 -0.02rem 0.1rem 0 rgba(0, 0, 0, 0.1);
+}
+
+.bottom-tabber-12 .btn-box{
+	flex: 1;
+	padding: 0 .32rem;
+}
+
+.bottom-tabber-12 a{
+	width: 100%;
+}
+
+.bottom-tabber-12 .van-button{
+	width: 100%;
+	height: .78rem;
+}
+
+.contact .van-popup--bottom.van-popup--round{
+	border-radius: .3rem .3rem 0 0;
+}
+
+.contact .van-popup{
+	min-height: 6.73rem;
+}
+
+.contact-box{
+	width: 100%;
+	box-sizing: border-box;
+	padding: 0.34rem 0.32rem 0;
+}
+
+.contact-title{
+	font-size: 0.34rem;
+	font-weight: 600;
+	margin-bottom: 0.24rem;
+}
+
+.contact-tip{
+	color: rgba(117, 117, 117, 1);
+	font-size: 0.26rem;
+	margin-bottom: 0.4rem;
+}
+
+.contact-tip .iconfont{
+	font-size: 0.24rem
+}
+
+.contact-wrap{
+	max-height: 7rem;
+	overflow-y: scroll;
+	-webkit-overflow-scrolling: touch;
+}
+
+.contact-people{
+	width: 100%;
+	height: 1.3rem;
+	background: #F4FBFF;
+	border-radius: 0.04rem;
+	margin-bottom: 0.28rem;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	box-sizing: border-box;
+	padding: 0.2rem 0.26rem;
+}
+
+.contact-people:last-child{
+	margin-bottom: 0.4rem;
+}
+
+.contact-left,
+.contact-right{
+	display: flex;
+	align-items: center;
+}
+
+.contact-left img{
+	width: 0.9rem;
+	height: 0.9rem;
+	border-radius: 50%;
+	margin-right: .14rem;
+}
+
+.contact-left-info{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+.contact-left-info span:first-child{
+	font-size: 0.3rem;
+	font-weight: bold;
+	margin-bottom: .1rem;
+}
+
+.contact-btn{
+	width: 0.7rem;
+	height: 0.7rem;
+	border-radius: 50%;
+	background-color: #fff;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-right: .4rem;
+}
+
+.contact-btn img{
+	width: .43rem;
+	height: .43rem;
+}
+
+
+/* apply alert */
+.apply_alert .van-popup{
+	width: 6.44rem;
+	height: 6.19rem;
+	background-color: #fff;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	box-sizing: border-box;
+	padding: 0 .48rem;
+}
+
+.apply_alert .van-popup__close-icon--top-right{
+	top: .3rem;
+	right: .3rem;
+	font-size: .3rem;
+	color: rgba(117, 117, 117, 1);
+}
+
+.apply_alert .van-popup h4{
+	font-size: .4rem;
+	margin: .6rem 0 .4rem;
+}
+
+.apply_alert .van-popup .van-cell{
+	height: .82rem;
+	font-size: .28rem;
+	border: 1px solid #E0E0E0;
+	margin-bottom: .3rem;
+}
+
+.apply_alert_phone{
+	padding: 10px 0 10px 16px;
+}
+
+.apply_alert_msg{
+	font-size: .28rem;
+	color: rgba(219, 30, 30, 1);
+	background-color: #fff;
+	border: none;
+}
+
+.apply_alert_project{
+	font-size: .24rem;
+	display: flex;
+	color: rgba(173, 173, 173, 1);
+}
+
+.apply_alert_project .iconfont{
+	font-size: .2rem;
+	margin-right: .13rem;
+	margin-top: .08rem;
+}
+
+.apply_alert_project  .iconnewxuanzhongduoxuan{
+	color: rgba(219, 30, 30, 1);
+}
+
+.apply_alert_project .iconweixuanzhong{
+	color: rgba(173, 173, 173, 1);
+}
+
+.apply_alert_project{
+	margin-bottom: .44rem;
+}
+
+.apply_alert_project i{
+	color: rgba(29, 33, 81, 1);
+}
+
+.apply_alert_submit{
+	width: 5.5rem;
+	height: .78rem;
+}
+
+.optionBox{
+	margin: .3rem 0 !important;
+}
+
+.van-sticky--fixed{
+	z-index: 1000 !important;
+}
+
+.main .more{
+	font-size: 0.24rem !important;
+	color: rgba(117, 117, 117, 1);
+}
+
+.no_item{
+	width: 100%;
+	padding: .4rem 0;
+	text-align: center;
+}
+
+.info-remark{
+	width: 6.3rem;
+	position: relative;
+}
+.info-remark .van-tag{
+	margin: 0 .2rem .2rem 0;
+}
+.info-remark .arrow-box{
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: .5rem;
+	height: 0.5rem;
+}

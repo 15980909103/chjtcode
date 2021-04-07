@@ -1,0 +1,21 @@
+/**
+ * 多次请求方法合并一次处理
+ *  funcalls {function_key:function()}
+ */
+
+const requestsall =function(funcalls={}){
+	var keys=Object.keys(funcalls)
+	var values=[]
+	for(var i in keys){
+		var itemkey=keys[i]
+		values.push(funcalls[itemkey])
+	}
+	//console.log(funcalls)
+	
+	//Promise.all等待所有请求方法执行完成处理
+	return Promise.all([
+		...values
+	])
+}
+
+module.exports = requestsall

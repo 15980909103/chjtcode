@@ -1,0 +1,62 @@
+<?php
+
+namespace app\admin\controller;
+
+
+use app\common\base\AdminBaseController;
+use app\common\lib\delayQueue\DelayQueue;
+use app\common\manage\TaskManage;
+
+
+
+class NotifyController extends AdminBaseController
+{
+    //微信通知
+    public function DistributionWxMsg(){
+        $data = $this->request->param();
+        if($data['auth'] = 'Nldo4g59sEkW2v7DCmIOruPc6FAMn'){
+            //TaskManage::getInstance()->asyncPost($data['data'],\app\task\Test::class);
+            if(!empty($data['delay'])){
+                TaskManage::getInstance()->asyncPost($data['data'],\app\task\Test::class);
+            }
+        }
+    }
+
+    //保护期时间到了进行验证
+    public function CheckProtection(){
+        $data = $this->request->param();
+        $data['delay'] = intval($data['delay']);
+
+        if($data['auth'] != 'Nldo4g59sEkW2v7DCmIOruPc6FAMn'){
+            $this->error('校验错误');
+        }
+        if(empty($data['data'])||empty($data['order_no'])||empty($data['status_type'])){
+            $this->error('缺失报备订单参数');
+        }
+
+        DelayQueue::getInstance()->addTask('checkProtection',$data['delay'],\app\task\CheckProtection::class,$data['data']);
+        $this->success();
+
+        //==============test===============//
+        //添加延时队列
+        /*for ($i=0;$i<26;$i++){
+            $data['data']= $i;
+            echo $data['data'].'-------------';
+            DelayQueue::getInstance()->addTask('checkProtection',$data['delay'],\app\task\CheckProtection::class,$data['data']);
+        }*/
+        /* echo PHP_EOL;
+         for ($i=0;$i<100;$i++){
+             $data['data'] = $i;
+             echo $data['data'].'-------------';
+             DelayQueue::getInstance()->addTask('checkProtection2',$data['delay'],\app\task\CheckProtection::class,$data['data']);
+         }
+         echo PHP_EOL;
+         for ($i=0;$i<100;$i++){
+             $data['data'] = $i;
+             echo $data['data'].'-------------';
+             DelayQueue::getInstance()->addTask('checkProtection3',$data['delay'],\app\task\CheckProtection::class,$data['data']);
+         }
+         echo PHP_EOL;*/
+    }
+
+}

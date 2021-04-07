@@ -1,0 +1,281 @@
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* @import url("http://at.alicdn.com/t/font_2099285_i2d49jk1pp9.css"); */
+page.data-v-efcc18c8 {
+  font-family: sans-serif;
+}
+page.data-v-efcc18c8, page.data-v-efcc18c8, ._header.data-v-efcc18c8, ._section.data-v-efcc18c8, ._footer.data-v-efcc18c8, ._div.data-v-efcc18c8, ._ul.data-v-efcc18c8, ._ol.data-v-efcc18c8, ._li.data-v-efcc18c8, ._img.data-v-efcc18c8, ._a.data-v-efcc18c8, ._span.data-v-efcc18c8, ._em.data-v-efcc18c8, ._del.data-v-efcc18c8, ._legend.data-v-efcc18c8, center.data-v-efcc18c8, ._strong.data-v-efcc18c8, ._var.data-v-efcc18c8, ._fieldset.data-v-efcc18c8, form.data-v-efcc18c8, label.data-v-efcc18c8, ._dl.data-v-efcc18c8, ._dt.data-v-efcc18c8, ._dd.data-v-efcc18c8, ._cite.data-v-efcc18c8, input.data-v-efcc18c8, ._hr.data-v-efcc18c8, ._time.data-v-efcc18c8, ._mark.data-v-efcc18c8, ._code.data-v-efcc18c8, ._figcaption.data-v-efcc18c8, ._figure.data-v-efcc18c8, textarea.data-v-efcc18c8, ._h1.data-v-efcc18c8, ._h2.data-v-efcc18c8, ._h3.data-v-efcc18c8, ._h4.data-v-efcc18c8, ._h5.data-v-efcc18c8, ._h6.data-v-efcc18c8, ._p.data-v-efcc18c8 {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  font-style: normal;
+}
+page.data-v-efcc18c8, page.data-v-efcc18c8 {
+  -webkit-touch-callout: none;
+  -webkit-text-size-adjust: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  background-color: #fff;
+}
+._nav.data-v-efcc18c8, ._article.data-v-efcc18c8, ._aside.data-v-efcc18c8, ._details.data-v-efcc18c8, ._main.data-v-efcc18c8, ._header.data-v-efcc18c8, ._footer.data-v-efcc18c8, ._section.data-v-efcc18c8, ._fieldset.data-v-efcc18c8, ._figcaption.data-v-efcc18c8, ._figure.data-v-efcc18c8 {
+  display: block;
+}
+._img.data-v-efcc18c8, ._a.data-v-efcc18c8, button.data-v-efcc18c8, ._em.data-v-efcc18c8, ._del.data-v-efcc18c8, ._strong.data-v-efcc18c8, ._var.data-v-efcc18c8, label.data-v-efcc18c8, ._cite.data-v-efcc18c8, ._small.data-v-efcc18c8, ._time.data-v-efcc18c8, ._mark.data-v-efcc18c8, ._code.data-v-efcc18c8, textarea.data-v-efcc18c8 {
+  display: inline-block;
+}
+._header.data-v-efcc18c8, ._section.data-v-efcc18c8, ._footer.data-v-efcc18c8 {
+  position: relative;
+}
+._ol.data-v-efcc18c8, ._ul.data-v-efcc18c8 {
+  list-style: none;
+}
+input.data-v-efcc18c8, button.data-v-efcc18c8, textarea.data-v-efcc18c8 {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  font-size: 1em;
+  line-height: 1em;
+  /*-webkit-appearance:none;*/
+  background-color: transparent;
+}
+._span.data-v-efcc18c8 {
+  display: inline-block;
+}
+._i.data-v-efcc18c8 {
+  font-style: normal;
+}
+._a.data-v-efcc18c8:active, ._a.data-v-efcc18c8:hover {
+  outline: 0;
+}
+._a.data-v-efcc18c8, ._a.data-v-efcc18c8:visited {
+  text-decoration: none;
+}
+label.data-v-efcc18c8, .wordWrap.data-v-efcc18c8 {
+  word-wrap: break-word;
+  word-break: break-all;
+}
+._table.data-v-efcc18c8 {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+._td.data-v-efcc18c8, ._th.data-v-efcc18c8 {
+  padding: 0;
+}
+.fl.data-v-efcc18c8 {
+  float: left;
+}
+.fr.data-v-efcc18c8 {
+  float: right;
+}
+.clearfix.data-v-efcc18c8:after {
+  content: '';
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+[v-cloak].data-v-efcc18c8 {
+  display: none;
+}
+/*隐藏滚轮*/
+.data-v-efcc18c8::-webkit-scrollbar {
+  display: none;
+}
+#app.data-v-efcc18c8 {
+  height: 100vh;
+  width: 100vw;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+  font-size: 28rpx;
+}
+/**
+ *	文字省略
+ *	（行数）
+ *	-webkit-line-clamp: 1;
+ */
+.text-omit.data-v-efcc18c8 {
+  text-align: justify;
+  text-justify: newspaper;
+  word-break: break-all;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+}
+.van-ellipsis.data-v-efcc18c8 {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.van-multi-ellipsis--l2.data-v-efcc18c8 {
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.color-icon-orange.data-v-efcc18c8 {
+  color: #fc4d39;
+}
+.color-icon-blue.data-v-efcc18c8 {
+  color: #3995fc;
+}
+.houses-bg-blue.data-v-efcc18c8 {
+  color: #fff !important;
+  background: -webkit-linear-gradient(left, #6BCFFF 0%, #1EA5FE 100%);
+  background: linear-gradient(90deg, #6BCFFF 0%, #1EA5FE 100%);
+}
+.houses-bg-orange.data-v-efcc18c8 {
+  color: #fff !important;
+  background: -webkit-linear-gradient(left, #FFA161 0%, #FE7B1E 100%);
+  background: linear-gradient(90deg, #FFA161 0%, #FE7B1E 100%);
+}
+.houses-bg-purple.data-v-efcc18c8 {
+  color: #fff !important;
+  background: -webkit-linear-gradient(left, #C597FF 0%, #9B4AF0 100%);
+  background: linear-gradient(90deg, #C597FF 0%, #9B4AF0 100%);
+}
+.houses-bg-blue2.data-v-efcc18c8 {
+  color: #fff !important;
+  background: -webkit-linear-gradient(left, #2FD9F3 0%, #07B7D5 100%);
+  background: linear-gradient(90deg, #2FD9F3 0%, #07B7D5 100%);
+}
+.margin-left.data-v-efcc18c8 {
+  margin-left: 10rpx;
+}
+.text-active.data-v-efcc18c8 {
+  color: #fe821e !important;
+}
+.bg-active.data-v-efcc18c8 {
+  background-color: #fe821e !important;
+}
+/* tabs统一样式 需要直接在vant组件加上tabs类名 */
+.tabs .van-tabs__wrap.data-v-efcc18c8 {
+  border-bottom: 1px solid #e0e0e0;
+}
+.tabs .van-tabs__line.data-v-efcc18c8 {
+  width: 52rpx;
+}
+.van-tabs__line.data-v-efcc18c8 {
+  background-color: #fe821e !important;
+}
+.tabs .van-tab--active.data-v-efcc18c8 {
+  color: #fe821e;
+}
+/* vant弹窗样式 */
+.van-dialog.data-v-efcc18c8 {
+  width: 500rpx;
+  border-radius: 0;
+}
+.van-dialog__confirm.data-v-efcc18c8, .van-dialog__confirm.data-v-efcc18c8:active {
+  color: #fe821e;
+}
+/* 无数据 */
+.list_null.data-v-efcc18c8 {
+  width: 100%;
+  height: 800rpx;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  text-align: center;
+}
+.list_null ._img.data-v-efcc18c8 {
+  width: 364rpx !important;
+  height: 239rpx;
+}
+.list_null ._p.data-v-efcc18c8 {
+  margin-top: 30rpx;
+  font-size: 28rpx;
+  color: #adadad;
+}
+.data-v-efcc18c8 .u-size-mini {
+  font-size: 24rpx !important;
+}
+.van-slide-down-enter-active.data-v-efcc18c8 {
+  -webkit-animation: slideDownEnter-data-v-efcc18c8 .3s both ease-out;
+  animation: slideDownEnter-data-v-efcc18c8 .3s both ease-out;
+}
+.van-slide-down-leave-active.data-v-efcc18c8 {
+  -webkit-animation: slideDownLeave-data-v-efcc18c8 .3s both ease;
+  animation: slideDownLeave-data-v-efcc18c8 .3s both ease;
+}
+@-webkit-keyframes slideDownEnter-data-v-efcc18c8 {
+from {
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+}
+}
+@keyframes slideDownEnter-data-v-efcc18c8 {
+from {
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+}
+}
+@-webkit-keyframes slideDownLeave-data-v-efcc18c8 {
+to {
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+}
+}
+@keyframes slideDownLeave-data-v-efcc18c8 {
+to {
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+}
+}
+.status_bar.data-v-efcc18c8 {
+  width: 100%;
+  height: 25px;
+  background-color: #fff;
+}
+.data-v-efcc18c8 .u-btn:after {
+  border: none !important;
+}
+.poster.data-v-efcc18c8 {
+  width: 750rpx;
+  height: 1206rpx;
+}
+.box.data-v-efcc18c8 {
+  width: 100%;
+  height: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+}
+.box view.data-v-efcc18c8 {
+  margin-top: 20rpx;
+  color: rgba(0, 0, 0, 0.6);
+}
+

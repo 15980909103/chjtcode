@@ -1,0 +1,208 @@
+.card{
+	box-sizing: border-box;
+	padding: .5rem .32rem 0;
+}
+
+.van-tabs__wrap{
+	background-color: rgba(245, 245, 245, 1);
+}
+
+.van-tabs__nav--card{
+	margin: 0;
+	border: none;
+	background-color: rgba(245, 245, 245, 1);
+	justify-content: space-between;
+}
+
+.van-tabs--card>.van-tabs__wrap,
+.van-tabs__nav--card{
+	height: .94rem;
+}
+
+.van-tabs__nav--card .van-tab.van-tab--active{
+	background-color: rgba(254, 130, 30, 1);
+}
+
+.van-tabs__nav--card .van-tab{
+	flex: none;
+	width: 3.22rem;
+	border-right: none;
+	color: rgba(33, 33, 33, 1);
+	font-size: .35rem;
+}
+
+.tab  .van-tab:last-child::after{
+	content: "";
+	border-width: .98rem .4rem .94rem .4rem;
+	border-style: solid;
+	border-color: rgba(254, 130, 30, 1) transparent transparent transparent;
+	position:absolute;
+	left: 0;
+	top:0;
+	border-radius: 0;
+	transform: translate(-50%,0);
+}
+
+.tab2  .van-tab:first-child::after{
+	content: "";
+	border-width: .95rem .4rem 1rem .4rem;
+	border-style: solid;
+	border-color: transparent transparent rgba(254, 130, 30, 1) transparent;
+	position:absolute;
+	right: 0;
+	bottom:0;
+	border-radius: 0;
+	transform: translate(50%,0);
+}
+
+.card-wrap{
+	height: 6.4rem;
+	border-radius: 0.08rem;
+	box-shadow: 0 0.02rem 0.18rem 0 #EDEDED;
+	overflow: hidden;
+}
+
+.card-content{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.card-title{
+	font-size: .28rem;
+	margin: .74rem 0 .2rem 0;
+}
+
+.card-price{
+	font-size: .7rem;
+	margin-bottom: .54rem;
+}
+
+.card-box{
+	width: 100%;
+	display: flex;
+}
+
+.card-box div{
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.card-box div span:first-child{
+	color: rgba(173, 173, 173, 1);
+	font-size: .24rem;
+}
+
+.card-item{
+	font-size: .34rem;
+	margin-top: .1rem;
+}
+
+.card-content .van-button{
+	width: 6.06rem;
+	height: .88rem;
+	font-size: .34rem;
+	margin-top: .7rem;
+	border-color: #e0e0e0;
+}
+
+.item-title{
+	font-size: .26rem;
+	line-height: .42rem;
+	margin: .32rem 0;
+}
+
+.item-title span{
+	color: rgba(254, 130, 30, 1);
+}
+
+.due-box{
+	padding-bottom: 2.4rem;
+}
+
+.due{
+	width: 100%;
+	height: .78rem;
+	box-sizing: border-box;
+	padding-left: .32rem;
+	display: flex;
+	align-items: center;
+	font-size: .26rem;
+}
+
+.due-year{
+	width: .9rem;
+}
+
+.due-item{
+	width: 1.5rem;
+}
+
+.due-all{
+	width: 1.78rem;
+}
+
+.due-title{
+	font-size: .3rem !important;
+	font-weight: bold;
+}
+
+.due-color{
+	background-color: rgba(248, 248, 247, 1);
+}
+
+.due-group{
+	flex: 1;
+}
+
+.due-box2 .due-year{
+	padding-right: .2rem;
+}
+
+.adviser{
+	width: 100%;
+	height: .98rem;
+	position: fixed;
+	bottom: 0;
+	background-color: #fff;
+	box-shadow: 0px -0.02rem .1rem 0px rgba(230, 230, 230, 0.5);
+	display: flex;
+}
+
+.adviser-info{
+	width: 2.9rem;
+	display: flex;
+	align-items: center;
+}
+
+.adviser-info img{
+	width: .7rem;
+	height: .7rem;
+	border-radius: 50%;
+	margin: 0 .16rem 0 .32rem;
+}
+
+.adviser-info div{
+	display: flex;
+	flex-direction: column;
+}
+
+.adviser-name{
+	font-size: .26rem;
+	font-weight: bold;
+	margin-bottom: .04rem;
+}
+
+.adviser-tip{
+	font-size: .22rem;
+	color: rgba(173, 173, 173, 1);
+}
+
+.adviser .van-button{
+	height: 100%;
+	width: 2.3rem;
+	border: none;
+	border-radius: 0;
+}

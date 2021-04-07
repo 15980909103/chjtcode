@@ -1,0 +1,365 @@
+@charset "UTF-8";
+/**
+ * 这里是uni-app内置的常用样式变量
+ *
+ * uni-app 官方扩展插件及插件市场（https://ext.dcloud.net.cn）上很多三方插件均使用了这些样式变量
+ * 如果你是插件开发者，建议你使用scss预处理，并在插件代码中直接使用这些变量（无需 import 这个文件），方便用户通过搭积木的方式开发整体风格一致的App
+ *
+ */
+/**
+ * 如果你是App开发者（插件使用者），你可以通过修改这些变量来定制自己的插件主题，实现自定义主题功能
+ *
+ * 如果你的项目同样使用了scss预处理，你也可以直接在你的 scss 代码中使用如下变量，同时无需 import 这个文件
+ */
+/* @import url("http://at.alicdn.com/t/font_2099285_i2d49jk1pp9.css"); */
+page.data-v-4afea59e {
+  font-family: sans-serif;
+}
+page.data-v-4afea59e, page.data-v-4afea59e, ._header.data-v-4afea59e, ._section.data-v-4afea59e, ._footer.data-v-4afea59e, ._div.data-v-4afea59e, ._ul.data-v-4afea59e, ._ol.data-v-4afea59e, ._li.data-v-4afea59e, ._img.data-v-4afea59e, ._a.data-v-4afea59e, ._span.data-v-4afea59e, ._em.data-v-4afea59e, ._del.data-v-4afea59e, ._legend.data-v-4afea59e, center.data-v-4afea59e, ._strong.data-v-4afea59e, ._var.data-v-4afea59e, ._fieldset.data-v-4afea59e, form.data-v-4afea59e, label.data-v-4afea59e, ._dl.data-v-4afea59e, ._dt.data-v-4afea59e, ._dd.data-v-4afea59e, ._cite.data-v-4afea59e, input.data-v-4afea59e, ._hr.data-v-4afea59e, ._time.data-v-4afea59e, ._mark.data-v-4afea59e, ._code.data-v-4afea59e, ._figcaption.data-v-4afea59e, ._figure.data-v-4afea59e, textarea.data-v-4afea59e, ._h1.data-v-4afea59e, ._h2.data-v-4afea59e, ._h3.data-v-4afea59e, ._h4.data-v-4afea59e, ._h5.data-v-4afea59e, ._h6.data-v-4afea59e, ._p.data-v-4afea59e {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  font-style: normal;
+}
+page.data-v-4afea59e, page.data-v-4afea59e {
+  -webkit-touch-callout: none;
+  -webkit-text-size-adjust: none;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  background-color: #fff;
+}
+._nav.data-v-4afea59e, ._article.data-v-4afea59e, ._aside.data-v-4afea59e, ._details.data-v-4afea59e, ._main.data-v-4afea59e, ._header.data-v-4afea59e, ._footer.data-v-4afea59e, ._section.data-v-4afea59e, ._fieldset.data-v-4afea59e, ._figcaption.data-v-4afea59e, ._figure.data-v-4afea59e {
+  display: block;
+}
+._img.data-v-4afea59e, ._a.data-v-4afea59e, button.data-v-4afea59e, ._em.data-v-4afea59e, ._del.data-v-4afea59e, ._strong.data-v-4afea59e, ._var.data-v-4afea59e, label.data-v-4afea59e, ._cite.data-v-4afea59e, ._small.data-v-4afea59e, ._time.data-v-4afea59e, ._mark.data-v-4afea59e, ._code.data-v-4afea59e, textarea.data-v-4afea59e {
+  display: inline-block;
+}
+._header.data-v-4afea59e, ._section.data-v-4afea59e, ._footer.data-v-4afea59e {
+  position: relative;
+}
+._ol.data-v-4afea59e, ._ul.data-v-4afea59e {
+  list-style: none;
+}
+input.data-v-4afea59e, button.data-v-4afea59e, textarea.data-v-4afea59e {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  font-size: 1em;
+  line-height: 1em;
+  /*-webkit-appearance:none;*/
+  background-color: transparent;
+}
+._span.data-v-4afea59e {
+  display: inline-block;
+}
+._i.data-v-4afea59e {
+  font-style: normal;
+}
+._a.data-v-4afea59e:active, ._a.data-v-4afea59e:hover {
+  outline: 0;
+}
+._a.data-v-4afea59e, ._a.data-v-4afea59e:visited {
+  text-decoration: none;
+}
+label.data-v-4afea59e, .wordWrap.data-v-4afea59e {
+  word-wrap: break-word;
+  word-break: break-all;
+}
+._table.data-v-4afea59e {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+._td.data-v-4afea59e, ._th.data-v-4afea59e {
+  padding: 0;
+}
+.fl.data-v-4afea59e {
+  float: left;
+}
+.fr.data-v-4afea59e {
+  float: right;
+}
+.clearfix.data-v-4afea59e:after {
+  content: '';
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+[v-cloak].data-v-4afea59e {
+  display: none;
+}
+/*隐藏滚轮*/
+.data-v-4afea59e::-webkit-scrollbar {
+  display: none;
+}
+#app.data-v-4afea59e {
+  height: 100vh;
+  width: 100vw;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+  font-size: 28rpx;
+}
+/**
+ *	文字省略
+ *	（行数）
+ *	-webkit-line-clamp: 1;
+ */
+.text-omit.data-v-4afea59e {
+  text-align: justify;
+  text-justify: newspaper;
+  word-break: break-all;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+}
+.van-ellipsis.data-v-4afea59e {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.van-multi-ellipsis--l2.data-v-4afea59e {
+  display: -webkit-box;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.color-icon-orange.data-v-4afea59e {
+  color: #fc4d39;
+}
+.color-icon-blue.data-v-4afea59e {
+  color: #3995fc;
+}
+.houses-bg-blue.data-v-4afea59e {
+  color: #fff !important;
+  background: -webkit-linear-gradient(left, #6BCFFF 0%, #1EA5FE 100%);
+  background: linear-gradient(90deg, #6BCFFF 0%, #1EA5FE 100%);
+}
+.houses-bg-orange.data-v-4afea59e {
+  color: #fff !important;
+  background: -webkit-linear-gradient(left, #FFA161 0%, #FE7B1E 100%);
+  background: linear-gradient(90deg, #FFA161 0%, #FE7B1E 100%);
+}
+.houses-bg-purple.data-v-4afea59e {
+  color: #fff !important;
+  background: -webkit-linear-gradient(left, #C597FF 0%, #9B4AF0 100%);
+  background: linear-gradient(90deg, #C597FF 0%, #9B4AF0 100%);
+}
+.houses-bg-blue2.data-v-4afea59e {
+  color: #fff !important;
+  background: -webkit-linear-gradient(left, #2FD9F3 0%, #07B7D5 100%);
+  background: linear-gradient(90deg, #2FD9F3 0%, #07B7D5 100%);
+}
+.margin-left.data-v-4afea59e {
+  margin-left: 10rpx;
+}
+.text-active.data-v-4afea59e {
+  color: #fe821e !important;
+}
+.bg-active.data-v-4afea59e {
+  background-color: #fe821e !important;
+}
+/* tabs统一样式 需要直接在vant组件加上tabs类名 */
+.tabs .van-tabs__wrap.data-v-4afea59e {
+  border-bottom: 1px solid #e0e0e0;
+}
+.tabs .van-tabs__line.data-v-4afea59e {
+  width: 52rpx;
+}
+.van-tabs__line.data-v-4afea59e {
+  background-color: #fe821e !important;
+}
+.tabs .van-tab--active.data-v-4afea59e {
+  color: #fe821e;
+}
+/* vant弹窗样式 */
+.van-dialog.data-v-4afea59e {
+  width: 500rpx;
+  border-radius: 0;
+}
+.van-dialog__confirm.data-v-4afea59e, .van-dialog__confirm.data-v-4afea59e:active {
+  color: #fe821e;
+}
+/* 无数据 */
+.list_null.data-v-4afea59e {
+  width: 100%;
+  height: 800rpx;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  text-align: center;
+}
+.list_null ._img.data-v-4afea59e {
+  width: 364rpx !important;
+  height: 239rpx;
+}
+.list_null ._p.data-v-4afea59e {
+  margin-top: 30rpx;
+  font-size: 28rpx;
+  color: #adadad;
+}
+.data-v-4afea59e .u-size-mini {
+  font-size: 24rpx !important;
+}
+.van-slide-down-enter-active.data-v-4afea59e {
+  -webkit-animation: slideDownEnter-data-v-4afea59e .3s both ease-out;
+  animation: slideDownEnter-data-v-4afea59e .3s both ease-out;
+}
+.van-slide-down-leave-active.data-v-4afea59e {
+  -webkit-animation: slideDownLeave-data-v-4afea59e .3s both ease;
+  animation: slideDownLeave-data-v-4afea59e .3s both ease;
+}
+@-webkit-keyframes slideDownEnter-data-v-4afea59e {
+from {
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+}
+}
+@keyframes slideDownEnter-data-v-4afea59e {
+from {
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+}
+}
+@-webkit-keyframes slideDownLeave-data-v-4afea59e {
+to {
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+}
+}
+@keyframes slideDownLeave-data-v-4afea59e {
+to {
+    -webkit-transform: translate3d(0, -100%, 0);
+    transform: translate3d(0, -100%, 0);
+}
+}
+.status_bar.data-v-4afea59e {
+  width: 100%;
+  height: 25px;
+  background-color: #fff;
+}
+.data-v-4afea59e .u-btn:after {
+  border: none !important;
+}
+.uni-nav-bar-text.data-v-4afea59e {
+  font-size: 32rpx;
+}
+.uni-nav-bar-right-text.data-v-4afea59e {
+  font-size: 28rpx;
+}
+.uni-navbar.data-v-4afea59e {
+  width: 750rpx;
+}
+.uni-navbar__content.data-v-4afea59e {
+  position: relative;
+  width: 750rpx;
+  background-color: #ffffff;
+  overflow: hidden;
+}
+.uni-navbar__content_view.data-v-4afea59e {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+          flex-direction: row;
+}
+.uni-navbar__header.data-v-4afea59e {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -webkit-flex-direction: row;
+          flex-direction: row;
+  width: 750rpx;
+  height: 44px;
+  line-height: 44px;
+  font-size: 16px;
+}
+.uni-navbar__header-btns.data-v-4afea59e {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-wrap: nowrap;
+          flex-wrap: nowrap;
+  width: 120rpx;
+  padding: 0 6px;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+}
+.uni-navbar__header-btns-left.data-v-4afea59e {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  width: 150rpx;
+  -webkit-box-pack: start;
+  -webkit-justify-content: flex-start;
+          justify-content: flex-start;
+}
+.uni-navbar__header-btns-right.data-v-4afea59e {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  width: 150rpx;
+  padding-right: 30rpx;
+  -webkit-box-pack: end;
+  -webkit-justify-content: flex-end;
+          justify-content: flex-end;
+}
+.uni-navbar__header-container.data-v-4afea59e {
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+          flex: 1;
+}
+.uni-navbar__header-container-inner.data-v-4afea59e {
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-flex: 1;
+  -webkit-flex: 1;
+          flex: 1;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+          align-items: center;
+  -webkit-box-pack: center;
+  -webkit-justify-content: center;
+          justify-content: center;
+  font-size: 28rpx;
+}
+.uni-navbar__placeholder-view.data-v-4afea59e {
+  height: 44px;
+}
+.uni-navbar--fixed.data-v-4afea59e {
+  position: fixed;
+  z-index: 998;
+}
+.uni-navbar--shadow.data-v-4afea59e {
+  box-shadow: 0 1px 6px #ccc;
+}
+.uni-navbar--border.data-v-4afea59e {
+  border-bottom-width: 1rpx;
+  border-bottom-style: solid;
+  border-bottom-color: #c8c7cc;
+}
+

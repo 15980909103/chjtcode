@@ -1,0 +1,1 @@
+<view class="content"><web-view webview-styles="{{webviewStyles}}" src="{{h5Host+'/houses/sand.html?'+t_version+'&id='+id}}"></web-view></view>

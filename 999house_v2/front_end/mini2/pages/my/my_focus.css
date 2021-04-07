@@ -1,0 +1,95 @@
+/* pages/my/my_focus.wxss */
+.wrap{
+    padding-bottom: 60rpx;
+}
+
+.title{
+    height: 58rpx;
+    background-color: rgba(247, 247, 247, 1);
+    font-size: 26rpx;
+    box-sizing: border-box;
+    padding-left: 32rpx;
+    display: flex;
+    align-items: center;
+}
+.all-template{
+	width: 100%;
+}
+
+
+
+.tab{
+	padding-bottom: 60rpx;
+}
+
+.tab .van-tab{
+	padding: 20rpx;
+	font-size: 34rpx;
+	font-weight: 800;;
+}
+
+.tab .van-tab--active{
+	color: rgba(254, 130, 30, 1);
+}
+
+.tab .van-tabs__line{
+	width: 24rpx;
+	bottom: 19px;
+	background-color: rgba(254, 130, 30, 1);
+}
+
+.news{
+	width: 100%;
+	box-sizing: border-box;
+	padding: 0 32rpx;
+}
+
+.news-box{
+	display: flex;
+	padding: 40rpx 0 24rpx;
+	border-bottom: 1px solid rgba(240, 240, 240, 1);
+}
+
+.news-box image{
+	width: 218rpx;
+	height: 164rpx;
+}
+
+.news-right{
+	flex: 1;
+	height: 164rpx;
+	margin-left: 40rpx;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+}
+
+.news-title{
+	font-size: 30rpx;
+	line-height: 38rpx;
+}
+
+.news-info{
+	display: flex;
+	align-items: center;
+}
+
+.news-info image{
+	width: 36rpx;
+	height: 36rpx;
+	border-radius: 50%;
+	margin-right: 16rpx;
+}
+.news-info text{
+    font-size: 28rpx;
+}
+.u-multi-ellipsis--l3{
+	display: -webkit-box;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical;
+}
+.empty{
+	margin-top: 15vh;
+}

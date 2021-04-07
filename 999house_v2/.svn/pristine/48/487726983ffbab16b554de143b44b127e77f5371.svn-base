@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+		<title>视频</title>
+		<link rel="stylesheet" href="../../common/vant/index.css" />
+		<link rel="stylesheet" href="../../common/css/public.css?v=1.19" />
+		<link rel="stylesheet" href="../../static/css/discover/video.css"/>
+	</head>
+	<body>
+		<div id="app" v-cloak ref="DOM">
+			<div class="video">
+				<!-- <common-video :url='"http://act.999house.com/storage/upload/video/2020-11-25/595c9df9e8b0d19aa86ed7b1f4422368/281065ec3f1d39d906756926a31165a8.mp4"'
+				 :img='content.head'></common-video> -->
+				 <common-video 
+					:url='"/"+content.url'
+					:img='content.head'
+				 >
+				 </common-video>
+			</div>
+			<div class="info">
+				<div class="info-box">
+					<img :src="content.head">
+					<div class="info-name">
+						<h4>{{ content.name }}</h4>
+						<span v-if="content.nickName">{{ content.nickName }}</span>
+					</div>
+				</div>
+				<h4 class="info-title">
+					{{ content.title }}
+				</h4>
+				<div class="info-btn">
+					<common-like :id="content.id" :num="content.like" type="0" :state="content.likeStatus" padding=".26rem 0" @like="likeSome">
+					</common-like>
+					<div class="info-btn-box">
+						<span class="reply_icon_wrap" @click='addFollow'>
+							<i class="iconfont" :class=" content.favorite == 0 ? 'iconguanzhu-3' : 'iconguanzhu  text-active' "></i>
+						</span>
+						<span class="reply_icon_wrap"><i class="iconfont iconfenxiang"></i></span>
+					</div>
+				</div>
+			</div>
+
+			<div class="recommend">
+				<h4 class="recommend-title">相关推荐</h4>
+				<common-template :list="recommendList" @del="(e)=>{ recommendList = e }"></common-template>
+				<!-- <van-button class="recommend-btn" :loading="recommendLoad" loading-text="加载中..." @click="recommendLoadMore">
+					查看更多推荐
+					<i class="iconfont iconjiantou"></i>
+				</van-button> -->
+			</div>
+
+			<div class="nav">
+				<h4 class="nav-title">全部评论<span v-if="replyList.length > 0">{{ replyList.length < 100 ? replyList.length : 99+'+' }}</span></h4>
+				<i class="iconfont iconxingzhuang" @click="replyPop = true"></i>
+			</div>
+
+			<discover-reply-box
+				:show="replyPop" 
+				:id="id"
+				:nav-show="false"
+				:list="replyList"
+				:column="13"
+				:show-send="true"
+				@send="sendSome" 
+				@like="replylikeSome"
+				@close="replyPop = false" 
+				ref="replyBox"
+			>
+			</discover-reply-box>
+			<!-- <discover-reply-box 
+				:show="replyPop" 
+				:list="replyList" 
+				:favorite="content.favorite" 
+				:nav-show="false" 
+				@send="sendSome"
+				@close="replyPop = false" 
+				ref="replyBox"
+			>
+			</discover-reply-box> -->
+			<div id="container-user-site"></div>
+		</div>
+	</body>
+</html>
+
+<script src="../../common/js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/rem.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/public.js?v=1.19" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/vant/index.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=53da8183ca23918f2f81c79a5b2ede15&plugin=AMap.Geocoder"></script>
+<script type="module">
+	import { http, loginMixin } from '../../common/js/method/http.js?v=1.19';
+	
+	Vue.use(http);
+	const myComponents = [
+		'../../components/common/like/index',
+		'../../components/common/template/index',
+		'../../components/discover/reply/index',
+		'../../components/discover/reply_box/index',
+		'../../components/common/video/index',
+	];
+	
+	$api.addComponents(myComponents)
+		.then(()=>{
+			
+			Vue.use(vant.Lazyload);
+			Vue.component('commonLike', commonLike);
+			Vue.component('discoverReply', discoverReply);
+			
+			const app = new Vue({
+				el: '#app',
+				data: {
+					id: 0,
+					content: { },
+					
+					// 推荐
+					recommendList: [],
+					recommendLoad: false,
+					recommendMore: true,
+					
+					// 留言
+					replyList: [],
+					replyPop: false,
+					text: '',
+					
+					submitting: false,
+				},
+				components: {
+					commonTemplate,
+					discoverReplyBox,
+					commonVideo
+				},
+				mixins: [loginMixin],
+				created() {
+					this.id = $api.funcUrlDel().option.id;
+
+					this.getInfo();
+				},
+				mounted() {
+					
+				},
+				methods:{
+					getInfo(){
+						const id = this.id;
+						const data = {
+							id: id
+						};
+		
+						this.$http.ajax({
+							url: '/index/news/getVideoInfo',
+							data: data,
+						}).then( res=>{
+							if(res.code==1){
+								res = res.data;
+								console.log(res)
+								this.content = {
+									id: res.info.id,
+									title: res.info.title,
+									head: res.info.head,
+									name: res.info.name,
+									//nickName: '九房淘房师',
+									like: res.info.like,
+									favorite: res.info.favorite,
+									likeStatus: res.info.likeStatus,
+									url: res.info.url
+								}
+
+								this.recommendList = res.recommend //推荐列表
+								this.replyList = res.replyList //回复列表
+							}
+						})
+					},
+					// recommendLoadMore() {
+					// 	if( this.recommendMore == true ){
+					// 		this.recommendLoad = true;
+							
+					// 		setTimeout(()=>{
+					// 			this.recommendList.push({
+					// 				// 1-资讯有图(1~3)
+					// 				id: 1,
+					// 				type: 1,
+					// 				hot: 0,
+					// 				write: 1,
+					// 				title: '土地使用年限和产权使用年限与 购房者有什么关系！',
+					// 				img: ['/9house/static/logo.png'],
+					// 				author: {
+					// 					name: '国际在线',
+					// 					head: '/9house/static/logo.png'
+					// 				},
+					// 				readNum: 136,
+					// 				commentNum: 43,
+					// 				tip: ['城建','快讯','快讯','快讯']
+					// 			});
+								
+					// 			this.recommendLoad = false;
+					// 		},2000)
+					// 	}
+					// },
+
+					//收藏
+					addFollow(){
+						let id = this.content.id
+						
+						if(this.submitting==true){
+							return
+						}
+						this.submitting = true
+						
+						this.$http.ajax({
+							url: '/index/news/addFollow',
+							data: {pid:13,id: id},
+						}).then( res=>{
+							if(res.code!=1){
+								this.$toast(res.msg);
+								return
+							}
+							this.submitting = false
+							
+							let is_follow = res.data.is_follow
+							this.content.favorite = is_follow
+							let num_collect = this.content.num_collect;
+							if(is_thumbup==1){
+								this.content.num_collect = num_collect + 1
+							}else{
+								this.content.num_collect = num_collect-1>=0?num_collect-1:0;
+							}
+						})
+					},
+					//点赞
+					likeSome(e) {
+						let id = this.content.id
+						if(this.$http.isLogin()!=true){
+							this.$http.hrefMobileLogin();
+							return false;
+						}
+						if(this.submitting==true){
+							return
+						}
+						this.submitting = true
+						
+						this.$http.ajax({
+							url: '/index/news/addFabulous',
+							data: {pid:13,id: id},
+						}).then( res=>{
+							if(res.code!=1){
+								this.$toast(res.msg);
+								return
+							}
+							this.submitting = false
+							
+							let is_thumbup = res.data.is_fabulous;
+							this.content.likeStatus = is_thumbup;
+							let num_thumbup = this.content.like;
+							if(is_thumbup==1){
+								this.content.like = num_thumbup + 1
+							}else{
+								this.content.like = num_thumbup-1>=0?num_thumbup-1:0;
+							}
+						})
+					},
+					//谈起回复窗口
+					replySome( id ) {
+						this.$refs.replyBox.replySome(id);
+					},
+					//回复
+					sendSome( newOption ) {
+						let { option, obj } = newOption;
+						
+						if( option.pid == 0 ){
+							this.replyList.unshift(obj);
+						} else {
+							this.replyList.map( (item,index)=>{
+								if( item.id == option.pid ){
+									
+									this.$set(this.replyList[index],'reply',[...this.replyList[index]['reply'],...[obj]]);
+								}
+							})
+						}
+					},
+					replylikeSome(e) {
+						this.$set( this.replyList[e.index], 'lik', e.num );
+					}
+				},
+			})
+		})
+	
+	
+</script>

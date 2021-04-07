@@ -1,0 +1,4 @@
+<!--pages/instrument/calculator.wxml-->
+<view class="container">
+  <web-view src='{{h5Host}}/houses/loan.html' />
+</view>

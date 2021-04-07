@@ -1,0 +1,2 @@
+[2020-12-01T14:49:51+08:00][error] [0]Too few arguments to function think\route\Dispatch::__construct(), 0 passed in /mnt/e/project/999house_V2/app/index/controller/NewsController.php on line 238 and at least 3 expected[/mnt/e/project/999house_V2/vendor/topthink/framework/src/think/route/Dispatch.php:56]
+[2020-12-01T14:53:47+08:00][error] [0]Call to undefined method app\Request::getCityList()[/mnt/e/project/999house_V2/app/index/controller/NewsController.php:237]

@@ -1,0 +1,88 @@
+[v-cloak] {display: none;}
+.my-content{
+    /*background: #d12627;*/
+}
+.invite_code_box{
+    width: 100%;
+    /*height: 100vh;*/
+    height: 30rem;
+    /*height: 80vh;*/
+    background: url(../../image/invite_code_box_2.jpg)no-repeat;
+    background-size: 100% 100%;
+    overflow: hidden;
+    position: relative;
+}
+.invite_code_box .my-erweima{
+    width: 55vw;
+    height: 55vw;
+    margin: 6vh auto 0;
+}
+.invite_code_box .inviter{
+    margin-top: 17vh;
+    margin-left: 10vw;
+}
+.invite_code_box .inviter img{
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 1000px;
+    border: 1px solid #ffffff;
+    display: inline-block;
+    vertical-align: middle;
+}
+.invite_code_box .inviter p{
+    display: inline-block;
+    vertical-align: middle;
+    color: #ffd6d3;
+    font-size: 0.8rem;
+    margin: 0;
+}
+.my-img{width:100vw;height: 100vh;}
+
+#qrcode {
+    margin: 10rem auto 0;
+    text-align: center;
+    width: 160px;
+    height: 160px;
+}
+/*@media (min-height: 700px){*/
+/*    #qrcode {*/
+/*        margin: 13vh auto 0;*/
+/*    }*/
+/*}*/
+/*@media (min-height: 800px){*/
+/*    #qrcode {*/
+/*        margin: 18vh auto 0;*/
+/*    }*/
+/*}*/
+#qrcode img{
+    margin: 0 auto;
+}
+.operation{
+    display: flex;
+    justify-content: space-around;
+    margin-top: 1rem;
+}
+.operation div{
+    width: 6.5rem;
+    height: 1.7rem;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    color: #FFFFFF;
+    text-align: center;
+    line-height: 1.7rem;
+}
+.operation .download{
+    background: #2367D8;
+}
+.operation .share{
+    background: #2198DC;
+}
+.shop_info{
+    position: absolute;
+    bottom: 9rem;
+    left: 3rem;
+}
+.popupimg{
+    width: 100%;
+    height: auto;
+}

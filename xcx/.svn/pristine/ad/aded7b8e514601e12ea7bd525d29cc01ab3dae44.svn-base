@@ -1,0 +1,17 @@
+<?php
+declare (strict_types = 1);
+
+namespace app\task;
+
+
+class CheckProtection
+{
+    static $i=0;
+    public function run($data=null){
+        echo PHP_EOL.'dorun'.PHP_EOL;
+        \Co::sleep(5);
+        self::$i++;
+        print_r(self::$i);
+        echo PHP_EOL.'dorun end'.PHP_EOL;
+    }
+}

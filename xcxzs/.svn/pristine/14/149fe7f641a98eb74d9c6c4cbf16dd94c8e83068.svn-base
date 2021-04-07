@@ -1,0 +1,825 @@
+[2020-12-07T12:18:19+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:19+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:20+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:20+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:20+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:20+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:20+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:20+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:20+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:20+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:20+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:20+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:20+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:20+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:20+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:20+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:21+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:21+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:21+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:21+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:21+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:21+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:21+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:21+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:21+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:21+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:21+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:21+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:22+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:22+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:22+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:22+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:22+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:22+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:22+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:22+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:22+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:22+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:23+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:23+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:23+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:23+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:23+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:23+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:23+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:23+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:23+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:23+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:23+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:23+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:23+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:23+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:23+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:23+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:24+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:24+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:24+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:24+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:24+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:24+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:24+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:24+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:24+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:24+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:24+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:24+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:24+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:24+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:25+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:25+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:25+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:25+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:26+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:26+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]
+[2020-12-07T12:18:26+08:00][error] [1]Uncaught InvalidArgumentException: Invalid config distributed local in /mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61
+Stack trace:
+#0 [internal function]: app\common\base\WebsocketBase->__construct()
+#1 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#2 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#3 /mnt/e/project/999house_v2/app/websocket/Bobing.php(1583): think\Container->make()
+#4 /mnt/e/project/999house_v2/app/websocket/Bobing.php(68): app\websocket\Bobing->initBase()
+#5 [internal function]: app\websocket\Bobing->__construct()
+#6 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(392): ReflectionClass->newInstanceArgs()
+#7 /mnt/e/project/999house_v2/vendor/topthink/framework/src/think/Container.php(251): think\Container->invokeClass()
+#8 /mnt/e/project/999house_v2/app/common/websocket/MyHandler.php(38): think\Container->make([/mnt/e/project/999house_v2/app/common/base/WebsocketBase.php:61]

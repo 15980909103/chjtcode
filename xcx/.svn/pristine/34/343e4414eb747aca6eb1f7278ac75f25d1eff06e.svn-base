@@ -1,0 +1,27 @@
+<view id="authorization">
+  <view class="get-userinfo">
+    <view class="get-userinfo__panel">
+      <view class="get-userinfo__panel-header">
+        <image src="../../../image/authorization_header.png" class=""></image>
+      </view>
+      <view class="get-userinfo__panel-content">
+        <view class="get-userinfo__panel-content-message">
+          请求授权获取用户信息
+        </view>
+        <button
+          open-type="getUserInfo"
+          bindgetuserinfo="setUserInfo"
+          class="get-userinfo__panel-content-button agree"
+        >
+          同意授权
+        </button>
+        <button
+          bindtap="backToPage"
+          class="get-userinfo__panel-content-button"
+        >
+          暂不授权
+        </button>
+      </view>
+    </view>
+  </view>
+</view>

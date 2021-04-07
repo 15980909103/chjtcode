@@ -1,0 +1,197 @@
+/**
+ * 小程序page函数拓展操作
+ * //mixins 熟悉调用的方法和小程序中的自定义方法重名时，优先级为 Page > Mixins，即 Page 中的自定义方法会覆盖 Mixins 当中的。
+ * 
+ * 调用示例
+ * 首先在小程序的 app.js 里引入 basemixin.js
+require('./utils/mixins/basemixin.js')
+//增加生命周期onBeforeLoad，通过执行next()控制是否执行页面周期函数
+//页面有使用onBeforeLoad时，全局的onBeforeLoad先执行，再执行页面独立onBeforeLoad
+onBeforeLoad:function(options,next,page_this){
+  setTimeout(() => {
+    console.log(1111,this,options,page_this)
+    next()
+  }, 2500);
+},
+
+第二：在文件夹中定义自定义混入js文件myMixin.js
+module.exports = {
+  data: { someData: 'myMixin' },
+  watch:{},
+  computed:{},
+  onShow () { console.log('Log from mixin!') }
+}
+第三：在 page/index/index.js 中使用
+Page({
+  mixins: [require('../../myMixin.js')]//自动复用属性与方法
+})
+ */
+
+const originPage = Page // 保存原生的 Page 函数
+const intWatch = require("./watch.js");//引入watch属性
+const initComputed = require("./wxComputed.js"); //引入Computed计算属性
+
+
+//拓展page函数
+Page = (options) => {
+  const mixins = options.mixins
+  // mixins 必须为数组
+  if (Array.isArray(mixins)) {
+    delete options.mixins
+    // mixins 注入并执行相应逻辑
+    options = merge(mixins, options)
+  }
+
+  //定义页面事件监听存储
+  var pageEvents = {}
+  pageEvents.events= {}
+  pageEvents.on = function(name,event){
+    pageEvents.events[name] = event
+  }
+  pageEvents.trigger = function(name,data){
+    if(typeof name == 'string'){
+      pageEvents.events[name]&&pageEvents.events[name].call(this,data)
+    }else{
+      for(var i in name){
+        name[i]&&pageEvents.events[name[i]]&&pageEvents.events[name[i]].call()
+      }
+    }
+  }
+  
+  /**
+   * //执行页面的生命周期
+   * @param {*} type string|array 
+   */
+  var donext = function(type=null){
+    if(!type){ type = ['onLoad','onReady','onShow']  }
+    pageEvents.trigger(type)
+  }
+  //补充页面的生命周期onBeforeLoad的执行,页面通过donext()回调控制执行页面生命周期
+  if(typeof options.onBeforeLoad !== "function"){
+    //未定义页面生命周期onBeforeLoad时直接往下执行一次
+    options.onBeforeLoad = function(args,donext,page_this){
+      donext()
+    }
+  }
+
+  //埋点appjs全局的生命周期onBeforeLoad，再执行页面的onBeforeLoad
+  let originBeforeLoad = options.onBeforeLoad
+  options.onBeforeLoad = function(args,donext,page_this){
+    var appDonext = function(){
+      //执行页面的onBeforeLoad
+      originBeforeLoad && originBeforeLoad.call(page_this, args, donext, page_this) 
+    }
+    
+    let appObj = getApp()
+    //埋点appjs全局的生命周期onBeforeLoad
+    if(typeof appObj.onBeforeLoad === "function"){
+      //传入页面对应的参数和this对象
+      appObj.onBeforeLoad(args,appDonext,page_this) 
+    }
+  }
+  
+  let originLoad = options.onLoad
+  var page_onload={}
+  options.onLoad = function (args) {
+    if(this){ page_onload.this = this; }
+    if(args){ page_onload.args = args }
+
+    //引入watch观察
+    if(page_onload.this&&page_onload.this.watch){ 
+      intWatch.setWatcher(page_onload.this);
+    }
+    //引入computed计算属性
+    if(page_onload.this&&page_onload.this.computed){ 
+      initComputed(page_onload.this);
+    }
+
+    pageEvents.on('onLoad',function(){
+      originLoad && originLoad.call(page_onload.this, page_onload.args)
+    });
+
+    //埋点生命周期onBeforeLoad的执行
+    if(options.onBeforeLoad&&typeof options.onBeforeLoad === 'function'){
+      var listIntObj = {}
+      pageEvents.on('listInt',function(e){//监听其他执行以便其他生命周期事件入列
+        listIntObj[e]= 'isInt'
+        if(Object.keys(listIntObj).length>=2){
+          options.onBeforeLoad.call(page_onload.this, page_onload.args, donext, page_onload.this)
+          listIntObj = {}
+        }
+      });
+    }
+  } 
+  
+  let originReady = options.onReady
+  var page_onReady={}
+  options.onReady = function (args) {
+    if(this){ page_onReady.this = this; }
+    if(args){ page_onReady.args = args }
+
+    pageEvents.on('onReady',function(){
+      originReady && originReady.call(page_onReady.this, page_onReady.args)
+    });
+    pageEvents.trigger('listInt','onReady')
+  } 
+
+  let originShow = options.onShow
+  var page_onShow={}
+  options.onShow = function (args) {
+    if(this){ page_onShow.this = this; }
+    if(args){ page_onShow.args = args }
+    
+    pageEvents.on('onShow',function(){
+      originShow && originShow.call(page_onShow.this, page_onShow.args)
+    });
+    pageEvents.trigger('listInt','onShow')
+    
+  } 
+
+  sleep(15)
+  // 释放原生 Page 函数
+  originPage(options)
+}
+
+
+// 定义小程序内置的属性
+const originProperties = ['data', 'properties', 'options']
+//定义小程序内置的方法
+const originMethods = ['onLoad', 'onReady', 'onShow', 'onHide', 'onUnload', 'onPullDownRefresh', 'onReachBottom', 'onShareAppMessage', 'onPageScroll', 'onTabItemTap']
+
+//将混入的属性/方法进行合并执行
+function merge (mixins, options) {
+  mixins.forEach((mixin) => {
+    if (Object.prototype.toString.call(mixin) !== '[object Object]') {
+      throw new Error('mixin 类型必须为对象！')
+    }
+    // 遍历 mixin 里面的所有属性
+    for (let [key, value] of Object.entries(mixin)) {
+      if (originProperties.includes(key)) {
+        // 内置对象属性混入
+        options[key] = { ...value, ...options[key] }
+      } else if (originMethods.includes(key)) {
+        // 内置方法属性混入，优先执行混入的部分
+        let originFunc = options[key]
+        options[key] = function (...args) {
+          value.call(this, ...args)
+          return originFunc && originFunc.call(this, ...args)
+        }
+      } else {
+        // 自定义方法的混入
+        options = { ...mixin, ...options }
+      }
+    }
+  })
+  return options
+}
+
+
+const sleep = millisecond => {
+  var nowDate = Date.now();
+  var endDate = nowDate + millisecond;
+  while (true) {
+    if (Date.now() >= endDate) {
+      return;
+    }
+  }
+}

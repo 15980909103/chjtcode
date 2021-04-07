@@ -1,0 +1,80 @@
+//全局混入操作
+
+const install = (Vue,app) => {
+	let t_version = new Date().getTime();
+	app = app.$options;
+	
+	//监听启动完成
+	uni.$on('myLaunched',function(res){
+		uni.$on('myBeforeLoad',function(that, original_onLoad, args){//监听onLoad拦截
+			original_onLoad.apply(that,args);
+		})
+	})
+	const mixin = {
+		data(){ 
+			return {
+				t_version: '_isMini=1&t='+t_version, //用于webview的版本生成
+				host: app.globalData.host,
+				h5Host: app.globalData.h5Host,
+				host_api: app.globalData.host_api,
+				imgHost: app.globalData.imgHost,
+				city_no: app.globalData.city_no,
+			}
+		},
+		onLoad() {
+			let page_onLoad_idx = this.$options.onLoad.length-1
+			let original_onLoad= this.$options.onLoad[page_onLoad_idx];
+			this.$options.onLoad[page_onLoad_idx] = function(){ }
+			uni.$emit('myBeforeLoad',this, original_onLoad, arguments)
+		},
+		methods:{
+			//标签转换为文字
+			getTagsText(key,list){
+				const tag = app.getConst();
+				let arr = []
+				let update =0;
+				
+				if(typeof(list)!='object'){
+					list = String(list)
+					list = list.split(',')
+				}
+				
+				for(let i in list){
+					let item = list[i]
+					if(tag[key]&&tag[key]){
+						if(tag[key][item]){
+							arr.push(tag[key][item]);
+						}else{
+							update = 1
+						}
+					}
+				}
+				
+				if(update==1){
+					app.getConst(1)
+				}
+				return arr
+				
+				
+				// let tagarr = [];
+				// 									tagarr = tagarr.concat($api.getTagsText('estatesnew_sale_status',val.sale_status));
+				// 									tagarr = tagarr.concat($api.getTagsText('house_purpose',val.house_purpose));
+				// 									let lipStr = val.feature_tag;
+				// 									if(lipStr instanceof  Array && lipStr.length >0){
+				// 										tagarr = tagarr.concat($api.getTagsText('feature_tag',lipStr));
+				// 										/* lipStr.map(x=>{
+				// 											if(allTag&&allTag.feature_tag){
+				// 												tagarr.push(allTag.feature_tag[x]);
+				// 											}
+				// 										}) */
+				// 									}
+			}
+		}
+	}
+	
+	Vue.mixin(mixin);
+}
+
+export default {
+	install
+}

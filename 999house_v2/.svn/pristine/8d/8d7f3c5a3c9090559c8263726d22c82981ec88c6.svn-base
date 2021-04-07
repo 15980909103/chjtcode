@@ -1,0 +1,204 @@
+<!--index.wxml-->
+<view>
+  <view class="set" >
+				<!-- <view class="iconfont iconsaoma"></view> -->
+        <view class="iconfont iconkefu" bindtap='showKeFu=true'></view>
+        
+				<!-- <view class="iconfont iconshezhi"></view> -->
+			</view>
+			<view class="my">
+				<view class="info" bindtap="changeInfoShow">
+					<view class="info-left">
+						<image mode="widthFix" wx:if='uInfo && uInfo.headimgurl。length>0' :src="uInfo.headimgurl"/>
+						<image mode="widthFix" wx:else src="../../static/my/touxiang.png"/>
+						<view class="info-content-box">
+							<view class="info-name">{{ uInfo.nickname }}</view>
+							<view class="info-phone">{{ $api.encryptPhone(uInfo.phone) }}</view>
+						</view>
+					</view>
+					<view class="info-right">
+						<!-- <i class="iconfont iconerweima"></i> -->
+						<van-icon name="arrow" />
+					</view>
+				</view>
+
+				<view class="tab">
+					<view class="tab-item" bindtap="goPage('/pages/my/my_history')">
+						<view>
+							<image mode="widthFix" src="../../static/my/history.png"/>
+						</view>
+						<view>浏览记录</view>
+					</view>
+					<view class="tab-item" bindtap="goPage('/pages/my/my_focus')">
+						<view>
+							<image mode="widthFix" src="../../static/my/like.png"/>
+						</view>
+						<view>我的关注</view>
+					</view>
+					<!-- <view class="tab-item">
+						<view>
+							<image src="../../static/my/deal.png">
+						</view>
+						<view>交易报告</view>
+					</view>
+					<view class="tab-item">
+						<view>
+							<image src="../../static/my/sale.png">
+						</view>
+						<view>优惠券</view>
+					</view> -->
+				</view>
+
+				<image mode="widthFix" :src="$http.imgDirtoUrl(ad.img)" bindtap='goAd(ad)' class="ad"/>
+
+				<view class="common">
+					<view class="common-title">常用模块</view>
+					<view class="common-box">
+            <view class="common-item" :style="{ backgroundImage: 'url(../../static/my/common.png)' }" bindtap="goFindHouse">
+              <image class="common-item-image" mode="widthFix"  src="../../static/my/common.png"/>
+							<view class="common-item-title">买房方案</view>
+							<view class="common-item-text">智能匹配，精准推送</view>
+						</view>
+					</view>
+				</view>
+
+				<view class="tool">
+					<view class="common-title">我的工具</view>
+					<view class="tool-box">
+					<!-- 	<view class="tool-item" bindtap="goPage('discover/index.html',{active:'研究院'})">
+							<i class="iconfont iconfangjia"></i>
+							<view>查房价</view>
+						</view> -->
+						<view class="tool-item">
+							<i class="iconfont iconbianzu141" bindtap="goPage('houses/loan.html')"></i>
+							<view>房贷计算</view>
+						</view>
+						<!-- <view class="tool-item">
+							<i class="iconfont iconhuida-2"></i>
+							<view>我的回答</view>
+						</view>
+						<view class="tool-item">
+							<i class="iconfont iconbianzu162"></i>
+							<view>我的点评</view>
+						</view>
+						<view class="tool-item">
+							<i class="iconfont icontiezi-copy"></i>
+							<view>我的帖子</view>
+						</view> -->
+					</view>
+				</view>
+			</view>
+
+			<!-- 底部栏 -->
+			<!-- <common-tabbar active="我的"></common-tabbar> -->
+			<!-- 个人信息 -->
+      <van-popup 
+        show="{{ infoShow }}" 
+        class="info-wrap" 
+        position="bottom" 
+        custom-style="height: 90%" 
+        bind:close="onClose"
+        closeable>
+				<view class="info-title">
+					个人信息
+				</view>
+				<view class="info-content">
+					<van-cell size="large" title="头像" is-link bindtap="changeInfo(1)">
+						<image mode="widthFix" wx:if='uInfo&&uInfo.headimgurl.length>0' :src="uInfo.headimgurl"/>
+            <image mode="widthFix" wx:else src="../../static/my/touxiang.png"/>
+					</van-cell>
+					<van-cell size="large" title="昵称" :value="uInfo.nickname" is-link bindtap="changeInfo(2)"></van-cell>
+					<van-cell size="large" title="手机号" :value="$api.encryptPhone(uInfo.phone)" is-link bindtap="changeInfo(3)"></van-cell>
+				</view>
+				
+				<view wx:if="loginLab" class="botton-logout" bindtap='logOut'>
+					<van-button>退出登录</van-button>
+				</view>
+			</van-popup>
+			
+			<!-- 修改个人信息 -->
+			<van-popup 
+				show="{{ changeShow }}" 
+				position="bottom" 
+				
+				close-icon-position="top-left"
+      >
+      <!-- :style="{ height: '100%', width: '100vw'}" 
+				:overlay="false"
+				:closeable="true" -->
+				<view wx:if="changeShowType == 1">
+					<view class="info-title">
+						修改信息
+					</view>
+					<view class="change-box">
+						<view class="change-head">
+							<image mode="widthFix" wx:if='uChange&&uChange.headimgurl' :src="uChange.headimgurl" ref="userHead"/>
+							<image mode="widthFix" wx:else src="../../static/my/touxiang.png" ref="userHead"/>
+							<p>点击图片修改头像</p>
+						</view>
+						<view class="change-name">
+							<view class="change-name-box">
+								<view>昵称</view>
+								<van-field wx:model="uChange.nickname" :placeholder="uInfo.nickname"></van-field>
+							</view>
+							<p>请输入要修改的昵称</p>
+						</view>
+					</view>
+					
+					<input type="file" accept="image/*" class="img-up" bindinput="headChange" ref="imgChange" />
+					
+					<view class="botton-logout" >
+						<van-button bindtap="sureChange">修改信息</van-button>
+					</view>
+				</view>
+				<view wx:if="changeShowType == 2">
+					<view class="change-phone">
+						<h4>{{ changePhoneText }}</h4>
+						<van-field
+							wx:model="phoneNum"
+							type="tel"
+							center
+							class="apply_alert_phone"
+							clearable
+							placeholder="请输入手机号码"
+							maxlength="11"
+						>
+							<view slot="button">
+								<van-button 
+									size="small" 
+									class="apply_alert_msg"
+									:disabled="msgDisabled"
+									bindtap="getMsg"
+								>
+									{{ msgText }}
+								</van-button>
+							</view>
+						</van-field>
+						<van-field 
+							wx:model="msg" 
+							type="digit" 
+							center
+							clearable
+							placeholder="请输入验证码"
+							maxlength="6"
+						>
+						</van-field>
+						<van-button
+							class="apply_phone"
+							:disabled="applyDisabled"
+							bindtap="apply"
+						>
+							{{ upBtn }}
+						</van-button>
+					</view>
+				</view>
+			</van-popup>
+
+			<view class="kefu-box">
+				<van-dialog wx:model="showKeFu" close-on-click-overlay :show-confirm-button='false'>
+					<image mode="widthFix" :src="serverCode" />
+					<view class="kefu-tips">联系客服咨询</view>
+				</van-dialog>
+			</view>
+			<view id="container-user-site"></view>
+</view>

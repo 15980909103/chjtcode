@@ -1,0 +1,10 @@
+{
+  "component": true,
+  "usingComponents": {
+    "u-popup": "/uview-ui/components/u-popup/u-popup",
+    "u-form": "/uview-ui/components/u-form/u-form",
+    "u-input": "/uview-ui/components/u-input/u-input",
+    "common-like": "/components/common/like",
+    "discover-reply": "/components/discover/reply"
+  }
+}

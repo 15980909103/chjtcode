@@ -1,0 +1,39 @@
+.banner{
+	height: 3.6rem;
+	/* height: 1.38rem; */
+	/* padding: 0 0.32rem; */
+	box-sizing: border-box;
+	touch-action: pan-y;
+	/* margin-bottom: 0.52rem; */
+}
+
+.my-swipe .van-swipe-item {
+	/* height: 1.38rem; */
+	height: 3.6rem;
+	color: #fff;
+	text-align: center;
+}
+
+.my-swipe .van-swipe-item .banner-img{
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.my-swipe .van-swipe__indicators{
+	/* left: auto;
+	right: 0.18rem; */
+	bottom: 0.12rem;
+	transform: none;
+}
+.my-swipe .van-swipe__indicator{
+	width: 0.24rem;
+	height: 0.1rem;
+	background-color: #FFFFFF;
+	opacity: 0.43;
+	border-radius: 5px;
+}
+.my-swipe .van-swipe__indicator--active{
+	width: 0.24rem;
+	opacity: 1;
+}

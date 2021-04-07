@@ -1,0 +1,52 @@
+:root {
+  font-size: 16px;
+}
+
+.report-rules {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: #fff;
+}
+
+.header {
+  height: 3rem !important;
+  border-bottom: 1px solid #f7f7f7 !important;
+}
+
+.mui-control-item {
+  position: relative;
+  font-size: 1rem;
+  line-height: 3rem;
+}
+
+.mui-control-item.mui-active {
+  color: #d12527 !important;
+  border: none !important;
+}
+
+.mui-control-item span {
+  position: relative;
+  font-style: normal;
+  display: block;
+  height: 3rem;
+  line-height: 3rem;
+}
+
+.mui-control-item.mui-active span:before {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 0;
+  bottom: .375rem;
+  width: 100%;
+  height: 2px;
+  background-color: #d12527;
+  border-radius: 1px;
+}
+
+.container .mui-slider-item {
+  padding-top: 1rem;
+  padding-left: 1rem;
+}

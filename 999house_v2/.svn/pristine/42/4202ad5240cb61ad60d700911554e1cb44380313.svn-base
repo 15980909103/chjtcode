@@ -1,0 +1,868 @@
+/**
+ * 前置引入area组件
+ */
+var MarkerMap = (function() {
+	const html =
+		`	<div id="container">
+	<div class='map-left'>
+	  <div class='selebox' @click="goList()">
+	     <div>
+		   <img src="../../static/map/liebiao.png" alt="">
+		 </div>
+	    列表
+	  </div>
+	</div>
+	<div class="detail" v-if="flag">
+		<div class="centerbox">
+			<div class="main-imgBox">
+			<img :src="'http://act.999house.com/'  + floorDetail.list_cover" alt="">
+			</div>
+			<div class="main-data">
+				<div class="main-title">
+					{{floorDetail.name}}
+				</div>
+				<div class="main-label">
+					<span class="label" v-for='(item, index) in tags' :key='index' v-if='index<3'>
+					  {{item}}
+					</span>
+				</div>
+				<div class="main-location">
+					{{floorDetail.area}} {{floorDetail.business}} | 建面{{floorDetail.built_area}}m²
+				</div>
+				<div v-if="floorDetail.price" class="main-price">
+					{{floorDetail.price}}元/m²
+				</div>
+				<div v-else class="main-price">
+					价格待定
+				</div>
+			</div>
+		</div>
+		<div class="btn" @click='getpio()'><img src="../../static/my/location.png" alt=""> 周边配套</div>
+	</div>
+	<div class="detail transitBox" v-if="poiFlag">
+	<div class="optionBox">
+			<div class='more' @click='more'>
+			  <img src="../../static/map/more.png" alt="">
+			</div>
+	       <div class='warp'>
+			   <div :class="poiChecked=='transit'?'checked option':'option'" @click='Checked("transit")'>
+				<i class="iconfont iconjiaotong"></i>
+				公交
+			   </div>
+			   <div :class="poiChecked=='school'?'checked option':'option'" @click='Checked("school")'>
+				<i class="iconfont iconjiaoyubeifen"></i>
+				教育
+			   </div>
+			   <div :class="poiChecked=='hospital'?'checked option':'option'" @click='Checked("hospital")'>
+				<i class="iconfont iconyiyuan"></i>
+				医院
+			   </div>
+			   <div :class="poiChecked=='market'?'checked option':'option'" @click='Checked("market")'>
+				<i class="iconfont icongouwu"></i>
+				购物
+			   </div>
+		   </div>
+		</div>
+		<div class="main"> 
+			<div v-if="poiChecked == 'transit'" v-for='(item, index) in piolist.transit' :key='index'
+				:class="poiId == item.id?'contentBox checkedbg': 'contentBox'" @click='goConter(item)'>
+				<div>
+				   <div class='title'>{{item.name}}</div>
+				   <div class='address'>{{item.address}}</div>
+				</div>
+				<div>{{item.distance}}m</div>
+			</div>
+			<div v-if="poiChecked == 'school'" v-for='(item, index) in piolist.school' :key='index'
+				:class="poiId == item.id?'contentBox checkedbg': 'contentBox'" @click='goConter(item)'>
+				<div>
+				   <div class='title'>{{item.name}}</div>
+				   <div class='address'>{{item.address}}</div>
+				</div>
+				<div>{{item.distance}}m</div>
+			</div>
+			<div v-if="poiChecked == 'hospital'" v-for='(item, index) in piolist.hospital' :key='index'
+				:class="poiId == item.id?'contentBox checkedbg': 'contentBox'" @click='goConter(item)'>
+				<div>
+				   <div class='title'>{{item.name}}</div>
+				   <div class='address'>{{item.address}}</div>
+				</div>
+				<div>{{item.distance}}m</div>
+			</div>
+			<div v-if="poiChecked == 'market'" v-for='(item, index) in piolist.market' :key='index'
+				:class="poiId == item.id?'contentBox checkedbg': 'contentBox'" @click='goConter(item)'>
+				<div>
+				   <div class='title'>{{item.name}}</div>
+				   <div class='address'>{{item.address}}</div>
+				</div>
+				<div>{{item.distance}}m</div>
+			</div>
+		</div>
+	</div>
+</div>`
+
+	return {
+		data: function() {
+			return {
+				map: null, //地图对象
+				cluster: null,
+				markerList: [],
+				points: [],
+				markVal: null, //当前点击点的信息
+				flag: false, //楼盘详情弹窗是否显示
+				piolist: {}, //当前楼盘的附近poi信息 hospital三甲医院信息 market商场信息 school学校信息 transit附近公交站台信息
+				centerValue: null, //当前地图中心点的行政信息
+				mapCenter: [118.072793, 24.457917], //当前地图中心点
+				mapZoomType: 'area', //地图展示级别信息 city市级 area区级 business商圈 floor楼盘
+				zoom: 10, //地图缩放级别
+				markers: [], //地图标点对象
+				marketVal: null, //当前商圈信息
+				poiChecked: 'transit', //当前点击的pio信息分类
+				poiFlag: false, //pio信息列表状态
+				pioMarker: [], //pio信息点的实例对象
+				cityValue: {}, //当前城市信息
+				cityList: null,
+				arr: null,
+				floorList: null,
+				floorDetail: null,
+				pathDate: null,
+				value: {
+					area_no: '',
+					business_no: '',
+					price_type: '',
+					price: '',
+					rooms: '',
+					built_area: '',
+					tags: ''
+				},
+				type: '',
+				business_no: '',
+				centerFlag: true,
+				oldValue: {},
+				valueFlag: true,
+				tags: [],
+				poiId: '',
+				localData: null,
+				mapType: '',
+			}
+		},
+		template: html,
+		props: {
+			// list: {
+			// 	type: [Array],
+			// 	default() {
+			// 		return []
+			// 	}
+			// }
+			// zoom: {
+			// 	type: Number,
+			// 	default: '10'
+			// }
+			checkdata: {
+				type: Object,
+				default () {
+					return {}
+				}
+			}
+		},
+		created() {
+
+		},
+		mounted() {
+			if (this.$api.funcUrlDel().option) {
+				this.mapType = this.$api.funcUrlDel().option.type
+				let data = this.$api.localGet('map_data')
+				if (this.mapType == 'find_house' && data) { //买房方案
+					if (data.length > 0) {
+						this.zoom = 16
+						this.init()
+						this.localData = data
+						let arr = data[0].lnglat.substring(0, data[0].lnglat.length - 1);
+						arr = arr.split(',')
+						this.map.setCenter(arr)
+						this.mapZoomType = 'floor'
+						this.setMarker(data)
+						return
+					}
+				}
+
+				if (this.mapType == 'floor') {
+					this.pathData = this.$api.funcUrlDel().option.id
+					this.zoom = 16
+					this.init()
+					this.getMarker()
+					return
+				}
+			}
+
+			this.init()
+			this.mapZoomend()
+		},
+		watch: {
+			checkdata: { //监听的对象
+				deep: true, //深度监听设置为 true
+				handler: function(newV, oldV) {
+					if (!newV.site) {
+						this.type = ''
+						this.zoom = 10.5
+						this.init()
+						this.mapZoomend()
+						this.mapMoveend()
+						return
+					}
+					this.type = 'flow'
+					this.centerFlag = true
+					if (newV.site) {
+						if (typeof newV.site == 'object') {
+							this.value.business_no = newV.site
+							this.business_no = newV.site
+						} else {
+							this.value.area_no = newV.site
+						}
+					}
+					if (newV.price) {
+						this.value.price = newV.price.val
+						this.value.price_type = newV.price.type
+					}
+					if (newV.type) {
+						this.value.rooms = newV.price
+					}
+					if (newV.more) {
+						if (newV.more.built_area.length > 0) {
+							this.value.built_area = newV.more.built_area
+						}
+						if (newV.more.house_purpose.length > 0) {
+							this.value.house_purpose = newV.more.house_purpose
+						}
+						if (newV.more.tags.length > 0) {
+							this.value.tags = newV.more.tags
+						}
+					}
+					if(this.value.tags&&this.value.tags.length){//去重
+						this.value.tags = Array.from(new Set(this.value.tags));
+					}
+					
+					if (this.valueFlag) {
+						this.oldValue = this.value
+						this.valueFlag = false
+					}
+					this.getArea()
+				}
+			}
+		},
+
+		methods: {
+			// 返回筛选id列表
+			chooseResult(e) {
+				console.log(e.length)
+			},
+			//初始化地图
+			init() {
+				//创建地图
+				let that = this
+				this.map = new AMap.Map("container", {
+					zoom: that.zoom,
+					center: that.mapCenter,
+					resizeEnable: true
+				});
+				this.$api.getPosition(this.map).then(function(data) {
+					console.log(data)
+				})
+				// map.plugin('AMap.Geolocation', function() {
+				// 	geolocation = new AMap.Geolocation({
+				// 		enableHighAccuracy: true, //是否使用高精度定位，默认:true
+				// 		timeout: 100, //超过10秒后停止定位，默认：无穷大
+				// 		maximumAge: 0, //定位结果缓存0毫秒，默认：0
+				// 		convert: true, //自动偏移坐标，偏移后的坐标为高德坐标，默认：true
+				// 		showButton: true, //显示定位按钮，默认：true
+				// 		buttonPosition: 'LB', //定位按钮停靠位置，默认：'LB'，左下角
+				// 		buttonOffset: new AMap.Pixel(10,
+				// 			20), //定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+				// 		showMarker: true, //定位成功后在定位到的位置显示点标记，默认：true
+				// 		showCircle: true, //定位成功后用圆圈表示定位精度范围，默认：true
+				// 		panToLocation: true, //定位成功后将定位到的位置作为地图中心点，默认：true
+				// 		zoomToAccuracy: true //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+				// 	});
+				// 	map.addControl(geolocation);
+				// 	geolocation.getCurrentPosition(function(status, result) {
+				// 		if (status == 'complete') {
+				// 			// that.onComplete(result)
+				// 			console.log(result)
+				// 			var geocoder = new AMap.Geocoder({
+				// 				city: "010", //城市设为北京，默认：“全国”
+				// 				radius: 1000 //范围，默认：500
+				// 			});
+				// 			var lnglat = [result.position.lng, result.position.lat];
+				// 			geocoder.getAddress(lnglat, function(status, result) {
+				// 				if (status === 'complete' && result.regeocode) {
+				// 					console.log(result.regeocode.addressComponent.city)
+				// 				} else {
+				// 					log.error('根据经纬度查询地址失败')
+				// 				}
+				// 			});
+				// 		} else {
+				// 			that.onError(result)
+				// 		}
+				// 	});
+				// 	// AMap.Event.addListener(geolocation, 'complete', that.onComplete); //返回定位信息
+				// 	// AMap.Event.addListener(geolocation, 'error', that.onError); //返回定位出错信息
+				// 	// this.mapMoveend()
+				// });
+				if (this.mapType == 'floor' || this.mapType == 'find_house') {
+					return
+				}
+				this.map.getCity(function(info) {
+					that.centerValue = info
+					that.getcityList()
+				});
+				//地图缩放事件用来监听当前展示的级别
+				this.map.on('zoomend', this.mapZoomend);
+				//地图移动事件用来监听当前中心点
+				this.map.on('moveend', this.mapMoveend);
+			},
+			//获取当前地图级别
+			mapZoomend() {
+				this.zoom = this.map.getZoom(); //获取当前地图级别
+				// 地图缩放级别在2-10展示市级信息
+				// if (zoom >= 2 && zoom < 10) {
+				// 	console.log('当前为市级');
+				// 	this.mapZoomType = 'city'
+				// 	this.setMarker(this.points)
+				// }
+				// 地图缩放级别在10-12展示区级信息
+				if (this.zoom > 10 && this.zoom < 12) {
+					this.mapZoomType = 'area'
+					this.map.remove(this.markers);
+					this.markers = []
+					this.markVal = null
+					this.flag = false
+					console.log('当前为区级');
+				}
+				// 地图缩放级别在12-15展示商圈信息信息
+				if (this.zoom > 12 && this.zoom < 15) {
+					this.mapZoomType = 'business'
+					this.map.remove(this.markers);
+					this.map.remove(this.pioMarker);
+					this.markers = []
+					this.pioMarker = []
+					this.markVal = null
+					this.poiFlag = false
+					this.piolist = {}
+					this.valueFlag = true
+					this.flag = false
+					this.value.business_no = this.business_no
+					console.log('当前为商圈');
+				}
+				// 地图缩放级别在12-15展示楼盘信息信息
+				if (this.zoom > 16 && this.zoom < 22) {
+					this.mapZoomType = 'floor'
+					this.map.remove(this.markers);
+					this.markers = []
+					console.log(this.marketVal)
+					this.value.business_no = this.marketVal.code
+					this.getMapList()
+					console.log('当前为楼盘');
+				}
+			},
+			//获取当前地图中心点
+			mapMoveend() {
+				// 获取当前中心点的行政信息
+				let that = this
+				this.mapCenter = [this.map.getCenter().lng, this.map.getCenter().lat]; //获取当前地图中心位置
+				this.map.getCity(function(info) {
+					let data = info
+					if (that.cityList) {
+						let i = 0
+						for (i in that.cityList) {
+							if (info.district == that.cityList[i].cname) {
+								data.id = that.cityList[i].code
+							}
+						}
+					}
+					that.centerValue = data
+					// that.value.area_no = data.id
+				});
+				if (this.type != 'flow') {
+					if (this.mapZoomType != 'floor') {
+						this.getMarkerList()
+					} else {
+						this.getMapList()
+					}
+				} else {
+					if (this.zoom < 16 && this.zoom > 12) {
+						this.getArea()
+					}
+				}
+				// 商圈为特殊情况需要特殊处理
+				if (this.mapZoomType != 'business') {
+					return
+				}
+				let data = this.points
+				// 计算各个点距离中心点的距离
+				let i = 0
+				let lists = []
+				for (i in data) {
+					if (data[i].lnglat.length > 0) {
+						let lnglat = data[i].lnglat
+						let arr = lnglat.substring(0, lnglat.length - 1);
+						let location = arr.split(',');
+						location[0] = location[0] - 0
+						location[1] = location[1] - 0
+						data[i].distance = that.calculateLineDistance([location[0], location[1]])
+						lists.push(data[i])
+					}
+				}
+				if (lists.length > 1) {
+					lists.sort(function(a, b) {
+						return a.distance - 0 - b.distance - 0
+					})
+				}
+				this.points = lists
+				console.log(111111, lists[0])
+				// 第一个就是距离中心点最近的商圈
+				this.marketVal = lists[0]
+			},
+			// 查询当前楼盘附近的poi信息
+			getPeriphery() {
+				let data = this.floorDetail
+				let location = [data.lng - 0, data
+					.lat - 0
+				]
+				this.mapCenter = location
+				let that = this
+				// 查询公交信息
+				AMap.plugin(["AMap.PlaceSearch"], function() {
+					//构造地点查询类
+					var placeSearch = new AMap.PlaceSearch({
+						type: '购物中心|三级甲等医院|小学|中学|高中|高等院校|公交车站', // 兴趣点类别
+						pageSize: 1000,
+						pageIndex: 1,
+						citylimit: true //是否强制限制在设置的城市内搜索
+					});
+					var cpoint = location; //中心点坐标
+					placeSearch.searchNearBy('', cpoint, 3000, function(status, result) {
+						let school = []
+						let hospital = []
+						let market = []
+						let transit = []
+						if (!result.poiList) {
+							that.piolist.hospital = hospital
+							that.piolist.school = school
+							that.piolist.market = market
+							return
+						}
+						let data = result.poiList.pois
+						for (let i = 0; i < data.length; i++) {
+							if (data[i].type.indexOf('医院') != -1) {
+								hospital.push(data[i])
+							}
+							if (data[i].type.indexOf('学校') != -1) {
+								school.push(data[i])
+							}
+							if (data[i].type.indexOf('购物中心') != -1) {
+								market.push(data[i])
+							}
+							if (data[i].type.indexOf('公交车站') != -1) {
+								transit.push(data[i])
+							}
+							transit.sort(function(a, b) {
+								return a.distance - b.distance
+							})
+							that.piolist.hospital = hospital
+							that.piolist.school = school
+							that.piolist.market = market
+							that.piolist.transit = transit
+						}
+					});
+				});
+			},
+			// 将楼盘信息等渲染到地图上
+			setMarker(data) {
+				let that = this
+				let i = 0
+				for (i in data) {
+					let name = ''
+					if (data[i].cname) {
+						name = data[i].cname
+					} else {
+						name = data[i].name
+					}
+					let text = name
+					if (text.length > 3) {
+						text = text.substring(0, 4)
+					}
+					if (data[i].lnglat !== '') {
+						let arr = '';
+						let location = [];
+						if (!(data[i].lnglat instanceof Object)) {
+							arr = data[i].lnglat.substring(0, data[i].lnglat.length - 1)
+							location = arr.split(',')
+						} else {
+							location = [data[i].lnglat.lng, data[i].lnglat.lat]
+						}
+						location[0] = location[0] - 0
+						location[1] = location[1] - 0
+						let width = 1.22
+						let style = `width:${width}rem;padding: .25rem 0px;border-radius: 50%;font-size:14px;positon:relative' `
+						let extra = ''
+						let bgColor = 'background-color: #FE821E;border:1px solid #FE821E'
+						let price = data[i].price
+						if (this.mapZoomType != 'floor') {
+							extra += `<div class="custom-content-marker" style='${style}'>` +
+								'<div>' + text + '</div>' +
+								'<div>' + `${data[i].count}` + '个' + '</div>' +
+								'</div>';
+						}
+						if (this.mapZoomType == 'floor') {
+							width = 2.5
+							style = `width:${width}rem;padding: .10rem .3rem;border-radius:.5rem;font-size:14px' `
+							if (this.markVal) {
+								// 判断是否为当前点击点
+								if (this.markVal.id == data[i].id) {
+									bgColor = 'background-color: #fff;color:#979B9D;border:1px solid #fff'
+									style =
+										`width:${width}rem;padding: .10rem .3rem;border-radius:.5rem;background:#fff;font-size:14px;positon:relative;color:#0B0F12' `
+								}
+							}
+							extra += `<div class="custom-content-marker" style='${style}'>` +
+								'<span>' + text + '</span>' + ' ' +
+								`<div class="positionIcon" style='${bgColor}'>` + '</div>' +
+								'</div>';
+						}
+						let marker = new AMap.Marker({
+							position: location,
+							// 将 html 传给 content
+							content: extra,
+							// 以 icon 的 [center bottom] 为原点
+							offset: new AMap.Pixel(0, 0),
+							clickable: true,
+							extData: data[i]
+						});
+						if (this.mapZoomType == 'floor') {
+							marker.on('click', this.getMarker);
+						}
+						this.markers.push(marker)
+					}
+				}
+
+				this.map.add(this.markers);
+			},
+			setfoorMarker(data) {
+				let location = [data.lng, data.lat];
+				location[0] = location[0] - 0
+				location[1] = location[1] - 0
+				let width = 1.22
+				let style =
+					`width:${width}rem;padding: .25rem 0px;border-radius: 50%;font-size:14px;border: 1px solid #FE821E;' `
+				let extra = ''
+				let text = data.name
+				width = 2.5
+				let price = data.price
+				let bgColor = 'background-color: #FE821E;border:1px solid #FE821E'
+				style =
+					`width:${width}rem;padding: .10rem .3rem;border-radius:.5rem;font-size:14px;box-shadow: 0px 0px 5px #E4C0A0;' `
+				if (this.markVal) {
+					// 判断是否为当前点击点
+					if (this.markVal.id == data.id) {
+						bgColor = 'background-color: #fff;color:#979B9D'
+						style =
+							`width:${width}rem;padding: .10rem .3rem;border-radius:.5rem;background:#fff;font-size:14px;positon:relative;color:#0B0F12;box-shadow: 0px 0px 5px #fff;' `
+					}
+				}
+				console.log(data)
+				extra += `<div class="custom-content-marker" style='${style}'>` +
+					'<span>' + text + '</span>' + ' ' +
+					`<div class="positionIcon" style='${bgColor}'>` + '</div>' +
+					'</div>';
+				let marker = new AMap.Marker({
+					position: location,
+					// 将 html 传给 content
+					content: extra,
+					// 以 icon 的 [center bottom] 为原点
+					offset: new AMap.Pixel(-86, -32),
+					clickable: true,
+					extData: data
+				});
+				this.markers.push(marker)
+				this.map.add(marker);
+			},
+			// 点的点击事件
+			getMarker(e) {
+				let id = ''
+				let that = this
+				if (this.pathData) {
+					id = this.pathData
+				} else {
+					let data = JSON.parse(JSON.stringify(e.target.getExtData()))
+					this.markVal = data
+					this.map.remove(data);
+					this.setMarker(this.floorList)
+					console.log(this.markVal)
+					this.map.setCenter([this.markVal.lnglat.lng, this.markVal.lnglat.lat])
+					id = data.id
+				}
+				this.$http.ajax({
+					method: 'post',
+					data: {
+						'id': id
+					},
+					url: '/index/estates/getSimpleInfo',
+				}).then(res => {
+					console.log(res)
+					res.data.logo = that.$http.imgDirtoUrl(res.data.logo)
+					that.floorDetail = res.data
+					that.getPeriphery()
+					const allTag = this.$api.localGet('u-tag');
+					that.getTages(allTag.house_purpose, res.data.house_purpose)
+					that.getTages(allTag.feature_tag, res.data.feature_tag)
+					if (this.pathData) {
+						that.markVal = res.data
+						that.map.setCenter([res.data.lng - 0, res.data.lat - 0])
+						that.setfoorMarker(res.data)
+					}
+					if (that.mapType == 'find_house') { //&& that.mapType == 'floor'
+						that.map.remove(that.markers);
+						that.map.remove(that.pioMarker);
+						that.markers = []
+						that.pioMarker = []
+						that.setMarker(that.localData)
+					}
+					that.flag = true
+					// this.$http.
+				})
+			},
+			//筛选标签
+			getTages(tags, value) {
+				const allkey = Object.keys(tags)
+				for (i = 0; i < allkey.length; i++) {
+					for (j = 0; j < value.length; j++) {
+						if (allkey[i] - 0 == value[j] - 0) {
+							this.tags.push(tags[allkey[i]])
+						}
+					}
+				}
+			},
+			// 计算距离中心点的距离单位m
+			calculateLineDistance(end) {
+				var d1 = 0.01745329251994329;
+				var d2 = this.mapCenter[0];
+				var d3 = this.mapCenter[1];
+				var d4 = end[0];
+				var d5 = end[1];
+				d2 *= d1;
+				d3 *= d1;
+				d4 *= d1;
+				d5 *= d1;
+				var d6 = Math.sin(d2);
+				var d7 = Math.sin(d3);
+				var d8 = Math.cos(d2);
+				var d9 = Math.cos(d3);
+				var d10 = Math.sin(d4);
+				var d11 = Math.sin(d5);
+				var d12 = Math.cos(d4);
+				var d13 = Math.cos(d5);
+				var arrayOfDouble1 = [];
+				var arrayOfDouble2 = [];
+				arrayOfDouble1.push(d9 * d8);
+				arrayOfDouble1.push(d9 * d6);
+				arrayOfDouble1.push(d7);
+				arrayOfDouble2.push(d13 * d12);
+				arrayOfDouble2.push(d13 * d10);
+				arrayOfDouble2.push(d11);
+				var d14 = Math.sqrt((arrayOfDouble1[0] - arrayOfDouble2[0]) * (arrayOfDouble1[0] -
+						arrayOfDouble2[0]) +
+					(arrayOfDouble1[1] - arrayOfDouble2[1]) * (arrayOfDouble1[1] - arrayOfDouble2[
+						1]) +
+					(arrayOfDouble1[2] - arrayOfDouble2[2]) * (arrayOfDouble1[2] - arrayOfDouble2[
+						2]));
+				let distance = (Math.asin(d14 / 2.0) * 12742001.579854401).toFixed(0)
+				return distance;
+			},
+			// 渲染公交、医院、商场、学校等到地图
+			Checked(val) {
+				this.map.remove(this.pioMarker);
+				this.pioMarker = []
+				// this.poiId = ''
+				this.poiChecked = val
+				let data = this.piolist[val]
+				let icon = ''
+				let checkIcon = ''
+				switch (val) {
+					case 'school':
+						// /static/map/school-icon.png
+						icon = '../../static/map/school-icon.png'
+						break;
+					case 'hospital':
+						// /static/map/hospital-icon.png
+						icon = '../../static/map/hospital-icon.png'
+						break;
+					case 'market':
+						// icon = '/static/map/market-icon.png'
+						icon = '../../static/map/market-icon.png'
+						break;
+					case 'transit':
+						// icon = '/static/map/transit-icon.png'
+						icon = '../../static/map/transit-icon.png'
+						break;
+					default:
+				}
+				switch (val) {
+					case 'school':
+						// /static/map/school-icon.png
+						checkIcon = '../../static/map/school-check-icon.png'
+						break;
+					case 'hospital':
+						// /static/map/hospital-icon.png
+						checkIcon = '../../static/map/hospital-check-icon.png'
+						break;
+					case 'market':
+						// icon = '/static/map/market-icon.png'
+						checkIcon = '../../static/map/market-check-icon.png'
+						break;
+					case 'transit':
+						// icon = '/static/map/transit-icon.png'
+						checkIcon = '../../static/map/transit-check-icon.png'
+						break;
+					default:
+				}
+				for (let i = 0; i < data.length; i++) {
+					// 将 icon 传入 marker
+					if (this.poiId == data[i].id) {
+						var startMarker = new AMap.Marker({
+							position: new AMap.LngLat(data[i].location.lng, data[i].location.lat),
+							icon: checkIcon,
+							offset: new AMap.Pixel(-16, -32),
+							size: new AMap.Size(32, 32),
+						});
+					} else {
+						var startMarker = new AMap.Marker({
+							position: new AMap.LngLat(data[i].location.lng, data[i].location.lat),
+							icon: icon,
+							offset: new AMap.Pixel(-16, -32),
+							size: new AMap.Size(32, 32),
+						});
+					}
+
+					this.pioMarker.push(startMarker)
+					// 将 markers 添加到地图
+				}
+				this.map.add(this.pioMarker);
+			},
+			// 点击对应的poi信息移动地图
+			goConter(val) {
+				this.poiId = val.id
+				this.map.setCenter([val.location.lng, val.location.lat])
+				this.map.setZoom(18)
+				this.Checked(this.poiChecked)
+			},
+			onComplete(success) {
+				console.log('定位成功')
+				console.log(success)
+			},
+			onError(error) {
+				console.log(error)
+			},
+			// 获取数据
+			getcityList() {
+				// 999house.test.com
+				let that = this
+				this.$http.ajax({
+					method: 'get',
+					url: '/index/City/getCityList',
+				}).then(res => {
+					console.log(res)
+					for (let i = 0; i < res.data.length; i++) {
+						if (this.centerValue.city == res.data[i].cname) {
+							that.cityValue = res.data[i]
+							that.getMarkerList()
+						}
+					}
+				})
+			},
+			getMarkerList() {
+				let that = this
+				let data = {
+					'type': this.mapZoomType,
+					is_count: 1,
+				}
+				if (this.mapZoomType == 'area') {
+					data.city_no = this.cityValue.id
+				}
+				if (this.mapZoomType == 'business') {
+					//district
+					data.area_no = this.centerValue.id
+				}
+				this.$http.ajax({
+					method: 'get',
+					data: data,
+					url: '/index/city/getAreaList',
+				}).then(res => {
+					that.points = res.data
+					console.log(res.data)
+					that.setMarker(res.data)
+					if (this.mapZoomType == 'area') {
+						that.cityList = res.data
+					}
+				})
+			},
+			getMapList() {
+				if (!this.marketVal) {
+					return
+				}
+				let data = this.value
+				data.business_no = this.marketVal.code
+				let that = this
+				this.$http.ajax({
+					method: 'get',
+					data: data,
+					url: '/index/estates/getMapList',
+				}).then(res => {
+					console.log(res)
+					that.floorList = res.data
+					// that.points = res.data
+					that.setMarker(res.data)
+				})
+			},
+			getpio() {
+				this.Checked('transit')
+				this.flag = false
+				this.poiFlag = true
+			},
+			more() {
+				this.flag = true
+				this.poiFlag = false
+			},
+			// 获取区级信息
+			getArea() {
+				let that = this
+				let data = this.oldValue
+				console.log(data)
+				data.type = 'business'
+				this.$http.ajax({
+					method: 'get',
+					data: data,
+					url: '/index/city/getAreaList',
+				}).then(res => {
+					let arr = []
+					this.points = res.data
+					for (i in res.data) {
+						res.data[i].lnglat = res.data[i].lnglat.substring(0, res.data[i].lnglat.length - 1)
+						arr.push(res.data[i])
+					}
+					if (this.centerFlag) {
+						let location = arr[0].lnglat.substring(0, arr[0].lnglat.length - 1).split(',');
+						that.map.setZoomAndCenter(13, [location[0], location[1]]);
+						this.centerFlag = false
+					}
+					that.map.remove(this.markers);
+					that.markers = []
+					console.log(res.data)
+					that.setMarker(res.data)
+				})
+			},
+			goList() {
+				console.log(this.centerValue)
+				$api.goPage('new_house/index.html', this.centerValue);
+			}
+		},
+	}
+}());

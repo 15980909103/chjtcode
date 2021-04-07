@@ -1,0 +1,132 @@
+<template>
+	<view>
+		<view class="page">
+			<view class="result-list">
+				<view>
+					<text>当前位置地址信息：</text>
+					<view v-show="addressName">{{addressName}}</view>
+				</view>
+				<view>
+					<text>当前位置天气简况：</text>
+					<rich-text v-if="weather.hasData" :nodes="weather.data"></rich-text>
+				</view>
+			</view>
+			<view class="btn-list">
+				<button type="primary" @tap="getRegeo">获取当前地址信息</button>
+				<button type="primary" @tap="getWeather">获取实时天气数据</button>
+			</view>
+		</view>
+	</view>
+</template>
+
+<script>
+	import txmap from '@/common/qqmap-wx.js';
+	
+	export default {
+		data() {
+			return {
+				hasLocation: false,
+				location: {},
+				amapPlugin: null,
+				key: '6HYBZ-WI3C2-53DUM-CTGGX-P7S2Q-JIB57',
+				addressName: '',
+				weather: {
+					hasData: false,
+					data: []
+				}
+			}
+		},
+		onLoad() {
+			console.log(8888)
+			this.amapPlugin = new txmap({
+				key: this.key
+			});
+		},
+		onShow() {
+			console.log(this.amapPlugin)
+			this.$toast(JSON.stringify(this.amapPlugin))
+			
+			// this.amapPlugin.search({
+			// 	keyword: '餐饮',
+			// 	success: function (res) {
+			// 		console.log(res,111);
+			// 	},
+			// 	fail: function (res) {
+			// 		console.log(res,222);
+			// 	},
+			// 	complete: function (res) {
+			// 		console.log(res);
+			// 	},
+			// })
+		},
+		methods: {
+			getRegeo() {
+				uni.showLoading({
+					title: '获取信息中'
+				});
+				
+				// 高德
+				// this.amapPlugin.getRegeo({
+				// 	success: (data) => {
+				// 		this.addressName = data[0].name;
+				// 		uni.hideLoading();
+				// 	}
+				// });
+				
+				// 腾讯
+				
+			},
+			getWeather() {
+				uni.showLoading({
+					title: '获取信息中'
+				});
+				
+				// 高德
+				// this.amapPlugin.getWeather({
+				// 	success: (data) => {
+				// 		console.log(data);
+				// 		for (const key in data) {
+				// 			console.log(key);
+				// 			if (key !== 'liveData') {
+				// 				this.weather.data.push({
+				// 					name: 'div',
+				// 					children: [{
+				// 						type: 'text',
+				// 						text: data[key].text + '：' + data[key].data
+				// 					}]
+				// 				});
+				// 			}
+				// 		}
+				// 		uni.hideLoading();
+				// 		this.weather.hasData = true;
+				// 	},
+				// 	fail: (data) =>{
+				// 		console.log(data,998)
+				// 	}
+				// });
+				
+				// 腾讯
+			}
+		}
+	}
+</script>
+
+<style>
+	view {
+		display: block;
+	}
+
+	.page {
+		display: flex;
+		flex: 1;
+		justify-content: center;
+		flex-direction: column;
+		width: 750upx;
+		text-align: center;
+	}
+
+
+	.btn-list button {
+		margin: 20upx;
+	}
+</style>

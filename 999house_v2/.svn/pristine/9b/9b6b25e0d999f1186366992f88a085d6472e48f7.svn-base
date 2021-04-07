@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>视频</title>
+		<link rel="stylesheet" href="../../common/vant/index.css"/>
+		<link rel="stylesheet" href="../../common/css/public.css?v=1.18"/>
+		<style>
+			
+			.wrap{
+				display: flex;
+				flex-wrap: wrap;
+				padding-bottom: .2rem;
+			}
+			
+			/* .van-list{
+				width: 100%;
+				
+			} */
+			
+			.wrap .template2-video-item{
+				width: 3.2rem;
+				height: 4.23rem;
+				margin-top: .5rem;
+			}
+			.wrap .template2-video-item .template2-video-bg{
+				width: 100%;
+				height: 100%;
+			}
+			.wrap .template2-video-top{
+				height: .54rem;
+				top: .12rem;
+				left: .12rem;
+				font-size: .26rem;
+			}
+			
+			.wrap .template2-video-bottom{
+				height: .64rem;
+				font-size: .3rem;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<div id="app" v-cloak ref="DOM">
+			<van-list
+				v-model="loading"
+				:finished="finished"
+				finished-text="没有更多了"
+				@load="getList"
+			>
+				<div class="wrap">
+					<div class="template2-video-item" v-for="(item,index) in list" :key="index" @click="goPage('discover/small_video.html',{id: item.id})">
+						<div class="template2-video-bg">
+							<img :src="item.img"/>
+						</div>
+						<div class="template2-video-top">
+							<span>{{item.lable[0]}}</span>
+							<span>{{item.readNum}}人</span>
+						</div>
+						<div class="template2-video-bottom">
+							{{item.title}}
+						</div>
+					</div>
+				</div>
+			</van-list>
+			<div id="container-user-site"></div>
+		</div>	
+	</body>
+</html>
+
+<script src="../../common/js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/rem.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/public.js?v=1.18" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/vant/index.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=53da8183ca23918f2f81c79a5b2ede15&plugin=AMap.Geocoder"></script>
+<script type="module">
+	import { http, loginMixin } from '../../common/js/method/http.js?v=1.18';
+	
+	Vue.use(http);
+	const myComponents = [
+		'../../components/common/template/index',
+	];
+	
+	$api.addComponents(myComponents)
+		.then(()=>{
+			
+			Vue.use(vant.Lazyload);
+			
+			const app = new Vue({
+				el: '#app',
+				data: {
+					loading: true,
+					finished: false,
+					page: 0,
+					last_page: 1,
+					city_no: '',
+					list: [
+						// {
+						// 	tip: '小区Vlog',
+						// 	view: 1099,
+						// 	title: '世贸湖边首府',
+						// },
+					]
+				},
+				components: {
+					
+				},
+				mixins: [loginMixin],
+				created() {
+					this.$http.getCurrentCity().then( data=>{
+						this.city_no = data.city_no;
+						this.getList();
+					})
+				},
+				mounted() {
+					
+				},
+				methods:{
+					goPage: $api.goPage,
+					// 获取楼盘数据
+					getList() {
+						const page = this.page+1;
+						const city_no = this.city_no;
+						const data = {
+							page: page,
+							city_no: city_no
+						};
+						if(page>this.last_page){
+							this.loading = false;
+							this.finished = true;
+							return
+						}
+						
+						this.$http.ajax({
+							url: '/index/news/getSmallvideo',
+							data: data,
+						}).then( res=>{
+							res = res.data;
+							this.page = page
+							this.last_page = res.last_page?res.last_page:1
+							// 加载状态结束
+							this.loading = false;
+	
+							this.list = this.list.concat(res.list)
+
+							// 数据全部加载完成
+							if (this.last_page >= this.page) {
+								this.finished = true;
+							}
+						})
+					},
+				},
+			})
+		})
+	
+	
+</script>

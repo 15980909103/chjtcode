@@ -1,0 +1,258 @@
+<template>
+	<view style="background-color: #F5F5F5;">
+		<view class="active_conten">
+			<view class="user_box">
+				<view class="user_info">
+					<div>
+						<image class="user_img" mode="widthFix" :src="$api.imgDirtoUrl(userinfo.headimgurl)"></image>
+						<view class="user_name">
+							<view class="name">{{userinfo.nickname}}</view>
+							<view class="identity">{{userinfo.phone}}</view>
+						</view>
+					</div>
+					
+					<view class="scan_box">
+						<u-icon name="scan" @click="qrCode" size="60"></u-icon>
+					</view>
+				</view>
+				<view class="consumed">
+					<view>已核销人数：{{userinfo.number}}人 </view>
+					<view>剩余名额：{{ (userinfo.coupon_number/(userinfo.sum||1)||0)}}%</view>
+				</view>
+			</view>
+			<view class="search">
+				<u-search placeholder="请输入微信昵称" :show-action="false" bg-color="#ffffff" v-model="name" @search="WorkWriteOff"></u-search>
+			</view>
+			<view class="verification_list">
+				<view class="verification_item" v-for="item in WorkWriteOfflist">
+					<view class="verification_user">
+						<view>
+							<image class="user_img" mode="widthFix" :src="$api.imgDirtoUrl(item.user_headimgurl)"></image>
+							<view class="user_name">
+								<view class="name">{{item.user_name}}</view>
+								<view class="identity"><icon type="success" size="13" color="#03B272"/>已核销用户</view>
+								<!-- <view class="identity" style="color:#666666 ;" v-else><icon type="cancel" size="13" color="#666666"/>无资格用户</view> -->
+							</view>
+						</view>
+						<view>兑换数量：1</view>
+					</view>
+					<view>
+						<view class="coupon">
+							<view class="coupon_item">
+								<image class="shop_img" :src="$api.imgDirtoUrl(item.shop_img)"></image>
+								<view class="coupon_shop">
+									<view class="shop_title">{{item.shop_name}}</view>
+									<view class="shop_type">{{item.shop_type_string}}</view>
+									<view class="coupon_type">{{item.shop_lable_string}}</view>
+								</view>
+								<view class="discounts">
+									<view class="discounts_number" v-if="item.coupon_describe">{{item.coupon_describe}}</view>
+									<view class="discounts_amount">数量X1</view>
+								</view>
+							</view>
+							<view class="verification_time"><span style="margin-right: 10rpx;">核销成功,</span> 核销时间：{{item.write_off_time}}</view>
+						</view>
+					</view>
+				</view>
+				<u-empty v-if="WorkWriteOfflist.length<=0" text="暂无数据" mode="list"></u-empty>
+			</view>
+			<view class="box" v-show="showscan">
+				<u-popup v-model="showscan" mode='center' width="80%" :closeable='true'>
+					<view class="verification_list">
+						<view class="verification_item">
+							<view class="verification_user">
+								<view>
+									<image class="user_img" mode="widthFix" :src="$api.imgDirtoUrl(addfriend.headimgurl)"></image>
+									<view class="user_name">
+										<view class="name">{{addfriend.nickname}}</view>
+										<view class="identity">{{addfriend.phone}}</view>
+									</view>
+								</view>
+								<view class="ver_type">
+									<view class="scess" v-if="addfriend.type">可核销</view>
+									<view class="err" v-else>不可核销</view>
+								</view>
+							</view>
+							<view>
+								<view class="ver_title">核销明细</view>
+								<view class="coupon">
+									<view class="coupon_item" style="padding: 20rpx 0;">
+										<image class="shop_img" src="../../static/activity.png"></image>
+										<view class="coupon_shop" style="width: 250rpx;">
+											<view class="shop_title">{{addfriend.shop_name}}</view>
+											<view class="shop_type">{{addfriend.shop_type_string}}</view>
+											<view class="coupon_type">{{addfriend.shop_lable_string}}</view>
+										</view>
+										<view class="discounts">
+											<view class="discounts_number">{{addfriend.coupon_describe}}</view>
+											<view class="discounts_amount">数量X1</view>
+										</view>
+									</view>
+								</view>
+								<view class="ver_btn">
+									<u-button class="cancel" size="default" @click="showscan = false">取消</u-button>
+									<u-button class="aff" size="default" v-if="addfriend.type" @click="veron">核销</u-button>
+								</view>
+							</view>
+						</view>
+					</view>
+				</u-popup>
+			</view>
+		</view>
+	</view>
+</template>
+
+<script>
+	var jweixin = require('utils/jweixin-module.js')
+	export default {
+		data() {
+			return {
+				userinfo:{},
+				activity_id:'',
+				name:'',
+				WorkWriteOfflist:[],
+				showscan:false,
+				addfriend:{},
+				code:''
+			};
+		},
+		onLoad(e) {
+			this.activity_id = e.activity_id
+			
+			//#ifdef H5
+			this.$api.wxLogin();
+			//#endif
+			if(this.getToken()){
+				this.getverificationinfo()
+				this.WorkWriteOff()
+			}else{
+				uni.$on('h5login', ()=>{
+					this.getverificationinfo()
+					this.WorkWriteOff()
+				})
+			}
+		},
+		methods:{
+			getverificationinfo(){
+				this.$http.post(
+					'/WorkWriteOff/staffMember',
+					{
+						activity_id:this.activity_id
+					}
+				).then( res=>{
+					if(res.code==1){
+						this.userinfo = res.data
+						
+						if(this.userinfo&&this.userinfo.store_id==0){
+							this.$toast('您不是核销人员');
+							setTimeout(()=>{
+								window.location.href = '/activity/pages/activitySount/index?activity_id=' + this.activity_id
+							},1200)
+						}else{
+							this.wxsdk()
+						}
+					}else{
+						this.$toast(res.msg);
+						if(res.code == 50008){
+							this.$api.wxLogin(1)
+						}
+					}
+				})
+			},
+			// 获取微信sdk参数
+			wxsdk(){
+				this.$http.post(
+					'/public/getWebInfo',
+					{
+						city_no:this.userinfo.region_no,
+						url:window.location.href
+					}
+				).then( res=>{
+					if(res.code==1){
+						this.wxsdkinfo = res.data
+					}else{
+						this.$toast(res.msg);
+					}
+				})
+			},
+			qrCode() {
+				//this.addFriend()
+				var that = this
+				jweixin.config({
+					debug: false,
+					appId: this.wxsdkinfo.appid,
+					timestamp: this.wxsdkinfo.timestamp,
+					nonceStr: this.wxsdkinfo.noncestr,
+					signature: this.wxsdkinfo.signature,
+					jsApiList: ['scanQRCode']
+				});
+				
+				jweixin.scanQRCode({
+				  needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+				  scanType: ["qrCode"], // 可以指定扫二维码还是一维码，默认二者都有
+				  success: function (res) {
+						let code = res.resultStr.slice(5);
+						that.code = code
+						// alert(res.resultStr)
+						// alert('1')
+						that.addFriend( code );
+					},
+				})
+				// uni.scanCode({
+				// 	success: (res)=>{
+				// 		let code = res.path.slice(res.path.indexOf('scene=')+6);
+				// 		code = decodeURIComponent(code);
+				// 		code = code.slice(code.indexOf('code=')+5);
+						
+				// 		this.addFriend( code );
+				// 	}
+				// })
+			},
+			// 扫码获取优惠券信息
+			addFriend(code) {
+				// this.code = 'yTLw6YhzMP6/ftKRd7oHt+IofxVYxFt+1L2M4wi3+48pkp7iobex86jZSI2XxdVA'
+				this.$http.post( '/WorkWriteOff/info', { code: this.code }).then( res=>{
+					if( res.code == 1 ){
+						this.addfriend = res.data
+						this.showscan = true
+					} else {
+						this.$toast(res.msg)
+					}
+				})
+			},
+			// 核销优惠券
+			veron(){
+				this.$http.post( '/WorkWriteOff/review', { code: this.code }).then( res=>{
+					if( res.code == 1 ){
+						this.showscan = false
+						this.$toast('核销成功')
+						this.getverificationinfo()
+						this.WorkWriteOff()
+					} else {
+						this.showscan = false
+						this.$toast(res.msg)
+					}
+				})
+			},
+			WorkWriteOff(){
+				this.$http.post(
+					'/WorkWriteOff/list',
+					{
+						name:this.name,
+						page:''
+					}
+				).then( res=>{
+					if(res.code==1){
+						this.WorkWriteOfflist = res.data.list
+					}else{
+						this.$toast(res.msg);
+					}
+				})
+			}
+		}
+	}
+</script>
+
+<style lang="scss">
+	@import './verification.scss'
+</style>

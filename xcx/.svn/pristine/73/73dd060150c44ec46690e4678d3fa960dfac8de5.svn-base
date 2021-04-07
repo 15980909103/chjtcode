@@ -1,0 +1,601 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>我的客户</title>
+    <!-- <link rel="stylesheet" type="text/css" href="./static/css/aui.css" /> -->
+    <link rel="stylesheet" type="text/css" href="./static/mui/css/mui.min.css" />
+    <link rel="stylesheet" type="text/css" href="./static/calendar/calendar-master.css" />
+    <link rel="stylesheet" type="text/css" href="./static/css/customer.css" />
+    <link rel="stylesheet" type="text/css" href="./static/css/swiper.min.css" />
+    <script type="text/javascript" src="./static/js/jquery-2.0.0.min.js" ></script>
+    <script type="text/javascript" src="./static/mui/js/mui.min.js" ></script>
+    <script type="text/javascript" src="./static/mui/js/mui.pullToRefresh.js" ></script>
+    <script type="text/javascript" src="./static/mui/js/mui.pullToRefresh.material.js" ></script>
+    <script type="text/javascript" src="./static/js/vue.min.js" ></script>
+    <script type="text/javascript" src="./static/js/vue-tap.js" ></script>
+    <script type="text/javascript" src="./static/js/public.js" ></script>
+    <script type="text/javascript" src="./static/js/swiper.min.js" ></script>
+    <script type="text/javascript" src="./static/calendar/calendar-master.js" ></script>
+    <style>.mui-pull-bottom-tips{display: none;}.empty{width: 80%; text-align: center;margin: 0 auto;}.empty img{width: 100%;text-align: center;}</style>
+</head>
+<body>
+<div id="app" class="my-content">
+    <div class="my-search">
+        <div class="mui-input-row mui-search ">
+            <input
+                type="search"
+                class="mui-input-clear"
+                placeholder="请输入客户名称"
+                v-model="searchText"
+                v-on:keyup.enter="onSearch"
+                @focus="toggleFooter"
+                @blur="toggleFooter"
+            >
+        </div>
+    </div>
+    <div v-if="isDisplayApprove" class="my-wandian approve" v-tap="{methods: navigateToApprove}">
+        <div class="my-wandian-1"><img class="my-wandian-img" src="./static/image/dianzhang-kehu.png"><div>我的审批</div></div>
+        <div><i class="aui-iconfont aui-icon-right"></i></div>
+    </div>
+    <div v-if="isDisplayShop" class="my-wandian" v-tap="{methods:onMyStore}">
+        <div class="my-wandian-1"><img class="my-wandian-img" src="./static/image/dianzhang-wangdian.png"><div>我的网店</div></div>
+        <div><i class="aui-iconfont aui-icon-right"></i></div>
+    </div>
+    <div v-if="isDisplayPrincipal" class="my-wandian" v-tap="{methods: navigateToPerformance}">
+        <div class="my-wandian-1"><img class="my-wandian-img" src="./static/image/dianzhang-kehu.png"><div>确认业绩</div></div>
+        <div><i class="aui-iconfont aui-icon-right"></i></div>
+    </div>
+
+    <!--导行栏-->
+    <div class="toggle-bar">
+        <div class="toggle-bar__template-switch">
+            <div
+                v-for="(title, index) in channel"
+                :key="index"
+                v-tap="{methods: toggleTemplate,index:index}"
+                :class="['toggle-bar__template-switch-button', current==index?'active':'']"
+                v-cloak
+            >
+                {{ title }}
+            </div>
+        </div>
+        <div class="toggle-bar__template-order">
+            <div
+                v-tap="{methods: () => {isOpenCalendar = !isOpenCalendar}}"
+                class="toggle-bar__template-order-button timer"
+            >
+                <img v-if="calendar_active==true" src="static/image/calendar-active.png">
+                <img v-else src="static/image/calendar.png">
+            </div>
+            <div
+                v-tap="{methods: fetchReverseList}"
+                class="toggle-bar__template-order-button reverse"
+            >
+                <img v-if="orderby=='desc'" src="static/image/icon_sort_normal.png">
+                <img v-else src="static/image/icon_sort_active.png">
+            </div>
+        </div>
+
+        <div v-show="isOpenCalendar" id="my-div2">
+            <div id="calendar" class="calendar">
+                <!-- 月日历 -->
+                <div id="my-week" v-html="weekTd"></div>
+                <div id="calendar-month-wrap" class="calendar-month-wrap fix">
+                    <div id="calendar-month" class="calendar-month fix">
+                        <div id="calendar-month-viewA" class="calendar-month-view"></div>
+                        <div id="calendar-month-viewB" class="calendar-month-view"></div>
+                        <div id="calendar-month-viewC" class="calendar-month-view"></div>
+                    </div>
+                </div>
+                <!-- 周日历 -->
+                <div id="calendar-week" class="calendar-week">
+                    <div id="calendar-week-viewA" class="calendar-week-view"></div>
+                    <div id="calendar-week-viewB" class="calendar-week-view"></div>
+                    <div id="calendar-week-viewC" class="calendar-week-view"></div>
+                </div>
+            </div>
+            <div id="calendar-expand" class="calendar-expand" v-cloak>
+                {{expandText}}
+                <span class="calendar-expand-today" v-tap="{methods:onGoToday}" v-if="is_today">今</span>
+                <img :class="['calendar-expand-img', is_month? 'up': 'down']" src="static/image/dianzhang-xiangxia.png">
+                <span class="calendar-expand-month">{{selectMonth}}</span></div>
+        </div>
+    </div>
+
+    <div class="profile-list mui-scroll-wrapper" >
+        <div class="mui-scroll">
+            <template v-if="current==0">
+                <div class="c-div0-1" @touchmove="touchMoveItem" @touchend="touchEndItem">
+                    <div
+                        v-if="chatList.length>0"
+                        v-for="(item, index) in chatList"
+                        v-tap="{methods:openChat,user_id:item.user_id,title:item.nickName}"
+                        :style="{transform: `translateX(${item.displacement?item.displacement:0}px)`}"
+                        class="profile-list__item"
+                    >
+                        <div class="my-kh-li" :data-index="index">
+                            <div :class="['my-kh1', item.unread_num>0?'owner_not-read':'']" :data-count="item.unread_num">
+                                <img :src="item.avatarUrl" v-cloak/>
+                            </div>
+                            <div class="my-kh2">
+                                <div class="my-kh2-1">
+                                    <div class="my-kh2-1-title" v-cloak>{{item.nickName}}</div>
+                                </div>
+                                <div class="my-kh2-2"><span class="kuhu-3" v-cloak>{{item.unread_content}}</span></div>
+                            </div>
+                            <div class="my-kh4">
+                                <div>{{item.create_time}}}</div>
+                            </div>
+                            <div class="profile-list__item-operating" @click.stop="">
+                                <div class="operating-button read-message"  v-tap="{methods:readChat,user_id:item.user_id}">标记已读</div>
+                                <div class="operating-button delete-message" v-tap="{methods:delChat,id:item.id,user_id:item.user_id}">删除</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="empty" v-show="chatList.length==0">
+                        <img src="./static/image/empty.png" alt="">
+                    </div>
+                </div>
+            </template>
+            <template v-else>
+                <div class="my-kuhu" v-for="item in list" v-if="list.length>0" v-tap="{methods:onCustomerDetail,id:item.id}">
+                    <div class="cc1-0">
+                        <div class="ccl-0-1">
+                            <img :src="item.avatarUrl" v-cloak>
+                            <div>{{item.user_name}}</div>
+                        </div>
+                        <div class="kuhu-con">
+                            <div class="kuhu-1">今日累计分享{{item.share_num}}次</div>
+                            <div class="kuhu-2">浏览<span>{{item.browse_num}}</span></div>
+                        </div>
+                    </div>
+                </div>
+                <!--暂无内容图片-->
+                <div class="empty" v-show="list.length==0" >
+                    <img src="./static/image/empty.png" alt="">
+                </div>
+            </template>
+        </div>
+    </div>
+
+    <div id="my-footer" v-if="!isHiddenFooter">
+        <div class="footer-li" v-tap="{methods:onGoNarList,url:'index.html?is_login=1'}">
+            <img v-cloak :src="DOMAINSTATIC+'image/nav_home.png'">
+            <div>首页</div>
+        </div>
+        <div class="footer-li" v-tap="{methods:onGoNarList,url:'news.html'}">
+            <img v-cloak :src="DOMAINSTATIC+'image/icon_nav_news_normal.png'">
+            <div>新闻</div>
+        </div>
+        <div class="footer-li" v-tap="{methods:onGoNarList,url:'building.html'}">
+            <img v-cloak :src="DOMAINSTATIC+'image/nav_building.png'">
+            <div>楼房</div>
+        </div>
+        <div class="footer-li my-tick">
+            <img v-cloak :src="DOMAINSTATIC+'image/nav_customer_active.png'">
+            <div>客户</div>
+        </div>
+        <div class="footer-li" v-tap="{methods:onGoNarList,url:'me.html'}">
+            <img v-cloak :src="DOMAINSTATIC+'image/icon_nav_personal_normal.png'">
+            <div>我的</div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    var isclick= true;
+    var calendar=null;
+    var is_init=true;
+    var weekTd1="<div>日</div><div>一</div><div>二</div><div>三</div><div>四</div><div>五</div><div>六</div>";
+    var weekTd2="";
+    var page=1;
+    var parameter={};
+    var monthDict=["","一月份","二月份","三月份","四月份","五月份","六月份","七月份","八月份","九月份","十月份","十一月份","十二月份"];
+    var agent_id = 0;
+    
+    new Vue({
+        el: '#app',
+        data: {
+            current: 0,
+            searchText:"",  //搜索内容
+            pullToRefresh:null,
+            channel:['微聊', '分享'],
+            sortList: [  //排序栏目数据
+                { text: '全部', is_show: true },
+                { text: '报备', is_show: false },
+                { text: '带看', is_show: false },
+                { text: '成交', is_show: false },
+                { text: '结佣', is_show: false },
+                { text: '', is_show: false }
+            ],
+            list:[],
+            chatList:[],
+            calendar_active:false,
+
+            weekTd:"",  //显示的星期
+            is_month:true, //显示月还是周
+            is_today:false, //是否显示今天按钮
+            expandText:'',
+            selectMonth:"三月份",   //当前月份
+            toggleData:{},   //当前选中的日期
+            nowDate:'',
+            orderby:'desc',
+
+            isOpenCalendar: true,
+            touchStart: null,
+            touchEnd: 0,
+            isScrollingY: false,
+            auth: null,
+            isHiddenFooter: false
+        },
+        computed: {
+            isDisplayApprove() {
+                return this.auth && (this.auth.type == '3' || this.auth.type == '2' || this.auth.type == '5' || this.auth.type == '6' || this.auth.type == '8');
+            },
+            isDisplayShop() {
+                // console.log(this.auth.type)
+                return (this.auth && this.auth.type != '2' && this.auth.type != '3' && this.auth.type != '5' && this.auth.type != '6' && this.auth.type != '7' && this.auth.type != '8') ;
+            },
+            // 确认是否是负责人
+            isDisplayPrincipal() {
+                 return (this.auth && ( this.auth.type == '7' || this.auth.buildding_leader != 0 ));
+            }
+        },
+        watch:{
+            is_month:{
+                handler:function(val, oldVal){
+                    if(val)
+                        this.weekTd=weekTd1;
+                    else
+                        this.weekTd=weekTd2;
+                },
+                immediate: true
+            },
+            current(val){
+                this.onSearch()
+            }
+        },
+        mounted: function () {
+            this.$nextTick(function () {
+                var _this=this;
+                mui.init();
+                //内容滚动
+                mui('.profile-list').scroll({
+                    scrollY: true, //是否竖向滚动
+                    scrollX: false, //是否横向滚动
+                    startX: 0, //初始化时滚动至x
+                    startY: 0, //初始化时滚动至y
+                    indicators: false, //是否显示滚动条
+                    deceleration:0.0005, //阻尼系数,系数越小滑动越灵敏
+                    bounce: true //是否启用回弹
+                });
+                // 上拉刷新
+                _this.pullToRefresh=mui(".mui-scroll").pullToRefresh({
+                    up: {
+                        auto: true, //自动执行一次上拉加载，可选；
+                        show: false, //显示底部上拉加载提示信息，可选；
+                        callback:function(){
+                            setTimeout(function(){
+                                _this.pullupRefresh(_this.pullToRefresh);
+                            },300)
+                        }
+                    },
+                });
+
+                // window.addEventListener("resize", setsetScrollHeight);
+
+                // 没有看到.my-baobei所以暂时注释
+                // $(".my-baobei").on({
+                //     touchmove:function(e){
+                //         e.preventDefault();
+                //         $(this).css({
+                //             "left":e.originalEvent.targetTouches[0].clientX-35,
+                //             "top":e.originalEvent.targetTouches[0].clientY-35
+                //         });
+                //     }
+                // });
+                //
+
+                _this.initCalendar();
+            })
+        },
+        destroyed() {
+          // window.removeEventListener("resize", setsetScrollHeight);
+        },
+        methods:{
+            onGoNarList(options){
+                setLocation(options.url);
+            },
+            onSearch(){
+                parameter = { is_serach:1,searchText: this.searchText,nowDate:this.nowDate,orderby:this.orderby};
+                page=1;
+                this.pullupRefresh(this.pullToRefresh);
+            },
+            pullupRefresh(_self){
+                var _this=this;
+                if(_this.current==0){
+                    _this.getChatList(_self)
+                }else{
+                    ajax('agentAjax/getCustomerData',Object.assign(parameter,{page:page}),function(res){
+                        if(res.success){
+                            if(res.data){
+                                if (res.data.is_serach){
+                                    _this.list=res.data.data;
+                                }else{
+                                    if(res.data.data){
+                                        _this.list=_this.list.concat(res.data.data);
+                                    }
+                                }
+                            }
+                            _this.auth = res._auth;
+
+                            parameter.is_serach=0;
+                            page++;
+                            _self.endPullUpToRefresh(false);
+                        }else{
+                            _self.endPullUpToRefresh(true);   //内容为空了
+                        }
+                    });
+                }
+            },
+            getChatList(_self){
+                var _this=this;
+                ajax('agentAjax/getChatList',Object.assign(parameter,{page:page}),function(res){
+                    if(res.success){
+                        if(res.data&&res.data.data){
+                            if (res.data.is_serach){
+                                _this.chatList=res.data.data;
+                            }else{
+                               if(res.data.data){
+                                    _this.chatList=_this.chatList.concat(res.data.data);
+                               }
+                            }
+                        }
+                        _this.auth = res._auth;
+                        if(res.data&&res.data.agent_id){
+                            agent_id = res.data.agent_id
+                        }
+
+                        parameter.is_serach=0;
+                        page++;
+                        _self.endPullUpToRefresh(false);
+                    }else{
+                        _self.endPullUpToRefresh(true);   //内容为空了
+                    }
+                });
+            },
+            readChat(e){
+                event.stopPropagation()
+                var user_id = e.user_id
+                var _this=this;
+                ajax('agentAjax/updateYd',{user_id:user_id},function(res){
+                    if(res.success){
+                        mui.toast('操作成功');
+                        _this.auth = res._auth;
+
+                        page = 1;
+                        _this.getChatList()
+                    }else{
+                        mui.toast('操作失败');
+                    }
+                });
+            },
+            delChat(e){
+                event.stopPropagation()
+                var user_id = e.user_id
+                var id = e.id
+                var _this=this;
+                ajax('agentAjax/delMessageList',{user_id:user_id,id:id},function(res){
+                    if(res.success){
+                        mui.toast('操作成功');
+                        _this.auth = res._auth;
+
+                        page = 1;
+                        _this.getChatList()
+                    }else{
+                        mui.toast('操作失败');
+                    }
+                });
+            },
+            //收起所有排序选择
+            onPackUpAll(){
+                var sortList = this.sortList;
+                for (var i in sortList){
+                    sortList[i].is_show=false;
+                }
+                this.sortList=sortList;
+            },
+            onSortBtn(options){
+                var _index = options.index;
+                var sortList = this.sortList;
+                    this.onPackUpAll();
+                    sortList[_index].is_show = !sortList[_index].is_show;
+                this.sortList=sortList;
+            },
+            openChat(e) {
+                localStorage.setItem("9h_localStorage", JSON.stringify({type:'2',agent_id:agent_id,user_id:e.user_id,time:new Date().getTime()}));
+                setLocation(`pages/me/chat.html?user_id=${e.user_id}&title=${e.title}`);
+            },
+            onCustomerDetail(event){    //跳转客户详情
+                setLocation('pages/customer/customer_detail.html?id='+event.id);
+            },
+            onMyStore(){    //我的网店
+                setLocation('pages/me/my_store_new.html');
+            },
+            onReport(){ //报备客户
+                setLocation('pages/me/report.html');
+            },
+            touchMoveItem(e) {
+                if(event.targetTouches.length > 1 || event.scale && event.scale !== 1) return;
+                const element = e.path.find(node => node.className == 'my-kh-li');
+                const itemIndex = Number(element.getAttribute('data-index'));
+                if (!this.touchStart) {
+                    this.touchStart = {
+                        x: e.targetTouches[0].pageX,
+                        y: e.targetTouches[0].pageY
+                    };
+                } else {
+                    const displacement = e.targetTouches[0].pageX - this.touchStart.x;
+                    const item = this.chatList[itemIndex];
+                    const current = {
+                        x: e.targetTouches[0].pageX - this.touchStart.x,
+                        y: e.targetTouches[0].pageY - this.touchStart.y
+                    };
+                    const isScrollingX = Math.abs(current.x) > Math.abs(current.y);
+                    if (isScrollingX && !this.isScrollingY) {
+                        const current = item.displacement? item.displacement: 0;
+                        const computed = current + displacement * 0.2; // 移动距离
+                        const down = -element.children[3].offsetWidth; // 左界限
+                        const up = 0; // 右界限
+                        const result = computed > 0
+                            ? 0
+                            : (computed < down? down: computed);
+                        this.$set(this.chatList[itemIndex], 'displacement', result);
+                        e.preventDefault();
+                    } else {
+                        this.isScrollingY = true;
+                    }
+                }
+            },
+            touchEndItem(e) {
+                this.touchStart = 0;
+                this.isScrollingY = false;
+            },
+            toggleTemplate(e) {
+                this.current=Number(e.index);
+            },
+            initCalendar() {
+                var _this=this;
+                calendar = new Calendar(
+                    document.getElementById('calendar'),
+                    null,
+                    function(self, dateRange){
+                        var nowMonth=self.activeView.currentTime.month;
+                        _this.selectMonth=monthDict[nowMonth];
+                        if(self.activeView.name === 'month'){
+                            if(is_init){
+                                var date = self.date;
+                                _this.setExpandText(date.year,date.month,date.day);
+                                is_init=false;
+                            }
+                        }
+                    },
+                    function(res){
+                        if(res.activeView.name=="month"){
+                            _this.is_month=true;
+                        }else{
+                            _this.is_month=false;
+                        }
+                        var toggleData=_this.toggleData;
+                        _this.setExpandText(toggleData.year,toggleData.month,toggleData.day);
+                    }
+                );
+
+                calendar.init();
+                document.getElementById('calendar-expand').onclick = function(){
+                   // calendar.toggle(_this.toggleData);
+                   _this.isOpenCalendar = false; //隐藏
+                };
+                $("#calendar").on('click','.i-day',function(){
+                    var myThis=$(this);
+                    var year=myThis.data('year');
+                    var month=myThis.data('month');
+                    var day=myThis.data('day');
+
+                    _this.setExpandText(year,month,day,function(){
+                        _this.isOpenCalendar = false;
+                        _this.fetchSelectCalendar(year, month, day);
+                    });
+                });
+
+               // calendar.toggle(_this.toggleData);calendar.toggle(_this.toggleData);calendar.toggle(_this.toggleData);  //初始化周日历
+                this.isOpenCalendar = false; //初始化后隐藏
+            },
+            setExpandText(year,month,day,callFun=null){    //设置日期与周几
+                var sDate = new Date(year+'/'+month+'/'+day);
+                var weekStart = sDate.getDay();
+                var weekday=["周日","周一","周二","周三","周四","周五","周六"];
+                this.expandText=month+'月'+day+'日 '+weekday[weekStart];
+                this.toggleData={year:year,month:month,day:day};
+                this.selectMonth=monthDict[parseInt(month)];
+
+                //判断点击的日期是否今天
+                var myDate = new Date();
+                var newYear=myDate.getFullYear();
+                var nMonth=myDate.getMonth()+1;
+                var nDay=myDate.getDate();
+                if(newYear==year && nMonth==month && nDay==day){
+                    this.is_today=false;
+                }else{
+                    this.is_today=true;
+                }
+                //选中类
+                $('#calendar').find(".i-tick").removeClass('i-tick');
+                $("[data-year='"+year+"'][data-month='"+month+"'][data-day='"+day+"']").find('span').addClass('i-tick');
+                if(isclick) {
+                    isclick = false;
+                    setTimeout(function () {
+                        isclick = true;
+                    }, 500);
+                    if(callFun){
+                        callFun()
+                    }
+                }
+            },
+            fetchSelectCalendar(year, month, day) {
+                // do...
+                this.calendar_active = true
+                this.nowDate = year+'-'+month+'-'+day
+                this.onSearch()
+            },
+            fetchReverseList() {
+                // do...
+                this.orderby=this.orderby=='desc'?'asc':'desc'
+                this.onSearch()
+            },
+            onGoToday(){
+                var myDate = new Date();
+                var year=myDate.getFullYear();
+                var month=myDate.getMonth()+1;
+                var day=myDate.getDate();
+                var that = this
+                if(this.is_month){
+                    calendar.setTime(year,month);
+                    calendar.resize();
+                }else{
+                    //周日历开始为周日
+                    var tmpDate=new Date(year+'/'+month+'/'+day);
+                    var tmpxq=tmpDate.getDay();
+                    if(tmpxq>0){
+                        tmpDate.setDate(tmpDate.getDate() - tmpxq);
+                        calendar.activeView.setTime(tmpDate.getFullYear(),tmpDate.getMonth()+1,tmpDate.getDate());
+                    }else{
+                        calendar.activeView.setTime(year,month,day);
+                    }
+                    calendar.render();
+                }
+
+                this.setExpandText(year,month,day,function(){
+                    that.fetchSelectCalendar(year, month, day);
+                });
+            },
+            navigateToApprove() {
+                setLocation('pages/me/my_store_new.html?type=approve');
+
+            },
+            navigateToPerformance() {
+                setLocation('pages/me/performance.html?type=approve');
+            },
+            toggleFooter() {
+                this.isHiddenFooter = !this.isHiddenFooter;
+            },
+        }
+    });
+    function setsetScrollHeight(){
+        // calendar 需要这个函数,没有仔细深究,这里先制空
+    }
+</script>

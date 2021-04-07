@@ -1,0 +1,229 @@
+<?php
+// +----------------------------------------------------------------------
+// | ThinkCMF [ WE CAN DO IT MORE SIMPLE ]
+// +----------------------------------------------------------------------
+// | Copyright (c) 2013-2017 http://www.thinkcmf.com All rights reserved.
+// +----------------------------------------------------------------------
+// | Author: pl125 <xskjs888@163.com>
+// +----------------------------------------------------------------------
+
+namespace app\admin\controller;
+
+use app\common\base\AdminBaseController;
+use app\server\admin\Agent;
+
+class AgentController extends AdminBaseController
+{
+    
+    /**
+     * 列表
+     */
+    public function getList()
+    {
+        $param = $this->request->param();
+
+        $data = [
+            'where' => [],
+            'page_size' => 20,
+        ];
+
+        if(!empty($param['search_word'])) {
+            $data['where'][] = ['name|phone', 'like', "%{$param['search_word']}%"];
+        }
+
+        $res = (new Agent())->getList($data);
+        if(empty($res['code']) || 1 != $res['code']) {
+            $this->error($res);
+        }
+        $res = $res['result'];
+
+        if(!empty($res['list'])) {
+            foreach($res['list'] as &$v) {
+                $v['city_no'] = !empty($v['city_no']) ? $v['city_no'] : '';
+                $v['area_no'] = !empty($v['area_no']) ? $v['area_no'] : '';
+                $v['head_img_url'] = !empty($v['head_img']) ? $this->getFormatImgs($v['head_img']) : [];
+                $v['create_time'] = date('Y-m-d', $v['create_time']);
+            }
+        }
+
+        $this->success($res);
+    }
+
+    /**
+     * 添加/编辑
+     */
+    public function editAgent()
+    {
+        $param = $this->request->param();
+
+        if(empty($param['name'])) {
+            $this->error('请填写姓名');
+        }
+        if(empty($param['phone'])) {
+            $this->error('请填写手机');
+        }
+        if(!preg_match('/^1\d{10}$/', $param['phone'])) {
+            $this->error('手机格式错误');
+        }
+        if(!empty($params['is_default']) && !empty($param['city_no'])) {
+            $this->error('未选地区不得设为默认');
+        }
+
+        $data = [
+            'name' => $param['name'],
+            'phone' => $param['phone'],
+            'head_img' => !empty($param['head_img_url'][0])&&!empty($param['head_img_url'][0]['url']) ? $param['head_img_url'][0]['url'] : "",
+            'type' => $param['type'] ?? 1,
+            'status' => $param['status'] ?? 1,
+            'city_no' => $param['city_no'] ?? 0,
+            'area_no' => $param['area_no'] ?? 0,
+            'is_default' => !empty($param['is_default']) ? (int)$param['is_default'] : 0,
+        ];
+
+        $building = $param['building'] ?? [];
+
+        $server = new Agent();
+        if(!empty($param['id'])) {
+            $res = $server->edit(['id' => $param['id']], $data, $building);
+        } else {
+            $res = $server->add($data, $building);
+        }
+
+        if(empty($res['code']) || 1 != $res['code']) {
+            $this->error($res);
+        }
+
+        $this->success();
+    }
+
+    /**
+     * 删除
+     */
+    public function delete()
+    {
+        $param = $this->request->param();
+
+        if(empty($param['id'])) {
+            $this->error('缺少必要参数');
+        }
+
+        $res = (new Agent())->delete($param['id']);
+
+        if(empty($res['code']) || 1 != $res['code']) {
+            $this->error($res);
+        }
+
+        $this->success();
+    }
+
+    /**
+     * 状态修改
+     */
+    public function setStatus()
+    {
+        $param = $this->request->param();
+
+        if(empty($param['id'])) {
+            $this->error('缺少必要参数');
+        }
+
+        $data = [
+            'status' => $param['status'] ?? 0,
+        ];
+
+        $res = (new Agent())->edit(['id' => $param['id']], $data);
+
+        if(empty($res['code']) || 1 != $res['code']) {
+            $this->error($res);
+        }
+
+        $this->success();
+    }
+
+
+    //==============淘房师-楼盘 关联 start===================//
+
+    /**
+     * 列表
+     */
+    public function getEstatesList()
+    {
+        $param = $this->request->param();
+
+        if(empty($param['agent_id'])) {
+            $this->error('缺少必要参数');
+        }
+        $agentId = $param['agent_id'];
+        
+        $params = [
+            'where' => [
+                ['agent_id', '=', $agentId],
+            ],
+            'join' => [['table' => 'estates_new en', 'cond' => "en.id=ae.estate_id", 'type' => 'inner']],
+            'fields' => 'ae.id, ae.estate_id as forid, en.name as forname, en.city as region_no',
+            'page_size' => 20,
+        ];
+        $res = (new Agent())->getListByRelation($params);
+
+        if(empty($res['code']) || 1 != $res['code']) {
+            $this->error($res);
+        }
+
+        $result = $res['result'];
+
+        $this->success($result);
+    }
+
+    /**
+     * 增加
+     */
+    public function addEstate()
+    {
+        $param = $this->request->param();
+
+        if(empty($param['agent_id']) || empty($param['forid'])) {
+            $this->error('缺少必要参数');
+        }
+
+        $data = [
+            'agent_id' => $param['agent_id'],
+            'estate_id' => $param['forid'],
+        ];
+
+        $res = (new Agent())->addRelation($data);
+
+        if(empty($res['code']) || 1 != $res['code']) {
+            $this->error($res);
+        }
+
+        $result = $res['result'];
+
+        $this->success($result);
+    }
+
+    /**
+     * 删除
+     */
+    public function delEstate()
+    {
+        $param = $this->request->param();
+
+        if(empty($param['id'])) {
+            $this->error('缺少必要参数');
+        }
+
+        $res = (new Agent())->delRelation($param['id']);
+
+        if(empty($res['code']) || 1 != $res['code']) {
+            $this->error($res);
+        }
+
+        $result = $res['result'];
+
+        $this->success($result);
+    }
+
+    //==============淘房师-楼盘 关联 end===================//
+
+}
+

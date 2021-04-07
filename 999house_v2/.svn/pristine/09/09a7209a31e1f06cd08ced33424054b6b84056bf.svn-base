@@ -1,0 +1,49 @@
+<template>
+	<view style="background-color: #F5F5F5;">
+		
+		<view class="record_center">
+			<picker @change="bindPickerChange" :value="index" :range="array">
+				<view class="uni-input">{{array[index]}}</view>
+			</picker>
+			<view class="coupon_box">
+				<view class="coupon" v-for="item in 3">
+					<view class="coupon_item">
+						<image class="shop_img" src="../../static/activity.png"></image>
+						<view class="coupon_shop">
+							<view class="shop_title">新华都（前埔店）</view>
+							<view class="shop_type">超市/便利店</view>
+							<view class="coupon_type">优惠买单</view>
+						</view>
+						<view class="discounts">
+							<view class="discounts_number">满90减20</view>
+							<!-- <view class="discounts_amount">剩余500位</view> -->
+						</view>
+					</view>
+					<view class="verification_time">核销时间：2020-03-23 15:3</view>
+					<image class="state" src="../../static/activity/succeed.png"></image>
+				</view>
+			</view>
+		</view>
+	</view>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+				array: ['2020/03/01', '2020/03/02', '2020/03/03', '2020/03/04'],
+				index: 0,
+			};
+		},
+		methods:{
+			 bindPickerChange: function(e) {
+				console.log('picker发送选择改变，携带值为', e.target.value)
+				this.index = e.target.value
+			},
+		}
+	}
+</script>
+
+<style lang="scss">
+	@import './record.scss';
+</style>

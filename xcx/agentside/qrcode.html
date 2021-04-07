@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>九房网</title>
+    <link rel="stylesheet" type="text/css" href="./static/css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="./static/mui/css/mui.min.css" />
+    <link rel="stylesheet" type="text/css" href="./static/css/index.css" />
+    <script type="text/javascript" src="./static/js/jquery-2.0.0.min.js" ></script>
+    <script type="text/javascript" src="./static/mui/js/mui.min.js" ></script>
+    <script type="text/javascript" src="./static/js/vue.min.js" ></script>
+    <script type="text/javascript" src="./static/js/vue-tap.js" ></script>
+    <script type="text/javascript" src="./static/js/public.js?v=2" ></script>
+    <style>.mui-pull-bottom-tips{display: none;}</style>
+</head>
+<body>
+<div id="app" class="my-content">
+
+</div>
+</body>
+</html>
+<script>
+    var vm=new Vue({
+        el: '#app',
+        data: {
+
+        },
+        mounted: function () {
+        this.$nextTick(function () {
+            mui.confirm('确认带看？', '提示', ['确认', '取消'], function(e) {
+                if (e.index == 0) {
+                    if(getQueryString('id')){
+                        window.location.href=DOMAINNAME+'xcxapi/userAjax/managerlogin?reported_id='+encodeURIComponent(getQueryString('id'));
+                    }
+                    /*ajax('agentAjax/sureTakeLook',{reported_id:getQueryString('reported_id')},function(res){
+                        if(res.success){
+                            mui.toast('修改成功！');
+                            var lpList=_this.lpList;
+                            lpList[index].is_status=status;
+                            _this.lpList=lpList;
+                        }else{
+                            mui.toast('保存失败！');
+                        }
+                    });*/
+                }
+            });
+//                if(getQueryString('is_login')!=1){
+//                    window.location.href=DOMAINNAME+'xcxapi/userAjax/wxlogin';
+//                }
+//                var _this=this;
+//                //获取首页信息
+//                ajax('userAjax/getHomeData',{},function(res){
+//                    _this.userInfo=res.data.userInfo;
+//                    _this.buildingNum=res.data.buildingNum;
+//                    _this.customerNum=res.data.customerNum;
+//                    _this.historyRow=res.data.historyRow;
+//                    _this.articleInfo=res.data.articleInfo;
+//                });
+        })
+        },
+        methods:{
+
+        }
+    });
+</script>

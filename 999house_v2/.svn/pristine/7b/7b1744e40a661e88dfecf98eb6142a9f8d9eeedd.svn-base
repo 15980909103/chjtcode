@@ -1,0 +1,1626 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>楼盘详情</title>
+		<link rel="stylesheet" href="../../common/vant/index.css"/>
+		<link rel="stylesheet" href="../../common/css/public.css"/>
+		<style>
+			.banner{
+				width: 100%;
+				height: 3.8rem;
+				position: relative;
+				background-color: pink;
+			}
+			
+			.banner-type{
+				display: flex;
+				position: absolute;
+				bottom: 0.2rem;
+				left: 50%;
+				transform: translate(-50%,0);
+			}
+			
+			.banner-type div{
+				width: 1.1rem;
+				height: 0.6rem;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+			
+			.banner-type div span,
+			.banner-swipe-point{
+				width: 0.74rem;
+				height: 0.4rem;
+				font-size: 0.2rem;
+				color: #fff;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				background: rgba(0,0,0,.5);
+				border-radius: 0.2rem;
+				padding: 0 0.04rem;
+			}
+			
+			.banner-share{
+				width: 0.78rem;
+				height: 0.78rem;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				position: absolute;
+				top: 0;
+				right: 0;
+			}
+			
+			.banner-share img{
+				width: 0.5rem;
+				height: 0.5rem;
+			}
+			
+			.banner-item{
+				width: 100%;
+				height: 100%;
+				position: relative;
+			}
+			
+			.banner-item img{
+				width: 100%;
+				height: 100%;
+			}
+			
+			.banner-item .vr-logo{
+				width: 0.8rem;
+				height: 0.8rem;
+				position: absolute;
+				left: 50%;
+				top: 50%;
+				transform: translate(-50%,-50%);
+			}
+			
+			.banner-swipe{
+				width: 100%;
+				height: 100%;
+			}
+			
+			.banner-swipe-point{
+				position: absolute;
+				bottom: 0.3rem;
+				right: 0.2rem;
+				letter-spacing: 2px;
+			}
+			
+			.vr{
+				width: 100%;
+				box-sizing: border-box;
+				padding: 0.2rem 0.32rem;
+			}
+			
+			.vr-wrap{
+				width: 100%;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				padding-bottom: 0.2rem;
+				border-bottom: 0.01rem solid rgba(240, 240, 240, 1);
+			}
+			
+			.vr-title{
+				font-size: 0.26rem;
+				font-weight: bold;
+			}
+			
+			.vr-title span:first-child{
+				font-size: 0.3rem;
+			}
+			
+			.vr-title span{
+				margin-right: 0.05rem;
+			}
+			
+			.vr-btn .van-button{
+				width: 1.5rem;
+				height: 0.6rem;
+				padding: 0;
+				font-size: 0.26rem;
+				border-radius: 0.02rem;
+			}
+			
+			/* info */
+			.info{
+				width: 100%;
+				box-sizing: border-box;
+				padding: 0.2rem 0.32rem;
+			}
+			
+			.info-item{
+				font-size: 0.3rem;
+				color: rgba(117, 117, 117, 1);
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+			}
+			
+			.info-title-wrap{
+				margin-bottom: 0.24rem;
+			}
+			
+			.info-item,
+			.info-price-wrap{
+				margin-bottom: 0.15rem;
+			}
+			
+			.info-remark{
+				margin-bottom: 0.2rem;
+			}
+			
+			.info-area-wrap{
+				margin-bottom: 0.3rem;
+			}
+			
+			.info-title{
+				font-size: 0.4rem;
+				color: rgba(33, 33, 33, 1);
+				font-weight: bold;
+			}
+			
+			.info-count .iconfont{
+				font-size: 0.28rem;
+				margin-left: 0.1rem;
+			}
+			
+			.info-price span{
+				color: rgba(252, 77, 57, 1);
+			}
+			
+			.info-detile{
+				width: 36%;
+			}
+			
+			.info-detile span{
+				color: rgba(33, 33, 33, 1);
+			}
+			
+			.info-site{
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+			}
+			
+			.info-site span{
+				color: rgba(134, 186, 122, 1);
+			}
+			
+			.info-site-wrap .iconfont{
+				color: rgba(117, 117, 117, 1);
+				font-size: 0.4rem;
+			}
+			
+			.info-btn{
+				margin: 0.4rem 0 0.1rem;
+			}
+			
+			.info-btn .van-button{
+				width: 100%;
+				height: 0.8rem;
+				font-size: 0.32rem;
+				color: rgba(134, 186, 122, 1) !important;
+			}
+			
+			/* cut-line */
+			.cut-line{
+				width: 100%;
+				height: 0.2rem;
+				background-color: rgba(250, 250, 250, 1);
+			}
+			
+			/* nav */
+			.nav{
+				padding-bottom: 2rem;
+			}
+			
+			.nav .van-tabs__wrap{
+				height: 0.78rem;
+				border-bottom: 0.01rem solid rgba(240, 240, 240, 1);
+			}
+			
+			.nav .van-tab{
+				font-size: 0.26rem;
+				font-weight: 600;
+			}
+			
+			.nav .van-tab--active{
+				color: rgba(254, 130, 30, 1);
+			}
+			
+			.nav .van-tabs__line{
+				width: 0.3rem;
+			}
+			
+			.nav-item{
+				padding: 0.28rem 0.32rem;
+				box-sizing: border-box;
+			}
+			
+			.nav-item-new{
+				padding: 0.28rem 0;
+				box-sizing: border-box;
+			}
+			
+			.nav-item-new .nav-title{
+				padding: 0 0.32rem;
+				box-sizing: border-box;
+			}
+			
+			.nav-title{
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+			}
+			
+			.nav-title span{
+				font-size: 0.34rem;
+				font-weight: bold;
+			}
+			
+			.nav-title div{
+				font-size: 0.24rem;
+				color: rgba(117, 117, 117, 1);
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+			}
+			
+			.nav-title .iconfont{
+				height: 100%;
+				font-size: 0.24rem;
+				font-weight: 400;
+				margin: 0.04rem 0 0 0.06rem;
+			}
+			
+			.nav-sale{
+				width: 100%;
+				height: 2.1rem;
+				background-size: contain;
+				margin-top: 0.24rem;
+				box-sizing: border-box;
+				padding: 0.24rem 0.3rem 0.15rem;
+				position: relative;
+				z-index: 2;
+			}
+			
+			.nav-sale-info{
+				width: 100%;
+				font-size: 0.26rem;
+				background-color: rgba(246, 246, 246, 1);
+				min-height: 0.6rem;
+				box-sizing: border-box;
+				padding: 0.2rem 0.3rem;
+				position: relative;
+				box-sizing: border-box;
+				border-width: 0 0.01rem 0.01rem 0.01rem;
+				border-style: dashed;
+				border-color: pink;
+			}
+			
+			.nav-sale-top{
+				width: 100%;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+			}
+			
+			.nav-sale-box{
+				margin-bottom: 0.33rem;
+			}
+			
+			.nav-sale-title{
+				font-size: 0.26rem;
+				display: flex;
+				align-items: center;
+				margin-bottom: 0.16rem;
+				font-weight: bold;
+			}
+			
+			.nav-sale-title .iconfont{
+				font-size: 0.38rem;
+				color: rgba(252, 77, 57, 1);
+				margin-right: 0.14rem;
+				font-weight: 400;
+			}
+			
+			.nav-sale-name{
+				font-size: 0.34rem;
+				font-weight: bold;
+			}
+			
+			.nav-sale-num{
+				color: rgba(252, 77, 57, 1);
+				font-size: 0.6rem;
+				font-weight: bold;
+			}
+			
+			.nav-sale-num span{
+				font-size: 0.26rem;
+				font-weight: 400;
+			}
+			
+			.nav-sale-bottom{
+				font-size: 0.26rem;
+				color: rgba(173, 173, 173, 1);
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+			}
+			
+			.nav-sale-bottom .iconfont{
+				font-size: 0.4rem;
+				transition: .3s;
+			}
+			
+			.nav-apply{
+				width: 100%;
+				height: 1.78rem;
+				box-sizing: border-box;
+				padding: 0.24rem 0.3rem 0.15rem;
+				margin-top: 0.24rem;
+				background-color: rgba(255, 249, 242, 1);
+			}
+			
+			.nav-apply-title{
+				font-size: 0.26rem;
+				font-weight: bold;
+			}
+			
+			.nav-apply-box{
+				display: flex;
+				justify-content: space-between;
+				align-items: flex-end;
+			}
+			
+			.nav-apply-tip{
+				font-size: 0.26rem;
+				color: rgba(173, 173, 173, 1);
+				margin: 0.16rem 0;
+			}
+			
+			.nav-apply-box{
+				font-size: 0.22rem;
+				color: rgba(173, 173, 173, 1);
+			}
+			
+			.nav-apply-day{
+				color: rgba(252, 77, 57, 1);
+				margin-right: 0.2rem;
+			}
+			
+			.nav-apply-btn{
+				padding-bottom: .1rem;
+			}
+			
+			.nav-apply-btn .van-button{
+				width: 1.49rem;
+				height: 0.54rem;
+				padding: 0;
+				font-size: 0.26rem;
+				color: #fff;
+			}
+			
+			.nav-house{
+				margin: 0.3rem 0 0;
+				display: flex;
+				overflow-y: scroll;
+				-webkit-overflow-scrolling: touch;
+			}
+			
+			.nav-house-wrap,
+			.nav-house-box{
+				width: 3.08rem;
+			}
+			
+			.nav-house-box img{
+				width: 100%;
+				height: 3.08rem;
+				box-sizing: border-box;
+				border: 0.01rem solid rgba(230, 230, 230, 1);
+			}
+			
+			.nav-house-title{
+				font-size: 0.3rem;
+				margin: 0.15rem 0 0.1rem;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+			}
+			
+			.nav-house-title .van-tag{
+				font-size: 0.22rem;
+				color: rgba(117, 117, 117, 1);
+				display: flex;
+				align-items: center;
+			}
+			
+			.nav-house-info{
+				font-size: 0.24rem;
+				color: rgba(117, 117, 117, 1);
+				margin-bottom: 0.08rem;
+			}
+			
+			.nav-house-price{
+				font-size: 0.32rem;
+				color: rgba(252, 77, 57, 1);
+			}
+			
+			.nav-house-wrap{
+				margin-left: 0.34rem;
+			}
+			
+			.nav-house-wrap:last-child .nav-house-box{
+				padding-right: 0.34rem;
+			}
+			
+			#myChart{
+				width: 100%;
+				height: 4rem;
+			}
+			
+			.margin-top-28{
+				padding-top: 0.28rem;
+			}
+			
+			.nav-item-new .template2{
+				margin-bottom: 0;
+			}
+			
+			/* 用户点评 */
+			.nav-comment-btn .van-button,
+			.nav-Sandboxie .van-button{
+				width: 100%;
+				height: 0.8rem;
+				font-size: 0.32rem;
+				color: rgba(134, 186, 122, 1) !important;
+				margin-top: 0.4rem;
+			}
+			
+			/* nav-沙盘 */
+			.nav-Sandboxie{
+				margin: 0.28rem 0 0.34rem;
+				display: flex;
+				flex-direction: column;
+			}
+			
+			.nav-Sandboxie img{
+				width: 6.83rem;
+				height: 3.8rem;
+			}
+			
+			/* 底部栏 */
+			.bottom-tabber{
+				width: 100%;
+				height: 0.98rem;
+				display: flex;
+				position: fixed;
+				bottom: 0;
+				z-index: 3;
+				background-color: #fff;
+				box-shadow: 0 -0.02rem 0.1rem 0 rgba(0, 0, 0, 0.1);
+			}
+			
+			.bottom-tabber-item{
+				flex: 1;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+			
+			.bottom-tabber-item img{
+				width: 0.32rem;
+				height: 0.32rem;
+			}
+			
+			.bottom-tabber-icon{
+				width: 40%;
+				height: 100%;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+			}
+			
+			.bottom-tabber-icon .icon-text{
+				font-size: 0.26rem;
+				margin-top: 0.06rem;
+			}
+			
+			.bottom-tabber-item .van-button{
+				width: 100%;
+				height: 100%;
+				font-size: 0.3rem;
+				box-sizing: border-box;
+				border-radius: 0;
+			}
+			
+			.contact .van-popup--bottom.van-popup--round{
+				border-radius: .3rem .3rem 0 0;
+			}
+			
+			.contact .van-popup{
+				min-height: 6.73rem;
+			}
+			
+			.contact-box{
+				width: 100%;
+				box-sizing: border-box;
+				padding: 0.34rem 0.32rem 0;
+			}
+			
+			.contact-title{
+				font-size: 0.34rem;
+				font-weight: 600;
+				margin-bottom: 0.24rem;
+			}
+			
+			.contact-tip{
+				color: rgba(117, 117, 117, 1);
+				font-size: 0.26rem;
+				margin-bottom: 0.4rem;
+			}
+			
+			.contact-tip .iconfont{
+				font-size: 0.24rem
+			}
+			
+			.contact-wrap{
+				max-height: 7rem;
+				overflow-y: scroll;
+				-webkit-overflow-scrolling: touch;
+			}
+			
+			.contact-people{
+				width: 100%;
+				height: 1.3rem;
+				background: #F4FBFF;
+				border-radius: 0.04rem;
+				margin-bottom: 0.28rem;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				box-sizing: border-box;
+				padding: 0.2rem 0.26rem;
+			}
+			
+			.contact-people:last-child{
+				margin-bottom: 0.4rem;
+			}
+			
+			.contact-left,
+			.contact-right{
+				display: flex;
+				align-items: center;
+			}
+			
+			.contact-left img{
+				width: 0.9rem;
+				height: 0.9rem;
+				border-radius: 50%;
+				margin-right: .14rem;
+			}
+			
+			.contact-left-info{
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+			}
+			
+			.contact-left-info span:first-child{
+				font-size: 0.3rem;
+				font-weight: bold;
+				margin-bottom: .1rem;
+			}
+			
+			.contact-btn{
+				width: 0.7rem;
+				height: 0.7rem;
+				border-radius: 50%;
+				background-color: #fff;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				margin-right: .4rem;
+			}
+			
+			.contact-btn img{
+				width: .43rem;
+				height: .43rem;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<div id="app" v-cloak ref="DOM">
+			<!-- 封面 -->
+			<houses-surface :show="visible" :list="surfaceList" @hide="visible = false"></houses-surface>
+			
+			<!-- banner -->
+			<div class="banner-wrap">
+				<div class="banner">
+					<div class="banner-item" v-show="bannerActive == 0">
+						<img v-lazy="bannerList[0].list[0]">
+						
+						<img src="../../static/houses/vr.png" class="vr-logo">
+					</div>
+					
+					<div class="banner-item" v-show="bannerActive == 1">
+						<img v-lazy="bannerList[1].list[0]">
+					</div>
+					
+					<div class="banner-item" v-show="bannerActive == 2">
+						<van-swipe 
+							class="banner-swipe" 
+							:autoplay="3000" 
+							:show-indicators="false"
+							@change="swipeChange"
+						>
+							<van-swipe-item v-for="(image, index) in bannerList[2].list" :key="index" @click="bannerMore">
+							    <img :src="image"/>
+							</van-swipe-item>
+						</van-swipe>
+						
+						<span class="banner-swipe-point">
+							{{swipeActive}}/{{bannerList[2].list.length}}
+						</span>
+					</div>
+					
+					<!-- 分享 -->
+					<div class="banner-share">
+						<img src="../../static/houses/share.png">
+					</div>
+					<!-- 指示器 -->
+					<div class="banner-type">
+						<div v-for="(itme,index) in bannerList" :key="index" @click="bannerChange(index)">
+							<span :class="[ bannerActive == index ? 'bg-active' : '' ]">
+								{{ itme.name }}
+							</span>
+						</div>
+					</div>
+				</div>
+				<div class="vr">
+					<div class="vr-wrap">
+						<span class="vr-title">
+							<span>VR带看</span>
+							<span>足不出户</span>
+							<span>专人带看</span>
+						</span>
+						<div class="vr-btn">
+							<van-button color="rgba(254, 130, 30, 1)" @click="vrVisit">在线带看</van-button>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<!-- info -->
+			<div class="info">
+				<div class="info-item info-title-wrap">
+					<span class="info-title">
+						{{ infoList.name }}
+					</span>
+					<span class="info-count" @click="loanCalc">
+						房贷计算器<span class="iconfont iconjisuanqi"></span>
+					</span>
+				</div>
+				<div class="info-item info-price-wrap">
+					<div class="info-price">均价：<span>{{ infoList.price }}元/平</span></div>
+				</div>
+				<div class="info-remark">
+					<van-tag type="primary" size="medium" color="rgba(246, 246, 246, 1)" text-color="rgba(173, 173, 173, 1)">{{ infoList.remark }}</van-tag>
+				</div>
+				<div class="info-item">
+					<div class="info-detile">
+						开盘：<span>{{ infoList.buyTime }}</span>
+					</div>
+					<div class="info-detile">
+						用途：<span>{{ infoList.use }}</span>
+					</div>
+				</div>
+				<div class="info-item info-area-wrap">
+					<div class="info-detile">
+						户型：<span>{{ infoList.houseType.min }}/{{ infoList.houseType.max }}居</span>
+					</div>
+					<div class="info-detile">
+						建面：<span>{{ infoList.area.min }}-{{ infoList.area.max }}m²</span>
+					</div>
+				</div>
+				<div class="info-item info-site-wrap">
+					<span class="info-site van-ellipsis">楼盘地址：<span class="van-ellipsis">{{ infoList.site }}</span></span><span class="iconfont iconjiantou1-copy"></span>
+				</div>
+				<div class="info-btn">
+					<van-button type="default" color="rgba(246, 246, 246, 1)" @click="moreInfo">更多房源信息</van-button>
+				</div>
+			</div>
+			
+			<!-- cut-line -->
+			<div class="cut-line"></div>
+			
+			<!-- nav -->
+			<div class="nav">
+				<van-tabs v-model="active" scrollspy sticky>
+					<van-tab v-for="(item,index) in navList" :title="item.name" :key="index">
+						<div :class="[ (item.id == 1 || item.id == 6 || item.id == 9 ) ? 'nav-item-new' : 'nav-item' ]">
+							
+							<div class="nav-title">
+								<span>{{item.title}}</span>
+								<div 
+									v-if="item.id == 1 || item.id == 4 || item.id == 5 || item.id == 7 || item.id == 8"
+									@click="lookMore(item.id)"
+								>
+									{{ item.id == 1 ? '全部户型' : '查看全部' }}
+									<div class="iconfont iconjiantou1-copy"></div>
+								</div>
+							</div>
+							
+							<template v-if="item.id == 0">
+								<template v-for="(sale,key) in item.sale" >
+									
+									<div
+										class="nav-sale" 
+										:key="key"
+										:style="{backgroundImage: 'url(../../static/houses/sale.png)'}"
+										@click="showSale(key)"
+									>
+										<div class="nav-sale-top">
+											<div class="nav-sale-box">
+												<div class="nav-sale-title">
+													<span class="iconfont iconyhui"></span>
+													{{ item.title }}
+												</div>
+												<div class="nav-sale-name">
+													{{ sale.name }}
+												</div>
+											</div>
+											<div class="nav-sale-num">
+												{{ sale.sale }}
+												<span>折</span>
+											</div>
+										</div>
+										<div class="nav-sale-bottom">
+											<span>使用时间：{{ sale.time.min }}-{{ sale.time.max }}</span>
+											<span 
+												class="iconfont iconjiantou1" 
+												:style="{transform: 'rotate('+ (saleShow[key] ? 180 : 0) +'deg)'}"
+											>
+											</span>
+										</div>
+									</div>
+									<transition name="van-slide-down">
+										<div class="nav-sale-info" v-show="saleShow[key] && saleShow[key] == true">
+											<span>{{ sale.explain }}</span>
+										</div>
+									</transition>
+								</template>
+								<div class="nav-apply">
+									<div class="nav-apply-title van-ellipsis">
+										{{ item.apply.title }}
+									</div>
+									<div class="nav-apply-box">
+										<div class="nav-apply-left">
+											<span class="nav-apply-tip">
+												{{ item.apply.tip }}
+											</span>
+											<div>
+												<span class="nav-apply-day">
+													距离结束剩余{{ item.apply.day }}天
+												</span>
+												<span class="nav-apply-people">
+													{{ item.apply.people }}人已报名
+												</span>
+											</div>
+										</div>
+										<div class="nav-apply-btn">
+											<van-button 
+												type="default" 
+												round 
+												color="linear-gradient(90deg, #FFA640 0%, #FE8D35 100%)"
+											>
+												立即报名
+											</van-button>
+										</div>
+									</div>
+								</div>
+
+								
+							</template>
+							<template v-else-if="item.id == 1">
+								
+								<div class="nav-house">
+									<div class="nav-house-wrap" v-for="(house,key) in item.list" :key="key">
+										<div class="nav-house-box">
+											<img v-lazy="house.img">
+											<div class="nav-house-title">
+												{{ house.title }}
+												<van-tag color="rgba(246, 247, 248, 1)">{{ house.tip }}</van-tag>
+											</div>
+											<div class="nav-house-info">
+												建面{{ house.area }}m² 朝向{{ house.direction }}
+											</div>
+											<div class="nav-house-price">
+												约{{ house.price }}万/套
+											</div>
+										</div>
+									</div>
+								</div>
+								
+							</template>
+							<template v-else-if="item.id == 2">
+								
+								<canvas id="myChart"></canvas>
+								
+							</template>
+							<template v-else-if="item.id == 3">
+								
+							</template>
+							<template v-else-if="item.id == 4 || item.id == 5">
+								
+								<houses-hot-news :list="item.list" :show-num="3"></houses-hot-news>
+								<!-- <template v-for="(news,key) in item.list">
+									<div class="nav-news" :key="key" v-if="key < 3">
+										<div class="nav-news-top van-multi-ellipsis--l2">
+											<van-tag 
+												:color="news.tip == '测评' ? 'rgba(134, 186, 122, 1)' : 'rgba(55, 141, 219, 1)'" plain
+											>
+												{{ news.tip }}
+											</van-tag>
+											{{ news.title }}
+										</div>
+										
+										<template v-if="news.type == 0">
+											<div class="nav-news-bottom" v-if="news.img.length > 0">
+												<template  v-for="(img,num) in news.img" >
+													<img :src="img" :key="num" v-if="num < 3">
+												</template>
+												<van-tag color="rgba(0, 0, 0, .6)" v-if="news.img.length > 3">共{{ news.img.length }}张</van-tag>
+											</div>
+										</template>
+										<template v-else>
+											<div class="nav-news-bottom" v-if="news.video.length > 0">
+												<template  v-for="(video,num) in news.video" >
+													<div class="nav-news-video" :key="num" v-if="num < 2">
+														视频预留位
+													</div>
+												</template>
+											</div>
+										</template>
+									</div>
+								</template> -->
+								
+								
+							</template>
+							<template v-else-if="item.id == 6">
+								<span class="margin-top-28"></span>
+								<common-template :list="item.list" :title-show="false"></common-template>
+							</template>
+							<template v-else-if="item.id == 7">
+								
+								<houses-comment :list="item.list" :show-all="false"></houses-comment>
+								
+								<div class="nav-comment-btn">
+									<van-button type="default" color="rgba(246, 246, 246, 1)" url="./send_comment.html">我要点评</van-button>
+								</div>
+							</template>
+							<template v-else-if="item.id == 8">
+								<div class="nav-Sandboxie">
+									<img :src="item.list.img">
+									<van-button type="default" color="rgba(246, 246, 246, 1)">查看{{ navList[7].list.num }}个房源价格</van-button>
+								</div>
+							</template>
+							<template v-else-if="item.id == 9">
+								<common-template :list="item.list" ></common-template>
+							</template>
+							
+						</div>
+						<div class="cut-line"></div>
+					</van-tab>
+				</van-tabs>
+			</div>
+			
+			<!-- 底部栏 -->
+			<div class="bottom-tabber">
+				<div class="bottom-tabber-item">
+					<div class="bottom-tabber-icon">
+						<span class="iconfont iconguanzhu"></span>
+						<span class="icon-text">关注</span>
+					</div>
+					<div class="bottom-tabber-icon">
+						<img src="../../static/houses/tip.png">
+						<span class="icon-text">通知</span>
+					</div>
+				</div>
+				<div class="bottom-tabber-item">
+					<van-button type="default" color="linear-gradient(90deg, #B7C881 0%, #87B673 100%)">周边配套</van-button>
+				</div>
+				<div class="bottom-tabber-item">
+					<van-button type="default" color="linear-gradient(90deg, #FFA640 0%, #FE8D35 100%)" @click="contactShow = true">联系淘房师</van-button>
+				</div>
+			</div>
+			<div class="contact">
+				<van-popup 
+					v-model="contactShow" 
+					round 
+					position="bottom" 
+					closeable 
+				>
+					<div class="contact-box">
+						
+						<div class="contact-title">
+							职业淘房师({{ contactList.length }})
+						</div>
+						
+						<div class="contact-tip">
+							<span><i class="iconfont iconxuanzhong"></i>案场专职</span>
+							<span><i class="iconfont iconxuanzhong"></i>楼盘导购</span>
+							<span><i class="iconfont iconxuanzhong"></i>户型解读</span>
+							<span><i class="iconfont iconxuanzhong"></i>政策讲解</span>
+						</div>
+						
+						<div class="contact-wrap">
+							<div class="contact-people" v-for="(item,index) in contactList" :key="index">
+								<div class="contact-left">
+									<img :src="item.head">
+									<div class="contact-left-info">
+										<span>{{ item.name }}</span>
+										<van-tag 
+											type="primary" 
+											size="medium"
+											color="rgba(255, 237, 222, 1)"
+											text-color="rgba(244, 123, 26, 1)"
+										>
+											{{ item.state }}
+										</van-tag>
+									</div>
+								</div>
+								<div class="contact-right">
+									<div class="contact-btn">
+										<img src="../../static/houses/msg.png">	
+									</div>
+									<a :href="'tel:'+ item.phone" class="contact-btn">
+										<img src="../../static/houses/phone.png">	
+									</a>
+								</div>
+							</div>
+						</div>
+						
+					</div>
+				</van-popup >
+			</div>
+		</div>
+	</body>
+</html>
+
+<script src="../../common/js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/rem.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/public.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/antv.f2.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/vant/index.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+<script>
+	const myComponents = [
+		'../../components/common/template/index',
+		'../../components/houses/surface/index',
+		'../../components/houses/template_comment/index',
+		'../../components/houses/template_hot_news/index',
+	];
+	
+	$api.addComponents(myComponents)
+		.then(()=>{
+			
+			Vue.use(vant.Lazyload);
+			 
+			
+			const app = new Vue({
+				el: '#app',
+				data: {
+					// 封面
+					visible: false,
+					surfaceList: {
+						bg: '../../static/houses/bg2.png',
+						logo: '../../static/logo.png',
+						title: '保利天汇',
+						tip: ['在售','住宅','市区','烂尾楼'],
+						price: 25000,
+						site: '同安-同安老城 环城南路与同济路交汇处103号',
+						time: '2019-12-28',
+						phone: '400-602-1579'
+					},
+					
+					// banner
+					justClick: true,
+					bannerActive: 2,
+					swipeActive: 1,
+					bannerList: [
+						{
+							name: 'VR',
+							list: ['../../static/houses/banner2.png']
+						},
+						{
+							name: '视频',
+							list: ['../../static/houses/banner1.png']
+						},
+						{
+							name: '图片',
+							list: [
+								'../../static/houses/banner2.png',
+								'../../static/houses/banner1.png',
+								'../../static/houses/banner2.png',
+								'../../static/houses/banner1.png',
+								'../../static/houses/banner2.png',
+								'../../static/houses/banner1.png',
+								'../../static/houses/banner2.png',
+								'../../static/houses/banner1.png',
+								'../../static/houses/banner2.png',
+								'../../static/houses/banner1.png'
+							]
+						}
+					],
+					
+					// info
+					infoList: {
+						name: '世贸湖边首府',
+						price: 45000,
+						remark: '别墅587万起，平层41000元/平起',
+						buyTime: '2020.04.12',
+						use: '普通住宅',
+						houseType: {
+							min: '5',
+							max: '7'
+						},
+						area: {
+							min: 78,
+							max: 127
+						},
+						site: '福建省厦门市湖里区观日西二里1-27号福建省厦门市湖里区观日西二里1-27号'
+					},
+					
+					// nav
+					active: 0,
+					navList: [
+						{
+							id: 0,
+							name: '优惠',
+							title: '优惠信息',
+							sale: [
+								{
+									name: '世贸湖边首府',
+									time: {
+										min: '2020.10.10',
+										max: '2020.12.30'
+									},
+									sale: '9.5',
+									explain: '阿萨德卡还是大家爱神的箭哈三等哈'
+								},
+								{
+									name: '世贸湖边首府',
+									time: {
+										min: '2020.10.8',
+										max: '2020.10.9'
+									},
+									sale: '8.5',
+									explain: '阿萨德卡还是大家爱神的箭哈三等奖哈师大哈萨啊啊啊克打哈萨克的哈阿萨德卡还是大家爱神的箭哈三等奖哈师大哈萨啊啊啊克打哈萨克的哈'
+								}
+							],
+							apply: {
+								title: '总价430万起买世贸大三房带精装修读一中集美校区',
+								tip: '89平大三房复式阁楼',
+								day: '21',
+								people: '34'
+							}
+						},
+						{
+							id: 1,
+							name: '户型',
+							title: '户型介绍',
+							list: [
+								{
+									img: '../../static/logo.png',
+									title: '3室2厅2卫',
+									tip: '住宅',
+									area: '120',
+									direction: '北',
+									price: 499
+								},
+								{
+									img: '../../static/logo.png',
+									title: '3室1厅1卫1厨',
+									tip: '住宅',
+									area: '130',
+									direction: '东北',
+									price: 520
+								},
+								{
+									img: '../../static/logo.png',
+									title: '3室1厅1卫1厨',
+									tip: '住宅',
+									area: '98',
+									direction: '西南',
+									price: 470
+								},
+								{
+									img: '../../static/logo.png',
+									title: '3室2厅2卫',
+									tip: '住宅',
+									area: '120',
+									direction: '北',
+									price: 499
+								},
+								{
+									img: '../../static/logo.png',
+									title: '3室1厅1卫1厨',
+									tip: '住宅',
+									area: '130',
+									direction: '东北',
+									price: 520
+								}
+							]
+						},
+						{
+							id: 2,
+							name: '价格走势',
+							title: '价格走势',
+							list: [
+								{
+								  month: '4月',
+								  value: 5.5,
+								  type: '本楼盘房价'
+								}, {
+								  month: '5月',
+								  value: 5.6,
+								  type: '本楼盘房价'
+								}, {
+								  month: '6月',
+								  value: 5.7,
+								  type: '本楼盘房价'
+								}, {
+								  month: '7月',
+								  value: 5.1,
+								  type: '本楼盘房价'
+								}, {
+								  month: '8月',
+								  value: 5.3,
+								  type: '本楼盘房价'
+								}, {
+								  month: '9月',
+								  value: 5.6,
+								  type: '本楼盘房价'
+								},
+								// ----
+								{
+								  month: '4月',
+								  value: 4.5,
+								  type: '滨海房价'
+								}, {
+								  month: '5月',
+								  value: 4.6,
+								  type: '滨海房价'
+								}, {
+								  month: '6月',
+								  value: 4.7,
+								  type: '滨海房价'
+								}, {
+								  month: '7月',
+								  value: 4.1,
+								  type: '滨海房价'
+								}, {
+								  month: '8月',
+								  value: 4.3,
+								  type: '滨海房价'
+								}, {
+								  month: '9月',
+								  value: 4.6,
+								  type: '滨海房价'
+								},
+							],
+							chartY: [3,4,5,6,7]
+						},
+						{
+							id: 3,
+							name: '周边',
+							title: '位置周边',
+							list: []
+						},
+						{
+							id: 4,
+							name: '资讯',
+							title: '房源实时资讯',
+							list: [
+								{
+									type: 0,
+									tip: '资讯',
+									title: ' 89平的三室小复式样板房将于2020-10-12日开放，欢 迎各位参观，本套式是小区很好的户型，全局透亮。',
+									img: ['../../static/logo.png']
+								},
+								{
+									type: 0,
+									tip: '资讯',
+									title: ' 89平的三室小复式样板房将于2020-10-12日开放，欢 迎各位参观，本套式是小区很好的户型，全局透亮。',
+									img: []
+								},
+								{
+									type: 0,
+									tip: '资讯',
+									title: ' 89平的三室小复式样板房将于2020-10-12日开开放，欢 迎各位参观，本套式是小区很好的户型，全局透亮。观，本套式是小区很好的户型，全局透亮',
+									img: ['../../static/logo.png','../../static/logo.png','../../static/logo.png','../../static/logo.png']
+								},
+								{
+									type: 0,
+									tip: '资讯',
+									title: ' 89平的三室小复式样板房将于2020-10-12日开放，欢 迎各位参观，本套式是小区很好的户型，全局透亮。',
+									img: []
+								},
+								{
+									type: 0,
+									tip: '资讯',
+									title: ' 89平的三室小复式样板房将于2020-10-12日开开放，欢 迎各位参观，本套式是小区很好的户型，全局透亮。观，本套式是小区很好的户型，全局透亮',
+									img: ['../../static/logo.png','../../static/logo.png','../../static/logo.png','../../static/logo.png']
+								}
+							]
+						},
+						{
+							id: 5,
+							name: '测评',
+							title: '房源实时测评',
+							list: [
+								{
+									type: 1,
+									tip: '测评',
+									title: ' 89平的三室小复式样板房将于2020-10-12日开放，欢 迎各位参观，本套式是小区很好的户型，全局透亮。',
+									img: ['../../static/logo.png']
+								},
+								{
+									type: 1,
+									tip: '测评',
+									title: ' 89平的三室小复式样板房将于2020-10-12日开开放，欢 迎各位参观，本套式是小区很好的户型，全局透亮。观，本套式是小区很好的户型，全局透亮',
+									img: ['../../static/logo.png','../../static/logo.png','../../static/logo.png','../../static/logo.png']
+								},
+								{
+									type: 1,
+									tip: '测评',
+									title: ' 89平的三室小复式样板房将于2020-10-12日开-12日开放，欢 迎各位参观，本套式是小区很好的户型，全局透亮。观，本套式是小区很好的户型，全局透亮',
+									video: [{},{}]
+								},
+							]
+						},
+						{
+							id: 6,
+							name: '视频',
+							title: '视频展示',
+							list: [
+								{
+									id: 1,
+									type: 6,
+									list: [
+										{
+											title: '89平三房小复式',
+											tip: '户型鉴赏',
+											view: 235,
+											url: 'static/logo.png'
+										},
+										{
+											title: '世贸湖边首府',
+											tip: '小区Vlog',
+											view: 1098,
+											url: 'static/logo.png'
+										},
+										{
+											title: '89平三房小复式',
+											tip: '新盘速递',
+											view: 235,
+											url: 'static/logo.png'
+										},
+										{
+											title: '世贸湖边首府',
+											tip: '小区Vlog',
+											view: 1098,
+											url: 'static/logo.png'
+										}
+									]
+								}
+							]
+						},
+						{
+							id: 7,
+							name: '点评',
+							title: '用户点评',
+							// type: 0-所有 1-有图，2-实看
+							list: [
+								{
+									type: [0],
+									head: '../../static/logo.png',
+									name: '海的声音',
+									say: '去看了样板房，89平的4房户型很好，简直了！',
+									img: [],
+									time: '2020年8月12日'
+								},
+								{
+									type: [0,2],
+									head: '../../static/logo.png',
+									name: '海的声音',
+									say: '去看了样板房，89平的4房户型很好，简直了！',
+									img: [],
+									time: '2020年8月12日'
+								},
+								{
+									type: [0,1],
+									head: '../../static/logo.png',
+									name: '马的声音',
+									say: '去看了样板房，89平的4房户型很好，简直了！空间设计的 很合理，nice！',
+									img: ['../../static/logo.png','../../static/logo.png','../../static/logo.png',],
+									time: '2020年8月12日'
+								},
+								{
+									type: [0,1,2],
+									head: '../../static/logo.png',
+									name: '猪的声音',
+									say: '世贸的房子还是可以的，物业是自己家的，品质也不错，世贸的房子还是可以的，物业是自己家的，品质也不错，世贸的房子还是可以的，物业是自己家的，品质也不错',
+									img: ['../../static/logo.png','../../static/logo.png','../../static/logo.png','../../static/logo.png',],
+									time: '2020年8月12日'
+								},
+								{
+									type: [0,1],
+									head: '../../static/logo.png',
+									name: '猪的声音',
+									say: '世贸的房子还是可以的，物业是自己家的，品质也不错，世贸的房子还是可以的，物业是自己家的，品质也不错，世贸的房子还是可以的，物业是自己家的，品质也不错',
+									img: ['../../static/logo.png','../../static/logo.png'],
+									time: '2020年8月12日'
+								}
+							]
+						},
+						{
+							id: 8,
+							name: '沙盘图',
+							title: '沙盘图',
+							list: {
+								img: '../../static/logo.png',
+								num: 10
+							}
+						},
+						{
+							id: 9,
+							name: '猜你喜欢',
+							title: '猜你喜欢',
+							list: [
+								{
+									// 8-新房（数据和类型4-广告楼盘有图 雷同）
+									id: 14,
+									type: 8,
+									info: {
+										name: '世贸湖边首府',
+										tip: ['售完','住宅','热楼盘','装修交付'],
+										price: 34000,
+										site: '湖里 软件园',
+										area: 108,
+										lab: [
+											{ type: 0, name: '入围护理人气楼盘榜', img: '../../static/logo.png', },
+											{ type: 0, name: '享9.5折', img: '../../static/logo.png', },
+											{ type: 0, name: '777', img: '../../static/logo.png', },
+											{ type: 0, name: '888', img: '../../static/logo.png', }
+										]
+									},
+									img:  ['../../static/logo.png','../../static/logo.png','../../static/logo.png',]
+								},
+								{
+									// 8-新房（数据和类型4-广告楼盘有图 雷同）
+									id: 14,
+									type: 8,
+									info: {
+										name: '世贸湖边首府',
+										tip: ['售完','住宅','热楼盘','装修交付'],
+										price: 34000,
+										site: '湖里 软件园',
+										area: 108,
+										lab: [
+											{ type: 0, name: '入围护理人气楼盘榜', img: '../../static/logo.png', },
+											{ type: 0, name: '享9.5折', img: '../../static/logo.png', },
+											{ type: 0, name: '777', img: '../../static/logo.png', },
+											{ type: 0, name: '888', img: '../../static/logo.png', }
+										]
+									},
+									img:  ['../../static/logo.png','../../static/logo.png','../../static/logo.png',]
+								},
+								{
+									// 8-新房（数据和类型4-广告楼盘有图 雷同）
+									id: 14,
+									type: 8,
+									info: {
+										name: '世贸湖边首府',
+										tip: ['售完','住宅','热楼盘','装修交付'],
+										price: 34000,
+										site: '湖里 软件园',
+										area: 108,
+										lab: [
+											{ type: 0, name: '入围护理人气楼盘榜', img: '../../static/logo.png', },
+											{ type: 0, name: '享9.5折', img: '../../static/logo.png', },
+											{ type: 0, name: '777', img: '../../static/logo.png', },
+											{ type: 0, name: '888', img: '../../static/logo.png', }
+										]
+									},
+									img:  ['../../static/logo.png','../../static/logo.png','../../static/logo.png',]
+								},
+							]
+						},
+					],
+					// sale
+					saleShow: {},
+					// 联系淘房师
+					contactShow: false,
+					contactList: [
+						{
+							id: 0,
+							name: '陈佳佳',
+							head: '/9house/static/logo.png',
+							state: '活跃',
+							phone: 15500999909
+						},
+						{
+							id: 0,
+							name: '陈佳佳',
+							head: '/9house/static/logo.png',
+							state: '活跃',
+							phone: 15500999909
+						},
+						{
+							id: 0,
+							name: '陈佳佳',
+							head: '/9house/static/logo.png',
+							state: '活跃',
+							phone: 15500999909
+						},
+						{
+							id: 0,
+							name: '陈佳佳',
+							head: '/9house/static/logo.png',
+							state: '活跃',
+							phone: 15500999909
+						},
+						{
+							id: 0,
+							name: '陈佳佳',
+							head: '/9house/static/logo.png',
+							state: '活跃',
+							phone: 15500999909
+						},
+					]
+				},
+				components: {
+					commonTemplate,
+					housesSurface,
+					housesComment,
+					housesHotNews
+				},
+				created() {
+					// swiper需要时间初始化
+					this.$nextTick(()=>{
+						this.bannerActive = 0;
+					})
+					
+					
+					// this.$nextTick(()=>{
+					// 	this.$refs.DOM.scrollTo(0,3500)
+					// })
+					
+					
+				},
+				mounted() {
+					
+					this.chartCreat();
+				},
+				methods:{
+					// banner
+					bannerChange( num ) {
+						this.bannerActive = num;
+					},
+					swipeChange( num ) {
+						this.swipeActive = num + 1;
+						this.justClick = false;
+					},
+					bannerMore() {
+						if( this.justClick ){
+							$api.goPage('./banner_more.html');
+						} else {
+							this.justClick = true;
+						}
+						
+					},
+					// VR带看
+					vrVisit() {
+						console.log(111)
+					},
+					// 贷款计算器
+					loanCalc() {
+						$api.goPage('./loan.html');
+					},
+					// 更多房源信息
+					moreInfo() {
+						$api.goPage('./info.html');
+					},
+					// nav
+					showSale( key ) {
+						
+						key = String(key);
+						
+						if( Object.keys(this.saleShow).indexOf(key) != -1  ){
+							this.saleShow[key] = !this.saleShow[key];
+						} else {
+							this.$set(this.saleShow, key, true);
+						}
+					},
+					// 查看全部
+					lookMore(id) {
+						console.log(id)
+						
+						switch(id){
+						    case 1 :
+								$api.goPage('./house_type.html');
+								break; 
+							case 4:
+							case 5:
+								$api.goPage(`./hot_news.html?id=${id}`);
+								break; 
+							case 7 :
+							    $api.goPage('./comment.html');
+							    break;   
+							case 8 :
+							    $api.goPage('./sand.html');
+							    break;   
+						}
+					},
+					 
+					// nav-chart
+					chartCreat() {
+						const that = this;
+						const labelStyle = {
+							fontSize: 11,
+							fontWeight: 500,
+						};
+						
+						const chart = new F2.Chart({
+						  id: 'myChart',
+						  appendPadding: [15, 0, 0],
+						  pixelRatio: window.devicePixelRatio
+						});
+						
+						chart.source(that.navList[2].list, {
+						  value: {
+						      tickCount: 10,
+							  ticks: that.navList[2].chartY,
+							  formatter: function formatter(ivalue) {
+							    return ivalue + '万';
+							  }
+						    }
+						});
+						
+						chart.axis('month', {
+						  label: labelStyle
+						}).axis('value', {
+						  label: labelStyle
+						});
+						
+						// 图例
+						chart.legend({
+						  align: 'right',
+						  itemWidth: null,
+						});
+						
+						chart.line()
+							.position('month*value')
+							.color('type', [ 'rgba(254, 130, 30, 1)', 'rgba(173, 173, 173, 1)' ]);
+						
+						chart.render();
+					},
+					
+				},
+			})
+			
+		})
+	
+</script>

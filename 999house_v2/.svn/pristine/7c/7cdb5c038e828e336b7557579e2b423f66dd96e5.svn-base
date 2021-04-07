@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>图片素材</title>
+		<link rel="stylesheet" href="../../common/vant/index.css"/>
+		<link rel="stylesheet" href="../../common/css/public.css?v=1.19"/>
+		<link rel="stylesheet" href="../../static/css/houses/banner_more.css"/>
+	</head>
+	<body>
+		<div id="app" v-cloak>
+			<div v-if="pageShow">
+				<div v-if="list.length">
+					<div class="box" v-for="(item,index) in list" :key="index">
+						<h4>{{ item.name }}</h4>
+						<div class="img-wrap">
+							<!-- vr -->
+							<template v-if="item.type == 0">
+								
+							</template>
+							<!-- 视频 -->
+							<template v-else-if="item.type == 1">
+								
+							</template>
+							<!-- 图片 -->
+							<template v-else-if="item.type == 2">
+								<img :src="$http.testUrl(img)" v-for="(img,key) in item.list" :key="key" @click="$http.showImg(item.list,key)">
+							</template>
+						</div>
+					</div>
+					<div id="container-user-site"></div>
+				</div>
+				<div class="list_null" v-else>
+					<img src="../../static/null.png">
+					<p>暂无数据</p>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
+
+<script src="../../common/js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/rem.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/public.js?v=1.19" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/vant/index.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=53da8183ca23918f2f81c79a5b2ede15&plugin=AMap.Geocoder"></script>
+<script type="module">
+	import { http, loginMixin } from '../../common/js/method/http.js?v=1.19';
+	
+	Vue.use(http);
+	const myComponents = [ ];
+	
+	$api.addComponents(myComponents)
+		.then(()=>{
+			Vue.use(vant.Lazyload);
+
+			//
+			const app = new Vue({
+				el: '#app',
+				data: {
+					pageShow: false,
+					list: [
+						// {
+						// 	type: 0,
+						// 	name: 'VR看房',
+						// 	list: ['/9house/static/logo.png','/9house/static/logo.png']
+						// },
+						// {
+						// 	type: 2,
+						// 	name: '小区配套',
+						// 	list: ['/9house/static/logo.png','/9house/static/logo.png']
+						// },
+						// {
+						// 	type: 1,
+						// 	name: '视频看房',
+						// 	list: ['/9house/static/logo.png','/9house/static/logo.png']
+						// }
+					],
+					category: {
+						1: '效果图',
+						2: '实景图',
+						3: '样板间',
+						4: '区位',
+						5: '小区配套',
+						6: '项目现场',
+						7: '楼栋',
+						8: '预售许可证',
+						9: '视频看房'
+					}
+				},
+				mixins: [loginMixin],
+				components: {
+			
+				},
+				created() {
+					this.getSwiperList();
+				},
+				mounted() {
+					
+				},
+				methods:{
+					// 获取楼盘相册
+					getSwiperList() {
+						const id = this.$api.funcUrlDel().option.id;
+						const data = {
+							estate_id: id,
+						};
+						
+						this.$http.ajax({
+							url: '/index/estates/getBuildingPhotosList',
+							data: data,
+						}).then( res=>{
+							let data = res.data;
+							
+							const newData = [];
+							
+							for( let i in data ){
+								const obj = {};
+								const arr = [];
+								
+								if( i != 9 ){
+									data[i].map( item=>{
+										arr.push(item.cover);
+									})
+									
+									obj.type = 2;
+									obj.name = this.category[i];
+									obj.list = arr;
+									
+									newData.push(obj);
+								} else {
+									// data[i].map( item=>{
+									// 	arr.push({
+									// 		cover: item.cover,
+									// 		video: item.video_url
+									// 	});
+									// })
+									
+									// obj.type = 1;
+									// obj.name = this.category[i];
+									// obj.list = arr;
+									
+									// newData.unshift(obj);
+								}
+							}
+							
+						
+							this.list = newData;
+							///console.log(data);
+							///console.log(newData);
+							this.pageShow = true;
+						}).catch(()=>{
+							this.pageShow = true;
+						})
+					},
+					
+				},
+			})
+			//
+		})
+	 
+
+	
+	
+</script>

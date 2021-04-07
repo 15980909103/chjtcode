@@ -1,0 +1,31 @@
+#my-footer{width: 90vw;height: 8vh;background-color: #FFF;position: fixed;left: 0;bottom: 0;padding: 1vh 5vw;display:flex;align-items:center;}
+#my-footer image{width: 12vw;height: 12vw;border-radius: 6vw;}
+.f-img{width: 12vw;height: 12vw;}
+.f-name{width: 20vw;margin-left: 2vw;}
+.f-name-1{font-size: 4.5vw;font-weight: 600;line-height: 4vh;}
+.f-name-2{font-size: 3.3vw;color: #999;line-height: 4vh;}
+.f-btn1{width: 26vw;line-height:8vh;border-radius:1vw;margin-left: 2vw;background: linear-gradient(45deg,#eb3d00,#eb6100);color: #FFF;text-align: center;font-size: 4vw;}
+.f-btn2{width: 26vw;line-height:8vh;border-radius:1vw;margin-left: 2vw;background: linear-gradient(45deg,#ec0c0e,#eb3d00);color: #FFF;text-align: center;font-size: 4vw;}
+#my-van-tabs{width: 100vw;}
+.van-tabs--line .van-tabs__wrap{height: 7vh !important;}
+.van-tabs--line{padding-top: 7vh !important;}
+.van-tab{line-height: 7vh !important;}
+.van-tab--active{color: #D12527 !important;}
+.van-tabs__wrap{position: fixed !important;}
+.tabs-content{width: 100vw;height: 83vh;}
+.tabs-view1{width: 100vw;height: 5vh;padding: 1vh 0;display: flex;align-items:center;border-bottom: 1px solid #f1f1f1;}
+.tabs-view1 view{font-size: 3.5vw;height: 5vh;line-height: 5vh;padding: 0 5vw;}
+.tabs-view1 view:nth-child(1){color: #D12527;font-weight: 600;border-right: 1px solid #f1f1f1;}
+.tabs-view1 view:nth-child(2),.tabs-view1 view:nth-child(3){color: #999;}
+.tabs-view1 view:nth-child(2) text,.tabs-view1 view:nth-child(3) text{color: #333;}
+.my-scroll{width: 100vw;height: 76vh;}
+.view5-li{width:100vw;height: 12vh;display: flex;padding: 1.5vh 0;border-bottom: 1px solid #eee;}
+.view5-li image{width: 12vh;height: 12vh;}
+.view5-content1{width: 32vw;text-align: center;}
+.view5-content2{width: 68vw;display: flex;flex-direction:column;justify-content:space-between;}
+.view5-col1{display: flex;align-items:center;}
+.view5-row1{font-size: 3.6vw;font-weight: 600;}
+.view5-row2{font-size: 3vw;background-color: #D22527;color: #FFF;padding: 0 1vw;border-radius: .5vw;margin-left: 2.5vw;}
+.view5-row3{font-size: 2.8vw;color: #606060;background-color: #eee;padding: 0 1vw;border-radius: .5vw;margin-left: 2.5vw;}
+.view5-col2{font-size: 3.2vw;color: #999;}
+.view5-col3{font-size: 3.6vw;font-weight:600;color: #D33032;}

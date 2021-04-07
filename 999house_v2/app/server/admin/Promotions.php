@@ -1,0 +1,422 @@
+<?php
+
+
+namespace app\server\admin;
+
+
+use app\admin\controller\EstatesController;
+use app\common\base\ServerBase;
+use app\common\MyConst;
+use app\server\estates\Tag as estatesTag;
+use function Symfony\Component\VarDumper\Dumper\esc;
+
+class Promotions extends ServerBase
+{
+    //优惠活动列表
+
+    public function getPromotionsList($param)
+    {
+        try {
+            $time = time();
+            $where = [
+                ['id', '=', $param['id']]
+            ];
+            $info = $this->db->name('subject')->where($where)
+                ->field('region_no,
+                config,
+                cover_url,context_rule,
+                start_time,end_time,page_title,page_desc,
+                phone as tel,bg_img,
+                vote_id
+                ')->find();
+            if (!$info || empty($info['config'])) {
+                return $this->responseOk([]);
+            }
+            //是否是活动时间内操作
+            if ($info['start_time'] <= time() && $info['end_time'] >= time()) {
+                $type = 1;
+            } else {
+                $type = 2;
+            }
+
+            $config = json_decode($info['config'], true);
+            $config['estates_new'] = doSortArr($config['estates_new'], 'forsort', SORT_DESC);
+            $estatesNewId = array_column($config['estates_new'], 'forid');
+            unset($config['estates_new']);
+
+            $estatesWhere = [
+                ['en.id', 'in', $estatesNewId],
+                ['en.status', '=', 1]
+            ];
+
+            $estates_data = $this->db->name('estates_new')->alias('en')
+                ->leftJoin('estates_has_tag eht', 'en.id=eht.estate_id and eht.type=1')
+                ->join('signup s', 's.forid = en.id')
+                ->where($estatesWhere)->field('
+                en.id,
+                s.id as sid,
+                en.name,
+                en.title,
+                en.price,
+                en.price_str,
+                GROUP_CONCAT(tag_id) as feature_tag,
+                en.sale_status,
+                en.list_cover,
+                en.built_area,
+                en.house_purpose,  
+                en.area,
+                en.area_str,
+                en.business_area_str,
+                en.discount
+                ')->group('en.id')
+                ->select()->toArray();
+
+            //进行排序转换
+            $data = [];
+            $result = [];
+            $estates_data = array_column($estates_data, null, 'id');
+            foreach ($estatesNewId as $item) {
+                if (!empty($estates_data[$item])) {
+                    $data[] = $estates_data[$item];
+                }
+            }
+            unset($estatesNewId, $estates_data);
+
+            foreach ($data as $key => &$value) {
+                $value['site'] = $value['area_str'] . '' . $value['business_area_str'];
+                $value['id'] = $value['sid'];
+                unset($value['sid']);
+                if (empty($value['feature_tag'])) {
+                    $value['feature_tag'] = [];
+                } else {
+                    $value['feature_tag'] = explode(',', $value['feature_tag']);
+                    //取两个
+                    $featureTag = [];
+                    if ($value['feature_tag'][0]) {
+                        array_push($featureTag, $value['feature_tag'][0]);
+                    }
+                    if ($value['feature_tag'][1]) {
+                        array_push($featureTag, $value['feature_tag'][1]);
+                    }
+                    $value['feature_tag'] = $featureTag;
+                }
+
+
+                /**
+                 * 卖点
+                 */
+                $sellingPoint = [];
+                $discount = json_decode($value['discount'], TRUE);
+                if (!empty($discount)) {
+                    foreach ($discount as $dis) {// 找出时间范围内
+                        $startTime = strtotime($dis['start_time']);
+                        $endTime = strtotime($dis['end_time']);
+                        if ($startTime <= $time && $endTime >= $time) {
+                            $sellingPoint[] = ['title' => $dis['title'], 'type' => 'discount','content'=>$dis['content'],'btn'=>$dis['btn']];
+                        }
+                    }
+                }
+                $value['selling_point'] = $sellingPoint;
+
+
+
+                unset($discount, $estates_data);
+                /**获取楼盘标签**/
+
+                /*
+                $saltArray = MyConst::ESTATESNEW_SALE_STATUS;
+                $value['sale'] =$saltArray[$value['sale_status']]; //销售状态
+                $value['flag'] = $this->getFlag($value['feature_tag']); //特色标签
+                unset($business_area_str, $estates_data); //销售状态
+                unset($feature_tag, $estates_data); //特色标签
+*/
+
+
+//                $value['selling_point'] = [['title' => 'ssst', 'type' => 'discount']]; //--假数据
+//                $value['house_purpose'] = '住宅'; //--假数据
+
+                //todo 思明和湖里的数据暂时不要
+                if ($value['area'] == '350203') { //|| $value['area'] == '350206'
+//                    $result['湖里/思明'][] = $value;
+                } else {
+                    $result[$value['area_str']][] = $value;
+                }
+
+            }
+
+            $res = [];
+            foreach ($result as $k => $v) {
+//
+                $res[] = [
+                    'area' => $k,
+                    'list' => $v
+                ];
+            }
+
+            if ($info['region_no'] == '350200') {
+                $res = $res;
+            } else {
+                $res = $data;
+            }
+
+            $res = [
+                'list'         => $res,
+                'share_ico'    => $info['cover_url'],
+                'type'         => $type,
+                'context_rule' => !empty($info['context_rule']) ? htmlspecialchars_decode($info['context_rule']) : '',
+                'share_title'  => $info['page_title'],
+                'share_desc'   => $info['page_desc'],
+                'tel'          => $info['tel'],
+                'bg_img'       => $info['bg_img'],
+                'vote_id'      => $info['vote_id'],
+                'region_no'    => $info['region_no']
+            ];
+
+
+            return $this->responseOk($res);
+        } catch (\Exception $exception) {
+            return $this->responseFail($exception->getMessage());
+        }
+    }
+
+    //活动楼盘标签选择
+     public  function  getFlag($data){
+        $result = [];
+        $res = (new estatesTag())->getTagList();
+        foreach ($data as $v){
+            array_push($result,$res[$v]);
+        }
+        return $result;
+     }
+
+
+
+
+
+
+
+
+    //投票列表
+    public function voteActivityList($param)
+    {
+        try {
+            //获取配置信息
+            $where = [
+                ['id', '=', $param['id']],
+                ['status', '=', 1],
+            ];
+
+            $info = $this->db->name('vote')
+                ->where($where)->field('name,start_time,end_time,cover_url,context_rule,more_set,page_title,page_desc,fontbgcolor,bgcolor')->find();
+            if (empty($info)) {
+                return $this->responseOk([]);
+            }
+            //是否是活动时间内操作
+            if ($info['start_time'] <= time() && $info['end_time'] >= time()) {
+                $can_join = 0;
+            } else {
+                $can_join = 1;
+            }
+
+
+            //判断用户今天还有几次投票的机会
+            $userNumber = !empty($param['user_id']) ? $this->getUserVoteNumber($param['user_id'],$param['id']) : 0;
+            if($userNumber < 0){
+                $userNumber = 0;
+            }
+            $number = json_decode($info['more_set'], true);
+            $whereList = [
+                ['vd.vote_id', '=', $param['id']],
+            ];
+            $data = $this->db->name('vote_detail')->alias('vd')
+                ->Leftjoin('estates_new en', 'en.id = vd.forid')
+                ->where($whereList)
+                ->field('vd.id,vd.vote_num,vd.real_vote_num,vd.forname as name,IF(ISNULL(en.list_cover) || en.list_cover="",vd.img,en.list_cover) as list_cover ')
+                ->order(['vd.forsort' => 'desc','vd.vote_num'=>'desc'])
+                ->select()->toArray();
+//            echo $this->db->getLastSql();
+            foreach ($data as $key => &$value) {
+//                $value['num'] = $value['vote_num'] + $value['real_vote_num'];
+                $value['num'] = $value['vote_num'];
+                unset($value['vote_num'], $value['real_vote_num']);
+            }
+
+            $res = [
+                'can_join'     => $can_join,
+                'list'         => $data,
+                'name'         => $info['name'],
+                'cover_url'    => $info['cover_url'],
+                'end_time'     => $info['end_time'],
+                'share_title'  => $info['page_title'],
+                'share_desc'   => $info['page_desc'],
+                'fontbgcolor'   => $info['fontbgcolor'],
+                'bgcolor'   => $info['bgcolor'],
+                'userNum'      => $number['day_limit'] - $userNumber,
+                'context_rule' => htmlspecialchars_decode($info['context_rule']), //规则
+            ];
+            return $this->responseOk($res);
+        } catch (\Exception $exception) {
+            return $this->responseFail($exception->getMessage());
+        }
+    }
+
+    /**
+     * 详情
+     * @param $param
+     * @return array
+     */
+    public function voteInfo($param)
+    {
+        try {
+            $where = [
+                ['id', '=', $param['vote_detail_id']], //列表的id
+            ];
+            $info = $this->db->name('vote_detail')->where($where)->field('id,vote_id,forname as title,vote_num,real_vote_num,introduction,img,share_desc')->find();
+            if (empty($info['vote_id'])) {
+                return $this->responseOk([]);
+            }
+            $voteInfo = $this->db->name('vote')->where('id', $info['vote_id'])->field('more_set,bgcolor,name,cover_url')->find();
+            if (!$voteInfo || empty($voteInfo['more_set'])) {
+                $info['userNum'] = 0;
+            } else {
+//                var_dump($param['user_id']);
+                $userNumber = $this->getUserVoteNumber($param['user_id'],$info['vote_id']);
+                $number = json_decode($voteInfo['more_set'], true);
+                $info['userNum'] = $number['day_limit'] - $userNumber;
+            }
+            $info['content'] = htmlspecialchars_decode($info['introduction']);
+            $info['vote'] = $info['vote_num'];
+            $info['share_title'] = $voteInfo['name'];
+            $info['share_desc'] = $info['share_desc'];
+            $info['share_ico'] = $info['img'];
+            $info['vote']       = $info['vote_num'];
+            $info['bgcolor']    = $voteInfo['bgcolor'];
+            $info['name']       = $voteInfo['name'];
+            $info['img']        = $voteInfo['cover_url'] ;
+//
+//            var_dump($info['img']);
+//            $info['vote'] = $info['vote_num'] + $info['real_vote_num'];
+            unset($info['vote_num'], $info['real_vote_num'], $info['introduction']);
+            return $this->responseOk($info);
+
+        } catch (\Exception $exception) {
+            return $this->responseFail($exception->getMessage());
+        }
+    }
+
+
+    public function getUserVoteNumber($user_id,$vote_id)
+    {
+        try {
+
+            $start_time = strtotime(date('Y-m-d', time()));
+            $end_time = $start_time + 24 * 60 * 60 - 1;
+            $logWhere = [
+                ['user_id', '=', $user_id],
+                ['create_time', '>=', $start_time],
+                ['create_time', '<=', $end_time],
+                ['vote_id', '<=', $vote_id],
+            ];
+            $userNumber = $this->db->name('vote_log')->where($logWhere)->count('id');
+            return $userNumber;
+        } catch (\Exception $exception) {
+            $this->db->name('log')->insert([
+                'content'    => $exception->getMessage(),
+                'created_at' => time(),
+                'source'     => 'vote',
+                'url'        => 'index/Promotions/getUserVoteNumber'
+            ]);
+            return 0;
+        }
+    }
+
+
+    //房源的详情
+    public function getEstatesNewInfo($params)
+    {
+        try {
+            $time = time();
+            $estates_data = $this->db->name('estates_new')->alias('en')
+                ->leftJoin('estates_has_tag eht', 'en.id=eht.estate_id and eht.type=1')
+                ->join('signup s', 's.forid = en.id')
+                ->where('s.id', $params['id'])->field('
+                en.id,
+                s.id as sid,
+                en.name,
+                en.price_str,
+                en.title,
+                GROUP_CONCAT(tag_id) as feature_tag,
+                en.sale_status,
+                en.list_cover,
+                en.built_area,
+                en.house_purpose,
+                en.area,
+                en.area_str,
+                en.business_area_str,
+                en.discount,
+                en.activity_img,
+                en.activity_type,
+                en.price,
+                s.share_title,
+                s.share_desc,
+                s.share_img
+                ')->find();
+
+            if (empty($estates_data['feature_tag'])) {
+                $estates_data['feature_tag'] = [];
+            } else {
+                $estates_data['feature_tag'] = explode(',', $estates_data['feature_tag']);
+            }
+
+
+            /**
+             * 卖点
+             */
+            $sellingPoint = [];
+            $discount = json_decode($estates_data['discount'], TRUE);
+            if (!empty($discount)) {
+                foreach ($discount as $dis) {// 找出时间范围内
+                    $startTime = strtotime($dis['start_time']);
+                    $endTime = strtotime($dis['end_time']);
+                    if ($startTime <= $time && $endTime >= $time) {
+                        $sellingPoint[] = ['title' => $dis['title'], 'type' => 'discount','content'=>$dis['content'],'btn'=>$dis['btn']];
+                    }
+                }
+            }
+
+
+            $info = $this->db->name('subject')->where('id', $params['active_id'])->field('
+            phone,
+            cover_url,
+            page_title,
+            page_desc
+            ')->find();
+
+
+            $houseInfo = $this->db->name('estates_new_house')->where('estate_id', $estates_data['id'])->field('name')->find();
+
+            if (!$houseInfo) {
+                $estates_data['estate_house_name'] = '';
+            } else {
+                $estates_data['estate_house_name'] = $houseInfo['name'];
+            }
+            if (!$info) {
+                $estates_data['tel'] = '';
+            } else {
+                $estates_data['tel'] = $info['phone'];
+            }
+
+            $estates_data['id'] = $estates_data['sid'];
+            $estates_data['selling_point'] = $sellingPoint;
+            $estates_data['activity_img'] = htmlspecialchars_decode($estates_data['activity_img']);
+            $estates_data['price'] = intval($estates_data['price']);
+            $estates_data['share_title'] = $info['page_title'];
+            $estates_data['share_desc'] = $info['page_desc'];
+            $estates_data['share_ico'] = $info['cover_url'];
+
+            return $this->responseOk($estates_data);
+        } catch (\Exception $exception) {
+            return $this->responseFail($exception->getMessage());
+        }
+    }
+}

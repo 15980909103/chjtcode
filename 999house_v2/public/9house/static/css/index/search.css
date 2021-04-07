@@ -1,0 +1,281 @@
+.van-tabs__wrap{
+	width: 80%;
+	margin: 0.2rem 0 0.2rem 10%;
+}
+
+.van-tab__text{
+	font-weight: bold;
+}
+
+.van-tabs__line{
+	width: 0.24rem;
+	bottom: 20px;
+	font-size: 0.34rem;
+}
+
+.search{
+	box-sizing: border-box;
+	padding-right: 0.16rem;
+}
+
+.van-search__content{
+	height: 0.8rem;
+	display: flex;
+	align-items: center;
+	background: #FFFFFF;
+	box-shadow: 0px 0.03rem 0.2rem 0px #F5F5F5;
+	border-radius: 0.06rem;
+	border: 0.01rem solid #E0E0E0;
+}
+
+.van-icon-search{
+	color: rgba(173, 173, 173, 1);
+}
+
+.van-field__control::-webkit-input-placeholder{
+	color: rgba(173, 173, 173, 1);
+}
+.van-field__control::-moz-placeholder{   /* Mozilla Firefox 19+ */
+	color: rgba(173, 173, 173, 1);
+}
+.van-field__control:-moz-placeholder{    /* Mozilla Firefox 4 to 18 */
+	color: rgba(173, 173, 173, 1);
+}
+.van-field__control:-ms-input-placeholder{  /* Internet Explorer 10-11 */ 
+	color: rgba(173, 173, 173, 1);
+}
+
+.van-search__action{
+	padding-left: 0.32rem;
+	font-size: 0.28rem;
+	color: rgba(117, 117, 117, 1);
+}
+
+.box{
+	box-sizing: border-box;
+	padding: 0 0.32rem 1rem;
+}
+
+.history{
+	height: 1rem;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-size: 0.34rem;
+}
+
+.history .iconfont{
+	width: 0.8rem;
+	height: 1rem;
+	color: rgba(173, 173, 173, 1);
+	font-size: 0.28rem;
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+}
+
+.history-tip{
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	margin-bottom: 0.4rem;
+}
+
+.history-tip span{
+	height: 0.55rem;
+	line-height: 0.55rem;
+	padding: 0 0.15rem;
+	background-color: rgba(247, 247, 247, 1);
+	margin: 0 0.35rem 0.2rem 0;
+	font-size: 0.26rem;
+	border-radius: 0.04rem;
+}
+
+.sort{
+	height: 100%;
+	display: flex;
+	font-size: 0.26rem
+}
+
+.sort span{
+	height: 100%;
+	display: flex;
+	align-items: center;
+	box-sizing: border-box;
+	font-weight: bold;
+}
+
+.sort span:first-child{
+	padding-right: 0.25rem;
+}
+
+.sort span:last-child{
+	padding-left: 0.25rem;
+}
+
+.sort-item{
+	width: 100%;
+	height: 1.4rem;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 0.01rem solid rgba(235, 235, 235, 1);
+}
+
+.sort-left{
+	display: flex;
+	align-items: center;
+}
+
+.sort-left .iconfont{
+	font-size: 0.55rem;
+	color: rgba(189, 189, 189, 1);
+	position: relative;
+	letter-spacing: -2px;
+}
+
+.sort-left .iconfont span{
+	font-size: 0.26rem;
+	font-weight: bold;
+	color: #fff;
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-60%, -60%);
+}
+
+.top-three{
+	color: rgba(252, 77, 57, 1) !important;
+}
+
+.sort-wrap{
+	margin-left: 0.32rem;
+}
+
+.sort-wrap h4{
+	font-size: 0.3rem;
+	margin-bottom: 0.1rem;
+}
+
+.sort-site{
+	color: rgba(117, 117, 117, 1);
+	font-size: 0.26rem;
+	display: flex;
+}
+
+.sort-site span:first-child{
+	padding-right: 0.1rem;
+	position: relative;
+}
+
+.sort-site-area{
+	width: 3.4rem;
+	flex: 1;
+}
+
+.sort-site-line:after{
+	content: '';
+	height: 0.22rem;
+	width: 0.02rem;
+	background-color: rgba(117, 117, 117, 1);
+	position: absolute;
+	right: 0;
+	top: 50%;
+	transform: translate(0,-45%);
+}
+
+.sort-site span:last-child{
+	padding-left: 0.1rem;
+}
+
+.sort-price{
+	font-size: 0.34rem;
+	color: rgba(252, 77, 57, 1);
+	font-weight: bold;
+}
+
+.sort-price span{
+	font-size: 0.24rem;
+}
+
+.more{
+	font-size: 0.26rem;
+	color: rgba(117, 117, 117, 1);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.more .iconfont{
+	font-size: 0.38rem;
+	width: auto;
+	margin-left: 0.1rem;
+	color: rgba(117, 117, 117, 1);
+}
+
+.more2{
+	padding-top: 0.2rem;
+}
+
+.info{
+	width: 100%;
+	padding: 0.15rem 0;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.info-text{
+	display: flex;
+	align-items: center;
+}
+
+.info-sort{
+	width: 0.24rem;
+	height: 0.28rem;
+	font-size: 0.28rem;
+	font-weight: bold;
+	color: rgba(117, 117, 117, 1);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.info-title{
+	width: 4.68rem;
+	margin-left: 0.16rem;
+}
+
+.info-read{
+	color: rgba(173, 173, 173, 1);
+}
+
+.result{
+	padding-bottom: 1rem;
+}
+
+.result-wrap{
+	padding: 0 0.32rem;
+	box-sizing: border-box;
+}
+
+.result-all{
+	height: 0.9rem;
+	font-size: 0.26rem;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border-bottom: 0.01rem solid rgba(235, 235, 235, 1);
+}
+
+.result-text{
+	width: 75%;
+	font-weight: bold;
+}
+
+.result-all div{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	color: rgba(117, 117, 117, 1);
+}

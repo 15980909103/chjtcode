@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>房源推荐</title>
+		<link rel="stylesheet" href="../../common/vant/index.css"/>
+		<link rel="stylesheet" href="../../common/css/public.css?v=1.12"/>
+		<link rel="stylesheet" href="../../static/css/index/find_result.css?v=1.12"/>
+	</head>
+	<body>
+		<div id="app" v-cloak>
+			<top-bar title="房源推荐" ></top-bar>
+			<van-list
+			  v-model="loading"
+			  :finished="finished"
+			  finished-text="没有更多了"
+			  @load="onLoad"
+			>
+				<div class="title-box">
+					<h4 class="title-text">为您智能匹配{{total}}个房源</h4>
+					<div class="title-tip">
+						<!-- <div class="iconfont iconlocation-2" @click="goMap"><span>地图</span></div> -->
+						<div class="iconfont iconxingzhuang" @click='goEdit'><span>修改</span></div>
+					</div>
+				</div>
+				<common-template :list="list.get" @del="(e)=>{ $set(list, 'get', e) }"></common-template>
+			</van-list>
+			<h4 class="title-like">
+				猜你喜欢
+			</h4>
+			<common-template :list="list.recommend" @del="(e)=>{ $set(list, 'recommend', e) }"></common-template>
+			<div id="container-user-site"></div>
+		</div>
+	</body>
+</html>
+
+<script src="../../common/js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/rem.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/public.js?v=1.15" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/vant/index.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=53da8183ca23918f2f81c79a5b2ede15&plugin=AMap.Geocoder"></script>
+<script type="module">
+	import { http, loginMixin } from '../../common/js/method/http.js?v=1.1';
+
+	Vue.use(http);
+	const myComponents = [
+		'../../components/common/topBar/index',
+		'../../components/common/template/index',
+	];
+	
+	$api.addComponents(myComponents)
+		.then(()=>{
+			
+			Vue.use(vant.Lazyload);
+			 
+			Vue.component('commonTemplate', commonTemplate);
+			
+			const app = new Vue({
+				el: '#app',
+				data: {
+					total:0,
+					page:0,
+					last_page:1,
+					loading: false,
+					finished: false,
+					list: {
+						get: [],
+						recommend: []
+					},
+					uChoose:{},
+					city_no: 0,
+				},
+				mixins: [loginMixin],
+				components: {
+					topBar,
+				},
+				created() {
+					this.$http.getCurrentCity().then( data=>{
+						this.city_no = data.city_no;
+						this.intLocalUChoose()
+						this.getEstatesLike();
+					})
+				},
+				methods:{
+					intLocalUChoose(){
+						let uChoose = $api.localGet('user_find_house');
+						//console.log(uChoose)
+						let new_uChoose = {};
+						if(uChoose.like){
+							uChoose.like.map((item,index)=>{
+								new_uChoose['tags['+index+']'] = item;
+							})
+						}
+						if(uChoose.area){
+							new_uChoose.built_area = uChoose.area;
+						}
+						if(!uChoose.site_id){
+							new_uChoose.city_no = this.city_no;
+						}else{
+							if(typeof(uChoose.site_id)=='object'){
+								uChoose.site_id.map((item,index)=>{
+									if(uChoose.site_center.type=='area'){
+										if(item){
+											new_uChoose['business_no['+index+']'] = item;
+										}
+									}else if(uChoose.site_center.type=='subway'){//地铁站点
+										if(item){
+											new_uChoose['sites['+index+']'] = item;
+											new_uChoose.city_no = this.city_no;
+										}
+									}
+								})
+							}else{
+								if(String(uChoose.site_id).indexOf('p_')!=-1){//去除父级标识
+									uChoose.site_id = uChoose.site_id.replace('p_','')
+								}
+
+								if(uChoose.site_center.type=='area'){
+									new_uChoose.area_no = uChoose.site_id;
+								}else if(uChoose.site_center.type=='subway'){//地铁
+									new_uChoose.subway = uChoose.site_id;
+									new_uChoose.city_no = this.city_no;
+								}
+							}
+						}
+						if(uChoose.budget_str&&uChoose.budget&&Number(uChoose.budget)<1000){
+							new_uChoose.price_type = 'total' 
+							new_uChoose.price = uChoose.budget_str
+						}
+						new_uChoose.no_adv = 1;
+						new_uChoose.page_size = 20;
+						new_uChoose.is_log = 1;
+						new_uChoose.purpose = uChoose.aim;
+						new_uChoose.has_num = uChoose.manyHouse;
+
+						this.uChoose = new_uChoose;
+					},
+					onLoad() {
+						let page = Number(this.page) + 1
+						if(page>this.last_page){
+							this.loading = false;
+							this.finished = true;
+							return
+						}
+						if(page>1){
+							delete this.uChoose.is_log
+							delete this.uChoose.purpose
+							delete this.uChoose.has_num
+						}
+						this.$http.ajax({
+							url: '/index/estates/getEstatesList',
+							data: {
+								...this.uChoose,
+								page,
+								page_size: 6
+							},
+						}).then( res =>{
+							res = res.data
+							this.loading = false;
+							this.page = page;
+							this.last_page = res.last_page?res.last_page:1;
+							this.total = res.total?res.total:0;
+
+							let list = $api.createHouseList(res);
+							this.list.get = this.list.get.concat(list);
+
+							if(page>=this.last_page){
+								this.finished = true;
+							}
+						})
+					},
+					//猜你喜欢楼盘
+					getEstatesLike() {
+						const data = {
+							city_no: this.city_no,
+						};
+							
+						this.$http.ajax({
+							method: 'GET',
+							url: '/index/estates/getGuessList',
+							data: data,
+						}).then( res=>{
+							let data = res.data;
+							//console.log('猜你喜欢',data);
+							
+							this.list.recommend = $api.createHouseList({list:data});
+						})
+					},
+
+					goMap() {
+						// 存储后台拉取的地图数据
+						let arr = [];
+						this.list.get&&this.list.get.map((item)=>{
+							item.info&&item.id&&item.info.name&&item.info.lng&&item.info.lat&&arr.push({
+								id: item.id,
+								name: item.info.name,
+								lnglat: item.info.lng+','+item.info.lat,
+							});
+						})
+
+						this.$api.localSet('map_data',arr);
+						$api.goPage('map/index.html',{type:'find_house'});
+					},
+					goEdit(){
+						$api.goPage('index/find_house.html');
+					},
+				},
+			})
+		})
+	
+	
+</script>

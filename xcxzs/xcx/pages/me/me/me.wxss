@@ -1,0 +1,43 @@
+@import '/dist/aui.wxss';
+.card{
+  width: 100%;
+  height: 15vh;
+  line-height-step: 15vh;
+  background-color: #fff;
+}
+.card>.img{
+  height: 15vh;
+  float: left;
+  margin-left: 5vw;
+}
+.card>image{
+  width: 10vh;
+  height: 10vh;
+  float: left;
+  margin-left: 5vw;
+  margin-top: 2.5vh;
+  border-radius: 50%;
+}
+.my-button{width:70vw;height:15vh;position:absolute;top:0;left:0;background-color:transparent;}
+.my-button::after{border: 0px;}
+.card>.name{
+  float: left;
+  margin-left: 5vw;
+  height: 15vh;
+  line-height: 15vh;
+}
+.list{
+  margin-top: 20rpx;
+}
+.list image{
+  width: 60rpx;
+  height: 60rpx;
+  float: left;
+  margin-right: 14rpx;
+}
+.list .van-cell-text{
+  height: 60rpx;
+  line-height: 60rpx;
+}
+.my-kh{width: 90vw;height: 60rpx;position: absolute;top: 10px;background-color: transparent;z-index: 999;}
+.my-kh::after{border: 0;}

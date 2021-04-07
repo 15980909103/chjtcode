@@ -1,0 +1,75 @@
+.my-content{width: 100vw;min-height: 100vh;background-color: #FFF;}
+[v-cloak] {display: none;}
+.my-scroll-y{width: 100vw !important;height: 93.7vh !important;}
+.mui-segmented-control.mui-segmented-control-inverted~.mui-slider-progress-bar{background-color: #D12527 !important;height: .3vh !important;}
+.mui-segmented-control .mui-control-item{line-height: 6vh !important;}
+.mui-slider .mui-segmented-control.mui-segmented-control-inverted~.mui-slider-group .mui-slider-item{border-top: 0 !important;border-bottom: 0 !important;width: 100vw !important;height: 93.7vh !important;}
+
+.my-li{width: 90vw;height: 8vh;margin: 0 5vw;border-bottom: 1px solid #eee;display: flex;justify-content:space-between;align-items:center;}
+.my-key{font-size: 3.8vw;}
+.my-val{font-size: 3.8vw;color: #555;}
+.my-val2{font-size: 3.8vw;color: #555;display: flex;align-items:center;}
+.my-input{max-width: 40vw;text-align: right;margin-bottom: 0 !important;border: 0 !important;padding: 10px 2px !important;}
+.my-btn{width: 90vw;height: 8vh;line-height: 8vh;color: #FFF;background-color: #D22527;text-align: center;margin: 4vh 5vw 1vh;border-radius: 1vw;}
+.my-tag{font-size: 3vw;color: #999;text-align: center;}
+/* 选项 */
+.pop-title{width: 100vw;background-color: #fff;position: absolute;bottom: 60vh;}
+.pop-title img{width: 6vw;height: 6vw;position:absolute;top:1.5vh;right: 5vw;}
+.options-scroll{width:100vw;height: 45vh;background-color: #FFF;top: initial !important;}
+.options-li{width: 90vw;padding: 2vh 0;margin: 0 5vw;font-size:4vw;border-bottom: 1px solid #eee;}
+.op-tick{color: #D12527;}
+.options-flex{display: flex;justify-content:space-between;align-items:center;}
+.options-flex div:nth-child(1){width: 75vw;display: flex;text-align:center;line-height: 4vh;}
+.options-flex div:nth-child(2){width: 15vw;height: 4vh;line-height: 4vh;font-size:3.5vw;border: 1px solid #D12527;color: #D12527;text-align: center;}
+.my-op-input{margin-left: 5vw !important;margin-bottom: 0 !important;margin-right: 1vw !important;width: 20vw !important;height: 4vh !important;line-height: 4vh !important;text-align: right !important;background-color: #F7F7F7 !important;padding: 0 2vw !important;font-size: 3.5vw !important;border: 0 !important;}
+/* 结果 */
+.my-res .van-popup--bottom{border-radius: 2vw 2vw 0 0}
+.result-scroll{width:100vw;height: 60vh;padding: 0 5vw;background-color: #FFF;top: initial !important;}
+.res-li{width: 90vw;border-bottom: 1px solid #eee;display: flex;justify-content:space-between;align-items:center;font-size: 4vw;padding: 2vh 0;color: #656565;}
+.res-li span{color: #333;font-weight: 600;}
+.res-prompt{color:#9d9d9d;font-size:3.5vw;text-align:center;margin:3.5vh 0;}
+.res-chart{border-bottom: 1px solid #eee;display: flex;align-items:center;}
+.chart-content{width: 50vw;color:#9d9d9d;font-size:3.3vw;}
+.chart-content span{color: #333;font-weight: 600;}
+.chart-li{margin: 1vh 0;display: flex;align-items:center;}
+#canvas{width: 50vw;height: 150px;}
+.chart-icon1{width: 2.2vw;height: 2.2vw;background-color: #E88A78;border-radius: 1.1vw;margin-right: 2vw;}
+.chart-icon2{width: 2.2vw;height: 2.2vw;background-color: #6F8BC1;border-radius: 1.1vw;margin-right: 2vw;}
+.chart-icon3{width: 2.2vw;height: 2.2vw;background-color: #85C85D;border-radius: 1.1vw;margin-right: 2vw;}
+.my-50{width: 45vw;}
+/*遮罩*/
+.my-mask{width: 100%;height: 100%;background-color: #000;opacity:.5;position: absolute;top:0;}
+.zdy-pop{width: 100vw;height: 100vh;position: fixed;top: 0;left: 0;z-index: 999;display: flex;justify-content: center;align-items: center;}
+
+.toggle-list__item {
+  float: left;
+  display: inline-block;
+  position: relative;
+  width: 50%;
+  text-align: center;
+  font-size: .75rem;
+  line-height: 40px;
+  box-sizing: border-box;
+  background-color: #fff;
+  color: #000;
+  white-space: nowrap;
+}
+
+.mui-control-item.mui-active, .toggle-list__item.active {
+  color: #D12527 !important;
+  border-bottom: 2px solid #D12527 !important;
+}
+
+.font-nowrap {
+  white-space: nowrap;
+}
+
+.options-scroll {
+  height: 60vh;
+}
+
+.pop-title {
+  text-align: center;
+  line-height: 3em;
+  font-size: .875rem;
+}

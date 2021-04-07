@@ -1,0 +1,80 @@
+<template>
+	<view>
+		<view class="active_conten">
+			<view class="user_box">
+				<view class="user_info">
+					<image class="user_img" mode="widthFix" src="../../static/activity.png"></image>
+					<view class="user_name">
+						<view class="name">海的声音</view>
+						<view class="identity"><icon type="success" size="13" color="#03B272"/>资格用户</view>
+					</view>
+				</view>
+				<view class="tab_box">
+					<view class="tab_item" @click="goPages('/pages/activityCount/record')">
+						<image src="../../static/activity/bill.png"></image>
+						优惠账单
+					</view>
+					<view class="tab_item">
+						<image src="../../static/activity/gain.png"></image>
+						获取资格
+					</view>
+				</view>
+			</view>
+			<view class="explain">
+				<image src="../../static/activity/explain.png"></image>
+				优惠资格说明：关注公众号且活动期间未使用
+			</view>
+			<view class="advertising">
+				<image src="../../static/activity/explain.png"></image>
+			</view>
+			<view class="coupon_box">
+				<view class="coupon" @click="goPages('/pages/activityCount/activityDetails')">
+					<view class="time">优惠时间：2020/03/09-2020</view>
+					<view class="coupon_item">
+						<image class="shop_img" src="../../static/activity.png"></image>
+						<view class="coupon_shop">
+							<view class="shop_title">新华都（前埔店）</view>
+							<view class="shop_type">超市/便利店</view>
+							<view class="coupon_type">优惠买单</view>
+						</view>
+						<view class="discounts">
+							<view class="discounts_number">满90减20</view>
+							<view class="discounts_amount">剩余500位</view>
+						</view>
+					</view>
+				</view>
+			</view>
+		</view>
+	</view>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+				
+			}
+		},
+		onLoad(){},
+		methods:{
+			goPages(item){
+				// this.goPage(item)
+				uni.navigateTo({
+					url: item,
+					fail: function(res){
+						if(res){
+							console.log(res);
+							uni.switchTab({
+								url: item
+							})
+						}
+					}
+				});
+			}
+		}
+	}
+</script>
+
+<style lang="scss">
+	 @import './indexActivity.scss';
+</style>

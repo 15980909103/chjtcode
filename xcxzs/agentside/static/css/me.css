@@ -1,0 +1,28 @@
+.my-content{width: 100vw;min-height: 100vh;background-color: #FFF;}
+[v-cloak] {display: none;}
+#my-footer{width: 100vw;height: 10vh;padding: 1.5vh 5vw;background-color: #FFF;position: fixed;bottom: 0;z-index: 100;border-top: 1px solid #eee;display: flex;justify-content:space-between;align-items:center;}
+.footer-li{display: flex;flex-direction:column;justify-content:center;align-items:center;width: 6vh;font-size:17px;}
+.footer-li img{width: 4.5vh;height: 4.5vh;}
+.footer-li div{font-size: .85em;color: #999;}
+.mui-focusin #my-footer{display:none !important;}
+.my-tick div{color: #D74546 !important;}
+#my-div1{width: 100vw;height: 30vh;background-image: url("../image/me.jpg");background-size: 100% 100%;}
+.my-img-name{width: 100vw;height: 12vh;padding:2vh 5vw;display: flex;justify-content:space-between;}
+.my-col1{display: flex;align-items:center;}
+.my-col1-2{height: 8vh;margin-left: 3vw;color: #FFF;display: flex;flex-direction:column;justify-content:space-between;}
+.my-col2-1{font-size: 4.5vw;font-weight: 600;display: flex;align-items:flex-end;}
+.my-col2-1 img{width: 4vw;height: 4vw;margin-left: 3vw;}
+.my-col2-2{font-size: 3vw;opacity: .75;}
+.my-col1-img{width: 8vh;height: 8vh;border-radius: 50%;}
+.my-col2 img{width: 8vw;height: 8vw;}
+.div1-2{width: 90vw;height: 7vh;margin: 0 5vw;border-left: 1.5vw solid #F2AA9C;padding-left: 3vw;color: #F5D1CF;font-size: 3.5vw;display: flex;flex-direction:column;justify-content:space-between;}
+.div1-3{width:100vw;padding: 2vh 5vw;display: flex;flex-wrap:wrap;}
+.div1-3-li{color: #EDAAA4;background-color: #E14431;font-size: 3.5vw;padding: .3vh 2.5vw;margin-right: 2vw;margin-top: .2vh;}
+#my-scroll{width: 100vw;height: 62vh;top: 28vh;background-color: #FFF;border-top-left-radius:2vw;border-top-right-radius:2vw;}
+.scroll-div1{width: 100vw;padding: 1vh 5vw 0;border-bottom: 1.5vh solid #F7F7F7;}
+.my-scroll-li{border-bottom: 1px solid #eee;padding: 2vh 0;display: flex;justify-content:space-between;align-items:center;}
+.my-scroll-li-1{display: flex;align-items:center;}
+.my-scroll-li-2{position: relative;}
+.my-scroll-li-1 img{width: 7vw;height: 7vw;}
+.my-scroll-li-1 div{margin-left: 3vw;font-size: 4vw;}
+.aui-badge{position: relative;left:0;top:0;}

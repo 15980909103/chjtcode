@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+		<title>地图</title>
+		<link rel="stylesheet" href="../../common/vant/index.css" />
+		<link rel="stylesheet" href="../../common/css/public.css?v=1.19" />
+		<link rel="stylesheet" href="../../static/css/map/index.css?v=1.19" />
+		<style>
+			
+			
+		</style>
+	</head>
+
+	<body>
+		<div id="app" v-cloak ref="DOM">
+			<!-- 顶部栏目 -->
+			<top-bar title="新房"></top-bar>
+			<!-- 筛选 -->
+			<common-sizer 
+				:show-area="!rangeSelectShow" 
+				class="sizer"
+				:class="[
+					rangeSelectShow ? 'show-area' : '',
+					rangeSelectShow && $http.isWechat().isMini ? 'show-area-wx' : ''
+				]"
+				v-if="type != 2" 
+				@result="chooseResult" 
+				ref="sizer" 
+			></common-sizer>
+			<!-- 地图 -->
+			<div id="container" ref="container">
+				<div class="container-icon container-icon-operate" v-if="type != 2" >
+					<div class="container-icon-item" ref="map_list">
+						<i class="iconfont iconliebiao"></i><span>列表</span>
+					</div>
+					<div class="container-icon-item" ref="map_search">
+						<i class="iconfont icon901"></i><span>搜索</span>
+					</div>
+				</div>
+				<div class="container-icon container-icon-site" v-if="type != 2" >
+					<div class="container-icon-item" ref="map_site">
+						<i class="iconfont iconmubiao"></i><span>定位</span>
+					</div>
+				</div>
+			</div>
+			<!-- 选中楼盘显示 -->
+			<van-popup
+				v-model="infoShow" 
+				position="bottom" 
+				@close="infoClose"
+			>
+				<common-template v-if="infoList[infoId]" :list="infoList[infoId]"></common-template>
+			
+				<div class="house-btn" @click.stop="openRound">
+					<i class="iconfont icon000"></i>
+					<span>周边配套</span>
+				</div>
+			</van-popup>
+			
+			<!-- 可视范围楼盘展示 -->
+			<van-popup
+			  v-model="rangeShow"
+			  closeable
+			  close-icon="arrow-down"
+			  close-icon-position="top-left"
+			  position="bottom"
+			  :lock-scroll="false"
+			  :style="{ height: '100%' }"
+			  @opened="rangeOpent" 
+			  @close="rangeClose"
+			>	
+				<div class="range">
+					<div class="range-fixed">
+						<!-- <div class="range" v-if="rangeData.length > 0"> -->
+							<div class="range-top">
+								可视范围内共<span>{{ rangeData.length }}</span>套
+							</div>
+							<van-dropdown-menu>
+								<template v-for="(item,k) in rangeOption">
+									<van-dropdown-item
+										v-model="rangeActive" 
+										disabled 
+										:options="item"
+										:title-class="!(['区域','价格','户型','更多'].includes(item[0].text)) ? 'text-active' : 'text-none'"
+									>
+									</van-dropdown-item>
+								</template>
+							</van-dropdown-menu>
+					</div>
+				
+					<common-template :list="rangeData"></common-template>
+				</div>
+			</van-popup>
+			
+			<!-- 搜索模块展示 -->
+			<van-popup 
+				v-model="searchShow" 
+				position="right" 
+				:style="{ 
+					height: '100vh', 
+					width: '100%', 
+					touchAction: 'none'
+				}"
+				v-if="type != 2" 
+			>
+				<div class="search-top">
+					<van-search
+						v-model="searchValue"
+						show-action
+						placeholder="搜索楼盘、小区、地点"
+						@input="searchInput"
+						@cancel="searchCancel"
+					/>
+					</van-search>
+				</div>
+				<div class="search-content">
+					<div class="search-history" v-if="!$api.trim(searchValue) && searchHistory.length > 0">
+						<div class="search-history-title">
+							<span>历史搜索</span><i class="iconfont iconlajitong" @click="delSearchHistory"></i>
+						</div>
+						<div class="search-history-box">
+							<van-tag type="primary" v-for="(item,index) in searchHistory" :key="index" @click="goSearchItem(item)"><span v-html="item.name"></span></van-tag>
+						</div>
+					</div>
+					<div class="search-result" v-if="$api.trim(searchValue)">
+						<template v-if="searchResult&&searchResult.length > 0">
+							<div class="search-item" v-for="(item,index) in searchResult" :key="index" @click="goSearchItem(item)">
+								<div class="search-item-left van-ellipsis">
+									<van-tag type="primary">{{ item.type == 0 ? '住宅' : '地标' }}</van-tag>
+									<div class="search-item-info van-ellipsis">
+										<span class="search-item-title van-ellipsis" v-html="item.name"></span>
+										<span class="search-item-site">
+											{{ item.site }}
+										</span>
+									</div>
+								</div>
+								<div class="search-item-right" v-if="item.type == 0">
+									{{ item.price }}<span>元/平</span> 
+								</div>
+							</div>
+						</template>
+						<template v-if="searchResultNot">
+							<!-- 搜索提示 -->
+							<van-empty image="search" description="无相关房源">换个词试试</van-empty>
+						</template>
+					</div>
+				</div>
+			</van-popup>
+			
+			<div class="loading" v-show="loading">
+				<van-loading type="spinner" color="#fff" :vertical="true">
+					获取定位中...
+				</van-loading>
+			</div>
+			
+			<!-- 周边配套 -->
+			<van-popup 
+				v-model="roundShow" 
+				position="right" 
+				:style="{ 
+					height: '100vh', 
+					width: '100%', 
+					touchAction: 'none'
+				}"
+			>
+				<map-round :id="infoId" :round-back="true" @close="()=>{ roundShow = false }"></map-round>
+			</van-popup>
+		</div>
+	</body>
+
+</html>
+
+<!-- 高德地图定位组件 -->
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=53da8183ca23918f2f81c79a5b2ede15"></script> 
+<script src="https://map.qq.com/api/gljs?v=1.exp&key=2YQBZ-V22W3-QWE3V-3G2KA-YWVK5-X4BZR"></script>
+<script src="../../common/js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/rem.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/vant/index.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/public.js?v=1.19" type="text/javascript" charset="utf-8"></script>
+<!-- 自定义覆盖物 -->
+<script src="./circle_cover.js?v=1.19" type="text/javascript" charset="utf-8"></script>
+<script src="./house_cover.js?v=1.19" type="text/javascript" charset="utf-8"></script>
+<script src="./marker_cover.js?v=1.19" type="text/javascript" charset="utf-8"></script>
+<script src="./site_cover.js?v=1.19" type="text/javascript" charset="utf-8"></script>
+
+<script type="module">
+	import { http } from '../../common/js/method/http.js?v=1.19';
+	
+	const myComponents = [
+		'../../components/common/topBar/index',
+		'../../components/common/area/index',
+		'../../components/common/sizer/index',
+		'../../components/common/template/index',
+		'../../components/common/map/round',
+	];
+	
+	$api.addComponents(myComponents)
+		.then(() => {
+			
+			Vue.use(http);
+			Vue.use(vant.Lazyload);
+			Vue.component('topBar', topBar);
+			Vue.component('commonArea', commonArea);
+			Vue.component('commonTemplate', commonTemplate);
+			
+			const app = new Vue({
+				el: '#app',
+				data: {
+					// 地图展示类型
+					type: null,
+					
+					// 用户定位信息
+					loading: false,
+					userPosition: '',
+					userSiteImg:'',
+					
+					// 暂时可视范围楼盘列表
+					rangeShow: false,
+					rangeSelectShow: false, 
+					rangeData: [],							//	可视范围数据
+					rangeActive: 0,
+					rangeOption: {							//	模拟下拉框
+						0: [{ text: '价格', value: 0 }],
+						1: [{ text: '户型', value: 0 }],
+						2: [{ text: '更多', value: 0 }]
+					},
+					
+					// 地图
+					city: '',
+					city_no: 0,
+					cityShow: '',		//	城市初始可视区域
+					mapEl: null,
+					zoom: 11,			//	初始地图缩放级别，支持3～20。
+					cityData: '',		//	城市区级数据
+					houseData: '',		//	城市楼盘数据
+					donutList: [],		//	区级覆盖物数组
+					houseList: [],		//	楼盘覆盖物数组
+					
+					// 选中展示楼盘信息
+					infoShow: false,
+					infoId: -1,			//	选中的楼盘id
+					infoList: {},		//	楼盘详情列表
+					
+					// 搜索模块
+					searchShow: false,
+					searchValue: '',
+					searchResult: [],
+					searchResultNot: false,
+					searchHistory: [],
+					searchCover: '',		//	搜索地标定位点图层
+					
+					// 周边配套
+					roundShow: false,
+				},
+				components: {
+					mapRound,
+					commonSizer
+				},
+				watch: {
+					houseData( newV ){
+						if( newV ){
+							this.initRangeData();
+						} else {
+							this.rangeData = [];
+						}
+					}
+				},
+				created() {
+					this.init();
+				},
+				mounted() {
+					// 绑定地图(列表，搜索，定位事件)
+					// 腾讯地图地图移动端不支持click
+					this.$api.tap(this.$refs.map_list, (e)=>{
+						this.showRangeHouse();
+					});
+					
+					this.$api.tap(this.$refs.map_search, (e)=>{
+						this.searchShow = true;
+					});
+					
+					this.$api.tap(this.$refs.map_site, (e)=>{
+						this.getUserSite();
+					});
+				},
+				methods: {
+					init() {
+						let id = this.$api.funcUrlDel().option.id;
+			
+						if( id ){
+							// type --> 默认(不传) / 2(条件筛选 数组楼盘)
+							id = id.slice(0,id.length-1);
+							id = id.split('-');
+							
+							this.type = 2;
+						}
+	
+						// 获取tag标签
+						this.$http.publicFun();
+						
+						if( !this.type ) {
+							this.initDefault();
+						} else {
+							// [148,689,918]
+							this.initHouse( id );
+						}
+					},
+					initDefault() {
+						let cityObject;
+						const that = this;
+						const arr = this.$api.localGet('map-search-history');	// 获取搜索历史记录
+						this.searchHistory = (arr&&arr.length > 0) ? arr : [];
+						
+						this.getSite();
+						
+						if(this.$http.isWechat().isMini != true){	//	非小程序情况下
+							cityObject = this.$api.localGet('current_city')
+						} else {
+							cityObject = this.$api.funcUrlDel().option.city;
+							
+							cityObject = decodeURI(cityObject);
+							
+							cityObject = JSON.parse(cityObject);
+						}
+						alert(cityObject);
+						console.log(cityObject,'----------ccc')
+						if( cityObject && cityObject.city_name ){
+							AMap.plugin('AMap.DistrictSearch', ()=>{
+								var districtSearch = new AMap.DistrictSearch({
+									// 关键字对应的行政区级别，country表示国家
+									level: 'province',
+									//  显示下级行政区级数，1表示返回下一级行政区
+									subdistrict: 0
+								})
+							
+								// 搜索所有省/直辖市信息
+								districtSearch.search(cityObject.city_name, (status, result)=>{
+									if( status == 'complete' ){
+										const data = result.districtList[0];
+										
+										this.city = data.name;
+										this.city_no = data.adcode;
+										
+										_setMapInfo(data,1);
+									} else {
+										this.$toast('获取城市信息失败，请刷新页面重试~');
+									}
+								})
+							})
+							
+							return;
+						}
+						
+						// 以城市为中心点 => 显示区域信息
+						this.getCity(res=>{
+							this.city = res.city;
+							this.city_no = res.adcode;
+							
+							console.log(res)
+							
+							_setMapInfo(res);
+						})
+						
+						function _setMapInfo( res, type ){
+							that.initMap(res,type);
+							
+							that.getAreaList({
+								type: 'area',
+								is_count: 1,
+								city_no: res.adcode,
+							}, res=>{
+								// console.log(res.data)
+								if( res.data && Object.keys(res.data).length > 0 ){
+									if( !that.cityData ){
+										that.cityData = res.data;
+									}
+									
+									(that.donutList.length == 0) && that.initAreaCircle();
+								}
+							})
+							
+							that.getMapList({
+								city_no: res.adcode
+							}, res=>{
+								if( res.data && res.data.length > 0 ){
+									if( !that.houseData ){
+										that.houseData = res.data;
+									}
+								}
+							})
+						}
+					},
+					initHouse( id ) {
+						this.getMapList({
+							estate_id: id
+						}, res=>{
+							if( res.data && res.data.length > 0 ){
+							
+								this.initMap(res.data[0],2);
+						
+								if( !this.houseData ){
+									this.houseData = res.data;
+								}
+								
+								this.getBounds();
+							}
+						})
+					},
+					// 高德地图获取城市定位
+					getCity(call) {
+						const that = this;
+						
+						AMap.plugin('AMap.CitySearch',function(){	//异步加载插件
+							//实例化城市查询类
+							var citysearch = new AMap.CitySearch();
+							//自动获取用户IP，返回当前城市
+							citysearch.getLocalCity(function(status, result) {
+								if (status === 'complete' && result.info === 'OK') {
+									if (result && result.city && result.bounds) {
+										call && call(result);
+									}
+								} else {
+									console.log(result);
+									that.$toast('城市定位失败');
+								}
+							});
+						});
+					},
+					// 高德地图获取用户精准定位
+					getSite(call) {
+						const that = this;
+						
+						// 精准定位
+						AMap.plugin('AMap.Geolocation', function() {
+							var geolocation = new AMap.Geolocation({
+								enableHighAccuracy: true,//是否使用高精度定位，默认:true
+								timeout: 10000,          //超过10秒后停止定位，默认：5s
+							});
+		
+							geolocation.getCurrentPosition(function(status,result){
+								if(status=='complete'){
+									onComplete(result)
+								}else{
+									onError(result)
+								}
+							});
+						});
+						//解析定位结果
+						function onComplete(data) {
+							that.userPosition = data.position;
+							console.log(data,'精准定位');
+							call && call(data);
+							
+							// 为true说明正在等待用户定位
+							if( that.loading == true ){
+								that.getUserSite();
+							}
+						}
+						//解析定位错误信息
+						function onError(data) {
+							console.log(data);
+							that.$toast('定位失败');
+						}
+					},
+					// type -> 不传(默认高德定位城市) 1->(根据 缓存(h5)/参数(小程序) 定位城市 ) 2->(只显示楼盘)
+					initMap( res, type ) {
+						let center;
+				
+						if( !type ){
+							const lat = (res.bounds.northEast.lat + res.bounds.southWest.lat)/2;
+							const lng = (res.bounds.northEast.lng + res.bounds.southWest.lng)/2;
+							const sw = new TMap.LatLng(res.bounds.southWest.lat, res.bounds.southWest.lng);
+							const ne = new TMap.LatLng(res.bounds.northEast.lat, res.bounds.northEast.lng);
+							
+							center = new TMap.LatLng(lat, lng);
+							this.cityShow = new TMap.LatLngBounds(sw, ne);
+						}else if( type == 1 ){
+							center = new TMap.LatLng(res.center.lat, res.center.lng);
+						}else if( type == 2 ){
+							center = new TMap.LatLng(res.lnglat.lat, res.lnglat.lng);
+						}
+	
+						//定义map变量，调用 TMap.Map() 构造函数创建地图
+						this.mapEl = new TMap.Map(document.getElementById('container'), {
+							center: center,//设置地图中心点坐标
+							viewMode: '2D',
+							zoom: this.zoom,   //设置地图缩放级别
+							showControl: false
+						});
+						
+						if( !type ){
+							this.mapEl.fitBounds(this.cityShow);
+						}
+						
+						this.mapEvent();
+					},
+					mapEvent() {
+						const that = this;
+						
+						this.mapEl.on('zoom', (e)=>{
+							this.zoom = e.target.getZoom();
+							this.getBounds();
+						})
+						
+						this.mapEl.on('panend', (e)=>{
+							this.getBounds();
+						})
+					},
+					// 根据缩放/可视范围 显示相应覆盖物
+					getBounds() {
+						this.$api.debounce(()=>{
+							const zoom = this.zoom;
+			
+							if( !this.type ){
+								if( zoom < 13.5 ){
+									this.cityData && this.initAreaCircle();
+									
+									( this.houseList.length > 0 ) && this.delHouseTip();
+								} else {
+									let data = this.mapEl.getBounds();
+									
+									this.houseData && this.addHouseTip(this.initHouseTip(data));
+									
+									(this.donutList.length > 0) && this.delAreaCircle();
+								}
+							} else {
+								let data = this.mapEl.getBounds();
+								
+								this.houseData && this.addHouseTip(this.initHouseTip(data));
+							}
+							
+							this.showSearchMarker();
+							this.initRangeData();
+						},200);
+					},
+					// 添加区级圈 
+					initAreaCircle() {
+						if( !this.donutList || this.donutList.length > 0 ) return;
+
+						const data = this.cityData;
+
+						for( let i in data ){
+							const site = data[i].lnglat.split(',');
+							
+							// LatLng.lat 取值应在 [-85.051128, 85.051128] 区间内
+							// LatLng.lng 取值应在 [-180, 180] 区间内
+							if( site[1]<=85.051128 && site[1]>=-85.051128 && site[0]<=180 && site[0]>=-180 && data[i].count > 0){
+								const obj = {
+									map: this.mapEl,
+									position: new TMap.LatLng(site[1], site[0]),
+									content: data[i].cname,
+									count: data[i].count
+								}
+								
+								this.donutList.push(new Donut(obj));
+							}
+						}
+									
+						this.donutList.forEach((donut, index) => {
+							// 腾讯地图地图移动端不支持click
+							this.$api.tap(donut.dom, (e)=>{
+								this.mapEl.easeTo({
+									center: donut.position,
+									zoom: 13.5
+								});
+							});
+						});
+						
+					},
+					delAreaCircle() {
+						this.donutList.map( (item,index)=>{
+							item.destroy();
+						});
+						
+						this.donutList = [];
+					},
+					// 过滤楼盘数据
+					initHouseTip(option) {
+						let that = this;
+						const data = this.houseData;
+						const houseItem = [];
+						const houseId = [];
+						const optionSw = option._sw;
+						const optionNe = option._ne;
+
+						this.houseList.length>0 && this.houseList.map( (item,index,arr)=>{
+							let lat = item.position.lat;
+							let lng = item.position.lng;
+							
+							if( !(lat > optionSw.lat && lat < optionNe.lat && lng > optionSw.lng && lng < optionNe.lng) ){
+								item.destroy();
+								arr.splice(index,1);
+							} else {
+								houseId.push(item.id);
+							}
+						})
+	
+						data&&data.map( item=>{
+							let lat = item.lnglat.lat;
+							let lng = item.lnglat.lng;
+							
+							// LatLng.lat 取值应在 [-85.051128, 85.051128] 区间内
+							// LatLng.lng 取值应在 [-180, 180] 区间内
+							if( lat<=85.051128 && lat>=-85.051128 && lng<=180 && lng>=-180){
+								// 可视范围过滤
+								if( lat >= optionSw.lat && lat <= optionNe.lat && lng >= optionSw.lng && lng <= optionNe.lng ){
+									  const position = new TMap.LatLng(item.lnglat.lat, item.lnglat.lng);
+									  
+									  const obj = {
+									  	map: this.mapEl,
+									  	position: position,
+									  	content: item.name,
+									  	count: item.price,
+									  	id: item.id,
+										item: item
+									  }
+
+									  houseItem.push(obj);
+								}
+							}
+						})
+						
+						return {
+							houseItem: houseItem,	//	已过滤数据
+							houseId: houseId    	//	可视范围内已存在楼盘标签(减少渲染)
+						}
+					},
+					// 添加楼盘标签
+					addHouseTip({houseItem, houseId}) {
+						houseItem.map( item=>{
+							if( !houseId.includes(item.id) ){
+								this.houseList.push(new House(item));
+							}
+						})
+						
+						this.houseList.forEach((house, index, arr) => {
+							// 腾讯地图地图移动端不支持click
+							this.$api.tap(house.dom, (e)=>{
+								this.houseClick(house,arr);
+							});
+						});
+					},
+					houseClick(house,arr){
+						if( this.infoId != house.id ){
+							arr.map( item=>{
+								if( item.id == this.infoId ){
+									item.dom.classList.remove('house_active');
+								}
+							})
+						}
+						console.log(house)
+						this.infoId = house.id;
+						house.dom.classList.add('house_active');
+											
+						this.mapEl.easeTo({
+							center: house.position,
+							zoom: 17.5
+						});
+									
+						this.getInfo(house.item);
+					},
+					delHouseTip() {
+						this.houseList.map( (item,index)=>{
+							item.destroy();
+						})
+						
+						this.houseList = [];
+					},
+					// 更新可视楼盘数据
+					initRangeData() {
+						const bounds = this.mapEl.getBounds();
+						const data = this.initHouseTip(bounds).houseItem;
+						this.rangeData = [];
+						
+						if( data.length > 0 ){
+							const arr = [];
+							
+							data.map( item=>{
+								arr.push(item.item);
+							})
+						
+							this.rangeData = this.$api.createHouseList({list: arr});
+						} else {
+							this.rangeData = [];
+						}
+					},
+					// 显示可视范围楼盘
+					showRangeHouse() {
+						if( this.rangeData.length > 0 ){
+							this.rangeShow = true;
+						} else {
+							this.$toast('可视范围内没有房源喔~');
+						}
+					},
+					// 标题筛选联动
+					changeRangeChoose() {
+						const selectEl = this.$refs.sizer.$el.childNodes[0].childNodes;
+					
+						selectEl.forEach( (item, index)=>{
+							if( selectEl.length == 4 && index == 0 ) return;
+							
+							const key = selectEl.length == 4 ? index - 1 : index;
+							
+							this.$set(this.rangeOption[key][0], 'text', item.outerText);
+						})
+					},
+					rangeOpent() {
+						this.rangeSelectShow = true;
+					},
+					rangeClose() {
+						this.rangeSelectShow = false;
+					},
+					// 显示用户当前定位点击
+					getUserSite() {
+						if( !this.userPosition ){
+							this.loading = true;
+						} else {
+							const that = this;
+							const position = new TMap.LatLng(that.userPosition.lat, that.userPosition.lng);
+							
+							that.loading = false;
+							
+							//	初始化定位marker
+							if( !that.userSiteImg ){
+								that.userSiteImg = new Marker({
+									map: that.mapEl,
+									position: position,
+									style: {
+										"width": '.35rem',
+										"height": '.5rem',
+										"src": '../../static/map/site.png',
+									},
+								})
+							}
+	
+							this.mapEl.easeTo({
+								center: position,
+								zoom: 17.5
+							});
+						}
+					},
+					// 获取城市区数据
+					getAreaList(data,call) {
+						this.$http.ajax({
+							method: 'GET',
+							data: data,
+							url: '/index/city/getAreaList',
+						}).then(res => {
+							call(res);
+						})
+					},
+					// 获取城市楼盘数据
+					getMapList(data,call) {
+						this.$http.ajax({
+							method: 'GET',
+							data: data,
+							url: '/index/estates/getMapList',
+						}).then(res => {
+							call(res);
+						})
+					},
+					// 获取选中楼盘数据
+					getInfo( item ) {
+						this.infoShow = true;
+						// 防止重复请求
+						if( Object.keys(this.infoList).length > 0 && this.infoList[item.id] ) return;
+						
+						this.infoList[item.id] = this.$api.createHouseList({list:{0:item}});
+					},
+					// 返回筛选id列表
+					chooseResult(e) {
+						const obj = {};
+						let have_site = false;	//	是否有区域筛选（区域筛选情况下缩放至区域中心）
+						
+						// 将筛选数据处理成接口需要格式
+						for( let i in e ){
+							switch(i){
+								case 'site':
+									if( !e[i] ) break;
+				
+									if( typeof e[i] == 'string' ){
+										if( e[i] == 0 && !e.siteCenter.type ) break;
+										
+										if( e.siteCenter.type == 'area' ){
+											obj.area_no = e[i];
+										} else {
+											obj.subway = e[i];
+										}
+									} else {
+										if( e[i].length == 0 && !e.siteCenter.type ) break;
+										
+										if( e.siteCenter.type == 'area' ){
+											obj.area_no = e.siteCenter.pid;
+											obj.business_no = e[i];
+										} else {
+											obj.subway = e.siteCenter.pid;
+											obj.sites = e[i];
+										}
+									}
+									
+									have_site = true;
+									
+									break;
+								case 'price':
+									if( (e[i] instanceof Array) ) break;
+									
+									obj.price_type = e[i].type;
+									obj.price = e[i].val;
+									
+									break;
+								case 'type':
+									if( typeof e[i] !== 'object' || e[i][0] == 0 ) break;
+									
+									obj.rooms = e[i];
+								
+									break;
+								case 'more':
+									
+									for( let k in e[i] ){
+										if( e[i][k].length > 0 ){
+											obj[k] = e[i][k];
+										}
+									}
+								
+									break;
+							}
+						}
+						
+						// 删除自定义覆盖物
+						this.delAreaCircle();
+						this.delHouseTip();
+						
+						this.getAreaList({
+							type: 'area',
+							is_count: 1,
+							city_no: this.city_no,
+							...obj
+						}, res=>{
+							if( res.data && Object.keys(res.data).length > 0 ){
+								let count = 0;
+								this.cityData = res.data;
+								
+								for( let i in res.data ){
+									count = count + res.data[i].count;
+								}
+								
+								if( count == 0 ){
+									this.houseData = '';
+									this.$toast('该条件下搜寻不到楼盘，请试试别的条件');
+									return;
+								}
+								
+								this.getMapList({
+									city_no: this.city_no,
+									...obj
+								}, list=>{
+									if( list.data && list.data.length > 0 ){
+										this.houseData = list.data;
+										
+										if( have_site ){	//	有区域/地铁定位 --> 直接显示楼盘
+											for( let i in this.cityData ){
+												if( this.cityData[i].count > 0 ){
+													const site = this.cityData[i].lnglat.split(',');
+													this.initAreaCircle();
+									
+													this.mapEl.easeTo({
+														center: new TMap.LatLng(site[1], site[0]),
+														zoom: 13.5
+													});
+													
+													return;
+												}
+											}
+										} else {	//	无区域	-->	 可视范围不变
+											// this.mapEl.fitBounds(this.cityShow);  //  从区级开始显示
+											this.getBounds();	//	防止在可视范围内筛选不触发移动或点击导致函数不调用
+										}
+									}
+								})
+							}
+						})
+						
+						this.changeRangeChoose();
+					},
+					// 选中楼盘弹窗关闭
+					infoClose() {
+						this.houseList.map( item=>{
+							if( item.id == this.infoId ){
+								item.dom.classList.remove('house_active');
+							}
+						})
+					},
+					// 周边配套显示
+					openRound() {
+						if(this.$http.isWechat().isMini != true){	//	非小程序情况下
+							this.roundShow = true;
+						} else {
+							this.$api.goPage('map/round.html', { id: this.infoId, name: this.infoList[this.infoId][0].info.name });
+						}
+					},
+					// 搜索输入
+					searchInput( e ) {
+						this.$api.debounce(()=>{
+							let arr = [];
+							const result = this.$api.trim(e);
+							this.searchResultNot = false;
+							
+							if( !result ){
+								this.searchResult = [];
+								return;
+							} 
+							
+							(this.houseData.length > 0)&&this.houseData.map( item=>{
+								if( item.name.indexOf(result) != -1 ){
+									const name = item.name.replace(new RegExp(result, 'g'),`<span>${result}</span>`);
+									
+									const obj = {
+										type: 0,
+										id: item.id,
+										name: name,
+										site: item.area,
+										price: item.price,
+										lnglat: item.lnglat
+									}
+									
+									arr.push(obj);
+								}
+							})
+							
+							this.mapPoi({
+								keyword: result,
+								city: this.city
+							}).then( res=>{
+								(res.data && res.data.length > 0) && res.data.map( item=>{
+									if( item.title.indexOf(result) == -1 ) return;
+									const name = item.title.replace(new RegExp(result, 'g'),`<span>${result}</span>`);
+									
+									const obj = {
+										id: item.id,
+										type: 1,
+										name: name,
+										site: item.ad_info.district,
+										lnglat: item.location
+									}
+									
+									arr.push(obj);
+								});
+
+								if( arr.length == 0 ) {
+									this.searchResultNot = true;
+								}
+								
+								this.searchResult = arr;
+							})
+						},300);
+					},
+					mapPoi( data ) {
+						return new Promise((resove,rej)=>{
+							this.$http.ajax({
+								method: 'GET',
+								data: data,
+								url: '/index/estates/searchMap',
+							}).then(res => {
+								resove(res);
+							})
+						})
+					},
+					// 搜索取消
+					searchCancel() {
+						this.searchResultNot = false;
+						this.searchShow = false;
+						this.searchValue = '';
+						this.searchResult = [];
+					},
+					// 搜索点击
+					goSearchItem( item ) {
+						// 存储缓存
+						this.searchHistory.map( (val,index,arr)=>{ 
+							if( val.id == item.id ){
+								arr.splice(index,1);
+							}
+						});
+						
+						this.searchHistory.unshift(item);
+						
+						if( this.searchHistory.length > 10 ){
+							this.searchHistory = this.searchHistory.slice(0,10);
+						}
+						
+						this.$api.localSet('map-search-history',this.searchHistory);
+						
+						this.searchShow = false;
+
+						if( item.type == 0 ){	//	住宅
+							this.goSomeHouse(item);
+						} else {	//	地标 生成定位点
+							this.searchMarker(item);
+						}
+						
+						this.searchValue = '';
+						this.searchResult = [];
+						this.searchResultNot = false;
+					},
+					delSearchHistory() {
+						this.searchHistory = [];
+						this.$api.localDel('map-search-history')
+					},
+					// 搜索直接移动至相应楼盘
+					goSomeHouse( item ) {
+						this.mapEl.easeTo({
+							center: new TMap.LatLng(item.lnglat.lat, item.lnglat.lng),
+							zoom: 17.5
+						});
+						
+						let count = 0;
+						
+						const findHouse = setInterval(()=>{
+							count += 1;
+
+							if( count > 10 ){
+								clearInterval(findHouse);
+							}
+							
+							if( this.houseList.length == 0 ) return;
+							
+							this.houseList.map( (val,index,arr)=>{
+								if( item.id == val.id ){
+									this.houseClick(val,arr);
+									clearInterval(findHouse);
+								}
+							})
+						},300)
+					},
+					searchMarker( item ) {
+						const center =  new TMap.LatLng(item.lnglat.lat, item.lnglat.lng);
+						
+						this.mapEl.easeTo({
+							center: center,
+							zoom: 17.5
+						});
+						
+						if( !this.searchCover ){
+							//创建并初始化MultiMarker
+							this.searchCover = new TMap.MultiMarker({
+							    map: this.mapEl,
+							    //样式定义
+							    styles: {
+							        //创建一个styleId为"myStyle"的样式（styles的子属性名即为styleId）
+							        myStyle: new TMap.MarkerStyle({ 
+							            width: 25,  							// 点标记样式宽度（像素）
+							            height: 35, 							// 点标记样式高度（像素）
+							            src: '../../static/map/search.png',  	//图片路径
+							            //焦点在图片中的像素位置，一般大头针类似形式的图片以针尖位置做为焦点，圆形点以圆心位置为焦点
+							            anchor: { x: 16, y: 32 }  
+							        }) 
+							    },
+							    //点标记数据数组
+							    geometries: [
+									{
+										id: 1,
+										styleId: 'myStyle', 	 //指定样式id
+										position: center,  	 //点标记坐标位置
+									}
+							    ]
+							});
+						} else {
+							this.searchCover.updateGeometries([
+								{
+									id: 1,   			//点标记唯一标识，后续如果有删除、修改位置等操作，都需要此id
+									styleId: 'myStyle',
+									position: center,  		//点标记坐标位置
+							    }
+							])
+						}
+					},
+					// 根据缩放显示隐藏搜索点标记
+					showSearchMarker() {
+						if( !this.searchCover ) return;
+						
+						const visible = this.searchCover.getVisible();
+						
+						if( this.zoom < 13.5 ){
+							visible&&this.searchCover.setVisible(!visible);
+						} else {
+							!visible&&this.searchCover.setVisible(!visible);
+						}
+					},
+				},
+			})
+
+		})
+</script>

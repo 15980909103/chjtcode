@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>2021福建地产金鼎奖评选</title>
+		<link rel="stylesheet" href="../../common/vant/index.css?v=1.19"/>
+		<link rel="stylesheet" href="../../common/css/public.css?v=1.19"/>
+		<link rel="stylesheet" href="../../static/css/12/vote_detil.css?v=1.19"/>
+	</head>
+	<body>
+		<div id="app" v-cloak ref="DOM">
+			<div class="pic-wrap">
+				<img :src="$http.imgDirtoUrl(topPic)" class="top">
+				<img :src="votePic" class="vote" @click="voteSome">
+			</div>
+			
+			
+			<div class="box">
+				<div class="title">
+					<h4>{{ info.title }}</h4>
+					<p>当前<span>{{ info.vote }}</span>票</p>
+				</div>
+				<div class="content" v-html="info.content"></div>
+			</div>
+			
+			<div class="vote-btn">
+				<van-button round color="rgba(255, 134, 65, 1)" @click.stop="voteSome">投票</van-button>
+			</div>
+		</div>	
+	</body>
+</html>
+
+<script src="../../common/js/vue.js?v=1.19" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/rem.js?v=1.19" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/public.js?v=1.19" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/vant/index.js?v=1.19" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/fastclick.js?v=1.19" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/wxsdk.js?v=1.19" type="text/javascript" charset="utf-8"></script>
+<script type="module">
+	import { http, loginMixin } from '../../common/js/method/http.js?v=1.19';
+
+	Vue.use(http);
+	Vue.use(vant.Lazyload);
+	
+	const app = new Vue({
+		el: '#app',
+		data: {
+			id: -1,
+			active_id:-1,
+			votePic: '/9house/static/12/vote_img.png',
+			topPic: '',
+			info: {
+				title: '',
+				vote: 0,
+				content: ''
+			},
+			canVote: true,
+		},
+		components: {
+			
+		},
+		mixins: [loginMixin],
+		created(){
+			const option = this.$api.funcUrlDel().option;
+			
+			if( Object.keys(option).length > 0 ){
+				this.active_id = option.active_id;
+				this.id = option.id;
+			}
+
+			this.voteInfo()
+		},
+		mounted() {
+			
+		},
+		methods:{
+			voteInfo(){
+				this.$http.ajax({
+					method: 'GET',
+					url: '/index/Promotions/voteInfo',
+					data:{vote_detail_id: this.id }
+				}).then( res=>{
+					this.info = res.data //数据
+					this.topPic = res.data.img //头图
+					
+					this.wxShare(res);
+				})
+			},
+			voteSome() {
+				if( !this.canVote ){
+					this.$toast('点击过快，请稍后再试')
+					return false; 
+				}
+				
+				this.canVote = false;
+			
+				this.$http.ajax({
+					method: 'GET',
+					url: '/index/Promotions/voteAddLog',
+					data:{vote_detail_id: this.id}
+				}).then( res=>{
+					if(res.code==1){
+						this.$toast('投票成功');
+						this.voteInfo();
+					}else{
+						this.$toast(res.msg);
+					}
+					this.canVote = true;
+				}).catch( res=>{
+					this.$toast(res.msg);
+					this.canVote = true;
+				})
+			}
+		},
+	})
+</script>

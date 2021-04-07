@@ -1,0 +1,56 @@
+[v-cloak] {display: none;}
+.my-content{
+    background: #d12627;
+}
+.invite_code_box{
+    width: 100%;
+    height: 100vh;
+    background: url(../../image/invite_code_box.png)no-repeat;
+    background-size: 100% 100%;
+    overflow: hidden;
+}
+.invite_code_box .my-erweima{
+    width: 55vw;
+    height: 55vw;
+    margin: 6vh auto 0;
+}
+.invite_code_box .inviter{
+    margin-top: 17vh;
+    margin-left: 10vw;
+}
+.invite_code_box .inviter img{
+    width: 1.2rem;
+    height: 1.2rem;
+    border-radius: 1000px;
+    border: 1px solid #ffffff;
+    display: inline-block;
+    vertical-align: middle;
+}
+.invite_code_box .inviter p{
+    display: inline-block;
+    vertical-align: middle;
+    color: #ffd6d3;
+    font-size: 0.8rem;
+    margin: 0;
+}
+.my-img{width:100vw;height: 100vh;}
+
+#qrcode {
+    margin: 10vh auto 0;
+    text-align: center;
+    width: 160px;
+    height: 160px;
+}
+@media (min-height: 700px){
+    #qrcode {
+        margin: 13vh auto 0;
+    }
+}
+@media (min-height: 800px){
+    #qrcode {
+        margin: 18vh auto 0;
+    }
+}
+#qrcode img{
+    margin: 0 auto;
+}

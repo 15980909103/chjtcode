@@ -1,0 +1,26 @@
+<template>
+	<view class="content">
+		<web-view :webview-styles="webviewStyles" :src='h5Host+"/houses/sand.html?"+t_version+"&id="+id'></web-view>
+	</view>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+				webviewStyles: 'false',//禁用进度条
+				id: 0,
+			}
+		},
+		onLoad(options) {
+			this.id = options.id;
+		},
+		methods: {
+
+		}
+	}
+</script>
+
+<style>
+
+</style>

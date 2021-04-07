@@ -1,0 +1,79 @@
+<?php
+
+
+namespace app\admin\controller;
+
+
+use app\common\base\AdminBaseController;
+use app\server\admin\BuildingPriceLog;
+
+class BuildingPriceLogController extends AdminBaseController
+{
+//城市历史价格表
+    public function list()
+    {
+        $id = $this->request->get('id');
+        $start = $this->request->get('startdate');
+        $end = $this->request->get('enddate');
+        $pageSize = $this->request->get('pageSize', '10');
+        $server = new BuildingPriceLog();
+
+        $where = [
+            ['estate_id', '=', $id],
+            ['type', '=', 1],
+        ];
+        $field = 'id,new_price,update_time,month_time';
+        $res = $server->list($where, $field, $pageSize);
+        if(!empty($start) && !empty($end)){
+            $where[] = ['update_time','>=',strtotime($start)];
+            $where[] = ['update_time','<=',strtotime($end)];
+        }
+
+        if ($res['code'] == 0) {
+            $this->error($res['msg']);
+        }
+        foreach ($res['result']['list'] as $key => &$value) {
+            $value['update_time'] = date('Y-m-d H:i', $value['update_time']);
+            $value['change_time'] = date('Y-m-d', $value['month_time']);
+        }
+
+        return $this->success($res['result']);
+    }
+
+    public function cityPriceLogEdit()
+    {
+        $param = $this->request->param();
+        $server = new BuildingPriceLog();
+        $where = [
+            ['id', '=', $param['id']]
+        ];
+
+        if(!empty($param['change_time'])) {
+            $time = strtotime($param['change_time']);
+        } else {
+            $time = time();
+        }
+
+        $data = [
+            'id'           => $param['id'],
+            'admin_id'     => $this->userId,
+            'new_price'    => $param['new_price'],
+            'month_time'    => strtotime(date('Y-m-d', $time)),
+            'type'         => 1,
+            'estate_id'    => $param['estate_id']
+        ];
+
+        $res = $server->edit($where, $data, $time);
+
+        if ($res['code'] == 0) {
+            $this->error($res['msg']);
+        }
+
+        /**
+         * 异步调用旧库接口
+         */
+        $this->sendOldSync(['type' => 'price', 'action' => 'edit', 'data' => ['id' => $res['result'] ?? 0]]);
+
+        return $this->success();
+    }
+}

@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>文章海报</title>
+    <link rel="stylesheet" type="text/css" href="../../static/css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/mui/css/mui.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/css/news/poster.css" />
+    <script type="text/javascript" src="../../static/js/jquery-2.0.0.min.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.min.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.pullToRefresh.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.pullToRefresh.material.js" ></script>
+    <script type="text/javascript" src="../../static/js/vue.min.js" ></script>
+    <script type="text/javascript" src="../../static/js/vue-tap.js" ></script>
+    <script type="text/javascript" src="../../static/js/public.js" ></script>
+    <script type="text/javascript" src="../../static/js/jweixin-1.4.0.js" ></script>
+    <style>.mui-pull-bottom-tips{display: none;}</style>
+</head>
+<body>
+<div id="app" class="my-content">
+    <div class="poster_box">
+        <div class="logo">
+            <img src="../../static/image/poster_logo.png" alt="">
+        </div>
+        <div class="text_box">
+            <img src="../../static/image/poster_decorate.png" alt="">
+            <div class="text_s" v-cloak>{{articleInfo.title}}</div>
+            <img class="last_img" src="../../static/image/poster_decorate.png" alt="">
+        </div>
+        <div class="show_img">
+            <img :src="articleInfo.cover" v-cloak />
+        </div>
+        <div class="broker_box">
+            <div class="broker_info">
+                <img :src="agentInfo.headimgurl" alt="" v-cloak>
+                <div class="broker_info_text">
+                    <p v-cloak>经纪人：{{agentInfo.name}}</p>
+                    <p>电话：{{agentInfo.phone}}</p>
+                </div>
+            </div>
+            <div class="mini_program">
+                <img :src="qrCode" alt="" v-cloak>
+                <p>长按识别更多</p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            agentInfo:{},
+            articleInfo:{},
+            qrCode:""
+        },
+        mounted: function () {
+        this.$nextTick(function () {
+            var _this=this;
+            //获取文章信息
+            var agent_id=getQueryString('agent_id')==null?0:getQueryString('agent_id');
+            ajax('publicAjax/getArticlePoster',{id:getQueryString('id'),agent_id:agent_id},function(res){
+                console.log(res);
+                _this.agentInfo=res.agentInfo;
+                _this.articleInfo=res.articleInfo;
+                _this.qrCode=res.qrCode;
+                //初始化分享
+                ajax('publicAjax/getShare',{},function(res2){
+                    wx.config({
+                        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                        appId: res2.data.appId, // 必填，公众号的唯一标识
+                        timestamp: res2.data.timestamp, // 必填，生成签名的时间戳
+                        nonceStr: res2.data.nonceStr, // 必填，生成签名的随机串
+                        signature: res2.data.signature,// 必填，签名
+                        jsApiList: ['checkJsApi','onMenuShareTimeline','onMenuShareAppMessage'] // 必填，需要使用的JS接口列表
+                    });
+                    wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
+                        wx.onMenuShareAppMessage({
+                            title: res.articleInfo.title, // 分享标题
+                            desc: res.articleInfo.description, // 分享描述
+                            link: DOMAINNAME + 'agentside/pages/news/poster.html?id='+getQueryString('id')+'&agent_id='+res.agentInfo.id,
+                            imgUrl: DOMAINNAME+res.articleInfo.cover, // 分享图标
+                            success: function () {
+                                myAddShare('2',getQueryString('id'),'0');
+                            },
+                            cancel:function(){}
+                        });
+                        wx.onMenuShareTimeline({
+                            title: res.articleInfo.title, // 分享标题
+                            desc: res.articleInfo.description, // 分享描述
+                            link: DOMAINNAME + 'agentside/pages/news/poster.html?id='+getQueryString('id')+'&agent_id='+res.agentInfo.id,
+                            imgUrl: DOMAINNAME+res.articleInfo.cover, // 分享图标
+                            success: function () {
+                                myAddShare('2',getQueryString('id'),'0');
+                            },
+                            cancel:function(){}
+                        });
+                    });
+                });
+            });
+        })
+        },
+        methods:{
+
+        }
+    })
+</script>

@@ -1,0 +1,24 @@
+.my-content{width: 100vw;min-height: 100vh;background-color: #F8F8F9;}
+[v-cloak] {display: none;}
+#my-view1{width: 100vw;position: relative;}
+#my-view1 .slider, #my-view1 img {height: 60vh;}
+#my-view1 img{width: 100vw;}
+.view1-floor{background-color:#FFF;font-size: 3.3vw;padding:.5vh 3vw;border-radius:5vh;position: absolute;}
+.view1-tick{background-color: #0075D4;color: #FFF;}
+#my-swiper{width: 100vw;height: 30vh;background-color: #F8F8F9;overflow: hidden;}
+.swiper{width: 100vw;height: 28vh;margin-top:2vh;border-left: 5vw solid #FFF;border-right: 5vw solid #FFF;}
+.swiper-li{width: 90vw;height: 28vh;border-left: 5vw solid #F8F8F9;border-right: 5vw solid #F8F8F9;background-color: #FFF;padding: 2vh 5vw;}
+.swiper-view1{display: flex;justify-content:space-between;align-items:center;}
+.swiper-view1 div:nth-child(1){font-size: 4.5vw;font-weight: 600;}
+.swiper-view1 div:nth-child(2){font-size: 4vw;color: #999;}
+.swiper-view1 div:nth-child(2) .van-icon{vertical-align:-15%;}
+.swiper-view2{display: flex;}
+.swiper-view2 div{width: 35vw;font-size: 3.5vw;color: #999;padding: 2vh 0;border-bottom: 1px solid #f1f1f1;}
+.swiper-view3{display: flex;flex-wrap:wrap;}
+.swiper-view3 div{width: 35vw;font-size: 4vw;color: #999;padding: 2vh 0 0;}
+.swiper-view3 div span{color: #333;font-weight: 500;}
+
+.mui-slider-item img {
+  min-height: 66vh;
+  object-fit: cover;
+}

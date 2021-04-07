@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>编辑</title>
+    <link rel="stylesheet" type="text/css" href="../../static/css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/mui/css/mui.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/mui/css/mui.picker.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/mui/css/mui.poppicker.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/css/me/edit.css" />
+    <script type="text/javascript" src="../../static/js/jquery-2.0.0.min.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.min.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.picker.min.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.poppicker.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/city.data.js" ></script>
+    <script type="text/javascript" src="../../static/js/vue.min.js" ></script>
+    <script type="text/javascript" src="../../static/js/vue-tap.js" ></script>
+    <script type="text/javascript" src="../../static/js/public.js" ></script>
+    <style>.mui-btn-blue{background-color: #D33233;border: 1px solid #D33233;}</style>
+</head>
+<body>
+<div id="app" class="my-content">
+    <div id="my-scroll" class="mui-scroll-wrapper">
+        <div class="mui-scroll">
+            <div class="scroll-div1">
+                <div class="my-scroll-li" style="padding: .5vh 0;">
+                    <div class="my-scroll-li-1"><div>我的头像</div></div>
+                    <div class="my-scroll-li-2"><img class="my-img" v-cloak :src="userInfo.headimgurl" /><i class="aui-iconfont aui-icon-right"></i></div>
+                </div>
+                <div class="my-scroll-li" style="padding: .5vh 0;">
+                    <div class="my-scroll-li-1"><div>微信昵称</div><div class="my-red"></div></div>
+                    <div class="my-scroll-li-2" v-cloak>
+                        <input type="text" :value="userInfo.nickname" disabled>
+                    </div>
+                </div>
+                <div class="my-scroll-li" style="padding: .5vh 0;">
+                    <div class="my-scroll-li-1"><div>姓名</div><div class="my-red">✱</div></div>
+                    <div class="my-scroll-li-2">
+                        <input type="text" placeholder="请填写姓名" v-model="userInfo.name">
+                    </div>
+                </div>
+                <div class="my-scroll-li" style="padding: .5vh 0;">
+                    <div class="my-scroll-li-1"><div>手机号</div><div class="my-red">✱</div></div>
+                    <div class="my-scroll-li-2">
+                        <input type="number" maxlength="11" placeholder="请填写手机号" v-model="userInfo.phone">
+                    </div>
+                </div>
+                <!--<div class="my-scroll-li" v-tap="{methods:onMainarea}">
+                    <div class="my-scroll-li-1"><div>主营区域</div><div class="my-red">✱</div></div>
+                    <div class="my-scroll-li-2">
+                        <div v-cloak :class="[userInfo.mainarea==''?'my-tag-color':'']">{{userInfo.mainarea==''?'请选择':userInfo.mainarea}}</div>
+                        <i class="aui-iconfont aui-icon-right"></i>
+                    </div>
+                </div>
+                <div class="my-scroll-li" v-tap="{methods:onPintai}">
+                    <div class="my-scroll-li-1"><div>平台公司</div><div class="my-red">✱</div></div>
+                    <div class="my-scroll-li-2">
+                        <div v-cloak :class="[userInfo.pintai==''?'my-tag-color':'']">{{userInfo.pintai==''?'请选择':userInfo.pintai}}</div>
+                        <i class="aui-iconfont aui-icon-right"></i>
+                    </div>
+                </div>
+                <div class="my-scroll-li" v-tap="{methods:onZhongjie}">
+                    <div class="my-scroll-li-1"><div>中介门店</div><div class="my-red">✱</div></div>
+                    <div class="my-scroll-li-2">
+                        <div v-cloak :class="[userInfo.zhongjie==''?'my-tag-color':'']">{{userInfo.zhongjie==''?'请选择':userInfo.zhongjie}}</div>
+                        <i class="aui-iconfont aui-icon-right"></i>
+                    </div>
+                </div>-->
+            </div>
+            <div class="scroll-div1" style="border-bottom: 0;">
+                <div class="my-title">个性签名</div>
+                <textarea class="my-textarea" rows="3" placeholder="请输入个性签名" maxlength="24" v-model="userInfo.signature"></textarea>
+                <div class="my-title2">特色标签<span>(最多选择4个)</span></div>
+                <div class="my-tags">
+                    <div class="my-tags-li" :class="item.show?'my-tick':''" v-for="(item,index) in tags" v-tap="{methods:onTag,index:index}" v-cloak>{{item.title}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="my-footer" v-tap="{methods:onSuccess}">保存</div>
+</div>
+</body>
+</html>
+<script>
+    var pintaiData=[
+        {value: '北京分公司',text: '北京分公司'},
+        {value: '链家房产',text: '链家房产'},
+        {value: '中原地产',text: '中原地产'},
+        {value: '麦田房产',text: '麦田房产'}
+    ];
+    var zhongjieData=[
+        {value: '中介公司1',text: '中介公司1'},
+        {value: '中介公司2',text: '中介公司2'},
+        {value: '中介公司3',text: '中介公司3'}
+    ];
+    new Vue({
+        el: '#app',
+        data: {
+            userInfo:{},    //用户信息
+            tags:[
+                {title:'客服热评',show:false},{title:'销售达人',show:false},{title:'带看活跃',show:false},{title:'投资指导',show:false},
+                {title:'资深中介',show:false},{title:'交易专家',show:false},{title:'刚需专家',show:false},{title:'销售达人',show:false},
+                {title:'交易小能手',show:false},{title:'老腊肉',show:false},{title:'中介老手',show:false},{title:'公寓专家',show:false},
+                {title:'高端盘专家',show:false},{title:'佛系卖房',show:false},{title:'豪宅专家',show:false},{title:'十能全手',show:false}
+            ],
+            defaultHeight: '0',                         //默认屏幕高度
+            nowHeight:  '0',                            //实时屏幕高度
+            isOriginHei : true,                         // 这个属性是固定定位按钮的显隐开关
+        },
+        mounted: function () {
+            this.$nextTick(function () {
+                var _this=this;
+                mui.init();
+                //获取编辑页信息
+                ajax('userAjax/getMeEditData',{},function(res){
+                    _this.userInfo=res.data.userInfo;
+                    var special_label=res.data.userInfo.special_label;
+                    var tags=_this.tags;
+                    for(var i in special_label){
+                        for(var j in tags){
+                            if(special_label[i]==tags[j].title){
+                                tags[j].show=true;
+                                break;
+                            }
+                        }
+                    }
+                    _this.tags=tags;
+                });
+                mui('#my-scroll').scroll({
+                    scrollY: true, //是否竖向滚动
+                    scrollX: false, //是否横向滚动
+                    startX: 0, //初始化时滚动至x
+                    startY: 0, //初始化时滚动至y
+                    indicators: false, //是否显示滚动条
+                    deceleration:0.0005, //阻尼系数,系数越小滑动越灵敏
+                    bounce: true //是否启用回弹
+                });
+            })
+
+            //处理软键盘弹出底部固定定位按钮顶起问题
+            this.defaultHeight = document.body.clientHeight;
+            let self = this
+            window.onresize = () => {
+                return (() => {
+                    self.nowHeight= document.body.clientHeight
+                })()
+            }
+        },
+        watch: {
+            nowHeight (val) {
+                // 判断软键盘弹出，收起
+                if(this.defaultHeight != this.nowHeight){
+                    //键盘弹出操作
+                    this.isOriginHei = false
+                }else{
+                    //键盘不弹出操作
+                    this.isOriginHei = true
+                }
+            }
+        },
+        beforeDestroy () {
+            window.onresize = null;     //注销window.onresize事件
+        },
+        methods:{
+            onSuccess(){
+                var _this=this;
+                var userInfo=_this.userInfo;
+                var special_label="";
+                var tags=_this.tags;
+                if(!(/^1[34578]\d{9}$/.test(userInfo.phone))){
+                    mui.toast('手机号码有误');
+                    return false;
+                }
+                for(var i in tags){
+                    if(tags[i].show){
+                        special_label+=tags[i].title+',';
+                    }
+                }
+                var cs={
+                    name:userInfo.uname,
+                    phone:userInfo.phone,
+                    signature:userInfo.signature,
+                    special_label:special_label
+                };
+                ajax('userAjax/editAgent',cs,function(res){
+                    if(res.success){
+                        mui.toast('保存成功, 正在跳回上一页');
+                        setTimeout(() => {
+                            setLocation('me.html');
+                        }, 2000)
+                    } else {
+                        mui.toast('保存失败');
+                    }
+                });
+            },
+            onTag(options){
+                var index=options.index;
+                var tags=this.tags;
+                //检测是否超过4个
+                if(!tags[index].show){
+                    var tagsLength=0;
+                    for(var i in tags){
+                        if(tags[i].show){
+                            tagsLength++;
+                        }
+                    }
+                    if(tagsLength<4){
+                        tags[index].show=!tags[index].show;
+                    }else{
+                        mui.toast('最多只能选择4个')
+                    }
+                }else{
+                    tags[index].show=!tags[index].show;
+                }
+                this.tags=tags;
+            },
+            onMainarea(){   //主营区域
+                var _this=this;
+                var userInfo=_this.userInfo;
+                userPicker2.setData(cityData);
+                userPicker2.show(function(items) {
+                    userInfo.mainarea=items[0].text+'-'+items[1].text;
+                    _this.userInfo=userInfo;
+                    //return false; 返回 false 可以阻止选择框的关闭
+                });
+            },
+            onPintai(){
+                var _this=this;
+                var userInfo=_this.userInfo;
+                userPicker.setData(pintaiData);
+                userPicker.pickers[0].setSelectedValue(userInfo.pintai, 0);
+                userPicker.show(function(items) {
+                    userInfo.pintai=items[0].value;
+                    _this.userInfo=userInfo;
+                    //return false; 返回 false 可以阻止选择框的关闭
+                });
+            },
+            onZhongjie(){
+                var _this=this;
+                var userInfo=_this.userInfo;
+                userPicker.setData(zhongjieData);
+                userPicker.pickers[0].setSelectedValue(userInfo.zhongjie, 0);
+                userPicker.show(function(items) {
+                    userInfo.zhongjie=items[0].value;
+                    _this.userInfo=userInfo;
+                    //return false; 返回 false 可以阻止选择框的关闭
+                });
+            }
+        }
+    })
+</script>

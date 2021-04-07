@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>我的关注</title>
+		<link rel="stylesheet" href="../../common/vant/index.css"/>
+		<link rel="stylesheet" href="../../common/css/public.css?v=1.18"/>
+		<link rel="stylesheet" href="../../static/css/my/my_focus.css?v=1.18"/>
+		<style>
+		
+		</style>
+	</head>
+	<body>
+		<div id="app" v-cloak ref="DOM">
+			<top-bar title="我的关注" margin-b=".2"></top-bar>
+
+			<van-tabs class="tab" sticky v-model="active">
+				<van-tab :title="item.title" v-for="(item,index) in list" :key="index">
+<!--					<van-list-->
+<!--							v-model="loading"-->
+<!--							:finished="item.list.length == 0"-->
+<!--							finished-text="没有更多了"-->
+<!--					>-->
+					<template v-if="fields">
+						<template v-if="index != 1">
+							<common-template :list="item.list" @del="(e)=>{ $set(list[index], 'list', e) }"></common-template>
+						</template>
+						<template v-else>
+							<div class="news">
+								<div class="news-box" v-for="(news,key) in item.list" :key="key">
+									<img :src="news.img[0]">
+									<div class="news-right">
+										<h4 class="news-title van-multi-ellipsis--l3">
+											{{ news.title }}
+										</h4>
+										<div class="news-info">
+											<img :src="news.author.head">
+											<span>
+											{{ news.author.name }}
+										</span>
+										</div>
+									</div>
+								</div>
+							</div>
+						</template>
+					</template>
+					<template v-else>
+						<van-empty image="error" description="暂无数据"/>
+					</template>
+
+
+<!--					</van-list>-->
+				</van-tab>
+			</van-tabs>
+			<div id="container-user-site"></div>
+		</div>
+	</body>
+</html>
+
+<script src="../../common/js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/rem.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/public.js?v=1.18" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/vant/index.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=53da8183ca23918f2f81c79a5b2ede15&plugin=AMap.Geocoder"></script>
+<script type="module">
+	import {http, loginMixin } from '/9house/common/js/method/http.js';
+	Vue.use(http);
+	
+	const myComponents = [
+		'../../components/common/topBar/index',
+		'../../components/common/template/index',
+	];
+	
+	$api.addComponents(myComponents)
+		.then(()=>{
+			
+			Vue.use(vant.Lazyload);
+			 
+			const app = new Vue({
+				el: '#app',
+				data: {
+					active: 0,
+					key:0,
+					finished:true,
+					fields: false,
+					list: [
+						{
+							title: '房源',
+							list: [
+								// {
+								// 	// 8-新房（数据和类型4-广告楼盘有图 雷同）
+								// 	id: 14,
+								// 	type: 8,
+								// 	info: {
+								// 		name: '世贸湖边首府',
+								// 		tip: ['售完','住宅','热楼盘','装修交付'],
+								// 		price: 34000,
+								// 		site: '湖里 软件园',
+								// 		area: 108,
+								// 		lab: [
+								// 			{ type: 0, name: '入围护理人气楼盘榜', img: '/9house/static/logo.png' },
+								// 			{ type: 0, name: '享9.5折', img: '/9house/static/logo.png' },
+								// 			{ type: 0, name: '777', img: '/9house/static/logo.png' },
+								// 			{ type: 0, name: '888', img: '/9house/static/logo.png' }
+								// 		]
+								// 	},
+								// 	img:  ['/9house/static/logo.png','/9house/static/logo.png','/9house/static/logo.png']
+								// },
+							]
+						},
+						{
+							title: '资讯',
+							list: [
+								// {
+								// 	// 1-资讯有图(1~3)
+								// 	id: 1,
+								// 	type: 1,
+								// 	hot: 0,
+								// 	write: 1,
+								// 	title: '土地使用年限和产权使用年限与 购房者有什么关系！土地使用年限和产权使用年限与 购房者有什么关系！土地使用年限和产权使用年限与 购房者有什么关系！',
+								// 	img: ['/9house/static/logo.png'],
+								// 	author: {
+								// 		name: '国际在线',
+								// 		head: '/9house/static/logo.png'
+								// 	},
+								// 	readNum: 136,
+								// 	commentNum: 43,
+								// 	tip: ['城建','快讯','快讯','快讯']
+								// },
+							]
+						},
+					]
+					
+					
+				},
+				watch:{
+					active(val){
+						let url
+
+						if(val == 0){
+							this.key = 0;
+							 url = '/index/user/myListings'
+						}else if (val == 1){
+							this.key = 1
+							 url = '/index/user/myAdvisory'
+						}
+
+						this.getList(url)
+
+					}
+				},
+				components: {
+					topBar,
+					commonTemplate,
+				},
+				mixins: [loginMixin],
+				created() {
+					this.getList()
+				},
+				mounted() {
+					this.aaa({
+						url: '456'
+					})
+				},
+				methods:{
+
+					getList(url = ''){
+						let getUrl = ''
+						if(url != ''){
+							getUrl = url
+						}else {
+							getUrl = '/index/user/myListings'
+						}
+						this.$http.ajax({
+							url: getUrl,
+						}).then( res=>{
+							if( res.data[this.key]['list'] && res.data[this.key]['list'].length > 0 ){
+								this.fields = true;
+							}else {
+								this.fields = false;
+							}
+		
+							this.list = res.data
+						})
+
+
+					},
+					aaa( params ){
+						const domain = '123';
+						let {
+							url = domain + params.url,
+							method = 'POST', 
+							data,
+							timeout = 10000
+						} = params;
+						
+						console.log(url)
+					}
+				},
+			})
+			
+		})
+	
+</script>

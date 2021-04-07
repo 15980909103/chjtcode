@@ -1,0 +1,205 @@
+<template>
+	<view>
+		<view class="all-template">
+			<view
+				:class="[item.type != 6 ? 'template' : 'template2']" 
+				v-for="(item,key) in list" 
+				:key="key"
+				@click.stop="goDetil(item)"
+				v-if="key<limit_num"
+			>
+				<!-- 新房/优惠楼盘 -->
+				<template v-if="item.type == 8 || item.type == 11 || item.type == 12">
+					<view class="template3">
+						<view class="template3-top">
+							<span :class="[ item.type == 11 ? 'template3-top-img-sale' : '' ]"><image :src="imgDirtoUrl(item.img[0])" class="template3-top-img" ></span>
+							<view class="template3-top-right">
+								<view class="template3-title">
+									<template v-if=" item.info.tip[0] == '人气榜' || item.info.tip[0] == '热搜榜'">
+										<image :src="item.info.tip[0] == '热搜榜' ? $api.imgDirtoUrl('/new_house/hot.png') : $api.imgDirtoUrl('/new_house/popular.png')">
+									</template>
+									{{item.info.name}}
+									<span
+										:class="[
+											item.info.tip[0] == '在售' ? 'houses-bg-blue' : '',
+											item.info.tip[0] == '待售' ? 'houses-bg-orange' : '',
+											item.info.tip[0] == '售罄' ? 'houses-bg-purple' : '',
+											item.info.tip[0] == '尾盘' ? 'houses-bg-blue2' : '',
+										]"
+										v-if=" item.info.tip[0] != '人气榜' && item.info.tip[0] != '热搜榜'"
+									>
+										{{item.info.tip[0]}}
+									</span>
+								</view>
+								<view class="template-top-houses-price">
+									<view v-if="item.info.price>0">
+										<span>{{item.info.price}}</span>元/m²
+									</view>
+									<view v-else>
+										价格待定
+									</view>
+								</view>
+								<view class="template3-tip" v-if = "item.info.tip.length>0">
+									<template v-for="(tip,num) in item.info.tip">
+										<view v-if="tip&&!(['在售','待售','售罄','尾盘'].includes(tip))&&num<4" :key="num">
+											{{tip}}
+										</view>
+									</template>
+								</view>
+								<view class="template3-site">
+									<span class="template-top-houses-site" :class="[ item.info.area ? 'template3-site-line' : '']">{{item.info.site}}</span>
+									<span class="template3-site-area van-ellipsis" v-if="item.info.area">建面{{item.info.area}}</span>
+								</view>
+							</view>
+						</view>
+						<template v-if="item.type == 8">
+							<view class="template3-bottom">
+								<template v-for="(house,houseIndex) in item.info.lab">
+									<span class="template3-bottom-tip" :key="houseIndex" v-if="houseIndex < 2 && house.type == 0">
+										<image :src="$api.imgDirtoUrl('/index/hot.png')">
+										<span class="van-ellipsis">{{house.name}}</span>
+									</span>
+									<!--template3-bottom-vr--> 
+									<span class="template3-bottom-tip" :key="houseIndex" v-if="houseIndex < 2 && house.type == 1">
+										<image :src="$api.imgDirtoUrl('/index/sale.png')">
+										<span class="van-ellipsis">{{house.name}}</span>
+									</span>
+								</template>
+							</view>
+						</template>
+						<template v-else-if="item.type == 11">
+							<view class="template3-bottom-apply">
+								<view class="template3-bottom-apply-box">
+									<span class="template3-bottom-apply-info van-ellipsis"><i class="iconfont iconxingzhuang1"></i>{{ item.apply.title }}</span>
+									<span class="template3-bottom-apply-people"><span>{{ item.apply.people }}</span>人已报名</span>
+								</view>
+								<van-button 
+									round 
+									type="info"
+									:color="item.apply.state == 0 ? 'linear-gradient(90deg, #FFA640 0%, #FE8D35 100%)' : 'rgba(173, 173, 173, 1)' "
+									:disabled ="item.apply.state == 0 ? false : true"
+									@click="$emit('apply',item.id)"
+								>
+									{{ item.apply.state == 0 ? '立即报名' : '已报名' }}
+								</van-button>
+							</view>
+						</template>
+					</view>
+				</template>
+			</view>
+		</view>
+	</view>
+</template>
+
+<script>
+	export default{
+		data(){
+			return{
+				active_id:0,
+			}
+		},
+		props: {
+			list: {
+				type: Array,
+				default() {
+					return []
+				}
+			},
+			titleShow: {
+				type: Boolean,
+				default() {
+					return true
+				}
+			},
+			pid:{
+				type:Number,
+				default:9
+			},
+			cate_id:{
+				type:Number,
+				default:10
+			},
+			show_adclose:{
+				type: Boolean,
+				default() {
+					return true
+				}
+			},
+			limit_num:{//现在显示的条数
+				type: Number,
+				default() {
+					return 999999
+				}
+			},
+		},
+		onLoad(options) {
+			if(options.active_id){
+				this.active_id = options.active_id;
+			}
+		},
+		methods: {
+			goDetil( item ){
+				if( item.type == 0 || item.type == 1 ){	//	文章资讯
+				
+					this.goPage('discover/news_detail',{ id: item.id, pid: this.pid, cate_id: this.cate_id });
+					
+				}else if(  item.type == 2 ){		// 广告有图
+					if( item.href && (item.href.indexOf('http://') ==0 || item.href.indexOf('https://') ==0 ) ){
+						window.location.href = item.href;
+					}
+					// this.goPage('discover/news_detail.html',{ id: id });
+					
+				}else if( item.type == 3 || item.type == 5 || item.type == 7 ){	//	3-广告视频 5-单独视频 7-楼盘视频
+					
+					this.goPage('discover/video',{ id: item.id,pid:this.pid,cate_id:this.cate_id });
+					
+				}else if( [4,8,9,10].includes(item.type) ){	//	4-广告楼盘有图 8-新房 9-好房推荐楼盘视频 10-好房推荐楼盘有图
+					if(item.type == 4){
+						if(!this.$api.trim(item.href) && item.info){
+							item.href = 'houses/index?id='+item.info.estate_id+'&cover='+item.info.cover;
+						}
+						if(!item.href){
+							return
+						}
+						this.goPage(item.href);
+						return;
+					}
+					const obj = {
+						id: item.id,
+						cover: item.cover
+					}
+					// console.log(item)
+					const active_id = this.active_id;
+					
+					if(active_id){ 
+						obj.active_id = active_id 
+					}
+					// console.log(obj)
+					item.href = this.$api.trim(item.href)
+					if(item.href){
+						this.goPage(item.href);//有设置跳转时
+					}else{
+						this.goPage('houses/index',obj);
+					}
+				}
+			},
+			goSmallVideo( id ) {
+				this.goPage('discover/small_video',{id: id});
+			},
+			moreVideo() {
+				this.goPage('discover/small_video_list');
+			},
+			// 广告删除
+			delAd( index ) {
+				let list = this.$api.deepClone(this.list);
+				
+				list.splice(index,1);
+				
+				this.$emit('del', list);
+			}
+		}
+	}
+</script>
+<style>
+	@import './commonTemplate.css';
+</style>

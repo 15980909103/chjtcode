@@ -1,0 +1,41 @@
+{
+  "description": "项目配置文件。",
+  "packOptions": {
+    "ignore": []
+  },
+  "setting": {
+    "urlCheck": false,
+    "es6": true,
+    "postcss": true,
+    "minified": true
+  },
+  "compileType": "miniprogram",
+  "libVersion": "",
+  "appid": "wx16b7695f814f1aaf",
+  "projectname": "mini",
+  "condition": {
+    "search": {
+      "current": -1,
+      "list": []
+    },
+    "conversation": {
+      "current": -1,
+      "list": []
+    },
+    "game": {
+      "current": -1,
+      "list": []
+    },
+    "miniprogram": {
+      "current": 2,
+      "list": [
+        {
+          "name": "chat",
+          "query": "id=135&cover=0",
+          "id": 0,
+          "pathName": "pages/chat/index"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>客户详情</title>
+    <link rel="stylesheet" type="text/css" href="../../static/mui/css/mui.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/css/customer/record_detail.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/css/swiper.min.css" />
+    <script type="text/javascript" src="../../static/js/jquery-2.0.0.min.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.min.js" ></script>
+    <!-- <script type="text/javascript" src="../../static/js/vue.min.js" ></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script type="text/javascript" src="../../static/js/vue-tap.js" ></script>
+    <script type="text/javascript" src="../../static/js/public.js" ></script>
+    <script type="text/javascript" src="../../static/js/swiper.min.js" ></script>
+    <script type="text/javascript" src="../../static/js/echarts.min.js" ></script>
+</head> 
+<body>
+  <div id="app" class="record-follow mui-scroll-wrapper" v-cloak>
+    <div class="mui-scroll">
+      <div class="profile">
+        <div class="profile-avatar">
+          <img :src="followData.headimgurl" v-cloak>
+        </div>
+        <div class="profile-info">
+          <p class="profile-info__name line">
+            <em class="name" v-cloak>{{ followData.name }}</em>
+            <template v-if="followData.status_type">
+              <span
+                class="status"
+                :data-label="followData.type_str"
+                v-cloak
+              >
+                {{ followData.type_str }}
+              </span>
+            </template>
+          </p>
+          <p class="profile-info__phone line">
+            <img src="../../static/image/icon-dianhua.png">
+            <span class="phone-number" v-cloak>{{ followData.phone }}</span>
+          </p>
+          <p class="profile-info__last-login-timer line" v-cloak>
+            最近访问时间: {{ followData.last_visit_time | formatTimer }}
+          </p>
+        </div>
+      </div>
+      <div class="content">
+        <div class="title">
+          <span>跟进记录</span>
+        </div>
+        <div class="header">
+          <div class="record">
+            <div class="record-process" ref="process">
+              <div class="record-process__axis"></div>
+              <div class="record-process__schedule"></div>
+              <div
+                v-for="node in 6"
+                class="record-process__node"
+                :data-index="node"
+              >
+                <div :class="['record-process__node-icon', followData.status_type >= node?'active': '']">
+                  <span class="icon"></span>
+                </div>
+                <div class="record-process__node-label" v-cloak>
+                  {{ getStatusLabel(node) }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="building">
+          <div class="building-cover">
+            <img :src="followData.building_cover">
+          </div>
+          <div class="building-info">
+            <p class="building-info__primary">
+              <span class="building-info__primary-name">
+                <em v-cloak>{{ followData.building_name }}</em>
+              </span>
+              <span class="building-info__primary-reward">佣金
+                <em v-cloak>
+                  {{ followData.commission }}<!--元-->
+                </em>
+              </span>
+            </p>
+            <p class="building-info__secondary">
+              <span class="building-info__secondary-address">
+                <span class="building-info__secondary-address-type" v-cloak>{{ followData.house_type }} |</span>
+                <span class="building-info__secondary-address-area">
+                  <em v-cloak>{{ followData.area }}</em>
+                </span>
+              </span>
+              <span
+                v-if="commissionChange !== 0"
+                :class="['building-info__secondary-address-float', commissionChange >= 0? 'rise': 'decline']"
+                v-cloak
+              >
+                <img v-show="commissionChange >= 0" src="../../static/image/rise-arrow.png">
+                <img v-show="commissionChange < 0" src="../../static/image/decline-arrow.png">
+                {{  | getChangeLabel }}
+              </span>
+            </p>
+          </div>
+        </div> 
+        <div
+          v-if="isDisplayPassTheAudit && getButtonLabel()"
+          class="pass-the-audit"
+        >
+          <button
+            type="button"
+            class="pass-the-audit__button"
+            v-tap="{methods: passTheAudit}"
+            v-cloak
+          >
+            {{ getButtonLabel() }}
+          </button>
+        </div>
+        <div class="line"></div>
+        <div class="recording">
+          <ul
+            v-if="isRenderList"
+            class="recording-list"
+          >
+            <li
+              v-for="(item, index) in followData.list"
+              :key="index"
+              class="recording-list__item"
+            >
+              <div class="recording-list__item-timer">
+                <p class="day" v-cloak>{{ item.time_day }}</p>
+                <p class="month" v-cloak>{{ item.time_year_month }}</p>
+              </div>
+              <div class="recording-list__item-line">
+                <div class="avatar">
+                  <img :src="item.headimgurl">
+                  <span class="type" v-cloak>{{ item.position }}</span>
+                </div>
+              </div>
+              <div class="recording-list__item-content">
+                <p class="name" v-cloak>{{ item.nickname }}</p>
+                <p class="status" v-cloak>{{ item.status_str }}</p>
+                <p class="message" v-cloak>{{ item.content }}</p>
+                <p class="images">
+                  <span
+                    v-for="(url, pictureIndex) in item.imgs"
+                    :key="pictureIndex"
+                    class="images-item"
+                  >
+                    <img
+                      :src="url"
+                      class="picture"
+                    >
+                  </span>
+                </p>
+              </div>
+            </li>
+          </ul>
+          <div v-else class="p">
+            暂无报备记录
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer">
+<!--      <span class="footer__icon-button add-report" v-tap="{methods: passTheAudit, isAddComment: true}">-->
+<!--        <img src="../../static/image/icon-nav-baobei.png" class="icon">-->
+<!--        报备-->
+<!--      </span>-->
+<!--      <span class="footer__icon-button chart">-->
+<!--        <img src="../../static/image/icon_nav_chat_normal.png" class="icon">-->
+<!--        微聊-->
+<!--      </span>-->
+      <a class="footer__button contact" :href="`tel:${followData.agent_phone}`">电话联系</a>
+    </div>
+  </div>
+</body>
+</html>
+
+<script>
+    Vue.config.devtools = true;
+    new Vue({
+      el: '#app',
+      data() {
+        return {
+          followData: {},
+          initList: true,
+          permission: -1,
+          getQueryString
+        }
+      },
+      mounted() {
+        this.initScrollPanel();
+        this.fetchFollowData();
+      },
+      computed: {
+        commissionChange() {
+          const rate = this.followData.commission_change_rate;
+          return rate? Number(rate.slice(0, -1)): 0;
+        },
+        isRenderList() {
+          return this.followData.list && this.followData.list.length > 0 && !this.initList;
+        },
+        isDisplayPassTheAudit() {
+          // 状态隐藏(失效/结束)
+          if (this.followData.status_type == -2 || (this.followData.status_type == '6' && this.permission != 5)) {
+            console.log(this.followData.status_type)
+            return false;
+          }
+
+          if (this.permission < 2) {
+            // 店员不存在这个情况
+            if (this.permission == 0 && this.followData.is_self == 0) {
+              return false
+            }
+            return true;
+          } else if (this.permission == 3) {
+            //组长不存在这种情况
+            if (this.followData.is_self == 1) {
+              return false;
+            } else {
+              if (this.followData.is_examine == 0) {
+                return false;
+              }
+            }
+          }
+          return true;
+        }
+      },
+      filters: {
+        formatTimer(content) {
+          return content? content: '暂无';
+        },
+        getChangeLabel(content) {
+          if (content) {
+            const number = Number(content);
+            return `${number >= 0? '增加': '减少'}${number}%`;
+          }
+          return '';
+        }
+      },
+      methods: {
+        initProcessLine() {
+          const index = this.followData.status_type? parseInt(this.followData.status_type) + 1: 2;
+          const panel = this.$refs.process;
+          // debugger;
+          const isLastIndex = index == (panel.children.length - 1);
+          const first = panel.children[2];
+          const next = panel.children[index + (isLastIndex? 0: 1)];
+          const width = next.offsetLeft - first.offsetLeft;
+          const schedule = panel.children[1];
+          schedule.style.width = `${width}px`;
+        },
+        initScrollPanel() {
+          mui('.mui-scroll-wrapper').scroll({
+            scrollY: true, //是否竖向滚动
+            scrollX: false, //是否横向滚动
+            startX: 0, //初始化时滚动至x
+            startY: 0, //初始化时滚动至y
+            indicators: true, //是否显示滚动条
+            deceleration:0.0006, //阻尼系数,系数越小滑动越灵敏
+            bounce: true //是否启用回弹
+          });
+        },
+        fetchFollowData() {
+          ajax('agentAjax/getFollowDataNew', {
+            id: getQueryString('id')
+          }, res => {
+            if (res.success) {
+              this.followData = res.data;
+              this.initList = false;
+              this.permission = res._auth.type;
+            } else {
+              mui.toast(res.message);
+            }
+            this.$nextTick(() => {
+              this.initProcessLine();
+            })
+          });
+        },
+        getStatusLabel(status_type) {
+          switch (Number(status_type)) {
+            case 1: return '报备';
+            case 2: return '带看';
+            case 3: return '成交';
+            case 4: return '确认业绩';
+            case 5: return '开票';
+            case 6: return '结佣';
+            case 7: return '完成';
+            default: return '';
+          }
+        },
+        getExamineLabel(examine_type) {
+          switch (Number(examine_type)) {
+            case -2: return '失效';
+            case -1: return '驳回';
+            case 1: return '进行中';
+            case 2: return '完成';
+            default: return '';
+          }
+        },
+        getCurrentStatus(item) {
+          return `${this.getStatusLabel(item.status_type)}${this.getExamineLabel(item.examine_type)}`;
+        },
+        getButtonLabel() {
+          const status_type = Number(this.followData.status_type);
+          const examine_type = Number(this.followData.examine_type);
+          // 已完成
+          if (status_type == 6 && examine_type == 2) {
+            return '';
+          }
+          const isStay = status_type == 1 && examine_type == 1;
+          let statusText;
+
+          console.log(Number(examine_type))
+          console.log(status_type)
+
+          if( status_type < 2 ){
+            statusText = this.getStatusLabel(status_type + Number(!isStay)).slice(-2);
+          } else {
+            statusText = this.getStatusLabel(status_type).slice(-2);
+          }
+
+          console.log(statusText)
+
+          const label = status_type == 1 && examine_type == 2? '申请': '确认';
+          return `${label}${statusText}`;
+        },
+        passTheAudit(options) {
+          var isAddComment = Boolean(options.isAddComment);
+          if (this.followData.status_type == '6' && this.followData.examine_type == '2') {
+            mui.toast('流程已完结');
+            return ;
+          }
+          if (this.followData.examine_type == '-2') {
+            mui.toast('流程失效');
+            return ;
+          }
+          const permission = Number(this.permission);
+          let path = 'examine_reported';
+          if (!isAddComment) {
+            if(permission <= 1 || (permission == 2 && this.followData.is_self == 1)) {
+              // path = 'pages/customer/take_apply';
+              isAddComment = true;
+            }
+          }
+          setLocation(`${path}.html?reported_id=${getQueryString('id')}${isAddComment ? '&isAddComment=1': ''}`);
+        }
+      }
+    })
+</script>

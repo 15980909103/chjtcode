@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://lib.baomitu.com/socket.io/2.3.0/socket.io.js"></script>
+
+    <!--<script src="https://code.jquery.com/jquery-1.11.1.js"></script>-->
+</head>
+<body>
+
+<div>
+    1.在控制台中执行，创建连接
+    <div>socket.setSocket(0)或者批量 socket.setSocket([0,1,2,3,4,5,6,7,8,9,10])</div>
+</div>
+<div>
+    2.在控制台中执行，创建房间
+    <div>socket.socketPost("MyPkRoom",{0:{"user_id":"1"}})</div>
+</div>
+<div>
+    2.或者在控制台中执行，批量创建不同人的房间
+    <div>socket.socketPost("MyPkRoom",{0:{"user_id":"1"},1:{"user_id":"2"},2:{"user_id":"3"},3:{"user_id":"4"},4:{"user_id":"5"},5:{"user_id":"6"},6:{"user_id":"7"},7:{"user_id":"8"},8:{"user_id":"9"},9:{"user_id":"10"},10:{"user_id":"11"}})</div>
+</div>
+
+<div>
+    3.在控制台中执行，加入房间
+    <div>
+        socket.socketPost("JoinPK",{1:{"user_id":"2","owner_uid":"1!0"},2:{"user_id":"3","owner_uid":"1!0"},3:{"user_id":"4","owner_uid":"1!0"},4:{"user_id":"5","owner_uid":"1!0"},5:{"user_id":"6","owner_uid":"1!0"}})
+    </div>
+</div>
+
+<div>
+    3.在控制台中执行，离开房间
+    <div>
+       房主离开 socket.socketPost("LeavePkRoom",{0:{"user_id":"1","owner_uid":"1!0"}})
+    </div>
+    <div>
+        某个成员离开 socket.socketPost("LeavePkRoom",{1:{"user_id":"2","owner_uid":"1!0"},2:{"user_id":"3","owner_uid":"1!0"},3:{"user_id":"4","owner_uid":"1!0"},4:{"user_id":"5","owner_uid":"1!0"},5:{"user_id":"6","owner_uid":"1!0"}})
+    </div>
+</div>
+
+<div>
+    聊天：
+    <div>socket.socketPost("JoinMsg",{0:{merch_id: "kJR9dO", activity_id: "0dB6d2"}})</div>
+    <div>socket.socketPost("SendMsg",{0:{merch_id: "kJR9dO", activity_id: "0dB6d2", zz:'asdqweasdzxc123123', context: "kJR9dO"}})</div>
+</div>
+
+
+<div>
+    <div>
+        返回内容:
+    </div>
+    <div style="width: 600px;height: 600px" id="content">
+
+    </div>
+</div>
+
+
+
+<script>
+    class socketObj{
+        constructor() {
+            this.socketArr={}
+        }
+        setSocket(no) {
+            if(typeof(no) == 'object'){
+                for (var i in no){
+                    this.socketArr[no[i]] = createConnet()
+                }
+            }else{
+                this.socketArr[no] = createConnet()
+            }
+
+            function createConnet() {
+                //var u = 'http://bobing.test.com:9501'
+                var u = 'ws://moon.999house.com:9501?token=81493b3d7f6c423e51793dc00c679483&m=bobing'//真实登录
+                const socket = io(u);
+                //    socket.emit("test", "your message");
+                socket.on("msgCallback", function (res) {
+                    console.log(res,1111111)
+                    // $('#content').html($('#content').html()+JSON.stringify(res)+"<br>");
+                });
+
+                socket.on('loginFail',function(res){
+                    console.log(res,'登录失效请重新登录')
+                })
+
+                console.log(socket)
+                return socket
+            }
+            console.log(this)
+        }
+        socketPost(event_name,data){
+            for (var no in data){
+                this.socketArr[no].emit(event_name,data[no],'bobing')
+            }
+        }
+    }
+    let socket = new socketObj()
+
+
+
+
+    //setSocket(0)
+    //getSocket(0).emit("PkJoinRoom",{"user_id":"1"})
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,337 @@
+<template>
+	<view>
+		<view class="content">
+			<view class="find">
+				<span class="find-title">您购房的目的是什么？</span>
+				<view class="find-tip">
+					<view 
+						class="find-tip-item" 
+						:class="[ uChoose.aim == item.name ? 'find-active' : '' ]" 
+						v-for="(item,index) in list.aim" 
+						:key="index" 
+						@click="chooseTip('aim',item)">
+						{{ item.name }}
+					</view>
+				</view>
+				
+				<span class="find-title">是否首套房？</span>
+				<view class="find-tip">
+					<view 
+						class="find-tip-item" 
+						:class="[ uChoose.manyHouse == item.name ? 'find-active' : '' ]" 
+						v-for="(item,index) in list.manyHouse" 
+						:key="index"
+						@click="chooseTip('manyHouse',item)"
+					>
+						{{ item.name }}
+					</view>
+					
+				</view>
+				
+				<span class="find-title">您的总预算(万元)？</span>
+				<view class="u-price">
+					{{ uChoose.budget == 1000 ? '不限' : uChoose.budget + '万' }}
+					
+				</view>
+				<view>
+					<slider :value="uChoose.budget" max="1000" min="20" step="10" bar-height="4" active-color="rgba(254, 130, 30, 1)" @changing="sliderChange"/>
+				</view>
+				<view class="price">
+					<span>60万</span><span>220万</span><span>390万</span><span>570万</span><span>740万</span><span>1000万+</span>
+				</view>
+				
+				<span class="find-title">您想买的区域是？</span>
+				<view class="location" @click="siteShow = true">
+					<span class="iconfont iconlocation-2"></span>
+					<span class="location-choose u-ellipsis">{{uChoose.site}}</span>
+					<span class="iconfont iconquxiao" v-show="uChoose.site != '不限'" @click.stop="delChoose"></span>
+					<span class="iconfont iconjiantou1"></span>
+				</view>
+				
+				<u-popup v-model="siteShow" mode="bottom">
+					<common-area v-if="siteShow" :height="7.16" :list="list.site" :clear="false" @close="siteClose" @sure="siteSure" ref="site_area" :default_data='default_site_area'></common-area>
+				</u-popup>
+				
+				<span class="find-title">您想住几居室？</span>
+				<view class="find-tip">
+					<view 
+						class="find-tip-item" 
+						:class="[ uChoose.bedroom&&uChoose.bedroom.includes(item.id)? 'find-active' : '' ]"
+						v-for="(item,index) in list.bedroom" 
+						:key="index" 
+						@click="chooseTip('bedroom',item)"
+					>
+						{{ item.name }}
+					</view>
+				</view>
+				
+				<span class="find-title">您想买多大面积？</span>
+				<view class="find-tip">
+					<view 
+						class="find-tip-item" 
+						:class="[ uChoose.area.indexOf(item.name) != -1 ? 'find-active' : '' ]"
+						v-for="(item,index) in list.area" 
+						:key="index"
+						@click="chooseTip('area',item)"
+					>
+						{{ item.name }}
+					</view>
+				</view>
+				
+				<span class="find-title">您还有哪些其他偏好？</span>
+				<view class="find-tip">
+					<view 
+						class="find-tip-item" 
+						:class="[ uChoose.like&&uChoose.like.includes(item.id)? 'find-active' : '' ]" 
+						v-for="(item,index) in list.like" 
+						:key="index" 
+						@click="chooseTip('like',item)"
+					>
+						{{ item.name }}
+					</view>
+				</view>
+				
+				<span class="find-title">您还有其他要求吗？</span>
+				<view class="idea">
+					<textarea maxlength="300" placeholder="请输入您的其他要求" v-model="ideaText"></textarea>
+					<view class="idea-num">{{ideaText.length}}/300</view>
+				</view>
+				
+				<view class="commit">
+					<u-button 
+						class="commit-btn" 
+						type="warning" 
+						loading-text="生成中..."
+						color="rgba(254, 130, 30, 1)"
+						@click="btnClick"
+					>
+						立即生成
+					</u-button>
+				</view>
+				
+			</view>
+			<view id="container-user-site"></view>
+			<u-toast ref="uToast" />
+		</view>
+	</view>
+</template>
+
+<script>
+	import commonArea from "@/components/common/cArea";
+	export default {
+		data() {
+			return {
+				default_site_area:{ },
+				list: {
+					aim: [
+						{ id: 0, name: '刚需' },
+						{ id: 1, name: '结婚' },
+						{ id: 2, name: '养老' },
+						{ id: 3, name: '改善' },
+						{ id: 4, name: '教育' },
+						{ id: 5, name: '投资' },
+						{ id: 6, name: '别管' },
+					],
+					manyHouse: [
+						{ id: 7, name: '首套' },
+						{ id: 8, name: '二套' }
+					],
+					bedroom: [ ],
+					area: [ ],
+					like: [ ],
+					site: [
+						{
+							name: '城区',
+							list: [ ]
+						},
+						{
+							name: '地铁',
+							list: [ ]
+						}
+					]
+				},
+				ideaText: '',
+				uChoose: {
+					aim: '刚需',
+					manyHouse: '首套',
+					budget: 70,
+					budget_str:'0-70',
+					site: '不限',
+					site_id: '',
+					site_center:{},
+					bedroom: [],
+					area: '',//面积
+					like: []
+				},
+				siteShow: false,
+				city_no: 0,
+			}
+		},
+		components: {
+			commonArea
+		},
+		watch:{
+			'uChoose.budget':function(val){
+				this.uChoose.budget_str = '0-'+val
+			},
+		},
+		onLoad() {
+			this.$api.localStore.localDel('map_data');
+			this.city_no = getApp().getCurrentCity().city_no;
+			this.getCondition();
+		},
+		mounted(){
+			this.initLocalUChoose();
+		},
+		methods:{
+			 sliderChange(e) {
+				this.uChoose.budget = e.detail.value
+			},
+			initLocalUChoose(){
+				let uChoose = this.$api.localStore.localGet('user_find_house');
+				
+				if( !uChoose ) {
+					return;
+				}
+				
+				if(uChoose.aim){
+					this.uChoose.aim = uChoose.aim
+				}
+				if(uChoose.manyHouse){
+					this.uChoose.manyHouse = uChoose.manyHouse
+				}
+				if(uChoose.budget){
+					this.uChoose.budget = uChoose.budget
+					this.uChoose.budget_str = uChoose.budget_str
+				}
+				if(uChoose.site_id){
+					this.uChoose.site = uChoose.site
+					this.uChoose.site_id = uChoose.site_id
+					this.uChoose.site_center = uChoose.site_center
+					this.default_site_area = {
+						id: uChoose.site_id,
+						name: uChoose.site,
+						site_center: uChoose.site_center
+					}
+				}
+				if(uChoose.bedroom&&uChoose.bedroom.length){
+					this.uChoose.bedroom = uChoose.bedroom
+				}
+				if(uChoose.area){
+					this.uChoose.area = uChoose.area
+				}
+				if(uChoose.like&&uChoose.like.length){
+					this.uChoose.like = uChoose.like
+				}
+			},
+			getCondition(city_no){
+				
+				const data = {
+					city_no: this.city_no
+				};
+				
+				this.$http.get('/estates/getSeletList',
+					data,
+				).then( res=>{
+					let data = res.data;
+
+					let bedroom = [];//户型
+					let built_area = [];//面积
+					let tags = [];//特色标签
+					let site = [];//区域
+					for(let i in data){
+						let item = data[i];
+						if(item.title=='区域'){
+							site = item.list
+						}
+						if(item.title=='户型'){
+							item.list.splice(0,1);
+							bedroom = item.list
+						}
+						if(item.title=='更多'){
+							built_area =  item.list[0].list;
+							tags =  item.list[2].list;
+						}
+					}
+					console.log('set list')
+					this.list= {
+						...this.list,
+						bedroom: bedroom,
+						area: built_area,
+						like: tags,
+						site: site,
+					}
+				})
+			},
+			chooseTip( type , item ){
+				
+				const more = (val) =>{
+					const el = this.uChoose[type];
+					const haveNum = el.indexOf(val);
+					
+					if( haveNum == -1 ){
+						el.push(val)
+					} else {
+						el.splice(haveNum,1);
+					}
+				};
+				
+				const only = (val) =>{
+					this.uChoose[type] = val;
+				};
+				
+				if(['like','bedroom'].includes(type)){
+					if(type=='like'||type=='bedroom'){
+						more(item.id);
+					}else{
+						more(item.name);
+					}
+				} else if(['aim','manyHouse','area'].includes(type)){
+					only(item.name);
+				}
+			},
+			siteClose() {
+				this.siteShow = false;
+			},
+			siteSure(text, id, center) {
+				this.uChoose.site = text
+				this.uChoose.site_id = id
+				this.uChoose.site_center = center
+			},
+			delChoose() {
+				if(this.$refs.site_area){
+					this.$refs.site_area.clearSite()
+				}else{
+					this.uChoose.site = '不限'
+					this.uChoose.site_id = ''
+					this.uChoose.site_center = {}
+				}
+			},
+			btnClick() {
+				let uChoose = this.uChoose;
+				// uChoose.budget//预算区间文字
+				// uChoose.area//面积区间文字
+				// uChoose.bedroom//几居室id
+				// uChoose.like//特色标签id
+
+				uChoose.other_requirements = this.ideaText;
+				uChoose.city_no = this.city_no;
+				console.log(6666666,uChoose)
+				this.$api.localStore.localSet('user_find_house',uChoose,3600*5);
+				if( uChoose.bedroom.length < 1 ){
+					// this.$toast('请选择您想买的户型');
+					this.$refs.uToast.show({
+						title: '请选择您想买的户型',
+						type: 'warning ',
+					})
+				} else {
+					this.goPage('index/find_result');
+				}
+			},
+		},
+	}
+</script>
+
+<style>
+	 @import './find_house.css';
+</style>

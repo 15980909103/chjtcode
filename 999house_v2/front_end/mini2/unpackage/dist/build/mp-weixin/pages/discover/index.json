@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "发现",
+  "usingComponents": {
+    "u-tabs": "/uview-ui/components/u-tabs/u-tabs",
+    "common-information": "/components/common/template_information",
+    "commontag": "/components/common/tag",
+    "common-newhouse": "/components/common/template_newHouse"
+  }
+}

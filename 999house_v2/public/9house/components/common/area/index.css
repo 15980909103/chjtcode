@@ -1,0 +1,101 @@
+.site{
+	position: relative;
+}
+
+.content{
+	display: flex;
+	box-sizing: border-box;
+	padding-bottom: 1.28rem;
+}
+
+.content-left{
+	
+	width: 16.6%;
+}
+
+.content-center{
+	width: 33.2%;
+	border-left: 0.01rem solid rgba(240, 240, 240, 1);
+}
+
+.content-right{
+	width: 50.2%;
+	border-left: 0.01rem solid rgba(240, 240, 240, 1);
+}
+
+.content-left,
+.content-center,
+.content-right{
+	display: flex;
+	flex-direction: column;
+	overflow-y: scroll;
+}
+
+.content-left-item{
+	width: 100%;
+	height: 1rem;
+	/* display: flex;
+	align-items: center; */
+	font-size: 0.32rem;
+	text-indent: 0.26rem;
+	line-height: 1rem !important;
+}
+
+.content-left-item-right{
+	width: 100%;
+	height: 1rem;
+	display: flex;
+	align-items: center;
+	font-size: 0.32rem;
+	text-indent: 0.26rem;
+	line-height: 1rem !important;
+}
+
+.content-left-item-right .iconfont{
+	margin-right: 0.44rem;
+}
+
+.content-active{
+	color: rgba(254, 130, 30, 1);
+}
+
+.location-btn{
+	width: 100%;
+	height: 1.28rem;
+	position: absolute;
+	bottom: 0;
+	background-color: #fff;
+	border-top: 0.01rem solid rgba(240, 240, 240, 1);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	box-sizing: border-box;
+	padding: 0 .32rem;
+}
+
+.location-btn-close,
+.location-btn-sure{
+	flex: 1;
+	height: 0.88rem;
+}
+
+.location-btn-close{
+	border-color: rgba(134, 186, 122, 1);
+	color: rgba(134, 186, 122, 1);
+	margin-right: .2rem;
+}
+
+.location-btn-icon{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	padding: 0 .42rem 0 .1rem;
+}
+
+.location-btn-icon .iconfont{
+	font-size: .44rem;
+}
+
+.location-btn-icon span{
+	font-size: .26rem;
+}

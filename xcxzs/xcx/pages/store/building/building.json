@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "",
+  "usingComponents": {
+    "van-search": "/dist/search/index",
+    "list-html": "/dist/wx-index-list/wx-index-list"
+  }
+}

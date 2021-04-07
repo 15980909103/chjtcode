@@ -1,0 +1,33 @@
+.my-content{width: 100vw;min-height: 100vh;background-color: #f5f5f5;}
+[v-cloak] {display: none;}
+.my-chat-content{width: 100vw;}
+.aui-chat{overflow-x: hidden !important;}
+.aui-chat .aui-chat-left .aui-chat-media,.aui-chat .aui-chat-right .aui-chat-media{height: 2rem;}
+.aui-chat .aui-chat-media img{height: 100%;}
+.aui-chat .aui-chat-status{color:#cdcdcd;}
+.my-both{clear: both;width: 100vw;height: 8vh;}
+.my-footer{width: 100vw;height: 8vh;padding: 1.5vh 5vw;background-color: #FFF;position: fixed;bottom: 0;display: flex;justify-content:space-between;}
+.footer-input{border: 0 !important;height:5vh !important;width: 70vw !important;margin-bottom: 0 !important;background-color: #F7F7F7 !important;}
+
+
+:root {
+  font-size: 16px;
+}
+
+.my-footer {
+  padding: .5rem 1rem;
+  align-items: center;
+  height: auto;
+}
+
+.footer-input {
+  height: 2.375rem !important;
+  line-height: 2.375rem !important;
+}
+
+.aui-btn.aui-btn-info {
+  width: 15vw;
+  height: 2rem !important;
+  line-height: 2rem !important;
+  font-size: .875rem;
+}

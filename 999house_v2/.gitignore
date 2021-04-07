@@ -1,0 +1,6 @@
+/.idea
+/.vscode
+/vendor
+*.log
+.env
+/front_end/wxh5/unpackage

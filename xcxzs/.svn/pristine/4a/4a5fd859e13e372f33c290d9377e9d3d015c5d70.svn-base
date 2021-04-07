@@ -1,0 +1,831 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>楼盘</title>
+    <!-- <link rel="stylesheet" type="text/css" href="./static/css/aui.css" /> -->
+    <link rel="stylesheet" type="text/css" href="./static/mui/css/mui.min.css" />
+    <link rel="stylesheet" type="text/css" href="./static/css/building.css?v=1" />
+    <script type="text/javascript" src="./static/js/jquery-2.0.0.min.js" ></script>
+    <script type="text/javascript" src="./static/mui/js/mui.min.js" ></script>
+    <script type="text/javascript" src="./static/mui/js/mui.pullToRefresh.js" ></script>
+    <script type="text/javascript" src="./static/mui/js/mui.pullToRefresh.material.js" ></script>
+    <!-- <script type="text/javascript" src="./static/js/vue.min.js" ></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script type="text/javascript" src="./static/js/vue-tap.js" ></script>
+    <script type="text/javascript" src="./static/js/public.js?v=2" ></script>
+	<script type="text/javascript" src="./static/js/jweixin-1.4.0.js" ></script>
+    <script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&key=HMIBZ-QXLKW-7IART-RRJF6-CWNTV-EBF6D"></script>
+    <script type="text/javascript" src="./static/js/allcity.js" ></script>
+    <script type="text/javascript" src="./static/js/region.js" ></script>
+    <script type="text/javascript" src="./mixins/listenInputClear.js" ></script>
+    <script type="text/javascript" src="./static/js/pulltorefresh.js" ></script>
+    <script type="text/javascript" src="./static/js/scrollToFetch.js" ></script>
+    <script type="text/javascript" src="./static/js/vue-lazyload.js" ></script>
+    <style>.mui-pull-bottom-tips{display: none;}</style>
+</head>
+<body>
+<div id="app" :class="['my-content', is_showdetail? 'fixed-page': '']">
+    <!--<div class="my-loupan" v-tap="{methods:onMyBuilding}">
+        <img v-cloak :src="DOMAINSTATIC+'image/icon-personal-loupan.png'" alt="暂无图片">
+        <div>我的楼盘</div>
+        <i class="aui-iconfont aui-icon-right"></i>
+    </div>-->
+    <div id='my-search'>
+        <div
+            class="my-op1 font-clamp"
+            :class="[sortList[0].className,sortList[0].is_show?'triangle-up':'triangle-down']"
+            v-tap="{methods:onSortBtn,index:0}"
+            v-cloak
+        >
+            {{ sortList[0] | triangleItemDisplayTxt }}
+        </div>
+        <div class="mui-input-row mui-search" style="margin-left: 15px;width: 70vw;">
+            <input
+                type="search"
+                class="mui-input-clear"
+                placeholder="请输入楼盘或小区名"
+                v-model.sync="searchText"
+                v-on:keyup.enter="onSearch"
+                @focus="focusInput"
+                @blur="focusInput"
+            >
+        </div>
+    </div>
+    <div id="my-sort">
+        <div
+            class="sort-li"
+            :class="[
+                sortList[1].is_show?'triangle-up':'triangle-down',
+            ]"
+            v-tap="{methods:onSortBtn,index:1}"
+            v-cloak
+        >
+            {{ sortList[1] | triangleItemDisplayTxt }}
+        </div>
+        <div class='sort-1'></div>
+        <div
+            class="sort-li"
+            :class="[
+                sortList[2].is_show?'triangle-up':'triangle-down',
+            ]"
+            v-tap="{methods:onSortBtn,index:2}"
+            v-cloak
+        >
+            {{ sortList[2] | triangleItemDisplayTxt }}
+        </div>
+        <div class='sort-1'></div>
+        <div
+            class="sort-li"
+            :class="[
+                sortList[3].is_show?'triangle-up':'triangle-down',
+            ]"
+            v-tap="{methods:onSortBtn,index:3}"
+            v-cloak
+        >
+            {{ sortList[3] | triangleItemDisplayTxt }}
+        </div>
+        <div class='sort-1'></div>
+        <div
+            class="sort-li"
+            :class="[
+                sortList[4].is_show?'triangle-up':'triangle-down',
+            ]"
+            v-tap="{methods:onSortBtn,index:4}"
+            v-cloak
+        >
+            {{ MultipleSelectTxt }}
+        </div>
+        <div class='sort-1'></div>
+        <div class="sort-img" :class="[sortList[5].is_show?'sort-up':'sort-down']" v-tap="{methods:onSortBtn,index:5}"></div>
+    </div>
+    <div id="my-scroll" :class="['mui-scroll-wrapper', countMultSelected > 0? 'mult-padding':'']">
+        <div class="mui-scroll">
+            <div class="my-lp-lists">
+                <div class="my-jiazai-div">
+                    <div class='my-lp-list' v-for="(item,index) in lpList" v-if="lpList.length>0">
+                        <div class="building-info__primary">
+                            <div class='my-lpimg' v-tap="{methods:onBuildDetail,id:item.id}">
+                                <img class='my-lp-ig' v-lazy='item.pic' v-cloak/>
+                                <div class='my-huo' v-cloak><img src="./static/image/icon-renqizhi.png"/> <div v-cloak> {{item.views_number}}</div> </div>
+                            </div>
+                                <div class="building-info__primary-content" v-tap="{methods:onBuildDetail,id:item.id}">
+                                    <div class="building-content__header">
+                                        <div class="building-content__header-info">
+                                            <p class="building-name" v-cloak>{{item.name}}</p>
+                                            <p class="building-address" v-cloak>{{item.house_type}} | {{item.area}}</p>
+                                        </div>
+                                        <div class="building-content__header-focus">
+                                            <button
+                                                :class="['focus-building__button', item.is_focus == '1'? '': 'bright']"
+                                                @click="focusBuilding(item.id, item.is_focus, index)"
+                                                v-cloak
+                                            >
+                                                {{ item.is_focus == '1'? '已': '' }}开通
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="building-content__footer">
+                                        <p v-cloak>{{item.fold}}元/m²  <span v-cloak>佣金 {{item.commission}}<!--元--></span></p>
+                                    </div>
+                                </div>
+                        </div>
+                        <template v-if="item.flag.length>0">
+                            <p class="building-flag">
+                                <span
+                                    v-for="(val, valIndex) in item.flag"
+                                    :key="valIndex"
+                                    v-cloak
+                                    :class="['building-flag__item', val=='闪电结佣'?'my-style2':'',val=='电商优惠'?'my-style3':'',val=='带看券'?'my-style4':'',val=='九房验真'?'my-style5':'']"
+                                >
+                                    {{val}}
+                                </span>
+                            </p>
+                        </template>
+                    </div>
+                    <div class="empty" v-show="show" style="width:100%;height:auto;">
+                        <img src="./static/image/empty.png" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 顶部状态栏--更多选项 -->
+    <div
+        v-show="countMultSelected > 0"
+        class="mult-select__list"
+        v-cloak
+    >
+        <div
+            v-for="(options, optionsIndex) in getMultSelected"
+            :key="optionsIndex"
+            class="mult-select__list-options"
+        >
+            <div
+                v-for="(item, index) in options.data"
+                :key="index"
+                @click="removeSelectMult(optionsIndex, index)"
+                class="mult-select__list-options-item"
+                v-cloak
+            >
+                {{ item.title }}
+            </div>
+        </div>
+    </div>
+
+    <div id="my-sort-detail" class="mui-scroll-wrapper my-animation" :class="[is_showdetail?'is-showdetail':'']">
+        <div class="mui-scroll">
+            <div class='my-sort-d0' v-if="sortList[0].is_show">
+                <template v-for="item in sortList[0].data">
+                    <div class="city-title" v-cloak>{{item.title}}</div>
+                    <div :class="[item.type=='hot'?'city-hot-div':'']">
+                        <div
+                            v-for="val in item.item"
+                            :class="['city-li', item.type=='hot'?'city-hot-li':'']"
+                            v-tap="{methods:onSubmit,btnidx:'0',name:val.name}"
+                            v-cloak
+                        >
+                            {{val.name}}
+                        </div>
+                    </div>
+                </template>
+            </div>
+            <div v-if="sortList[1].is_show">
+                <div
+                    v-for="item in appendEmptyItem(areaList)"
+                    v-tap="{methods:onSubmit,btnidx:'1',name:item}"
+                    :class="[
+                        'my-sort-d1',
+                        ((item=='全部'? '': item) == sortData[1].value)? 'active': ''
+                    ]"
+                    v-cloak
+                >
+                    {{item}}
+                </div>
+            </div>
+            <div v-if="sortList[2].is_show">
+                <div class='my-sort-d2'>
+                    <div class='my-so-2-1'>
+                        <div
+                            class="my-so-2-li"
+                            :class="[sort2Index==index?'my-tick':'']"
+                            v-for="(item,index) in sortData[2].data"
+                            v-tap="{methods:onSort2,index:index}"
+                            v-cloak
+                        >
+                            {{item.text}}
+                        </div>
+                    </div>
+                    <div class='my-so-2-2'>
+                        <div
+                            v-for="item in appendEmptyItem(sortData[2].data[sort2Index].data)"
+                            v-tap="{methods:onSubmit,btnidx:'2',name:item}"
+                            :class="[
+                                'my-so-2-li',
+                                item.val == (sortData[2].value && sortData[2].value.val || '')? 'active': ''
+                            ]"
+                            v-cloak
+                        >
+                            {{item.name}}
+                        </div>
+                    </div>
+                    <div></div>
+                </div>
+            </div>
+            <div v-if="sortList[3].is_show">
+                <div
+                    v-for="item in appendEmptyItem(sortData[3].data)"
+                    v-tap="{methods:onSubmit,btnidx:'3',name:item}"
+                    :class="[
+                        'my-sort-d1',
+                        ((item=='全部'? '': item) == sortData[3].value)? 'active': ''
+                    ]"
+                    v-cloak
+                >
+                    {{item}}
+                </div>
+            </div>
+            <div class='my-sort-dd4' v-if="sortList[4].is_show">
+                <div class='my-sort-d4' v-for="(item,index) in sortData[4].data">
+                    <div class='sort4-title' v-cloak>{{item.title}}</div>
+                    <div class='sort4-contents'>
+                        <div class="sort4-li" :class="[val.is_checked?'my-tick2':'',idx%3==1?'sort4-li-b':'']" v-for="(val,idx) in item.data" v-tap="{methods:onSort4,index:index,idx:idx}" v-cloak>{{val.title}}</div>
+                    </div>
+                </div>
+            </div>
+            <div v-if="sortList[5].is_show">
+                <div class="my-sort-d1" v-for="item in sortData[5].data" v-tap="{methods:onSubmit,btnidx:'5',name:item}" v-cloak>{{item}}</div>
+            </div>
+        </div>
+    </div>
+    <div class='my-sort4-footer my-animation2' :class="[sortList[4].is_show?'is-showdetail2':'']">
+        <div class='sort4-btn1' v-tap="{methods:onSort4Reset}">重置</div>
+        <div class='sort4-btn2' v-tap="{methods:onSubmit,btnidx:'4'}">确定</div>
+    </div>
+
+    <div id="my-footer" v-if="!isHiddenFooter">
+        <div class="footer-li" v-tap="{methods:onGoNarList,url:'index.html?is_login=1'}">
+            <img v-cloak :src="DOMAINSTATIC+'image/nav_home.png'">
+            <div>首页</div>
+        </div>
+        <div class="footer-li" v-tap="{methods:onGoNarList,url:'news.html'}">
+            <img v-cloak :src="DOMAINSTATIC+'image/icon_nav_news_normal.png'">
+            <div>新闻</div>
+        </div>
+        <div class="footer-li my-tick">
+            <img v-cloak :src="DOMAINSTATIC+'image/nav_building_active.png'">
+            <div>楼房</div>
+        </div>
+        <div class="footer-li" v-tap="{methods:onGoNarList,url:'customer.html'}">
+            <img v-cloak :src="DOMAINSTATIC+'image/nav_customer.png'">
+            <div>客户</div>
+        </div>
+        <div class="footer-li" v-tap="{methods:onGoNarList,url:'me.html'}">
+            <img v-cloak :src="DOMAINSTATIC+'image/icon_nav_personal_normal.png'">
+            <div>我的</div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    Vue.config.debugger = true;
+    var page=1;
+    Vue.use(VueLazyload)
+    new Vue({
+        el: '#app',
+        mixins: [listenInputClear],
+        data: {
+            searchText:"",  //搜索内容
+            pullToRefresh:null,
+            is_showdetail:false,
+            sortList: [  //排序栏目数据
+                { text: '厦门', is_show: false,className:"my-font2", value: '厦门', key: 'city'},
+                { text: '区域', is_show: false, value: '', key: 'area'},
+                { text: '价格', is_show: false, value: '', key: 'fold'},
+                { text: '户型', is_show: false, value: '', key: 'house_type'},
+                { text: '更多', is_show: false, key: 'moreData'},
+                { text: '', is_show: false, value: '', key: 'searchText'},
+            ],
+            sortData:[],  //排序栏数据
+            sort2Index:0, //下标为2选中的索引
+            lpList: [],
+            show:false,
+            ownerCurrentLocal: '',
+            sortKey: '默认排序', //排序
+            isReflashPage: true,
+            DOMAINSTATIC,
+            isHiddenFooter: false,
+            positionCity: '厦门',
+            currentSelectCityCode: '',
+            cityList: [],
+            areaList: [],
+        },
+        computed: {
+            getMultSelected() {
+                let result = [];
+                if (this.sortList[4].data) {
+                    result = this.sortList[4].data.map(options => ({
+                        title: options.title,
+                        data: options.data.filter(item => item.is_checked)
+                    }));
+                }
+                return result;
+            },
+            countMultSelected() {
+                if (this.getMultSelected.length > 0) {
+                    return this.getMultSelected.reduce((acc, cur) => acc+= cur.data.length, 0);
+                }
+                return 0;
+            },
+            MultipleSelectTxt() {
+                let txt = this.sortList[4].text;
+                const count = this.countMultSelected;
+                return txt + (count>0? `(${count})`: '');
+            }
+        },
+        mounted: function () {
+            this.$nextTick(function () {
+                var _this=this;
+
+                if(isLogin()==1){
+                    let isInit = false;
+                    ajax('publicAjax/getShare',{},function(res2){
+                        if(!res2.data||!res2.data.appId){
+                            return
+                        }
+                        wx.config({
+                            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                            appId: res2.data.appId, // 必填，公众号的唯一标识
+                            timestamp: res2.data.timestamp, // 必填，生成签名的时间戳
+                            nonceStr: res2.data.nonceStr, // 必填，生成签名的随机串
+                            signature: res2.data.signature,// 必填，签名
+                            jsApiList: ['checkJsApi','openLocation','getLocation'] // 必填，需要使用的JS接口列表
+                        });
+                        wx.error(function(res){
+                            isInit = true;
+                            _this.fetchCityList();
+                        });
+                        wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
+                            wx.checkJsApi({
+                                    jsApiList: [
+                                        'getLocation'
+                                    ],
+                                    success: function (res) {
+                                        if (res.checkResult.getLocation == false) {
+                                            alert('你的微信版本太低，不支持微信JS接口，请升级到最新的微信版本！');
+                                            return;
+                                        }
+                                    }
+                            });
+                            wx.getLocation({
+                                success: function (res) {
+                                    const server = new qq.maps.CityService();
+                                    const local = new qq.maps.LatLng(res.latitude, res.longitude)
+                                    server.setComplete(function(com) {
+                                        const cityLocal = com.detail.detail.split(',');
+                                        const cityName = cityLocal[1].slice(0, cityLocal[1].length - 1);
+                                        if (cityName !== _this.sortList[0].text) {
+                                            _this.positionCity = cityName;
+                                        }
+                                        isInit = true;
+                                        _this.fetchCityList();
+                                    });
+                                    server.searchCityByLatLng(local);
+                                },
+                                cancel: function (res) {
+                                    isInit = true;
+                                    _this.fetchCityList();
+                                    //alert('用户拒绝授权获取地理位置');
+                                }
+                            });
+                        });
+                    });
+                    if (!isInit) {
+                        this.fetchCityList();
+                    }
+                }
+
+                window.addEventListener("resize", setsetScrollHeight);
+            })
+        },
+        filters: {
+            triangleItemDisplayTxt(value) {
+                return value.value
+                    ? (typeof(value.value) == 'string'? value.value: value.value.name)
+                    : value.text;
+            }
+        },
+        dietoryed() {
+            window.removeEventListener("resize", setsetScrollHeight);
+            PullToRefresh.destroyAll();
+        },
+        methods:{
+            initMui() {
+                const _this = this;
+
+                mui.init();
+
+                // 滚动内容
+                mui('#my-scroll').scroll({
+                    scrollY: true, //是否竖向滚动
+                    scrollX: false, //是否横向滚动
+                    startX: 0, //初始化时滚动至x
+                    startY: 0, //初始化时滚动至y
+                    indicators: false, //是否显示滚动条
+                    bounce: true //是否启用回弹
+                });
+
+                mui('#my-sort-detail').scroll({indicators: false});
+
+                PullToRefresh.init({
+                    mainElement: '.my-lp-lists',
+                    instructionsPullToRefresh: '下拉到底刷新',
+                    instructionsReleaseToRefresh: '放开后刷新',
+                    instructionsRefreshing: '刷新中',
+                    onRefresh() {
+                        _this.isReflashPage = true;
+                        page = 1;
+                        _this.pullupRefresh();
+                    },
+                    shouldPullToRefresh () {
+                        return getScrollDistance('#my-scroll', '.mui-scroll') == 1000;
+                    }
+                });
+
+                this.pullToRefresh = mui('#my-scroll .mui-scroll').pullToRefresh({
+                    up: {
+                        show: false,
+                        auto: false,
+                        callback() {
+                            _this.pullupRefresh();
+                        },
+                    }
+                });
+
+                setsetScrollHeight();
+            },
+            onGoNarList(options){
+                setLocation(options.url);
+            },
+            onBuildDetail(event){
+                setLocation('pages/build/build_detail.html?id='+event.id);
+            },
+            onMyBuilding(){     //跳转我的楼盘
+                setLocation('pages/build/my_building.html');
+            },
+            onSearch(){
+                page=1;
+                this.isReflashPage = true;
+                this.pullToRefresh.refresh(true);
+                this.pullupRefresh();
+            },
+            fetchCityList() {
+                ajax('BuildingAjax/getCity', null, res => {
+                    const data = res.data;
+                    const getKeys = (list, key) => Object.keys(list[key] || []);
+                    const cityAbbre = getKeys(data, 'city');
+                    let isIncluedePositionCity = false;
+                    let positionCityCode = '';
+                    const list = cityAbbre.map(Abbre => {
+                        const cityKeys = getKeys(data['city'], Abbre);
+                        return {
+                            title: Abbre,
+                            item: cityKeys.map(cityKey => {
+                                    const cityName = data['city'][Abbre][cityKey];
+                                    if (this.positionCity.match(cityName)) {
+                                        isIncluedePositionCity = true;
+                                        positionCityCode = cityKey;
+                                    }
+                                    if (cityName.match('厦门')) {
+                                        this.currentSelectCityCode = cityKey;
+                                    }
+                                    return {
+                                        name: cityName,
+                                        key: cityKey
+                                    }
+                                })
+                        }
+                    })
+                    list.unshift({
+                        type: 'hot',
+                        title: '常用城市',
+                        item: data.common.map(city => {
+                                const key = Object.keys(city)[0];
+                                return {
+                                    key,
+                                    name: city[key]
+                                }
+                            })
+                    })
+                    this.cityList = list;
+                    if (isIncluedePositionCity) {
+                        this.currentSelectCityCode = positionCityCode;
+                    }
+                    this.positionCity = isIncluedePositionCity? positionCity: '厦门';
+                    this.fetchAreaList(true);
+                })
+            },
+            fetchAreaList(load = false) {
+                ajax('BuildingAjax/getArea', {
+                    city_code: this.currentSelectCityCode
+                }, res => {
+                    const result = res.success? res.data: [];
+                    this.areaList = Object.keys(result).map(key => (result[key]));
+                    if (this.sortData[1] && this.sortData[1].data) {
+                        this.$set(this.sortData[1], 'data', this.areaList);
+                    }
+                    if (load) {
+                        this.fetchFilterList();
+                    }
+                })
+            },
+            fetchFilterList() {
+                const _this = this;
+                ajax('buildingAjax/getBuildingHome',{},function(res){
+                    res = res.data
+                    //获取组织排序栏数据
+                    var sortData = _this.sortList;
+                    sortData[0].data = _this.cityList;
+                    sortData[2].data = res.sortData['2'];
+                    sortData[3].data = res.sortData['3'];
+                    sortData[4].data = res.sortData['4'];
+                    sortData[5].data = res.sortData['5'];
+                    _this.sortData=sortData;
+
+                    _this.initMui();
+                    _this.pullupRefresh();
+                });
+            },
+            changeCity(cityName) {
+                this.positionCity = cityName;
+                let cityCode = '';
+                this.cityList.forEach(list => {
+                    list.item.forEach(city => {
+                        if (cityName == city.name) {
+                            cityCode = city.key;
+                            return;
+                        }
+                    })
+                })
+                this.currentSelectCityCode = cityCode;
+                this.$set(this.sortData[1], 'value', '');
+                this.$set(this.sortList[1], 'value', '');
+                this.fetchAreaList();
+            },
+            // 搜索
+            pullupRefresh(){
+                var _this = this;
+                ajax(
+                    'buildingAjax/getBuildingData2',
+                    Object.assign(
+                        this.getQueryParams(),
+                        {page: page}
+                    ),
+                    function(res){
+                        if (res.success) {
+                            _this.show = res.data.length == 0;
+                            _this.pullToRefresh.endPullUpToRefresh(res.data.length < 10);
+                            if (_this.isReflashPage){
+                                _this.lpList=res.data;
+                            }else{
+                                _this.lpList= _this.lpList.concat(res.data);
+                            }
+                            _this.isReflashPage = false;
+                            page++;
+                        }else{
+                            mui.toast(res.message);
+                            _this.pullToRefresh.endPullUpToRefresh(true);
+                        }
+
+                        return ;
+                    }
+                );
+            },
+            //排序选择
+            onSortBtn(options){
+                var _index = options.index;
+                var sortList = this.sortList;
+                if (sortList[_index].is_show){
+                    sortList[_index].is_show = !sortList[_index].is_show;
+                }else{
+                    this.onPackUpAll();
+                    sortList[_index].is_show = !sortList[_index].is_show;
+                }
+                this.sortList=sortList;
+                this.checkIsDetail();
+                mui('#my-sort-detail').scroll().scrollTo(0,0,0);
+            },
+            //收起所有排序选择
+            onPackUpAll(){
+                var sortList = this.sortList;
+                for (var i in sortList){
+                    sortList[i].is_show=false;
+                }
+                this.sortList=sortList;
+                this.checkIsDetail();
+            },
+            //检测is_showdetail是否显示
+            checkIsDetail(){
+                var sortList = this.sortList;
+                for (var i in sortList) {
+                    if (sortList[i].is_show){
+                        this.is_showdetail=true;
+                        return false;
+                    }
+                }
+                this.is_showdetail=false;
+            },
+            //价格排序
+            onSort2(event){
+                this.sort2Index=event.index;
+            },
+            //更多筛选
+            onSort4(event){
+                var index = event.index;
+                var idx = event.idx;
+                var sortData = this.sortData;
+                var tmp=sortData[4];
+                tmp.data[index].data[idx].is_checked = !tmp.data[index].data[idx].is_checked;
+                this.$set(this.sortData,4,tmp);
+            },
+            //更多重置筛选
+            onSort4Reset(){
+                var sortData = this.sortData[4];
+                for (var i in sortData.data){
+                    for (var j in sortData.data[i].data){
+                        sortData.data[i].data[j].is_checked=false;
+                    }
+                }
+                this.$set(this.sortData,4,sortData);
+            },
+            //收起搜索条件
+            closeSelect(){
+                var sortList = this.sortList;
+                for (var i in sortList) {
+                    sortList[i].is_show=false;
+                }
+                this.sortList=sortList;
+                this.is_showdetail=false;
+            },
+            // 点击下拉选项条目
+            onSubmit(event){
+                var btnidx = event.btnidx;
+                var _this=this;
+                var name="";
+                this.isReflashPage = true;
+                page = 1;
+                if (event.name) {
+                    if (typeof(event.name) == 'string') {
+                        name = event.name == '全部'? '': event.name;
+                    } else {
+                        name = event.name.name == '全部'? null: event.name;
+                    }
+                }
+                switch (btnidx) {
+                    case '0':     //城市选择
+                        var nameLength = name.length;
+                        var sortList = _this.sortList;
+                        this.setQueryParams(0, name);
+                        this.changeCity(name);
+                        sortList[0].className = "my-font" + (nameLength > 3? 3: nameLength);
+                        _this.sortList=sortList;
+                        break;
+                    case '1':   //区域选择
+                        this.setQueryParams(1, name);
+                        break;
+                    case '2':   //价格选择
+                        this.setQueryParams(2, name);
+                        break;
+                    case '3':   //户型选择
+                        this.setQueryParams(3, name);
+                        break;
+                    // 更多已经直接在列表查询参数设置中
+                    case '5':   //排序选择
+                        this.sortKey = event.name;
+                        break;
+                };
+                _this.pullupRefresh();
+                _this.closeSelect();
+            },
+            setQueryParams(index, value) {
+                this.$set(this.sortList[index], 'value', value);
+            },
+            //楼盘开通事件
+            onBuildingStart(event){
+                var _this=this;
+                var id=event.id;
+                var status=event.status;
+                var index=event.index;
+                if(status=="0"){
+                    mui.toast('该楼盘已开通！');
+                    return false;
+                }
+                mui.confirm('确认开通该楼盘？', '提示', ['确认', '取消'], function(e) {
+                    if (e.index == 0) {
+                        //楼盘开通事件
+                        ajax('buildingAjax/setBuildingStatus',{id:id},function(res){
+                            if(res.success){
+                                mui.toast('修改成功！');
+                                var lpList=_this.lpList;
+                                lpList[index].is_status=status;
+                                _this.lpList=lpList;
+                            }else{
+                                mui.toast('保存失败！');
+                            }
+                        });
+                    }
+                });
+            },
+            getQueryParams() {
+                const params = {};
+                this.sortList.forEach(options => {
+                    if (options.key == 'moreData') {
+                        params.moreData = JSON.stringify(this.getMultSelected);
+                    } else if (options.key == 'fold') {
+                        params.fold = options.value? options.value.val: '';
+                    } else {
+                        params[options.key] = options.value;
+                    }
+                });
+                params.my_sort = this.sortKey;
+                params.searchText = this.searchText;
+                return params;
+            },
+            // 移除更多展示栏中的项目
+            removeSelectMult(opindex, index) {
+                const target = this.sortList[4].data;
+                let count = 0;
+                const relIndex = target[opindex].data.findIndex(item => {
+                    if (item.is_checked) {
+                        if (count == index) {
+                            return true;
+                        }
+                        count++;
+                    }
+                    return false;
+                });
+                this.onSort4({
+                    index: opindex,
+                    idx: relIndex
+                });
+                this.onSubmit({btnidx: '4'});
+            },
+            focusBuilding(buildingId, isFocus, index){
+                var _this=this;
+                var is_focus="0";
+                if(isFocus == "1"){  //取消关注
+                    is_focus="0";
+                }else{  //关注
+                    is_focus="1";
+                }
+                //楼盘关注和取消关注事件
+                ajax('buildingAjax/setFocus',{id: buildingId, is_focus: is_focus}, function(res){
+                    if(res.success){
+                        mui.toast(`${is_focus=="0"? '取消': '开通'}成功！`);
+                        _this.$set(_this.lpList[index], 'is_focus', is_focus);
+                    }else{
+                        mui.toast('开通失败！');
+                    }
+                });
+            },
+            appendEmptyItem(list) {
+                if (list[0] == '全部'|| (list[0] && list[0].name && list[0].name == '全部')) {
+                    return list;
+                }
+                if (!list[0] || typeof(list[0]) == 'string') {
+                    list.unshift('全部');
+                } else {
+                    list.unshift({
+                        val: '',
+                        name: '全部'
+                    });
+                }
+                return list;
+            },
+            focusInput() {
+                // toggle Footer Hidden
+                this.isHiddenFooter = !this.isHiddenFooter;
+                this.listenInputTaPClearIcon();
+            },
+        }
+    })
+    function setsetScrollHeight(){
+        var pageHeight=document.documentElement.clientHeight;
+        var scrollHeight=$('#my-scroll').offset().top;  //滚动区域距顶部距离
+        var diffHeight=pageHeight - scrollHeight;
+        $('#my-scroll').css('height',diffHeight+'px');
+        $('#my-sort-detail').css('height',diffHeight+'px');
+    }
+</script>
+
+<style>
+    .font-clamp {
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+</style>

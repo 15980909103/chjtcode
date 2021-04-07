@@ -1,0 +1,256 @@
+const requestsObj = require('requests.js');
+const requestsallObj = require('requestsall.js');
+const md5 = require('/module/md5.js');
+const openPageObj = require('/module/openPage.js');
+const wxAuth = require('/module/WxAuth.js');
+const Base64 = require('/module/Base64.js');
+const htmlspecialchars = require('/module/Htmlspecialchars.js');
+const DynamicObjcetKey = require('/module/DynamicObjcetKey.js');
+
+
+const formatTime = (date,type=0,join_str='-') => {
+  var l = String(date).length
+  switch (l) {
+    case 13:
+      break;
+    case 10:
+        date = parseInt(date)*1000
+        break;
+    default:
+      break;
+  }
+
+  date = new Date(date);
+  var year = date.getFullYear()
+  var month = date.getMonth() + 1
+  var day = date.getDate()
+  var hour = date.getHours()
+  var minute = date.getMinutes()
+  var second = date.getSeconds()
+  
+  var result = [year, month, day].map(formatNumber);
+  var timeobj = [hour, minute, second].map(formatNumber);
+  switch (type) {
+    case 0:
+      result= result.join(join_str)+' ' + [timeobj[0], timeobj[1], timeobj[2]].join(':')
+      break;
+    case 1:
+      result = result.join(join_str)
+      break;
+    case 2:
+      result= result.join(join_str)+' ' + [timeobj[0], timeobj[1]].join(':')
+      break;
+    case 3: 
+      result= {year:result[0], month:result[1], day:result[2], hour:timeobj[0], minute:timeobj[1], second:timeobj[2]}
+      break;  
+  }
+  return result
+}
+const formatNumber = n => {
+  n = n.toString()
+  return n[1] ? n : '0' + n
+}
+
+//睡眠函数
+const sleep = millisecond => {
+  var nowDate = Date.now();
+  var endDate = nowDate + millisecond;
+  while (true) {
+    if (Date.now() >= endDate) {
+      return
+    }
+  }
+}
+
+//gethref 用于生成富文本的内页跳转或者将网页链接替换为应用内链接
+function gethref(url) {
+  if (!url) {
+    console.log('缺少传入href的url');
+    return '';
+  }
+  //查找？的url参数
+  var ulparmsidx = url.indexOf('?')
+  var ulparms = '';
+  if (ulparmsidx != -1) {
+    ulparms = url.substring(ulparmsidx + 1); //有?参数时,提取只有?后面的参数
+    url = url.substring(0, ulparmsidx); //有?参数时,提取只有/的参数
+  }
+  //查找控制器/的参数
+  var home_idx = url.toLowerCase().indexOf('home');
+  url = url.substring(home_idx + 5);
+  url = url.split('/')
+  var params = '';
+  var i = 2;
+  while (i < url.length) {
+    //params+=`${url[i]}=${url[i+1]}&`;
+    if (url[i]) {
+      var urltxt = url[i] + '=' + url[i + 1] + '&';
+      params += urltxt;
+    }
+    i = i + 2;
+  }
+  if (params) {
+    params = params.slice(0, params.length - 1);
+  }
+
+  url[0] = url[0].toLowerCase();
+  url[1] = url[1].toLowerCase();
+  //替换对应控制器
+  /* if(url[1]=='detail'){
+  	url[0]='piao';
+  	url[1]='prodetail';
+  	params = params.replace('id','offerid')
+  } */
+
+  if (params) {
+    ulparms = '&' + ulparms
+  }
+  //return `${url[0]}/${url[1]}?${params}`;
+  return (url[0] + '/' + url[1] + '?' + params + ulparms);
+}
+
+
+/**
+ * 判断是否是json格式
+ * @param {*} str 
+ */
+function isJSON(str) {
+  if (typeof str == 'string') {
+    try {
+      var obj = JSON.parse(str);
+      if (typeof obj == 'object' && obj) {
+        return true;
+      } else {
+        return false;
+      }
+
+    } catch (e) {
+      //console.log('error：'+str+'!!!'+e);
+      return false;
+    }
+  }
+  console.log('It is not a string!')
+}
+
+
+//函数节流(throttle)：函数在一段时间内多次触发只会执行第一次，在这段时间结束前，不管触发多少次也不会执行函数。
+function throttle(fn, gapTime) {
+  if (gapTime == null || gapTime == undefined) {
+    gapTime = 1500
+  }
+
+  let _lastTime = null
+  return function() {
+    let _nowTime = +new Date()
+    if (_nowTime - _lastTime > gapTime || !_lastTime) {
+      fn()
+      _lastTime = _nowTime
+    }
+  }
+}
+
+/**
+ * 获取微信启动时候的信息
+ */
+function getLaunchData() {
+  let launchObj = wx.getLaunchOptionsSync() //小程序启动时的参数
+  let $url = '/' + launchObj.path //开始启动时要打开的页面
+  let page_parms = '' //开始启动时要打开的页面的参数
+  for (let i in launchObj.query) {
+    page_parms = page_parms + [i] + '=' + launchObj.query[i] + '&'
+  }
+  if (page_parms) {
+    page_parms = page_parms.substr(0, page_parms.length - 1)
+    page_parms = '?' + page_parms
+  }
+  $url = $url + page_parms
+  return {
+    ...launchObj,
+    $url: $url
+  }
+}
+
+// 获取url的参数
+function getUrlParms(apiUrl) {
+  var data = apiUrl
+  var theRequest = {};
+  var index_flag = data.indexOf("?")
+  if (index_flag != -1) {
+    var str = data.substr(index_flag + 1);
+    str = str.split("&");
+    for (var i = 0; i < str.length; i++) {
+      theRequest[str[i].split("=")[0]] = decodeURIComponent(str[i].split("=")[1]);
+    }
+  }
+  console.log(theRequest)
+  return theRequest;
+}
+
+function getDistance(lat1, lng1, lat2, lng2) {
+  var radLat1 = lat1 * Math.PI / 180.0;
+  var radLat2 = lat2 * Math.PI / 180.0;
+  var a = radLat1 - radLat2;
+  var b = lng1 * Math.PI / 180.0 - lng2 * Math.PI / 180.0;
+  var s = 2 * Math.asin(Math.sqrt(Math.pow(Math.sin(a / 2), 2) + Math.cos(radLat1) * Math.cos(radLat2) * Math.pow(Math.sin(b / 2), 2)));
+  s = s * 6378.137;
+  // EARTH_RADIUS;  		
+  s = Math.round(s * 10000) / 10;
+  return s;
+}
+
+/**
+ * 日期加减天数
+ * @param {*} date 时间格式日期或者毫秒时间戳
+ * @param {*} days +/-加减天数
+ */
+function addDate(date,days){ 
+  let formatNumber = n => {
+    n = n.toString()
+    return n[1] ? n : '0' + n
+  }
+
+  var d=new Date(date); 
+  d.setDate(d.getDate()+days); 
+  var m=d.getMonth()+1; 
+  return d.getFullYear()+'-'+formatNumber(m)+'-'+formatNumber(d.getDate()); 
+} 
+
+function DeepCopy(object) {
+  let resultObject = {};
+  for (let obj in object) {
+      if (typeof (object[obj]) == "object" && !Array.isArray(object[obj])) {
+          let x = {}
+          x[obj] = DeepCopy(object[obj])
+          Object.assign(resultObject, x);
+      } else {
+          let x = {};
+          x[obj] = object[obj];
+          Object.assign(resultObject, x);
+      }
+  }
+  return resultObject;
+}
+
+module.exports = {
+  formatTime: formatTime,
+  sleep: sleep,
+  requests: requestsObj.requests,
+  getToken: requestsObj.getToken,
+  getSid: requestsObj.getSid,
+  md5,
+  openPage: openPageObj.openPage,
+  throttle,
+  thisPageData: openPageObj.thisPageData,
+  urlEncode: openPageObj.urlEncode,
+  gethref,
+  getLaunchData,
+  requestsall: requestsallObj,
+  wxAuth,
+  getUrlParms,
+  Base64,
+  htmlspecialchars,
+  getDistance,
+  DynamicObjcetKey,
+  addDate,
+  DeepCopy
+}

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+  <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <link rel="stylesheet" type="text/css" href="../../static/mui/css/mui.min.css" />
+  <link rel="stylesheet" href="../../static/css/build/report_rules.css">
+  <script type="text/javascript" src="../../static/js/jquery-2.0.0.min.js" ></script>
+  <script type="text/javascript" src="../../static/mui/js/mui.min.js" ></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script type="text/javascript" src="../../static/js/public.js?v=1" ></script>
+  <script type="text/javascript" src="../../static/js/vue-tap.js" ></script>
+  <title>报备规则</title>
+</head>
+<body>
+  <div id="app" class="report-rules">
+    <div class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted header">
+        <div class="mui-scroll">
+            <a
+              v-for="(title, index) in sliderListTitle"
+              :key="index"
+              :data-index='index'
+              :class="['mui-control-item', current == index? 'mui-active': '']"
+              v-tap="{methods: changeCurrent, index}"
+              v-cloak
+            >
+              <span>
+                {{ title }}
+              </span>
+            </a>
+        </div>
+    </div>
+    <div class="mui-slider container">
+      <div class="mui-slider-group">
+        <div
+          v-for="(key, index) in sliderListTitle"
+          :key="index"
+          class="mui-slider-item"
+        >
+          <pre>{{ sliderListData[index] }}</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
+
+<script>
+  new Vue({
+    el: '#app',
+    data() {
+      return {
+        current: 0,
+        sliderListTitle: ['在线确客', '佣金规则', '报备规则', '带看规则', '结佣规则', '目标客户'],
+        sliderListData: [],
+      }
+    },
+    mounted() {
+      setsetScrollHeight();
+      this.initSliderEvent();
+      this.fetchReportRules();
+    },
+    methods: {
+      initSliderEvent() {
+        document.querySelector('.mui-slider').addEventListener('slide', function(event) {
+          this.current = event.detail.slideNumber;
+        }.bind(this));
+      },
+      fetchReportRules() {
+        ajax('buildingAjax/getReport', {
+          id: getQueryString('building_id')
+        }, res => {
+          const list = Object.keys(res.data);
+          if (res.success && list.length > 0) {
+              this.sliderListData = list.map(key => res.data[key]||'');
+          } else {
+            mui.toast(res.message);
+          }
+        })
+      },
+      changeCurrent(options) {
+        this.current = options.index;
+        mui('.mui-slider').slider().gotoItem(options.index);
+      }
+    }
+  })
+  function setsetScrollHeight(){
+      var pageHeight=document.documentElement.clientHeight;
+      var scrollHeight=$('.container').offset().top;  //滚动区域距顶部距离
+      var diffHeight=pageHeight - scrollHeight;
+      $('.container').css('height',diffHeight+'px');
+  }
+</script>

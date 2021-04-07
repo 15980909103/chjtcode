@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>店铺二维码</title>
+    <link rel="stylesheet" type="text/css" href="../../static/css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/mui/css/mui.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/css/me/erweima_store.css" />
+    <link rel="stylesheet" href="../../common/vant/index.css"/>
+    <script type="text/javascript" src="../../static/js/jquery-2.0.0.min.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.min.js" ></script>
+    <script type="text/javascript" src="../../static/js/vue.min.js" ></script>
+    <script type="text/javascript" src="../../static/js/vue-tap.js" ></script>
+    <script type="text/javascript" src="../../static/js/public.js?v=2" ></script>
+    <script type="text/javascript" src="../../static/js/html2canvas.js" ></script>
+    <script type="text/javascript" src="../../static/js/canvas2image.js" ></script>
+    <script type="text/javascript" src="../../static/js/qrcode.min.js" ></script>
+    <script type="text/javascript" src="../../common/html2canvas.min.js"></script>
+    <script src="../../common/vant/index.js" type="text/javascript" charset="utf-8"></script>
+    <style>
+        .mui-pull-bottom-tips{display: none;}
+    </style>
+</head>
+<body>
+<div id="app" class="my-content" v-cloak>
+    <div class="invite_code_box" ref="imageTofile">
+<!--        <div class="inviter">-->
+<!--            <img :src="agentInfo.headimgurl">-->
+<!--            <p>{{agentInfo.name||agentInfo.nickname}}邀请你加入{{storeInfo.title}}</p>-->
+<!--        </div>-->
+        <div id="qrcode" v-cloak></div>
+        <div class="shop_info">
+            店铺名
+            {{storeInfo.name}}
+        </div>
+        <!-- <img class="my-erweima" :src="storeInfo.qr_code" alt="暂无图片" v-cloak> -->
+    </div>
+    <div class="operation">
+        <div class="download" @click="createPoster">下载</div>
+        <div class="share" @click="createPoster">分享</div>
+    </div>
+    <van-popup v-model="show" :style="{ width: '90%' }" >
+        <img class="popupimg" :src="chooseSrc"/>
+    </van-popup>
+</div>
+</body>
+</html>
+<script>
+    timeOutEvent=0;
+    new Vue({
+        el: '#app',
+        data: {
+            storeInfo:{},
+            agentInfo:{},
+            show:false,
+            chooseSrc:''
+        },
+        mounted: function () {
+        this.$nextTick(function () {
+            var _this=this;
+            ajax('agentAjax/getStoreQrcode',{},function(res){
+                if(res.success){
+                    _this.storeInfo=res.data;
+                    _this.agentInfo=res.agentInfo;
+
+                    new QRCode("qrcode", {
+                        text: `${DOMAINNAME}agentside/pages/me/join_store.html?store_id=${res.data.store_id}`,
+                        width: 160,
+                        height: 160,
+                        colorDark : "#000000",
+                        colorLight : "#ffffff",
+                    });
+                }else{
+                    mui.toast(res.message);
+                }
+            });
+        })
+        },
+        methods:{
+            createPoster() {
+                const that = this;
+                const id = 'wrap';
+                window.pageYOffset = 0;
+                window.pageXOffset = 0;
+                this.createState = true;
+                // console.log(that.$refs)
+                // console.log(that.$refs[id])
+                // return;
+                html2canvas(that.$refs.imageTofile,{
+                    allowTaint: true,
+                    useCORS: true,
+                }).then(canvas => {
+                    that.chooseSrc = canvas.toDataURL("image/png", 1.0);
+                    that.show = true
+                    console.log(that.chooseSrc)
+                    that.load = false;
+                });
+            },
+        }
+    });
+    function longPress(){
+        mui.confirm('保存至相册', '提示', ['确认', '取消'], function(e) {
+            if (e.index == 0) {
+                console.log(111);
+            }
+        });
+    }
+</script>

@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="../../static/css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/mui/css/mui.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/css/customer/footprint_build.css" />
+    <script type="text/javascript" src="../../static/js/jquery-2.0.0.min.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.min.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.pullToRefresh.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.pullToRefresh.material.js" ></script>
+    <script type="text/javascript" src="../../static/js/vue.min.js" ></script>
+    <script type="text/javascript" src="../../static/js/vue-tap.js" ></script>
+    <script type="text/javascript" src="../../static/js/public.js?v=2" ></script>
+    <style>.mui-pull-bottom-tips{display: none;}</style>
+</head>
+<body>
+<div id="app" class="my-content">
+    <div id="my-div1">
+        <img class="div1-img" :src="`${DOMAINIMAGE}${buildingInfo.pic}`" alt="暂无图片" v-cloak/>
+        <div class="div1-content">
+            <div class="div1-c1">
+                <div class="div1-c1-li1">
+                    <div class="div1-c1-title aui-ellipsis-1" v-cloak>{{buildingInfo.name}}</div>
+                    <div class="div1-c1-tag" v-cloak>{{buildingInfo.sales_status}}</div>
+                </div>
+                <div class="div1-c1-li2" v-cloak>{{buildingInfo.house_type}} | {{buildingInfo.city}}</div>
+            </div>
+            <div class="div1-c2">
+                <div v-cloak>{{buildingInfo.fold}}元/m²</div>
+                <div v-cloak>佣金 {{buildingInfo.commission}}元</div>
+            </div>
+            <div class="div1-c3" v-if="false">
+                <!--<div class="div1-c3-li">-->
+                    <!--<div>分享次数</div>-->
+                    <!--<div>10</div>-->
+                <!--</div>-->
+                <!--<div class="div1-c3-l"></div>-->
+                <div class="div1-c3-li">
+                    <div>访客数量</div>
+                    <div v-cloak>{{visitorsNum}}</div>
+                </div>
+                <div class="div1-c3-l"></div>
+                <div class="div1-c3-li">
+                    <div>浏览数量</div>
+                    <div v-cloak>{{buildingInfo.views_number}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="my-div2" class="mui-scroll-wrapper">
+        <div class="mui-scroll">
+            <template v-for="item in list">
+                <div class="div2-time" v-cloak>{{item.start_time}}</div>
+                <div class="div2-content">
+                    <div class="div2-li1">
+                        <img :src="agentCustomerInfo.avatarUrl" alt="暂无数据" v-cloak />
+                        <div v-cloak>{{agentCustomerInfo.user_name}}</div>
+                    </div>
+                    <div class="div2-li2">
+                        <span v-cloak>第{{item.cishu}}次</span> 查看该楼盘，本次停留了<span v-cloak>{{item.viewing_hours}}秒</span>，在该楼盘总共停留了<span v-cloak>{{item.total_viewing_hours}}</span>
+                    </div>
+                </div>
+            </template>
+            <div style="width:100vw;height:2vh;"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    var page=1;
+    new Vue({
+        el: '#app',
+        data: {
+            pullToRefresh:null,
+            agentCustomerInfo:{},   //经纪人客户信息
+            buildingInfo:{},    //楼盘信息
+            visitorsNum:0,  //楼盘访客数量
+            list:[],
+            DOMAINIMAGE: DOMAINIMAGE
+        },
+        mounted: function () {
+        this.$nextTick(function () {
+            var _this=this;
+            ajax('agentAjax/getFootprintBuild',{id:getQueryString('id'),user_id:getQueryString('user_id')},function(res){
+                _this.agentCustomerInfo=res.agentCustomerInfo;
+                _this.buildingInfo=res.buildingInfo;
+                _this.visitorsNum=res.visitorsNum;
+                mui.init();
+                mui('#my-div2').scroll({
+                    scrollY: true, //是否竖向滚动
+                    scrollX: false, //是否横向滚动
+                    startX: 0, //初始化时滚动至x
+                    startY: 0, //初始化时滚动至y
+                    indicators: false, //是否显示滚动条
+                    deceleration:0.0005, //阻尼系数,系数越小滑动越灵敏
+                    bounce: true //是否启用回弹
+                });
+                _this.pullToRefresh=mui(".mui-scroll").pullToRefresh({
+                    up: {
+                        auto: true, //自动执行一次上拉加载，可选；
+                        show: false, //显示底部上拉加载提示信息，可选；
+                        callback:function(){
+                            setTimeout(function(){
+                                _this.pullupRefresh(_this.pullToRefresh);
+                            },300)
+                        }
+                    }
+                });
+            });
+        })
+        },
+        methods:{
+            pullupRefresh(_self){
+                var _this=this;
+                ajax('agentAjax/getFootprintBuildData',{page:page,id:getQueryString('id'),user_id:getQueryString('user_id')},function(res){
+                    if(res.success){
+                        page++;
+                        _this.list=_this.list.concat(res.data);
+                        _self.endPullUpToRefresh();
+                    }else{
+                        _self.endPullUpToRefresh(true);   //内容为空了
+                    }
+                });
+            }
+        }
+    })
+</script>

@@ -1,0 +1,13 @@
+.like_state{
+	width: 1rem;
+	font-size: .26rem;
+	color: rgba(87, 107, 149, 1);
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+}
+
+.like_state .iconfont{
+	margin-bottom: .1rem;
+	margin-left: .1rem;
+}

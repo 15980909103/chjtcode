@@ -1,0 +1,721 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>欢迎页面-X-admin2.0</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="stylesheet" href="/public/css/admin/x-admin2.css?t=<?php echo JsVer;?>" media="all">
+    <script src="/public/js/jquery-2.0.0.min.js" charset="utf-8"></script>
+    <script src="/public/js/layui2/layui.js" charset="utf-8"></script>
+    <script src="/public/js/admin/x-layui.js" charset="utf-8"></script>
+    <script src="/public/js/admin/public.js" charset="utf-8"></script>
+    <script src="/public/js/admin/area.js" charset="utf-8"></script>
+    <script src="/public/js/admin/formSelects.js" charset="utf-8"></script>
+    <script src="/public/js/UEditor/ueditor.config.js" charset="utf-8"></script>
+    <script src="/public/js/UEditor/ueditor.all.js" charset="utf-8"></script>
+    <script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&key=7VABZ-GKERX-R5K4U-ZNGQ6-6Z5B7-BZFC7"></script>
+    <style>.layui-input{line-height: 38px;}.myimg{margin-left: 10px;}#container {width:400px;height:300px;margin: 20px 0;}</style>
+</head>
+<body>
+<div class="x-body">
+    <form class="layui-form layui-form-pane">
+        <input type="hidden" name="id" value="<?=$data['id'];?>">
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="padding:0;border:0;width:auto;">
+                <button type="button" class="layui-btn" id="logoUpload">
+                    <i class="layui-icon">&#xe67c;</i>上传封面
+                </button>
+            </label>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                <span class="x-red"></span>封面图片
+            </label>
+            <div class="layui-input-inline">
+                <img id="mylogoimg" class="myimg" src="<?=$data['pic']?>" alt="暂无图片" style="max-width: 100%;">
+            </div>
+        </div>
+        <div id="container"></div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                <span class="x-red">*</span>关键字
+            </label>
+            <div class="layui-input-inline" style="width: 370px;">
+                <input id="keyword" class="layui-input" type="text" value="" placeholder="地址中请包含城市名称，否则会影响解析效果">
+            </div>
+            <button type="button" class="layui-btn layui-btn-radius layui-btn-normal" onClick="searchKeyword()">搜索</button>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                <span class="x-red">*</span>经纬度
+            </label>
+            <div class="layui-input-block">
+                <input type="text" id="coordinate" name="coordinate" lay-verify="required" value="<?=$data['coordinate']?>" autocomplete="off" maxlength="250" class="layui-input" disabled="disabled">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                <span class="x-red">*</span>楼盘名称
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" id="name" name="name" lay-verify="required" autocomplete="off" maxlength="250" class="layui-input" value="<?=$data['name']?>">
+            </div>
+            <label class="layui-form-label">
+                <span class="x-red">*</span>销售状态
+            </label>
+            <div class="layui-input-inline">
+                <select id="sales_status" name="sales_status" lay-verify="required">
+                    <?php foreach($sales_status as $val){?>
+                        <option value="<?=$val?>" <?=$val==$data['sales_status']?'selected':''?>><?=$val?></option>
+                    <?php } ?>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                <span class="x-red">*</span>参考价格
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" name="fold" lay-verify="required" placeholder="如“ 10000元/m² ”" autocomplete="off" maxlength="250" class="layui-input" value="<?=$data['fold']?>">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                <span class="x-red"></span>价格详情
+            </label>
+            <div class="layui-input-block">
+                <textarea name="fold_detail" placeholder="请输入内容" class="layui-textarea" ><?=$data['fold_detail']?></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                <span class="x-red">*</span>佣金类型
+            </label>
+            <div class="layui-input-inline">
+                <select id="commission_type" name="commission_type" lay-verify="required">
+                    <option value="1" <?php if(1 == $data['commission_type']) { ?> selected <?php } ?>>固定金额</option>
+                    <option value="2" <?php if(2 == $data['commission_type']) { ?> selected <?php } ?>>百分比</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                <span class="x-red">*</span>佣金
+            </label>
+            <div class="layui-input-block">
+                <input type="number" name="commission" min="0" lay-verify="required" placeholder="固定金额单位为元；百分比直接填写数值：如50%，直接填50即可" autocomplete="off" class="layui-input" value="<?=$data['commission']?>">
+            </div>
+        </div>
+        <div class="layui-form-item">
+<!--            <div class="layui-input-inline">-->
+<!--                <input type="text" name="commission" lay-verify="required" placeholder="如“ 100 元 ”" autocomplete="off" maxlength="250" class="layui-input" value="--><?//=$data['commission']?><!--">-->
+<!--            </div>-->
+<!--            <label class="layui-form-label">-->
+<!--                <span class="x-red">*</span>店长佣金-->
+<!--            </label>-->
+<!--            <div class="layui-input-inline">-->
+<!--                <input type="text" name="store_manager_commission" lay-verify="required" placeholder="如“ 100 元 ”" autocomplete="off" maxlength="250" class="layui-input" value="--><?//=$data['store_manager_commission']?><!--">-->
+<!--            </div>-->
+<!--            <label class="layui-form-label">-->
+<!--                <span class="x-red">*</span>组员佣金-->
+<!--            </label>-->
+<!--            <div class="layui-input-inline">-->
+<!--                <input type="text" name="team_member_commission" lay-verify="required" placeholder="如“ 100 元 ”" autocomplete="off" maxlength="250" class="layui-input" value="--><?//=$data['team_member_commission']?><!--">-->
+<!--            </div>-->
+<!--            <label class="layui-form-label" style="width: 150px;">-->
+<!--                <span class="x-red">*</span>带看提前预约/小时-->
+<!--            </label>-->
+<!--            <div class="layui-input-inline">-->
+<!--                <input type="text" name="early_hours" lay-verify="required" placeholder="提前几小时预约带看" autocomplete="off" maxlength="10" class="layui-input" value="--><?//=$data['early_hours']?><!--">-->
+<!--            </div>-->
+        </div>
+        <div class="layui-form-item">
+<!--            <label class="layui-form-label">-->
+<!--                <span class="x-red"></span>楼盘标记-->
+<!--            </label>-->
+<!--            <div class="layui-input-block">-->
+<!--                <select name="flag" lay-filter="flag">-->
+<!--                    <option value=""></option>-->
+<!--                    --><?php //foreach($flag_type as $val){?>
+<!--                        <option value="--><?//=$val?><!--">--><?//=$val?><!--</option>-->
+<!--                    --><?php //} ?>
+<!--                </select>-->
+<!--            </div>-->
+            <label class="layui-form-label">
+                <span class="x-red">*</span>楼盘标记
+            </label>
+            <div class="layui-input-block">
+                <?php foreach($flag_type as $val){?>
+                    <input type="checkbox" name="flag" value="<?=$val?>" title="<?=$val?>" <?php if(in_array($val, $data['flag'])) { ?> checked <?php } ?>>
+                <?php } ?>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 190px;">
+                <span class="x-red">*</span>报备的保护时间/分钟
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" name="protect_set[status1_hours]" lay-verify="required" placeholder="报备的保护时间" autocomplete="off" maxlength="250" class="layui-input" value="<?=$data['protect_set']['status1_hours']?>">
+            </div>
+            <label class="layui-form-label" style="width: 190px;">
+                <span class="x-red">*</span>带看的保护时间/小时
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" name="protect_set[status2_hours]" lay-verify="required" placeholder="带看的保护时间" autocomplete="off" maxlength="250" class="layui-input" value="<?=$data['protect_set']['status2_hours']?>">
+            </div>
+            <label class="layui-form-label" style="width: 190px;">
+                <span class="x-red"></span>成交的保护时间/小时
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" name="protect_set[status3_hours]" placeholder="成交的保护时间" autocomplete="off" maxlength="250" class="layui-input" value="<?=$data['protect_set']['status3_hours']?>">
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                <span class="x-red">*</span>省份
+            </label>
+            <div class="layui-input-inline layui-form" lay-filter="province2">
+                <select id="province" name="province" lay-filter="province" lay-verify="required">
+                    <option value="">请选择省</option>
+                </select>
+            </div>
+            <label class="layui-form-label">
+                <span class="x-red">*</span>城市
+            </label>
+            <div class="layui-input-inline layui-form" lay-filter="city2">
+                <select id="city" name="city" lay-filter="city" lay-verify="required">
+                    <option value="">请选择市</option>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                <span class="x-red">*</span>地区
+            </label>
+            <div class="layui-input-inline layui-form" lay-filter="area2">
+                <select id="area" name="area" lay-filter="area" lay-verify="required">
+                    <option value="">请选择县/区</option>
+                </select>
+            </div>
+            <label class="layui-form-label">
+                <span class="x-red">*</span>楼盘地址
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" name="address" lay-verify="required" autocomplete="off" maxlength="250" class="layui-input" value="<?=$data['address']?>">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                <span class="x-red"></span>房屋类型
+            </label>
+            <div class="layui-input-block">
+                <select name="house_type" lay-filter="house_type">
+                    <option value="">可多选，列表页仅显示第一个类型，详情页都显示</option>
+                    <?php foreach($house_type as $val){?>
+                        <option value="<?=$val?>"><?=$val?></option>
+                    <?php } ?>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                <span class="x-red">*</span>楼层类型
+            </label>
+            <div class="layui-input-inline">
+                <select name="louchen" lay-verify="required">
+                    <?php foreach($build_tall as $val){?>
+                        <option value="<?=$val?>" <?=$val==$data['louchen']?'selected':''?>><?=$val?></option>
+                    <?php } ?>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                <span class="x-red">*</span>楼层高度
+            </label>
+            <div class="layui-input-inline">
+                <select name="floor_height" lay-verify="required">
+                    <?php for($i=1;$i<=50;$i++){?>
+                        <option value="<?=$i?>" <?=$i==$data['floor_height']?'selected':''?>><?=$i?>层</option>
+                    <?php } ?>
+                </select>
+            </div>
+            <label class="layui-form-label">
+                <span class="x-red"></span>楼盘排序
+            </label>
+            <div class="layui-input-inline">
+                <input type="number" name="sort" min="0" value="<?=$data['sort']?>" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                <span class="x-red">*</span>楼盘开发商
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" name="developers" lay-verify="required" autocomplete="off" maxlength="250" class="layui-input" value="<?=$data['developers']?>">
+            </div>
+            <label class="layui-form-label">
+                <span class="x-red">*</span>售楼电话
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" name="sales_telephone" lay-verify="required" autocomplete="off" maxlength="250" class="layui-input" value="<?=$data['sales_telephone']?>">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                <span class="x-red">*</span>开盘时间
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" id="kaipang_time" name="kaipang_time" lay-verify="required" autocomplete="off">
+            </div>
+            <label class="layui-form-label">
+                <span class="x-red">*</span>交房时间
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" id="jiaofang_time" name="jiaofang_time" lay-verify="required" autocomplete="off">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                <span class="x-red">*</span>预售许可证
+            </label>
+            <div class="layui-input-block">
+                <input type="text" name="sales_license" autocomplete="off" class="layui-input" value="<?=$data['sales_license']?>">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                <span class="x-red">*</span>发证时间
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" class="layui-input" id="license_time" name="license_time" autocomplete="off">
+            </div>
+            <label class="layui-form-label">
+                <span class="x-red">*</span>绑定楼栋
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" name="bind_building" autocomplete="off" class="layui-input" value="<?=$data['bind_building']?>">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                <span class="x-red">*</span>大小户型
+            </label>
+            <div class="layui-input-block">
+                <input type="text" name="sizelayout" class="layui-input" autocomplete="off" lay-verify="required" value="<?=$data['sizelayout']?>">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                <span class="x-red">*</span>规划户数
+            </label>
+            <div class="layui-input-block">
+                <input type="number" name="planning_number" min="0" value="<?=$data['planning_number']?>" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                <span class="x-red">*</span>项目类型
+            </label>
+            <div class="layui-input-block">
+                <input type="text" name="project_type" class="layui-input" autocomplete="off" lay-verify="required" value="<?=$data['project_type']?>">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                <span class="x-red">*</span>建筑类型
+            </label>
+            <div class="layui-input-block">
+                <input type="text" name="building_type" class="layui-input" autocomplete="off" lay-verify="required" value="<?=$data['building_type']?>">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                <span class="x-red">*</span>占地总面积
+            </label>
+            <div class="layui-input-inline">
+                <input type="number" name="total_area" class="layui-input" min="0" placeholder="单位：m²" autocomplete="off" lay-verify="required" value="<?=$data['total_area']?>">
+            </div>
+            <label class="layui-form-label">
+                <span class="x-red">*</span>建筑总面积
+            </label>
+            <div class="layui-input-inline">
+                <input type="number" name="total_construction_area" class="layui-input" min="0" placeholder="单位：m²" autocomplete="off" lay-verify="required" value="<?=$data['total_construction_area']?>">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                <span class="x-red">*</span>楼层状况
+            </label>
+            <div class="layui-input-block">
+                <input type="text" name="floor_condition" class="layui-input" autocomplete="off" lay-verify="required" value="<?=$data['floor_condition']?>">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                <span class="x-red">*</span>项目进度
+            </label>
+            <div class="layui-input-block">
+                <input type="text" name="progress_project" class="layui-input" autocomplete="off" lay-verify="required" value="<?=$data['progress_project']?>">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                <span class="x-red">*</span>公摊
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" name="pool" class="layui-input" placeholder="如“ 20% ”" autocomplete="off" lay-verify="required" value="<?=$data['pool']?>">
+            </div>
+            <label class="layui-form-label">
+                <span class="x-red">*</span>装修情况
+            </label>
+            <div class="layui-input-inline">
+                <select name="decoration" lay-verify="required">
+                    <?php foreach($decoration as $val){?>
+                        <option value="<?=$val?>" <?=$val==$data['decoration']?'selected':''?>><?=$val?></option>
+                    <?php } ?>
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                <span class="x-red">*</span>物业公司
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" name="property_company" class="layui-input" autocomplete="off" lay-verify="required" value="<?=$data['property_company']?>">
+            </div>
+            <label class="layui-form-label">
+                <span class="x-red">*</span>物业类型
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" name="property_type" class="layui-input" autocomplete="off" lay-verify="required" value="<?=$data['property_type']?>">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                <span class="x-red">*</span>物业费
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" name="property_charges" class="layui-input" placeholder="如“ 2.38元/㎡·月 ”" autocomplete="off" lay-verify="required" value="<?=$data['property_charges']?>">
+            </div>
+            <label class="layui-form-label">
+                <span class="x-red">*</span>浏览量
+            </label>
+            <div class="layui-input-inline">
+                <input type="number" name="views_number" class="layui-input" autocomplete="off" lay-verify="required" value="<?=$data['views_number']?>">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                <span class="x-red">*</span>容积率
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" name="volume_rate" class="layui-input" autocomplete="off" lay-verify="required" value="<?=$data['volume_rate']?>">
+            </div>
+            <label class="layui-form-label">
+                <span class="x-red">*</span>绿化率
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" name="greening_rate" class="layui-input" autocomplete="off" lay-verify="required" value="<?=$data['greening_rate']?>">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                <span class="x-red">*</span>车位数
+            </label>
+            <div class="layui-input-inline">
+                <input type="number" name="parking_space_number" value="<?=$data['parking_space_number']?>" min="0" class="layui-input" autocomplete="off" lay-verify="required">
+            </div>
+            <label class="layui-form-label">
+                <span class="x-red">*</span>车位比
+            </label>
+            <div class="layui-input-inline">
+                <input type="text" name="parking_space_proportion" class="layui-input" autocomplete="off" lay-verify="required" value="<?=$data['parking_space_proportion']?>">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                <span class="x-red"></span>交通配套
+            </label>
+            <div class="layui-input-block">
+                <textarea name="traffic_complete" placeholder="请输入内容" class="layui-textarea"><?=$data['traffic_complete']?></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                <span class="x-red"></span>教育资源
+            </label>
+            <div class="layui-input-block">
+                <textarea name="education_resources" placeholder="请输入内容" class="layui-textarea"><?=$data['education_resources']?></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                <span class="x-red"></span>医疗健康
+            </label>
+            <div class="layui-input-block">
+                <textarea name="medical_health" placeholder="请输入内容" class="layui-textarea"><?=$data['medical_health']?></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                <span class="x-red"></span>商城购物
+            </label>
+            <div class="layui-input-block">
+                <textarea name="shopping_mall" placeholder="请输入内容" class="layui-textarea"><?=$data['shopping_mall']?></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">
+                <span class="x-red"></span>生活娱乐
+            </label>
+            <div class="layui-input-block">
+                <textarea name="live_entertainment" placeholder="请输入内容" class="layui-textarea"><?=$data['live_entertainment']?></textarea>
+            </div>
+        </div>
+        <div class="layui-form-item layui-form-text">
+            <label class="layui-form-label">
+                <span class="x-red"></span>配套信息（包括：交通配套、教育资源、医疗健康、商城购物、生活娱乐）
+            </label>
+            <div class="layui-input-block">
+                <script id="supporting_information" name="supporting_information" type="text/plain"></script>
+            </div>
+        </div>
+        <div class="layui-form-item" style="text-align:center;">
+            <button id="btn" type="button" class="layui-btn" lay-filter="btn" lay-submit>保存</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>
+<script>
+    var ue = UE.getEditor('supporting_information',{
+        initialFrameHeight:190,
+        toolbars: [[
+            'fullscreen', 'source', '|', 'undo', 'redo', '|',
+            'bold', 'italic', 'underline', 'fontborder', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', '|',
+            'rowspacingtop', 'rowspacingbottom', 'lineheight', '|',
+            'customstyle', 'paragraph', 'fontfamily', 'fontsize', '|',
+            'directionalityltr', 'directionalityrtl', 'indent', '|',
+            'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|', 'touppercase', 'tolowercase', '|',
+            'link', 'unlink', 'anchor', '|', 'imagenone', 'imageleft', 'imageright', 'imagecenter', '|',
+            'simpleupload','insertcode', 'webapp', 'pagebreak', 'template', 'background', '|',
+            'horizontal', 'date', 'time', 'spechars', 'snapscreen', 'wordimage', '|',
+            'inserttable', 'deletetable', 'insertparagraphbeforetable', 'insertrow', 'deleterow', 'insertcol', 'deletecol', 'mergecells', 'mergeright', 'mergedown', 'splittocells', 'splittorows', 'splittocols', 'charts', '|',
+            'print', 'preview', 'searchreplace', 'drafts', 'help'
+        ]]
+    });
+    ue.ready(function() {
+        ue.setContent('<?=$data["supporting_information"]?>');
+    });
+    var fileIndex="";
+    var myField="";
+    var areaData = Area;
+    var _province="<?=$data['province']?>";
+    var _city="<?=$data['city']?>";
+    var _area="<?=$data['area']?>";
+    layui.use(['form','upload','laydate','element','laypage'], function(){
+        form = layui.form;
+        var upload = layui.upload;
+        var laydate = layui.laydate;
+        /*========================================= 基本信息 ==========================================*/
+        //初始地区选择
+        loadProvince();
+        //初始化时间插件
+        laydate.render({elem: '#kaipang_time',value:"<?=$data['kaipang_time']?>",trigger: 'click'});
+        laydate.render({elem: '#jiaofang_time',value:"<?=$data['jiaofang_time']?>",trigger: 'click'});
+        laydate.render({elem: '#license_time',value:"<?=$data['license_time']?>",trigger: 'click'});
+        //初始化地图
+        <?php
+        $coordinateArr=explode(',',$data['coordinate']);
+        $_lat=$coordinateArr[0];
+        $_lng=$coordinateArr[1];
+        ?>
+        map = new qq.maps.Map(document.getElementById('container'),{
+            center: new qq.maps.LatLng(<?=$_lat?>,<?=$_lng?>),
+            zoom: 16
+        });
+        var logoUpload=upload.render({
+            elem: '#logoUpload' //绑定元素
+            ,url: "/xiamenyyhoutai/xcxbuilding/building_doedit" //上传接口
+            ,size: 2048
+            ,accept: "images"
+            ,auto:false
+            ,data:{
+                parame:function(){
+                    return myField;
+                }
+            }
+            ,choose:function(obj){
+                var files=obj.pushFile();  //删除文件队列确保只上传一次
+                obj.preview(function(index, file, result){
+                    delete files[fileIndex];
+                    fileIndex=index;
+                    $('#mylogoimg').attr('src',result);
+                });
+            }
+            ,done: function(res){
+                //上传完毕回调
+                if(res.success){
+                    parent.parent.layer.alert("保存成功", {icon: 6},function (index2) {
+                        parent.parent.getPageData(parent.parent.$('#my_body').data('curr'));
+                        parent.parent.layer.close(index2);
+//                        var index = parent.parent.layer.getFrameIndex(parent.window.name);
+//                        parent.parent.layer.close(index);
+                    });
+                }else{
+                    layer.msg("上传失败："+res.message, {icon: 5});
+                }
+            }
+        });
+        form.on('submit(btn)', function(data){
+            //获取楼盘标记
+            var _formSe=formSelects.arr;
+            var _flag="";
+            for(var i in _formSe){
+                _flag+=","+_formSe[i].val;
+            }
+            //获取省市区
+            var province=$('#province').find("option:selected").text();
+            var city=$('#city').find("option:selected").text();
+            var area=$('#area').find("option:selected").text();
+            // 房屋类型
+            var flag="";
+            $('input[name="flag"]:checked').each(function(){
+                flag+=$(this).val()+',';
+            });
+            var tempField=$.extend({},data.field,{house_type:_flag,province:province,city:city,area:area,flag:flag});
+            myField=JSON.stringify(tempField);
+            if(fileIndex==""){
+                var parameter=$.extend({},tempField,{type:'empty'});
+                ajax("/xiamenyyhoutai/xcxbuilding/building_doedit",parameter,function(res){
+                    if(res.success){
+                        parent.parent.layer.alert("保存成功", {icon: 6},function (index2) {
+                            parent.parent.getPageData(parent.parent.$('#my_body').data('curr'));
+                            parent.parent.layer.close(index2);
+//                            var index = parent.parent.layer.getFrameIndex(parent.window.name);
+//                            parent.parent.layer.close(index);
+                        });
+                    }else{
+                        layer.msg(res.message,{icon: 5});
+                    }
+                });
+            }else{
+                logoUpload.upload();
+            }
+        });
+        var myFlag="<?=$data['house_type']?>";
+        myFlag=myFlag.split(",");
+        formSelects.arr=[];
+        if(myFlag.length>0){
+            for(var i in myFlag){
+                if(myFlag[i]!=""){
+                    formSelects.arr.push({name:myFlag[i],val:myFlag[i]});
+                }
+            }
+        }
+        formSelects.on({
+            layFilter: 'house_type',	//绑定select lay-filter
+            left: '【',			//显示的符号left
+            right: '】',			//显示的符号right
+            separator: ''		//多选分隔符
+        });
+    });
+    function loadProvince() {
+        var proHtml = '';
+        for (var i = 0; i < areaData.length; i++) {
+            if(areaData[i].provinceName==_province){
+                proHtml += '<option value="' + areaData[i].provinceCode + '_' + areaData[i].mallCityList.length + '_' + i +'" selected>' + areaData[i].provinceName + '</option>';
+                loadCity(areaData[i].mallCityList);
+            }else{
+                proHtml += '<option value="' + areaData[i].provinceCode + '_' + areaData[i].mallCityList.length + '_' + i +'">' + areaData[i].provinceName + '</option>';
+            }
+        }
+        //初始化省数据
+        $('form').find('select[name=province]').append(proHtml);
+        form.render(null,'province2');
+        form.on('select(province)', function(data) {
+            $('form').find('select[name=area]').html('<option value="">请选择县/区</option>').parent().hide();
+            var value = data.value;
+            var d = value.split('_');
+            var code = d[0];
+            var count = d[1];
+            var index = d[2];
+            if (count > 0) {
+                loadCity(areaData[index].mallCityList);
+            } else {
+                $('form').find('select[name=city]').parent().hide();
+            }
+        });
+    }
+    //加载市数据   '_' + citys[i].mallAreaList.length + '_' + i +
+    function loadCity(citys) {
+        var cityHtml = '';
+        for (var i = 0; i < citys.length; i++) {
+            if(citys[i].cityName==_city){
+                cityHtml += '<option value="' + citys[i].cityCode + '_' + citys[i].mallAreaList.length + '_' + i +'" selected>' + citys[i].cityName + '</option>';
+                loadArea(citys[i].mallAreaList);
+            }else{
+                cityHtml += '<option value="' + citys[i].cityCode + '_' + citys[i].mallAreaList.length + '_' + i +'">' + citys[i].cityName + '</option>';
+            }
+        }
+        $('form').find('select[name=city]').html(cityHtml).parent().show();
+        form.render(null,'city2');
+        form.on('select(city)', function(data) {
+            var value = data.value;
+            var d = value.split('_');
+            var code = d[0];
+            var count = d[1];
+            var index = d[2];
+            if (count > 0) {
+                loadArea(citys[index].mallAreaList);
+            } else {
+                $('form').find('select[name=area]').parent().hide();
+            }
+        });
+    }
+    //加载县/区数据
+    function loadArea(areas) {
+        var areaHtml = '';
+        for (var i = 0; i < areas.length; i++) {
+            if(areas[i].areaName==_area){
+                areaHtml += '<option value="' + areas[i].areaCode + '" selected>' + areas[i].areaName + '</option>';
+            }else{
+                areaHtml += '<option value="' + areas[i].areaCode + '">' + areas[i].areaName + '</option>';
+            }
+        }
+        $('form').find('select[name=area]').html(areaHtml).parent().show();
+        form.render(null,'area2');
+        form.on('select(area)', function(data) {});
+    }
+    //调用poi类信接口
+    function searchKeyword() {
+        var keyword = document.getElementById("keyword").value;
+        if(keyword==""){layer.msg("请输入搜索内容");return false;}
+        ajax("/xiamenyyhoutai/xcxbuilding/building_search",{keyword:keyword},function(res){
+            if(res.status){
+                layer.msg(res.message);return false;
+            }else{
+                var result=res.result;
+                _province=result.address_components.province;
+                _city=result.address_components.city;
+                _area=result.address_components.district;
+                loadProvince();
+                $("#coordinate").val(result.location.lat+","+result.location.lng);
+                $("input[name='address']").val(keyword);
+                var center=new qq.maps.LatLng(result.location.lat,result.location.lng);
+                map = new qq.maps.Map(document.getElementById('container'),{
+                    center: center,
+                    zoom: 16
+                });
+                new qq.maps.Marker({position: center, map: map});
+            }
+        });
+    }
+</script>

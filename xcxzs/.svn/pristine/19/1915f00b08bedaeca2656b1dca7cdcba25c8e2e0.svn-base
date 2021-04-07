@@ -1,0 +1,2 @@
+[2020-10-19T10:02:42+08:00][error] [0]Class 'api\common\lib\wxapi\module\WxWeb' not found[/mnt/e/project/999house_v2/app/admin/controller/WxsetController.php:45]
+[2020-10-19T10:03:20+08:00][error] [0]Class 'api\common\lib\wxapi\module\WxWeb' not found[/mnt/e/project/999house_v2/app/admin/controller/WxsetController.php:45]

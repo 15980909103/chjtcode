@@ -1,0 +1,273 @@
+.swiper-container{
+	width: 100%;
+	height: 9.6rem;
+	margin-top: .36rem;
+}
+
+.swiper-slide{
+	display: flex;
+	justify-content: center;
+}
+
+.box{
+	width: 6rem;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	transition: .3s;
+	position: relative;
+}
+
+.box-content{
+	width: 5.3rem;
+	margin: 1.11rem 0 0;
+	background-color: #fff;
+	border-radius: .03rem;
+	box-sizing: border-box;
+	padding: .2rem .2rem .1rem;
+	display: flex;
+	flex-direction: column;
+}
+
+.box-content h4{
+	font-size: .42rem;
+	margin-bottom: .24rem;
+	text-align: justify;
+	text-justify: newspaper;
+	word-break: break-all;
+}
+
+.box-content div{
+	font-size: .2rem;
+	color: rgba(77, 77, 77, 1);
+	line-height: .4rem;
+	text-align: justify;
+	text-justify: newspaper;
+	word-break: break-all;
+}
+
+.box-info-box{
+	width: 5.3rem;
+	height: 2.61rem;
+	box-sizing: border-box;
+	padding: .4rem 0 0;
+	display: flex;
+	justify-content: space-between;
+	color: #fff;
+}
+
+.box-info-box,
+.box-info-head{
+	display: flex;
+}
+
+.box-info-nickname{
+	width: 2.3rem;
+	margin-top: .16rem;
+	font-size: .18rem;
+	line-height: .3rem;
+	opacity: .6;
+}
+
+.box-info-head{
+	display: flex;
+	align-items: center;
+}
+
+.box-info-head img{
+	width: .41rem;
+	height: .41rem;
+	border-radius: 50%;
+	margin-right: 0.13rem;
+}
+
+.box-info-head h4{
+	font-size: .24rem;
+}
+
+.box-qrcode {
+	width: 1.2rem;
+	height: 1.2rem;
+	background-color: #fff;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}  
+
+.box-qrcode img,
+.box-qrcode canvas{
+	width: 1.1rem;
+	height: 1.1rem;
+}
+
+.box-tip{
+	font-size: .18rem;
+	position: absolute;
+	bottom: .25rem;
+	left: 50%;
+	transform: translate(-50%,0);
+	opacity: .6;
+	color: #fff;
+}
+
+.box1 .box-info-box{
+	width: 5.3rem;
+	height: 2.3rem;
+	padding: .4rem .2rem 0;;
+	background-color: rgba(247, 247, 247, 1);
+	color: #000000;
+	border-radius: 0 0 .03rem .03rem;
+}
+
+.box1 .box-tip{
+	bottom: .6rem;
+}
+
+.box3 .box-info-box{
+	height: auto;
+	justify-content: flex-start;
+	align-items: center;
+}
+
+.box3 .box-info-box img{
+	width: .84rem;
+	height: .84rem;
+	border-radius: 50%;
+	margin-right: .24rem;
+}
+
+.box3 .box-info-head{
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+}
+
+.box3 .box-info-nickname{
+	width: auto;
+	margin-top: .06rem;
+}
+
+.box3 .box-content{
+	margin: .4rem 0 0;
+}
+
+.box3-wrap{
+	width: 5.3rem;
+	height: 1.7rem;
+	background-color: rgba(247, 247, 247, 1);
+	border-radius: 0 0 .03rem .03rem;
+	display: flex;
+	align-items: center;
+	box-sizing: border-box;
+	padding: 0 .2rem;
+	position: relative;
+}
+
+.box3-wrap .box-qrcode{
+	height: 1.4rem;
+	width: 1.4rem;
+}
+
+.box3-wrap .box-qrcode img{
+	height: 1.3rem;
+	width: 1.3rem;
+}
+
+.box3-tip{
+	width: 1.6rem;
+	font-size: .24rem;
+	margin-left: .2rem;
+}
+
+.box3-logo{
+	height: 1.4rem;
+	width: 1.4rem;
+	position: absolute;
+	right: .2rem;
+}
+
+.box-not-active{
+	transform: scale(.9);
+}
+
+.swiper-active-switch{
+	background-color: green;
+}
+
+.pagination{
+	width: 100%;
+	height: .8rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+  
+.pagination span{
+	width: .1rem;
+	height: .1rem;
+	background-color: rgba(254, 130, 30, .7);
+	border-radius: 50%;
+	margin: 0 .06rem;
+}
+
+.pagination .pagination-active{
+	width: .24rem;
+	background-color: rgba(254, 130, 30, 1);
+	border-radius: 28%;
+}
+
+.create-btn{
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: .3rem;
+}
+
+.create-btn .van-button{
+	width: 5.8rem;
+	height: .88rem;
+	font-size: .3rem;
+}
+
+.wrapper{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.wrapper img{
+	width: 6rem;
+	height: 9.6rem;
+	margin-top: .36rem;
+}
+
+.wrapper-tip{
+	color: rgba(255,255,255,.6);
+	margin-top: .6rem;
+}
+
+.box-bg{
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	z-index: -1;
+}
+
+.logo{
+	position: absolute;
+	left: .32rem;
+}
+
+.logo1{
+	width: 2rem;
+	height: .6rem;
+	transform: translate(0,50%);
+}
+
+.logo2{
+	width: 2.5rem;
+	height: .75rem;
+	transform: translate(0,25%);
+}

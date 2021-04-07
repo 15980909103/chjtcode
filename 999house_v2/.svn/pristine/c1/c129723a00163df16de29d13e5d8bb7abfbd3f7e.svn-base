@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>搜索</title>
+		<link rel="stylesheet" href="../../common/vant/index.css"/>
+		<link rel="stylesheet" href="../../common/css/public.css"/>
+		<style>
+			
+			.van-tabs__wrap{
+				width: 80%;
+				margin: 0.2rem 0 0.2rem 10%;
+			}
+			
+			.van-tab__text{
+				font-weight: bold;
+			}
+			
+			.van-tabs__line{
+				width: 0.24rem;
+				bottom: 20px;
+				font-size: 0.34rem;
+			}
+			
+			.search{
+				box-sizing: border-box;
+				padding-right: 0.16rem;
+			}
+			
+			.van-search__content{
+				height: 0.8rem;
+				display: flex;
+				align-items: center;
+				background: #FFFFFF;
+				box-shadow: 0px 0.03rem 0.2rem 0px #F5F5F5;
+				border-radius: 0.06rem;
+				border: 0.01rem solid #E0E0E0;
+			}
+			
+			.van-icon-search{
+				color: rgba(173, 173, 173, 1);
+			}
+			
+			.van-field__control::-webkit-input-placeholder{
+				color: rgba(173, 173, 173, 1);
+			}
+			.van-field__control::-moz-placeholder{   /* Mozilla Firefox 19+ */
+				color: rgba(173, 173, 173, 1);
+			}
+		   .van-field__control:-moz-placeholder{    /* Mozilla Firefox 4 to 18 */
+				color: rgba(173, 173, 173, 1);
+			}
+			.van-field__control:-ms-input-placeholder{  /* Internet Explorer 10-11 */ 
+				color: rgba(173, 173, 173, 1);
+			}
+			
+			.van-search__action{
+				padding-left: 0.32rem;
+				font-size: 0.28rem;
+				color: rgba(117, 117, 117, 1);
+			}
+			
+			.box{
+				box-sizing: border-box;
+				padding: 0 0.32rem 1rem;
+			}
+			
+			.history{
+				height: 1rem;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				font-size: 0.34rem;
+			}
+			
+			.history .iconfont{
+				width: 0.8rem;
+				height: 1rem;
+				color: rgba(173, 173, 173, 1);
+				font-size: 0.28rem;
+				display: flex;
+				justify-content: flex-end;
+				align-items: center;
+			}
+			
+			.history-tip{
+				display: flex;
+				align-items: center;
+				flex-wrap: wrap;
+				margin-bottom: 0.4rem;
+			}
+			
+			.history-tip span{
+				height: 0.55rem;
+				line-height: 0.55rem;
+				padding: 0 0.15rem;
+				background-color: rgba(247, 247, 247, 1);
+				margin: 0 0.35rem 0.2rem 0;
+				font-size: 0.26rem;
+				border-radius: 0.04rem;
+			}
+			
+			.sort{
+				height: 100%;
+				display: flex;
+				font-size: 0.26rem
+			}
+			
+			.sort span{
+				height: 100%;
+				display: flex;
+				align-items: center;
+				box-sizing: border-box;
+				font-weight: bold;
+			}
+			
+			.sort span:first-child{
+				padding-right: 0.25rem;
+			}
+			
+			.sort span:last-child{
+				padding-left: 0.25rem;
+			}
+			
+			.sort-item{
+				width: 100%;
+				height: 1.4rem;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				border-bottom: 0.01rem solid rgba(235, 235, 235, 1);
+			}
+			
+			.sort-left{
+				display: flex;
+				align-items: center;
+			}
+			
+			.sort-left .iconfont{
+				font-size: 0.55rem;
+				color: rgba(189, 189, 189, 1);
+				position: relative;
+			}
+			
+			.sort-left .iconfont span{
+				font-size: 0.3rem;
+				font-weight: bold;
+				color: #fff;
+				position: absolute;
+				left: 50%;
+				top: 50%;
+				transform: translate(-60%, -60%);
+			}
+			
+			.top-three{
+				color: rgba(252, 77, 57, 1) !important;
+			}
+			
+			.sort-wrap{
+				margin-left: 0.32rem;
+			}
+			
+			.sort-wrap h4{
+				font-size: 0.3rem;
+				margin-bottom: 0.1rem;
+			}
+			
+			.sort-site{
+				color: rgba(117, 117, 117, 1);
+				font-size: 0.26rem;
+			}
+			
+			.sort-site span:first-child{
+				padding-right: 0.1rem;
+				position: relative;
+			}
+			
+			.sort-site span:first-child:after{
+				content: '';
+				height: 0.22rem;
+				width: 0.02rem;
+				background-color: rgba(117, 117, 117, 1);
+				position: absolute;
+				right: 0;
+				top: 50%;
+				transform: translate(0,-45%);
+			}
+			
+			.sort-site span:last-child{
+				padding-left: 0.1rem;
+			}
+			
+			.sort-price{
+				font-size: 0.34rem;
+				color: rgba(252, 77, 57, 1);
+				font-weight: bold;
+			}
+			
+			.sort-price span{
+				font-size: 0.24rem;
+			}
+			
+			.more{
+				font-size: 0.26rem;
+				color: rgba(117, 117, 117, 1);
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+			
+			.more .iconfont{
+				font-size: 0.38rem;
+				width: auto;
+				margin-left: 0.1rem;
+				color: rgba(117, 117, 117, 1);
+			}
+			
+			.more2{
+				padding-top: 0.2rem;
+			}
+			
+			.info{
+				width: 100%;
+				padding: 0.15rem 0;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+			}
+			
+			.info-text{
+				display: flex;
+				align-items: center;
+			}
+			
+			.info-sort{
+				width: 0.24rem;
+				height: 0.28rem;
+				font-size: 0.28rem;
+				font-weight: bold;
+				color: rgba(117, 117, 117, 1);
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+			
+			.info-title{
+				width: 4.68rem;
+				margin-left: 0.16rem;
+			}
+			
+			.info-read{
+				color: rgba(173, 173, 173, 1);
+			}
+			
+			.result{
+				padding-bottom: 1rem;
+			}
+			
+			.result-wrap{
+				padding: 0 0.32rem;
+				box-sizing: border-box;
+			}
+			
+			.result-all{
+				height: 0.9rem;
+				font-size: 0.26rem;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				border-bottom: 0.01rem solid rgba(235, 235, 235, 1);
+			}
+			
+			.result-text{
+				width: 75%;
+				font-weight: bold;
+			}
+			
+			.result-all div{
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				color: rgba(117, 117, 117, 1);
+			}
+			
+		</style>
+	</head>
+	<body>
+		<div id="app" v-cloak>
+			<van-tabs v-model="active" color="rgba(254, 130, 30, 1)" title-active-color="rgba(254, 130, 30, 1)" @change="tabChange" ref="DOM">
+				<van-tab v-for="(item,index) in tabList" :key="index" :title="item.name">
+					<div class="search">
+						<form action="/">
+						  <van-search
+						    v-model="value"
+						    show-action
+						    :placeholder="item.placeholder"
+							maxlength="15"
+						    @search="onSearch"
+						    @cancel="onCancel"
+							@clear="onClear"
+						  />
+						</form>
+					</div>
+					
+					<div class="box" v-show="!showResultBox">
+						
+						<div class="history" v-if="searchHistory[active] && searchHistory[active].length > 0">
+							<h4>历史搜索</h4>
+							<span class="iconfont iconlajitong" @click="delHistory"></span>
+						</div>
+						
+						<div class="history-tip" v-if="searchHistory[active] && searchHistory[active].length > 0">
+							<template v-for="(tip,num) in searchHistory[active]" >
+								<span :key="num" @click="tipClick(tip)" v-if="num < 11">
+									{{tip}}
+								</span>
+							</template>
+						</div>
+						
+						<div class="history" v-if="hotTip[active] && hotTip[active].length > 0">
+							<h4>热门搜索</h4>
+						</div>
+						
+						<div class="history-tip" v-if="hotTip[active] && hotTip[active].length > 0">
+							<template v-for="(tip,num) in hotTip[active]" >
+								<span :key="num" @click="tipClick(tip)" v-if="num < 11">
+									{{tip}}
+								</span>
+							</template>
+						</div>
+						
+						<template v-if="item.id == 0 || item.id == 3">
+							<div class="history">
+								<h4>{{ item.id == 0 ? '新房排行榜' : '排行榜' }}</h4>
+								<div class="sort" @click="changeSort">
+									<span 
+										data-id="0"
+										:class="[sortTab[active] == 0 ? 'text-active' : '']"
+									>
+										{{ item.id == 0 ? '热搜榜' : '热销榜' }}
+									</span>
+									<span 
+										data-id="1"
+										:class="[sortTab[active] == 1 ? 'text-active' : '']"
+									>
+										人气榜
+									</span>
+								</div>
+							</div>
+							<div class="sort-item" v-for="(sort,key) in sortList" :key="key">
+								<div class="sort-left">
+									<div class="iconfont iconpaimingbiaoqian" :class="[key+1 < 4 ? 'top-three' : '']">
+										<span>{{key+1}}</span>
+									</div>
+									<div class="sort-wrap">
+										<h4>{{sort.name}}</h4>
+										<div class="sort-site">
+											<span>{{sort.site}}</span><span>建面{{sort.area}}m²</span>
+										</div>
+									</div>
+								</div>
+								<div class="sort-price">
+									{{sort.price}}<span>元/平</span>
+								</div>
+							</div>
+						</template>
+						<template v-else>
+							<div class="history">
+								<h4>{{ item.id == 1 ? '热讯榜' : '热门资讯' }}</h4>
+								<div class="sort" v-if="item.id == 2" @click="changeSort">
+									<span 
+										data-id="0"
+										:class="[sortTab[active] == 0 ? 'text-active' : '']"
+									>
+										热讯榜
+									</span>
+									<span 
+										data-id="1"
+										:class="[sortTab[active] == 1 ? 'text-active' : '']"
+									>
+										爆料榜
+									</span>
+								</div>
+								<div class="more" v-else>
+									查看更多<span class="iconfont iconjiantou1-copy"></span>
+								</div>
+							</div>
+							
+							<div class="info" v-for="(info,key) in infoList" :key="key">
+								<div class="info-text">
+									<img src="../../static/index/fire.png" class="info-sort" v-if="key < 3">
+									<span class="info-sort" v-else>{{key+1}}</span>
+									<span class="info-title van-ellipsis">{{info.title}}</span>
+								</div>
+								<div class="info-read">{{info.read}}人阅读</div>
+							</div>
+							
+							<div class="more more2"  v-if="item.id == 2">
+								查看更多<span class="iconfont iconjiantou1-copy"></span>
+							</div>
+							
+						</template>
+					</div>
+					<div class="result" v-show="showResultBox">
+						<!-- 综合 -->
+						<template v-if="item.id == 0" >
+							<div class="result-wrap" v-for="(search, key) in resultList">
+								<div 
+									class="result-all" 
+									:key="key" 
+									v-if="search.list.length && search.list.length > 0"
+									v-show="!showResult"
+									@click="chooseClassify(key)"
+								>
+									<span class="result-text van-ellipsis">
+										{{search.name}}中搜索“{{value}}”
+									</span>
+									<div>
+										<span>约{{search.list.length}}条</span><span class="iconfont iconjiantou1-copy"></span>
+									</div>
+								</div>
+							</div>
+						</template>
+						<!-- 资讯/有料/新房 -->
+						<div class="detail" v-show="showResult">
+							<template v-if="resultDetail.length == 0">
+								<van-empty image="search" description="暂无相关搜索"/>
+							</template>
+							<template v-else>
+								<common-template :list="resultDetail"></common-template>
+							</template>
+						</div>
+					</div>
+				</van-tab>
+			</van-tabs>
+		</div>
+	</body>
+</html>
+
+<script src="../../common/js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/rem.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/public.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/vant/index.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+<script>
+	
+	const myComponents = [
+		'../../components/common/template/index',
+	];
+	
+	$api.addComponents(myComponents)
+		.then(()=>{
+			Vue.use(vant.Lazyload);
+			 
+			
+			const app = new Vue({
+				el: '#app',
+				data: {
+					active: 0,
+					value: '',
+					searchHistory: {},
+					sortTab: {
+						0: 0,
+						2: 0,
+						3: 0
+					},
+					showResult: false,
+					showResultBox: false,
+					tabList: [
+						{
+							id: 0,
+							name: '综合',
+							placeholder: '请输入资讯、楼盘、小区名或地址'
+						},
+						{
+							id: 1,
+							name: '资讯',
+							placeholder: '请输入感兴趣的内容'
+						},
+						{
+							id: 2,
+							name: '有料',
+							placeholder: '请输入感兴趣的内容'
+						},
+						{
+							id: 3,
+							name: '新房',
+							placeholder: '请输入楼盘、地址'
+						},
+					],
+					hotTip: {
+						0: ['世贸湖边首府','东海山庄','轨交房','镇海路口','学区房','镇海路口','轨交房','镇海路口','学区房','轨交房','镇海路口','学区房','轨交房','镇海路口','学区房']
+					},
+					sortList: [
+						{
+							name: '世贸湖边首府',
+							site: '湖里 软件园',
+							area: 108,
+							price: 52000
+						},
+						{
+							name: '建发云翔',
+							site: '湖里 软件园',
+							area: 108,
+							price: 45000
+						},
+						{
+							name: '中铁幸福花园',
+							site: '湖里 软件园',
+							area: 108,
+							price: 40800
+						},
+						{
+							name: '东海山庄',
+							site: '湖里 软件园',
+							area: 108,
+							price: 47900
+						},
+						{
+							name: '联发欣悦园',
+							site: '湖里 软件园',
+							area: 108,
+							price: 92000
+						},
+						{
+							name: '恒大外滩',
+							site: '湖里 软件园',
+							area: 108,
+							price: 72200
+						},
+						{
+							name: '恒大美丽沙',
+							site: '湖里 软件园',
+							area: 108,
+							price: 69020
+						}
+					],
+					infoList: [
+						{
+							title: '厦门学区划片即将出炉，你准备好了吗？',
+							read: 1278
+						},
+						{
+							title: '商住产权和商品房产权有何不同？',
+							read: 1278
+						},
+						{
+							title: '降潮来了！厦门房价比上半年价格降得得得',
+							read: 1278
+						},
+						{
+							title: '未来楼市大变化，买房还是持币看清楚',
+							read: 1278
+						},
+						{
+							title: '厦门最新房价公布，看看哪个区升的最快',
+							read: 1278
+						},
+						{
+							title: '买二手房只需要首付就够了，还有这些…',
+							read: 1278
+						},
+						{
+							title: '还纠结买不买房？读懂这三大趋势就明…',
+							read: 1278
+						}
+					],
+					resultList: [
+						{
+							name: '资讯',
+							list: [
+								{
+									// 0-资讯无图
+									id: 0,
+									type: 0,
+									hot: 1,
+									write: 1,
+									title: '如何选择户比，梯户比对居住有什么影响？买房时有 哪些坑是可以避免的',
+									author: {
+										name: '国际在线',
+										head: '../../static/logo.png'
+									},
+									readNum: 136,
+									commentNum: 43,
+									tip: ['快讯','快讯','快讯','快讯']
+								},
+								{
+									// 1-资讯有图(1~3)
+									id: 1,
+									type: 1,
+									hot: 0,
+									write: 1,
+									title: '土地使用年限和产权使用年限与 购房者有什么关系！',
+									img: ['../../static/logo.png'],
+									author: {
+										name: '国际在线',
+										head: '../../static/logo.png'
+									},
+									readNum: 136,
+									commentNum: 43,
+									tip: ['城建','快讯','快讯','快讯']
+								},
+								{
+									id: 2,
+									type: 1,
+									hot: 0,
+									write: 1,
+									title: '土地使用年限和产权使用年限与 购房者有什么关系！',
+									img: ['../../static/logo.png','../../static/logo.png'],
+									author: {
+										name: '国际在线',
+										head: '../../static/logo.png'
+									},
+									readNum: 136,
+									commentNum: 43,
+									tip: ['城建','快讯','快讯','快讯']
+								},
+								{
+									id: 3,
+									type: 1,
+									hot: 1,
+									write: 0,
+									title: '土地使用年限和产权使用年限与 购房者有什么关系！',
+									img: ['../../static/logo.png','../../static/logo.png','../../static/logo.png'],
+									author: {
+										name: '国际在线',
+										head: '../../static/logo.png'
+									},
+									readNum: 136,
+									commentNum: 43,
+									tip: ['城建','快讯','快讯','快讯']
+								},
+								{
+									// 2-广告有图(1~3)
+									id: 4,
+									type: 2,
+									title: '首付76万、南北通透、全明结构、观景落地窗，空间 利用率高，不容错过的神户型',
+									img: ['../../static/logo.png']
+								},
+								{
+									id: 5,
+									type: 2,
+									title: '首付76万、南北通透、全明结构、观景落地窗，空间 利用率高，不容错过的神户型',
+									img: ['../../static/logo.png','../../static/logo.png']
+								},
+								{
+									id: 6,
+									type: 2,
+									title: '首付76万、南北通透、全明结构、观景落地窗，空间 利用率高，不容错过的神户型',
+									img: ['../../static/logo.png','../../static/logo.png','../../static/logo.png']
+								},
+								{
+									// 3-广告视频
+									id: 7,
+									type: 3,
+									title: '首付76万、南北通透、全明结构、观景落地窗，空间 利用率高，不容错过的神户型',
+									url: '../../static/logo.png'
+								},
+								{
+									// 4-广告楼盘有图
+									id: 8,
+									type: 4,
+									info: {
+										name: '建发养云',
+										tip: ['在售','住宅','热楼盘','装修交付'],
+										price: 34000,
+										site: '湖里 软件园',
+										area: 108,
+										lab: [
+											{ type: 0, name: '入围护理人气楼盘榜', img: '../../static/logo.png' },
+											{ type: 0, name: '享9.5折', img: '../../static/logo.png' },
+											{ type: 0, name: '777', img: '../../static/logo.png' },
+											{ type: 0, name: '888', img: '../../static/logo.png' }
+										]
+									},
+									title: '「样板间」看海无遮挡，大面宽，四房三厅二卫',
+									img:  ['../../static/logo.png']
+								},
+								{
+									id: 9,
+									type: 4,
+									info: {
+										name: '建发养云',
+										tip: ['待售','住宅','热楼盘','装修交付'],
+										price: 34000,
+										site: '湖里 软件园',
+										area: 108,
+										lab: [
+											{ type: 0, name: '入围护理人气楼盘榜', img: '../../static/logo.png' },
+											{ type: 0, name: '享9.5折', img: '../../static/logo.png' },
+											{ type: 0, name: '777', img: '../../static/logo.png' },
+											{ type: 0, name: '888', img: '../../static/logo.png' }
+										]
+									},
+									title: '「样板间」看海无遮挡，大面宽，四房三厅二卫',
+									img:  ['../../static/logo.png','../../static/logo.png']
+								},
+								{
+									id: 10,
+									type: 4,
+									info: {
+										name: '建发养云',
+										tip: ['售完','住宅','热楼盘','装修交付'],
+										price: 34000,
+										site: '湖里 软件园',
+										area: 108,
+										lab: [
+											{ type: 0, name: '入围护理人气楼盘榜', img: '../../static/logo.png' },
+											{ type: 0, name: '享9.5折', img: '../../static/logo.png' },
+											{ type: 0, name: '777', img: '../../static/logo.png' },
+											{ type: 0, name: '888', img: '../../static/logo.png' }
+										]
+									},
+									title: '「样板间」看海无遮挡，大面宽，四房三厅二卫',
+									img:  ['../../static/logo.png','../../static/logo.png','../../static/logo.png','../../static/logo.png','../../static/logo.png']
+								}
+							]
+						},
+						{
+							name: '有料',
+							list: []
+						},
+						{
+							name: '新房',
+							list: [
+								{
+									// 8-新房（数据和类型4-广告楼盘有图 雷同）
+									id: 14,
+									type: 8,
+									info: {
+										name: '世贸湖边首府',
+										tip: ['售完','住宅','热楼盘','装修交付'],
+										price: 34000,
+										site: '湖里 软件园',
+										area: 108,
+										lab: [
+											{ type: 0, name: '入围护理人气楼盘榜', img: '../../static/logo.png' },
+											{ type: 0, name: '享9.5折', img: '../../static/logo.png' },
+											{ type: 0, name: '777', img: '../../static/logo.png' },
+											{ type: 0, name: '888', img: '../../static/logo.png' }
+										]
+									},
+									img:  ['../../static/logo.png','../../static/logo.png','../../static/logo.png','../../static/logo.png','../../static/logo.png']
+								},
+								{
+									id: 15,
+									type: 4,
+									info: {
+										name: '建发养云',
+										tip: ['售完','住宅','热楼盘','装修交付'],
+										price: 34000,
+										site: '湖里 软件园',
+										area: 108,
+										lab: [
+											{ type: 0, name: '入围护理人气楼盘榜', img: '../../static/logo.png' },
+											{ type: 0, name: '享9.5折', img: '../../static/logo.png' },
+											{ type: 0, name: '777', img: '../../static/logo.png' },
+											{ type: 0, name: '888', img: '../../static/logo.png' }
+										]
+									},
+									title: '「样板间」看海无遮挡，大面宽，四房三厅二卫',
+									img:  ['../../static/logo.png','../../static/logo.png','../../static/logo.png','../../static/logo.png','../../static/logo.png']
+								},
+							]
+						},
+						{
+							name: '视频',
+							list: [
+								{
+									// 5-单独视频
+									id: 11,
+									type: 5,
+									title: '首付76万、南北通透、全明结构、观景落地窗，空间 利用率高，不容错过的神户型',
+									author: {
+										name: '国际在线',
+										head: '../../static/logo.png'
+									},
+									readNum: 136,
+									commentNum: 43,
+									tip: ['快讯','快讯','快讯','快讯'],
+									url: '../../static/logo.png',
+								},
+								{
+									// 6-精彩小视频
+									id: 12,
+									type: 6,
+									list: [
+										{
+											title: '89平三房小复式',
+											tip: '户型鉴赏',
+											view: 235,
+											url: '../../static/logo.png'
+										},
+										{
+											title: '世贸湖边首府',
+											tip: '小区Vlog',
+											view: 1098,
+											url: '../../static/logo.png'
+										},
+										{
+											title: '89平三房小复式',
+											tip: '新盘速递',
+											view: 235,
+											url: '../../static/logo.png'
+										},
+										{
+											title: '世贸湖边首府',
+											tip: '小区Vlog',
+											view: 1098,
+											url: '../../static/logo.png'
+										}
+									]
+								},
+								{
+									// 7-楼盘视频
+									id: 13,
+									type: 7,
+									info: {
+										name: '东海山庄',
+										tip: ['尾盘','住宅','热楼盘','装修交付'],
+										price: 34000,
+										site: '湖里 软件园',
+										area: 108,
+									},
+									title: '「样板间」看海无遮挡，大面宽，四房三厅二卫',
+									url: '../../static/logo.png'
+								}
+							]
+						},
+					],
+					resultDetail: []
+				},
+				components: {
+					commonTemplate
+				},
+				created() {
+					this.searchHistory = this.uHistory('get');
+					console.log(this.searchHistory)
+				},
+				methods:{
+					tabChange() {
+						this.value = '';
+						this.showResult = this.showResultBox = false;
+						this.resultDetail = [];
+					},
+					// 存取搜索历史
+					uHistory(type) {
+						if( type == 'get' ){
+							const val = $api.localGet('u-index-search-history');
+							
+							if( val ){
+								return JSON.parse(val);
+							} else {
+								return {};
+							}
+						} else {
+							if( type ) {
+								const key = this.active;
+								
+								if( Object.keys(this.searchHistory).indexOf(String(key)) == -1 ){
+									this.$set(this.searchHistory,key,[]);
+								}
+								
+								if( this.searchHistory[key].indexOf(type) != -1 ){
+									this.searchHistory[key].splice(this.searchHistory[key].indexOf(type),1);
+								}
+								
+								this.searchHistory[key].unshift(type);
+								
+								if( this.searchHistory[key].length > 11 ){
+									this.searchHistory[key].length = 11;
+								}
+							}
+							
+							$api.localSet('u-index-search-history',JSON.stringify(this.searchHistory));
+						}
+					},
+					onSearch(val) {
+						this.uHistory(val);
+						
+						// 显示结果模块
+						if( this.active != 0 ){
+							this.showResult = true;
+						}
+						this.showResultBox = true;
+						
+						this.chooseClassify(0);
+					},
+					onClear() {
+						this.showResult = this.showResultBox = false;
+					},
+					// 取消按钮
+					onCancel() {
+						$api.goPage('../../index.html');
+					},
+					delHistory() {
+						const key = this.active;
+						this.$set(this.searchHistory,key,[]);
+						this.uHistory();
+					},
+					// 标签点击
+					tipClick(val) {
+						this.value = val;
+						this.onSearch( val );
+					},
+					// 热门资讯切换
+					changeSort(e) {
+						const sort = this.sortTab[this.active];
+						const newSort = e.target.dataset.id;
+						
+						if( sort != newSort ){
+							this.sortTab[this.active] = newSort;
+							
+						}
+					},
+					
+					// 综合搜索结果
+					chooseClassify(key) {
+						this.resultDetail = this.resultList[key].list;
+						this.showResult = true;
+
+					},
+					
+				},
+			})
+		})
+	
+</script>

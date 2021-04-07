@@ -1,0 +1,20 @@
+import Vue from 'vue'
+import App from './App'
+
+Vue.config.productionTip = false
+
+App.mpType = 'app'
+
+const app = new Vue({
+    ...App
+})
+
+import uView from "uview-ui";
+Vue.use(uView);
+
+// http拦截器
+import httpInterceptor from '@/utils/http.interceptor.js';
+//httpInterceptor.js引入"app"对象(即页面的"this"实例)
+Vue.use(httpInterceptor, app);
+
+app.$mount()

@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "楼盘详情",
+  "usingComponents": {
+    "u-tabs": "/uview-ui/components/u-tabs/u-tabs"
+  }
+}

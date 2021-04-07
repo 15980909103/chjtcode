@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>评论</title>
+    <link rel="stylesheet" type="text/css" href="../../static/css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/mui/css/mui.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/css/index/comments.css" />
+    <script type="text/javascript" src="../../static/js/jquery-2.0.0.min.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.min.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.pullToRefresh.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.pullToRefresh.material.js" ></script>
+    <script type="text/javascript" src="../../static/js/vue.min.js" ></script>
+    <script type="text/javascript" src="../../static/js/vue-tap.js" ></script>
+    <script type="text/javascript" src="../../static/js/public.js" ></script>
+    <style>.mui-pull-bottom-tips{display: none;}</style>
+</head>
+<body>
+<div id="app" class="my-content">
+    <div class='my-scroll'>
+        <div class='view6-list' v-for="item in comments">
+            <img :src="item.avatarUrl"/>
+            <div class='view6-lis'>
+                <div>{{item.nickName}}</div>
+                <div v-html="item.content"></div>
+                <div>{{item.create_time}}</div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    var page=1;
+    new Vue({
+        el: '#app',
+        data: {
+            pullToRefresh:null,
+            comments: []    //评论数组
+        },
+        mounted: function () {
+        this.$nextTick(function () {
+            var _this=this;
+            mui.init();
+            _this.pullToRefresh=mui(".my-scroll").pullToRefresh({
+                up: {
+                    auto: true, //自动执行一次上拉加载，可选；
+                    show: false, //显示底部上拉加载提示信息，可选；
+                    callback:function(){
+                        setTimeout(function(){
+                            _this.pullupRefresh(_this.pullToRefresh);
+                        },300)
+                    }
+                }
+            });
+        })
+        },
+        methods:{
+            pullupRefresh(_self){
+                var _this=this;
+                ajax('articleAjax/getArticleCommentsData',{aid:getQueryString('id'),page:page},function(res){
+                    if(res.success){
+                        page++;
+                        _this.comments=_this.comments.concat(res.data);
+                        _self.endPullUpToRefresh();
+                    }else{
+                        _self.endPullUpToRefresh(true);   //内容为空了
+                    }
+                });
+            }
+        }
+    })
+</script>

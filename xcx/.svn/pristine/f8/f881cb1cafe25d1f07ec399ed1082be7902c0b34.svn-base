@@ -1,0 +1,39 @@
+<?php
+
+namespace app\admin\controller;
+
+
+use app\common\base\AdminBaseController;
+use app\common\lib\delayQueue\DelayQueue;
+use app\common\manage\TaskManage;
+
+
+
+class NotifyController extends AdminBaseController
+{
+    //微信通知
+    public function DistributionWxMsg(){
+        $data = $this->request->param();
+        if($data['auth'] = 'Nldo4g59sEkW2v7DCmIOruPc6FAMn'){
+            //TaskManage::getInstance()->asyncPost($data['data'],\app\task\Test::class);
+            if(!empty($data['delay'])){
+                TaskManage::getInstance()->asyncPost($data['data'],\app\task\Test::class);
+            }
+        }
+    }
+
+    //保护期时间到了进行验证
+    public function CheckProtection(){
+        $data = $this->request->param();
+        if($data['auth'] = 'Nldo4g59sEkW2v7DCmIOruPc6FAMn'){
+            //TaskManage::getInstance()->asyncPost($data['data'],\app\task\Test::class);
+            if(!empty($data['delay'])){//添加延时队列
+                for ($i=0;$i<100;$i++){
+                    $data['data'][$i] = $i;
+                    DelayQueue::getInstance()->addTask('checkProtection',$data['delay'],\app\task\CheckProtection::class,$data['data']);
+                }
+            }
+        }
+    }
+
+}

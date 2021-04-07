@@ -1,0 +1,37 @@
+<view id="my-view1">
+  <image src='{{buildingInfo.floor_img?domain_name+buildingInfo.floor_img:"/image/empty.png"}}'></image>
+  <view class="view1-floor {{floorIndex==index?'view1-tick':''}}" style="top:{{item.f_top}}%;left:{{item.f_left}}%;" wx:for="{{floorInfo}}" wx:key="index" data-index="{{index}}" bindtap='onFloorSet'>{{item.title}} | {{item.sales_status}}</view>
+</view>
+<view id='my-swiper'>
+  <swiper class='swiper' current="{{floorIndex}}" bindchange="onSwiperSet">
+    <block wx:for="{{floorInfo}}" wx:key="index">
+      <swiper-item>
+        <view class='swiper-li'>
+          <view class='swiper-view1'>
+            <view>{{item.title}}</view>
+            <view bindtap='onBuildingDetail' data-title="{{item.title}}" data-id="{{item.id}}">全部单元 <van-icon name="arrow"/></view>
+          </view>
+          <view class='swiper-view2'>
+            <view>最新开盘：{{item.kaipan_time}}</view>
+            <view>最早交房：{{item.jiaofan_time}}</view>
+          </view>
+          <view class='swiper-view3'>
+            <view>单元：<text>{{item.unit_num}}个单元</text></view>
+            <view>层数：<text>{{item.floor_number}}层</text></view>
+            <view>户数：<text>{{item.house_number}}户</text></view>
+            <view>产权年限：<text>{{item.year_number}}年</text></view>
+          </view>
+        </view>
+      </swiper-item>
+    </block>
+  </swiper>
+</view>
+<view id="my-footer">
+  <view class='f-img'><image src='{{agentInfo.headimgurl}}'></image></view>
+  <view class='f-name'>
+    <view class='f-name-1 van-ellipsis'>{{agentInfo.name}}</view>
+    <view class='f-name-2 van-ellipsis'>{{agentInfo.storename}}</view>
+  </view>
+  <view class='f-btn1' bindtap='onCall'>电话联系</view>
+  <view class='f-btn2'>微聊</view>
+</view>

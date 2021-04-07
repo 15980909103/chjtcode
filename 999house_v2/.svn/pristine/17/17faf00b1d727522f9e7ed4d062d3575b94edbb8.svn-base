@@ -1,0 +1,213 @@
+<!--pages/new_house/good_house.wxml-->
+<view >
+    <view wx:if="{{null_show}}" class="list_null">
+        <image src="../../static/null.png"/>
+        <view>暂无数据1</view>
+    </view>
+
+    <view wx:if="{{info_id}}" :style="{background: activeList_type!=11? bgColor: '#fff',minHeight: '100%'}">
+        <!-- <top-bar title="好房推荐"></top-bar> -->
+        <image :src="adTop.cover_imgs" class="ad_top" wx:if="{{adTop}}"/>
+
+        <!-- 直播 -->
+        <!-- <view class="live-box" wx:if="activeList.live && activeList.live.length > 0">
+            <van-swipe class="live-swipe" :autoplay="3000" indicator-color="white">
+                <van-swipe-item class="live-swipe-wrap" wx:for="(live,num) in activeList.live" :key="num">
+                    
+                    <view 
+                        class="live-swipe-item" 
+                        :style="{backgroundImage: 'url('+ liveItem.img +')'}"
+                        wx:for="(liveItem,key) in live.list" 
+                        :key="key"
+                    >
+                        <template wx:if="liveItem.type == 0">
+                            <view class="live-swipe-tip live-swipe-tip1">
+                                <image src="../../static/logo.png"/>
+                                <text>直播中</text>
+                            </view>
+                        </template>
+                        <template wx:else>
+                            <view class="live-swipe-tip live-swipe-tip2">
+                                <view class="live-swipe-tip2-title">
+                                    <text class="iconfont icon17shijian"></text>预约
+                                </view>
+                                <view class="live-swipe-tip2-time">
+                                    {{liveItem.time}}
+                                </view>
+                            </view>
+                        </template>
+                        
+                    
+                        <text class="live-swipe-title van-multi-ellipsis--l2">
+                            {{liveItem.title}}
+                        </text>
+                    </view>
+                    
+                </van-swipe-item>
+            </van-swipe>
+        </view> -->
+
+        <!-- 列表 -->
+        <view class="list-box" wx:if="has_tip==1">
+            <view class="list-tip">
+                <view class="list-tip-item" wx:for-item="v" wx:for-index="key" wx:for="{{activeList.tip}}" :key="key">
+                    <view bind:tap="chooseTip(key)" class="{{key == currentChoosTip ? 'tip-active' : ''}}">
+                        {{v.name}}
+                    </view>
+                </view>
+            </view>
+            <view wx:if="{{activeList.tip&&activeList.tip[currentChoosTip]&&activeList.tip[currentChoosTip].list.length}}">
+                <view class="all-template">
+                    <view wx:for="{{activeList.tip[currentChoosTip].list}}" class="template">
+                        <view class="template-top-houses" wx:if="{{item.info.name}}">
+                            <view class="template-top-houses-name">
+                                <text class="template-name">{{item.info.name}}</text>
+                                <view class="tiplist" wx:for="{{item.info.tip}}" wx:for-item="houseTip" wx:for-index="houseKey">
+                                    <text 
+                                        :key="houseKey" 
+                                        wx:if="{{houseKey < 3}}"
+                                    >{{houseTip}}</text>
+                                </view>
+                            </view>
+                            <!-- :class="[
+                                                houseTip == '在售' ? 'houses-bg-blue' : '',
+                                                houseTip == '待售' ? 'houses-bg-orange' : '',
+                                                houseTip == '售完' ? 'houses-bg-purple' : '',
+                                                houseTip == '尾盘' ? 'houses-bg-blue2' : '',
+                                                houseKey == 0 ? 'template-top-houses-name-tip' : ''
+                                            ]" -->
+                            <view class="template-top-houses-price">
+                                <view wx:if="{{item.info.price>0}}">
+                                    <text>{{item.info.price}}</text>元/m²
+                                </view>
+                                <view wx:else>
+                                    价格待定
+                                </view>
+                                <text class="template-top-houses-site">{{item.info.site}}</text>
+                                <text>建面{{item.info.area}}m²</text>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="template-top template-ad-1">
+                        <view class="template-title ">
+                            <text wx:if="(item.type == 0 || item.type == 1) && ( item.hot == 1 || item.write == 1 )">
+                                <text>
+                                    <image src="/9house/static/index/fire.png" wx:if="{{item.hot == 1}}"/>
+                                    <text 
+                                        class="template-title-write" 
+                                        :class="[item.hot == 1 && item.write == 1 ? 'margin-left' : '']"
+                                        wx:if="{{item.write == 1}}"
+                                    >
+                                        原创
+                                    </text>
+                                </text>
+                            </text>
+                            <text wx:if="item.html_title" wx:html="item.html_title"></text>
+                            <text wx:else>
+                                {{item.title}}
+                            </text>
+                        </view>
+                        
+                        <!-- 资讯/广告有图 -->
+                        <text >
+                            <view wx:for="(url, newKey) in item.img">
+                                <image wx:lazy="$http.imgDirtoUrl(url)" wx:if="newKey < 3" :key="newKey"/>
+                            </view>
+                        </text>
+                        
+                        <!-- 广告视频占位 -->
+                        <view wx:if="item.type == 3 || item.type == 5 || item.type == 7 || item.type == 9">
+                            <view class="template-ad-video">
+                                <image style='width:100%;height:100%;' wx:lazy="$http.imgDirtoUrl(item.img)"/>
+                            </view>
+                        </view>
+                    </view>
+                    <view class="template-bottom" wx:if="item.type != 9 && item.type != 10">
+                        <!-- 资讯 / 单视频 -->
+                        <template wx:if="item.type == 0 || item.type == 1 || item.type == 5">
+                            <view class="template-bottom-left">
+                                <image wx:lazy="$http.imgDirtoUrl(item.author.head)"/>
+                                <text>
+                                    {{item.author.name}} · {{item.readNum}}次阅读 · {{item.commentNum}}评论
+                                </text>
+                            </view>
+                            <view class="template-bottom-news">
+                                <template wx:for="(newsTip, newsTipKey) in item.tip">
+                                    <text class="template-bottom-tip" :key="newsTipKey" wx:if="newsTipKey < 3">
+                                        {{newsTip}}
+                                    </text>
+                                </template>
+                            </view>
+                            
+                        </template>
+                        <!-- 资讯/视频广告 -->
+                        <template wx:if="item.type == 2 || item.type == 3">
+                            <view class="template-bottom-tip">
+                                广告
+                            </view>
+                            <text class="template-bottom-ad-del" wx:if="show_adclose" bind:tap="delAd(key)">
+                                <text class="iconfont iconlujing"></text>
+                            </text>
+                        </template>
+                        <!-- 楼盘广告 -->
+                        <template wx:if="item.type == 4">
+                            <view class="template-bottom-left">
+                                <template wx:for="(house,houseIndex) in item.info.lab">
+                                    <text class="template3-bottom-tip" :key="houseIndex" wx:if="houseIndex < 2 && house.type == 0">
+                                        <image src="/9house/static/index/hot.png"/>
+                                        <text class="van-ellipsis">{{house.name}}</text>
+                                    </text>
+                                    <!--template3-bottom-vr--> 
+                                    <text class="template3-bottom-tip " :key="houseIndex" wx:if="houseIndex < 2 && house.type == 1">
+                                        <image src="/9house/static/index/sale.png"/>
+                                        <text class="van-ellipsis">{{house.name}}</text>
+                                    </text>
+                                </template>
+                            </view>
+                            <view class="template-bottom-right">
+                                <text class="template-bottom-tip">
+                                    广告
+                                </text>
+                                <text class="template-bottom-ad-del" wx:if="show_adclose" bind:tap="delAd(key)">
+                                    <text class="iconfont iconlujing"></text>
+                                </text>
+                            </view>
+                        </template>
+                    </view>
+                </view>
+
+                <!-- <common-template 
+                    :list="activeList.tip[currentChoosTip].list" 
+                >
+                </common-template> -->
+                <view class="list-end-tips">
+                    我是有底线的哦
+                </view>
+            </view>
+            <view class="list_null" style="background: #fff;" wx:else >
+                <view wx:if="list_null_show">
+                    <image src="../../static/null.png"/>
+                    <view>暂无数据2</view>
+                </view>
+            </view>
+        </view>
+        <view :class="[activeList_type==11?'list-box list-box11':'list-box']" wx:if="has_tip==2">
+            <view wx:if="activeList.not_tip.length">
+                <common-template 
+                    :list="activeList.not_tip" 
+                >
+                </common-template>
+                <view class="list-end-tips">
+                    我是有底线的哦
+                </view>
+            </view>
+            <view class="list_null" style="background: #fff;" wx:else >
+                <view wx:if="list_null_show">
+                    <image src="../../static/null.png"/>
+                    <view>暂无数据3</view>
+                </view>
+            </view>
+        </view>
+        <view id="container-user-site"></view>
+    </view>
+</view>

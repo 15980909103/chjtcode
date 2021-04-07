@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+		<title></title>
+		<link rel="stylesheet" href="../../common/vant/index.css" />
+		<link rel="stylesheet" href="../../common/css/public.css?v=1.19" />
+		<link rel="stylesheet" href="../../static/css/map/index.css?v=1.19" />
+		<style>
+
+		</style>
+	</head>
+
+	<body>
+		<div id="app" v-cloak ref="DOM">
+			<map-round :id="houseId" v-if="houseId && houseId != -1"></map-round>
+		</div>
+	</body>
+
+</html>
+
+<!-- 高德地图定位组件 -->
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=53da8183ca23918f2f81c79a5b2ede15&plugin=AMap.CitySearch"></script> 
+<script src="https://map.qq.com/api/gljs?v=1.exp&key=2YQBZ-V22W3-QWE3V-3G2KA-YWVK5-X4BZR"></script>
+<script src="../../common/js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/rem.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/vant/index.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/public.js?v=1.19" type="text/javascript" charset="utf-8"></script>
+<!-- 自定义覆盖物 -->
+<script src="./circle_cover.js?v=1.19" type="text/javascript" charset="utf-8"></script>
+<script src="./house_cover.js?v=1.19" type="text/javascript" charset="utf-8"></script>
+<script src="./marker_cover.js?v=1.19" type="text/javascript" charset="utf-8"></script>
+<script src="./site_cover.js?v=1.19" type="text/javascript" charset="utf-8"></script>
+
+<script type="module">
+	import { http } from '../../common/js/method/http.js?v=1.19';
+	
+	const myComponents = [
+		'../../components/common/topBar/index',
+		'../../components/common/map/round',
+	];
+	
+	$api.addComponents(myComponents)
+		.then(() => {
+			
+			Vue.use(http);
+			Vue.use(vant.Lazyload);
+			Vue.component('topBar', topBar);
+			
+			const app = new Vue({
+				el: '#app',
+				data: {
+					houseId: -1
+				},
+				components: {
+					mapRound
+				},
+				watch: {
+					
+				},
+				created() {
+					this.houseId = this.$api.funcUrlDel().option.id;
+				},
+				mounted() {
+			
+				},
+				methods: {
+					
+				},
+			})
+
+		})
+</script>

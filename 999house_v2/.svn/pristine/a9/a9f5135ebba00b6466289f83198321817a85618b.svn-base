@@ -1,0 +1,138 @@
+<template>
+	<view  v-if="Object.keys(site).length > 0">
+		<map-tabs 
+			name="key" 
+			:list="siteInfo" 
+			:current="current" 
+			duration="0.3" 
+			active-color="rgba(254, 130, 30, 1)"
+			inactive-color="rgba(117, 117, 117, 1)"
+			gutter="32"
+			:bold="false"
+			:show-bar="false"
+			@change="change"
+		>
+		</map-tabs>
+		
+	</view>
+</template>
+
+<script>
+	import mapTabs from '@/components/map/mapTabs';
+	import txmap from '@/utils/module/map/qqmap-wx-jssdk.min.js';
+	
+	export default {
+		data() {
+			return {
+				mapEl: null,
+				current: 0,
+				siteInfo: [
+					{
+						key: '公交',
+						info: []
+					},
+					{
+						key: '教育',
+						info: []
+					},
+					{
+						key: '医院',
+						info: []
+					},
+					{
+						key: '购物',
+						info: []
+					},
+					{
+						key: '美食',
+						info: []
+					}
+				]
+			};
+		},
+		components: {
+			mapTabs
+		},
+		props: {
+			site: {
+				type: Object,
+				default() {
+					return {}
+				}
+			},
+		},
+		watch: {
+			site( newV ){
+				this.initSiteInfo();
+			}
+		},
+		created() {
+			this.mapEl = new txmap({
+				key: getApp().globalData.map_key
+			});
+		},
+		mounted() {
+			// console.log(this.site)
+			// console.log(this.mapEl)
+			  
+			
+		},
+		methods: {
+			initSiteInfo() {
+				this.siteInfo.map( item=>{
+					this.getSiteInfo(item.key, res=>{
+						const arr = [];
+						
+						res.data.map( data=>{
+							if( data._distance <= 5000 ){
+								arr.push(data)
+							}
+						})
+						
+						item.info = arr;
+						// item.info = res.data;
+					})
+				})
+				
+				console.log(this.siteInfo,999)
+			},
+			getSiteInfo(key,call) {
+				switch(key){
+					case '教育':
+						key = '学校';
+						break;
+					case '医院':
+						key = '三级医院';
+						break;
+					case '购物':
+						key = '购物中心';
+						break;
+				}
+				
+				const obj = {
+					keyword: key,
+					page_size: 20,
+					location: {
+					  latitude: this.site.lat,
+					  longitude: this.site.lng
+					},
+					success: function (res) {
+						call(res);
+					},
+					fail: function (res) {
+						console.log(res,`---${key}`);
+					}
+				};
+		
+				this.mapEl.search(obj);
+			},
+			change(e) {
+				this.current = e;
+			}
+		},
+	}
+</script>
+
+<style lang="scss" scoped>
+	
+</style>

@@ -1,0 +1,12 @@
+<view id='my-feedback'>
+  <view class='my-title'>请选择纠错的问题类型</view>
+  <view class='my-btn-li'>
+    <view class="my-btn {{index==problemIndex?'my-tick':''}}" wx:for='{{problemData}}' wx:key='{{index}}' data-index='{{index}}' bindtap='onProblem'>{{item.title}}</view>
+  </view>
+  <view class='my-title2'>问题和建议</view>
+  <view class='my-ta-content'>
+    <textarea class='my-textarea' placeholder="简要描述您要反馈的问题和建议" maxlength="100" value='{{textareaText}}' bindinput="onInput" />
+    <view class='my-num'>{{textareaText.length}}/100</view>
+  </view>
+  <view class='my-btn-success' bindtap='onSave'>保存</view>
+</view>

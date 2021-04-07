@@ -1,0 +1,36 @@
+
+.my-content{width: 100vw;height: 100vh;background-color: #d72d2b;position: relative;overflow: hidden; position: relative;}
+[v-cloak] {display: none;}
+.my-img{width: 100vw;height: auto;border: 0;}
+.my-img2{position: absolute; bottom: 0;width: 100vw;}
+.content-block{
+  position: absolute;
+  bottom: 65vw;
+  width: 80vw;
+  left: 10vw;
+  text-align: center;
+  z-index: 10;
+}
+.my-img3{
+  position: absolute;
+  width: 100%;
+  left: 0;
+  z-index: -1;
+}
+.my-img1{
+  width: 100%;
+  position: relative;
+  top: -20px;
+}
+.my-name{height: 15.5vw;line-height: 15.5vw;font-size: 1.1em;font-weight: 600;z-index: 10;}
+.my-headimgurl img{width:66.666666666667vw;height:57.333333333333vw;margin: 0 auto;}
+.my-info{width:66.666666666667vw;height:24.666666666667vw;text-align: left;position: absolute;right: 5vw;display: flex;align-items:center;}
+.my-info .view{width:44.666666666667vw;color: #3D3D3D;font-size: 3.8vw;line-height: 6vw;}
+.my-qrcode{width: 23vw;height: 23vw;position: absolute;top: -9vw;right: 0;}
+.my-qrcode img{width: 22vw;height: 22vw;z-index: 10;border-radius: 12vw;border: 1vw solid #FFF;margin-top: 10px;}
+.my-qrcode div{color: #999;font-size: 3vw;text-align: center;}
+.my-signature{width: 100vw;position: absolute;bottom: 3.5vw;text-align: center;color: #FFF;font-weight: 600;}
+.my-signature div{position: relative;z-index: 20;}
+.my-signature span{background-color: #8C74E6;padding: 5px 3.5vw;color:#fff;position: relative;top: -3.5vw;}
+.my-mask{width:100vw;height:100%;position: absolute;top:0;z-index:100;}
+

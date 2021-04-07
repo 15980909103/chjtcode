@@ -1,0 +1,12 @@
+{
+  "navigationBarTitleText": "微聊",
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "u-tabs": "/uview-ui/components/u-tabs/u-tabs",
+    "u-search": "/uview-ui/components/u-search/u-search",
+    "u-badge": "/uview-ui/components/u-badge/u-badge",
+    "u-popup": "/uview-ui/components/u-popup/u-popup",
+    "u-mask": "/uview-ui/components/u-mask/u-mask",
+    "search": "/components/chat/search"
+  }
+}

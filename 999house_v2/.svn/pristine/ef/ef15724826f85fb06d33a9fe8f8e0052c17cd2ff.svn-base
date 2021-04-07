@@ -1,0 +1,313 @@
+// pages/new_house/good_house.js
+Page({
+
+  /**
+   * 页面的初始数据
+   */
+  data: {
+    has_tip : 1,
+    info_id: 1,
+    null_show: false,
+    list_null_show: false,
+    bgColor: 'rgba(254, 114, 71, 1)',
+    adTop: '',
+    active: 0,
+    currentChoosTip: 1,
+    activeList_type: -1,
+    activeList: {
+      live:[],
+      tip:[
+        {
+          "name": "特价盘",
+          "list": [{
+            "id": 130,
+            "type": 10,
+            "info": {
+              "name": "世茂·国风长安82",
+              "tip": ["待售", "住宅", "地铁（商业）", "首页"],
+              "price": 0,
+              "site": "思明区 ",
+              "area": "",
+              "is_sale_status": 1,
+              "is_cheap": 1,
+              "is_recommend": 1,
+              "is_opening_time": 0,
+              "coloum_id": "1"
+            },
+            "cover": 1,
+            "title": "世茂·国风长安82副标题",
+            "img": ["/upload/images/admin/estates/t8cfc132e501dcd7bf7d06b8a6a48399e.png"],
+            "url": "",
+            "apply": {}
+          }, {
+            "id": 136,
+            "type": 10,
+            "info": {
+              "name": "楼盘1",
+              "tip": ["待售", "住宅", "电商优惠"],
+              "price": 1000,
+              "site": "鲤城区 ",
+              "area": "110",
+              "is_sale_status": 1,
+              "is_cheap": 0,
+              "is_recommend": 1,
+              "is_opening_time": 0,
+              "coloum_id": "1"
+            },
+            "cover": 1,
+            "title": "附表",
+            "img": ["/upload/images/admin/estates/t306cfad65bd697e1098fd81633dcddfd.png"],
+            "url": "",
+            "apply": {}
+          }, {
+            "id": 134,
+            "type": 10,
+            "info": {
+              "name": "厦门厦门",
+              "tip": ["在售", "别墅", "热销楼盘", "低总价"],
+              "price": 0,
+              "site": "海沧区 ",
+              "area": "",
+              "is_sale_status": 2,
+              "is_cheap": 1,
+              "is_recommend": 1,
+              "is_opening_time": 0,
+              "coloum_id": "1"
+            },
+            "cover": 1,
+            "title": "厦门厦门副标题",
+            "img": ["/upload/images/admin/estates/t3ade68b9727073a7f4372b98f2b8a2ca.png"],
+            "url": "",
+            "apply": {}
+          }, {
+            "id": 112,
+            "type": 10,
+            "info": {
+              "name": "国贸天成7",
+              "tip": ["待售", "住宅"],
+              "price": 312,
+              "site": "漳州港 ",
+              "area": "244595",
+              "is_sale_status": 1,
+              "is_cheap": 0,
+              "is_recommend": 0,
+              "is_opening_time": 0,
+              "coloum_id": "1"
+            },
+            "cover": 1,
+            "title": "",
+            "img": ["/upload/images/admin/estates/t5687a766c085d81a7bfc0af9cd34071e.jpeg"],
+            "url": "",
+            "apply": {}
+          }]
+        },
+        {
+          "name": "本月开盘",
+          "list": [{
+            "id": 135,
+            "type": 10,
+            "info": {
+              "name": "厦门楼盘",
+              "tip": ["待售", "住宅", "电商优惠"],
+              "price": 0,
+              "site": "湖里区 ",
+              "area": "",
+              "is_sale_status": 1,
+              "is_cheap": 0,
+              "is_recommend": 1,
+              "is_opening_time": 0,
+              "coloum_id": "2"
+            },
+            "cover": 1,
+            "title": "厦门楼盘副标题",
+            "img": ["/upload/images/admin/estates/t02ec966e18654f3996c596f717a86d6e.png"],
+            "url": "",
+            "apply": {}
+          }, {
+            "id": 75,
+            "type": 10,
+            "info": {
+              "name": "融侨·观澜5",
+              "tip": ["在售", "住宅"],
+              "price": 534,
+              "site": "同安区 ",
+              "area": "68000",
+              "is_sale_status": 2,
+              "is_cheap": 0,
+              "is_recommend": 1,
+              "is_opening_time": 0,
+              "coloum_id": "2"
+            },
+            "cover": 1,
+            "title": "",
+            "img": ["/upload/images/admin/estates/tfd84915ed6fe3e87ae0b671264891464.jpeg"],
+            "url": "",
+            "apply": {}
+          }]
+        },
+        {
+          "name": "近期开盘",
+          "list": [{
+            "id": 117,
+            "type": 10,
+            "info": {
+              "name": "特房·锦绣香里8",
+              "tip": ["待售", "住宅"],
+              "price": 556526,
+              "site": "思明区 ",
+              "area": "234293.39",
+              "is_sale_status": 1,
+              "is_cheap": 0,
+              "is_recommend": 0,
+              "is_opening_time": 0,
+              "coloum_id": "3"
+            },
+            "cover": 1,
+            "title": "副标题是是滴是",
+            "img": ["/upload/images/admin/estates/tda5158b8df297f5d548d61b0dc4dada1.png"],
+            "url": "",
+            "apply": {}
+          }, {
+            "id": 116,
+            "type": 10,
+            "info": {
+              "name": "海西国际广场8",
+              "tip": ["待售", "别墅"],
+              "price": 77421,
+              "site": "思明区 ",
+              "area": "21333",
+              "is_sale_status": 1,
+              "is_cheap": 0,
+              "is_recommend": 1,
+              "is_opening_time": 0,
+              "coloum_id": "3"
+            },
+            "cover": 1,
+            "title": "",
+            "img": ["/upload/images/admin/estates/t713247582f33284cccacf58b631f4dfb.jpeg"],
+            "url": "",
+            "apply": {}
+          }, {
+            "id": 114,
+            "type": 10,
+            "info": {
+              "name": "世茂·国风长安7",
+              "tip": ["待售", "住宅"],
+              "price": 25000,
+              "site": "漳州港 ",
+              "area": "163697.45",
+              "is_sale_status": 1,
+              "is_cheap": 0,
+              "is_recommend": 0,
+              "is_opening_time": 0,
+              "coloum_id": "3"
+            },
+            "cover": 1,
+            "title": "",
+            "img": ["/upload/images/admin/estates/t8cfc132e501dcd7bf7d06b8a6a48399e.png"],
+            "url": "",
+            "apply": {}
+          }, {
+            "id": 110,
+            "type": 10,
+            "info": {
+              "name": "国贸学原7",
+              "tip": ["待售", "住宅"],
+              "price": 2423,
+              "site": "漳州港 ",
+              "area": "370748.11",
+              "is_sale_status": 1,
+              "is_cheap": 0,
+              "is_recommend": 0,
+              "is_opening_time": 0,
+              "coloum_id": "3"
+            },
+            "cover": 1,
+            "title": "",
+            "img": ["/upload/images/admin/estates/t912288ff30784e4262e0470efd87735c.jpeg"],
+            "url": "",
+            "apply": {}
+          }, {
+            "id": 107,
+            "type": 10,
+            "info": {
+              "name": "融侨·观澜7",
+              "tip": ["待售", "住宅"],
+              "price": 2342,
+              "site": "漳州港 ",
+              "area": "68000",
+              "is_sale_status": 1,
+              "is_cheap": 0,
+              "is_recommend": 0,
+              "is_opening_time": 0,
+              "coloum_id": "3"
+            },
+            "cover": 1,
+            "title": "",
+            "img": ["/upload/images/admin/estates/tfd84915ed6fe3e87ae0b671264891464.jpeg"],
+            "url": "",
+            "apply": {}
+          }]
+        }
+      ], //有分栏时候的列表
+      not_tip:[]//无分栏时候的列表
+    },
+    tipChoose: [],
+  },
+
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function (options) {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide: function () {
+
+  },
+
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload: function () {
+
+  },
+
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function () {
+
+  },
+
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: function () {
+
+  },
+
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function () {
+
+  }
+})

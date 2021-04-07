@@ -1,0 +1,2 @@
+[2020-10-13T09:10:35+08:00][error] [64]Cannot declare class app\admin\controller\BuildingController, because the name is already in use[/mnt/e/project/999house_v2/app/admin/controller/BuildController.php:8]
+[2020-10-13T09:10:59+08:00][error] [64]Cannot declare class app\admin\controller\BuildingController, because the name is already in use[/mnt/e/project/999house_v2/app/admin/controller/BuildController.php:8]

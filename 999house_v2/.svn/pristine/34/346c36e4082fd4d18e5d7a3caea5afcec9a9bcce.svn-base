@@ -1,0 +1,46 @@
+<template>
+	<view class="wrap">
+		<common-sizer @result="chooseResult" :default_data='default_data' :more-data="list"></common-sizer>
+	</view>
+</template>
+
+<script> 
+	import commonSizer from "@/components/common/commonSizer";
+	export default {
+		data() {
+			return {
+				default_data:{ },
+				list: []
+			}
+		},
+		components: {
+			commonSizer
+		},
+		onLoad(option) {
+			// this.list = [{"title":"区域","list":[{"title":"城区","list":[{"id":0,"name":"不限","list":[]},{"id":350203,"name":"思明区","list":[{"id":0,"name":"不限"}]},{"id":350205,"name":"海沧区","list":[{"id":0,"name":"不限"}]},{"id":350206,"name":"湖里区","list":[{"id":0,"name":"不限"},{"id":659006,"name":"万达广场"},{"id":659007,"name":"SM广场"}]},{"id":350211,"name":"集美区","list":[{"id":0,"name":"不限"}]},{"id":350212,"name":"同安区","list":[{"id":0,"name":"不限"}]},{"id":350213,"name":"翔安区","list":[{"id":0,"name":"不限"}]},{"id":350280,"name":"漳州港","list":[{"id":0,"name":"不限"}]},{"id":350666,"name":"厦门周边","list":[{"id":0,"name":"不限"}]}]},{"title":"地铁","list":[{"id":0,"name":"不限","list":[]},{"id":1,"name":"1号线","list":[{"id":0,"name":"不限"},{"id":1,"name":"前埔"},{"id":5,"name":"吕厝"}]},{"id":2,"name":"2号线","list":[{"id":0,"name":"不限"},{"id":2,"name":"镇海路"},{"id":5,"name":"吕厝"}]},{"id":3,"name":"3号线","list":[{"id":0,"name":"不限"}]}]}]},{"title":"价格","list":[{"title":"单价","list":[{"id":"不限","name":"不限"},{"id":"111以下","name":"111以下"},{"id":"111-130","name":"111-130"},{"id":"130以上","name":"130以上"}]},{"title":"总价","list":[{"id":"不限","name":"不限"},{"id":"10以下","name":"10以下"},{"id":"10-20","name":"10-20"},{"id":"20-30","name":"20-30"},{"id":"30以上","name":"30以上"}]}]},{"title":"户型","list":[{"id":0,"name":"不限"},{"id":1,"name":"一室"},{"id":2,"name":"两室"},{"id":3,"name":"三室"},{"id":4,"name":"四室"},{"id":5,"name":"五室"},{"id":6,"name":"五室+"},{"id":7,"name":"别墅"}]},{"title":"更多","list":[{"title":"面积","type":"built_area","list":[{"id":"121以下","name":"121以下"},{"id":"121以上","name":"121以上"}]},{"title":"类型","type":"house_purpose","list":[{"id":1,"name":"住宅"},{"id":2,"name":"别墅"},{"id":3,"name":"商住"},{"id":4,"name":"写字楼"},{"id":5,"name":"公寓"},{"id":6,"name":"车位"},{"id":7,"name":"花园住宅"},{"id":8,"name":"地皮商铺"}]},{"title":"特色","type":"tags","list":[{"id":27,"name":"电商优惠"},{"id":26,"name":"生态盘"},{"id":25,"name":"首页"},{"id":24,"name":"红色标识"},{"id":23,"name":"网上售楼处"},{"id":22,"name":"品牌房企"},{"id":21,"name":"带装修（改善盘）"},{"id":20,"name":"低总价"},{"id":19,"name":"地铁（商业）"},{"id":18,"name":"刚需楼盘"},{"id":17,"name":"学区"},{"id":16,"name":"热销楼盘"}]}]}]
+			
+			// console.log(this.list)
+			// console.log(this)
+			// console.log(this.$api)
+		},
+		onShow() {
+			
+		},
+		onHide() {
+			
+		},
+		onUnload() {
+
+		},
+		methods: {
+			chooseResult() {
+				
+			},
+		
+		}
+	}
+</script>
+
+<style lang="scss" scoped>
+	
+</style>

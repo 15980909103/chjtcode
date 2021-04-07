@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>九房网</title>
+    <!-- <link rel="stylesheet" type="text/css" href="./static/css/aui.css" /> -->
+    <link rel="stylesheet" type="text/css" href="./static/mui/css/mui.min.css" />
+    <link rel="stylesheet" type="text/css" href="./static/css/index.css?v=2.91" />
+    <script type="text/javascript" src="./static/js/jquery-2.0.0.min.js" ></script>
+    <script type="text/javascript" src="./static/mui/js/mui.min.js" ></script>
+    <script type="text/javascript" src="./static/mui/js/mui.pullToRefresh.js" ></script>
+    <script type="text/javascript" src="./static/mui/js/mui.pullToRefresh.material.js" ></script>
+    <script type="text/javascript" src="./static/js/vue.min.js" ></script>
+    <script type="text/javascript" src="./static/js/vue-tap.js" ></script>
+    <script type="text/javascript" src="./static/js/public.js" ></script>
+    <script type="text/javascript" src="./static/js/jweixin-1.4.0.js" ></script>
+    <link rel="stylesheet" href="./static/css/swiper.min.css">
+    <script type="text/javascript" src="./static/js/swiper.min.js" ></script>
+    <style>
+        .mui-pull-bottom-tips{display: none;}
+        [v-cloak]{
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+<div id="app" class="my-content">
+    <div id="my-div1">
+        <div class="div-bj">  </div>
+        <div class="div1-card">
+            <div class="div1-content">
+				<div class="div1-li2">
+					<div class="div1-2-1" v-cloak>{{userInfo.uname || userInfo.nickname}}</div>
+					<div class="div1-2-2" v-cloak>{{userInfo.storename}}</div>
+				</div>
+                <div class="div1-li1">
+                    <div class="avatar">
+                        <img v-cloak :src="userInfo.headimgurl" />
+                    </div>
+                    <div class="title" v-cloak>{{userInfo.typename}}</div>
+				</div>
+                <img v-cloak class="div1-li3" :src="DOMAINSTATIC+'image/icon_erweima2.png?v=2'" v-tap="{methods:onQrcode,id:agent_id}"/>
+            </div>
+            <div class="div1-card-1">
+                <div class='my-num-list'>
+                    <div class='my-nl-num' v-cloak>{{buildingNum}}</div>
+                    <div class='my-nl-title'>网店房源</div>
+                </div>
+
+                <div class='my-num-list'>
+                    <div class='my-nl-num' v-cloak>{{customerNum}}</div>
+                    <div class='my-nl-title'>客户数量</div>
+                </div>
+
+                <div class='my-num-list'>
+                    <div class='my-nl-num' v-cloak>{{messageNum}}</div>
+                    <div class='my-nl-title'>新消息</div>
+                </div>
+            </div>
+
+            <div class="div1-card-2" v-if="historyRow.nickName">
+                <img v-cloak :src="historyRow.avatarUrl" />
+                <div v-cloak v-if="historyRow.nickName||historyRow.start_time">{{historyRow.nickName}} {{historyRow.start_time}}浏览你网店</div>
+                <div v-cloak v-if="!historyRow.nickName&&!historyRow.start_time">暂无数据</div>
+            </div>
+        </div>
+    </div>
+    <div id="my-div2">
+        <!-- <img class="div2-img1" v-cloak :src="DOMAINNAME+systemInfo.system_logo" /> -->
+        <img class="div2-img1" src="./static/image/newslogo.png?v=1.3" alt="">
+        <div class="swiper-container ">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide div2-content" v-for = "item in articleInfo">
+                    <div class="beyond_hide div2-list" v-tap="{methods:onArticleDetail,id:item.id}" v-cloak>
+                        {{item.title}}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="div2-img2">
+            <span v-for="(item,index) in articleInfo">
+                <img class="div2-img2" v-show="activeIndex==index" :src="item.cover" v-cloak/>
+            </span>
+        </div>
+
+        <!-- <div class="div2-content">
+            <div class="beyond_hide div2-list" v-if="articleInfo[0]" v-cloak v-tap="{methods:onArticleDetail,id:articleInfo[0].id}">{{articleInfo[0].title}}</div>
+            <div class="beyond_hide div2-list" v-if="articleInfo[1]" v-cloak v-tap="{methods:onArticleDetail,id:articleInfo[1].id}">{{articleInfo[1].title}}</div>
+        </div> -->
+
+    </div>
+    <div id="my-div3">
+        <div id="my-h2-title">
+             <h2><span></span>热门楼盘</h2>
+            <div v-tap="{methods:onGoNarList,url:'building.html'}">查看更多 <i class="aui-iconfont aui-icon-right"></i></div>
+        </div>
+        <div class="my-lp-lists">
+            <div id="my-scroll">
+                <div class='my-lp-list' v-for="(item, index) in lpList"  v-tap="{methods:onBuildDetail,id:item.id}" v-if="lpList.length>0">
+                        <div class="building-info__primary">
+                            <div class='my-lpimg' v-tap="{methods:onBuildDetail,id:item.id}">
+<!--                                <img class='my-lp-ig' v-lazy='item.pic' v-cloak/>-->
+                                <img class='my-lp-ig' :src='item.pic' v-cloak/>
+                                <div class='my-huo' v-cloak><img src="./static/image/icon-renqizhi.png"/> <div v-cloak> {{item.views_number}}</div> </div>
+                            </div>
+                                <div class="building-info__primary-content" v-tap="{methods:onBuildDetail,id:item.id}">
+                                    <div class="building-content__header">
+                                        <div class="building-content__header-info">
+                                            <p class="building-name" v-cloak>{{item.name}}</p>
+                                            <p class="building-address" v-cloak>{{item.house_type}} | {{item.area}}</p>
+                                        </div>
+                                        <div class="building-content__header-focus">
+                                            <button
+                                                :class="['focus-building__button', item.is_focus == '1'? '': 'bright']"
+                                                @click="focusBuilding(item.id, item.is_focus, index)"
+                                                v-cloak
+                                            >
+                                                {{ item.is_focus == '1'? '已': '' }}开通
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="building-content__footer">
+                                        <p v-cloak>{{item.fold}}元/m²  <span v-cloak>佣金 {{item.commission}}<!--元--></span></p>
+                                    </div>
+                                </div>
+                        </div>
+                        <template v-if="item.flag.length>0">
+                            <p class="building-flag">
+                                <span
+                                    v-for="(val, valIndex) in item.flag"
+                                    :key="valIndex"
+                                    v-cloak
+                                    :class="['building-flag__item', val=='闪电结佣'?'my-style2':'',val=='电商优惠'?'my-style3':'',val=='带看券'?'my-style4':'',val=='九房验真'?'my-style5':'']"
+                                >
+                                    {{val}}
+                                </span>
+                            </p>
+                        </template>
+                </div>
+                <div class="empty" v-if="lpList.length==0 && !isInitList" style="width:100%;height:auto;">
+                    <img src="./static/image/empty.png" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="my-footer">
+        <div class="footer-li my-tick">
+            <img v-cloak :src="DOMAINSTATIC+'image/nav_home_active.png'">
+            <div>首页</div>
+        </div>
+        <div class="footer-li" v-tap="{methods:onGoNarList,url:'news.html'}">
+            <img v-cloak :src="DOMAINSTATIC+'image/icon_nav_news_normal.png'">
+            <div>新闻</div>
+        </div>
+        <div class="footer-li" v-tap="{methods:onGoNarList,url:'building.html'}">
+            <img v-cloak :src="DOMAINSTATIC+'image/nav_building.png'">
+            <div>楼房</div>
+        </div>
+        <div class="footer-li" v-tap="{methods:onGoNarList,url:'customer.html'}">
+            <img v-cloak :src="DOMAINSTATIC+'image/nav_customer.png'">
+            <div>客户</div>
+        </div>
+        <div class="footer-li" v-tap="{methods:onGoNarList,url:'me.html'}">
+            <img v-cloak :src="DOMAINSTATIC+'image/icon_nav_personal_normal.png'">
+            <div>我的2</div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    var page=1;
+    var vm=new Vue({
+        el: '#app',
+        data: {
+            systemInfo:{},  //系统透与昵称
+            userInfo:{},    //用户信息
+            agent_id:0,     //用户ID
+            buildingNum:0,  //网店房源
+            customerNum:0, //客户数量
+            messageNum:0,   //新消息
+            historyRow:[],  //网店浏览记录
+            articleInfo:[], //头条新闻信息
+            pullToRefresh:null,
+            img:"https://wx.qlogo.cn/mmopen/vi_32/PiajxSqBRaELmLRnB2FBsKKZq8nLVq2ITWeyJGKgicud6Tf0F4naf1811yzYMgpzU1qsJPBRNqJ0xibY4fMR7V8gw/132",
+            lpList: [], //楼盘
+            activeIndex:0,
+            imgactshow:'',
+            isInitList: true
+        },
+        mounted: function () {
+            this.$nextTick(function () {
+                var _this=this;
+                ajax('agentAjax/getSystemInfo',{},function(res){
+                    _this.systemInfo=res.systemInfo;
+                });
+
+                //获取首页信息
+                ajax('userAjax/getHomeData',{},function(res){
+                    _this.agent_id=res.data.agent_id;
+                    _this.userInfo=res.data.userInfo;
+                    _this.buildingNum=res.data.buildingNum;
+                    _this.customerNum=res.data.customerNum;
+                    _this.historyRow=res.data.historyRow;
+                    _this.articleInfo=res.data.articleInfo;
+                    _this.imgactshow = _this.articleInfo[0].cover
+                    try {
+                        _this.userInfo.status = res.data.userInfo.storeinfo.status;
+                    } catch (e) {
+                        _this.userInfo.status = 0;
+                    }
+                    try {
+                        _this.userInfo.storename = res.data.userInfo.storeinfo.storename;
+                    } catch (e) {
+                        _this.userInfo.status = "";
+                    }
+                    //初始化分享
+                    ajax('publicAjax/getShare',{},function(res2){
+                        if(!res2.data||!res2.data.appId){
+                            return
+                        }
+                        wx.config({
+                            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                            appId: res2.data.appId, // 必填，公众号的唯一标识
+                            timestamp: res2.data.timestamp, // 必填，生成签名的时间戳
+                            nonceStr: res2.data.nonceStr, // 必填，生成签名的随机串
+                            signature: res2.data.signature,// 必填，签名
+                            jsApiList: ['checkJsApi','onMenuShareTimeline','onMenuShareAppMessage'] // 必填，需要使用的JS接口列表
+                        });
+                        wx.ready(function () {   //需在用户可能点击分享按钮前就先调用
+                            wx.onMenuShareAppMessage({
+                                title: res.data.userInfo.name, // 分享标题
+                                desc: res.data.userInfo.signature, // 分享描述
+                                link: DOMAINNAME + 'agentside/pages/index/erweima.html?id='+res.data.agent_id,
+                                imgUrl: res.data.userInfo.headimgurl, // 分享图标
+                                success: function () {
+                                    myAddShare('1','0','0');
+                                },
+                                cancel:function(){}
+                            });
+                        });
+                    });
+                    mui.init();
+                    _this.pullToRefresh=mui("#my-scroll").pullToRefresh({
+                        up: {
+                            auto: true, //自动执行一次上拉加载，可选；
+                            show: false, //显示底部上拉加载提示信息，可选；
+                            callback:function(){
+                                setTimeout(function(){
+                                    _this.pullupRefresh(_this.pullToRefresh);
+                                },300)
+                            }
+                        }
+                    });
+                });
+            });
+        },
+        methods:{
+            onQrcode(event){
+                setLocation('pages/index/erweima.html?id='+event.id);
+                /* checkStoreStatus(this.userInfo.status,this.userInfo.mestatus,function(){
+                    setLocation('pages/index/erweima.html');
+                }); */
+            },
+            onBuildDetail(event){
+                setLocation('pages/build/build_detail.html?id='+event.id);
+                /* checkStoreStatus(this.userInfo.status,this.userInfo.mestatus,function(){
+                    setLocation('pages/build/build_detail.html?id='+event.id);
+                }); */
+            },
+            onArticleDetail(event){  //跳转文章详情页
+                setLocation('pages/index/article_detail.html?id='+event.id);
+                /* checkStoreStatus(this.userInfo.status,this.userInfo.mestatus,function(){
+                    setLocation('pages/index/article_detail.html?id='+event.id);
+                }); */
+
+            },
+            onGoNarList(options){
+                setLocation(options.url);
+                /* checkStoreStatus(this.userInfo.status,this.userInfo.mestatus,function(){
+                    setLocation(options.url);
+                }); */
+            },
+            pullupRefresh(_self){
+                //获取热门楼盘信息
+                var _this=this;
+                ajax('buildingAjax/getHotBuildingData',{page:page},function(res){
+                    if(res.success){
+                        page++;
+                        _this.lpList=_this.lpList.concat(res.data);
+                        // _self.endPullUpToRefresh();
+                    }else{
+                        // _self.endPullUpToRefresh(true);   //内容为空了
+                    }
+                    _this.isInitList = false;
+                    _self.endPullUpToRefresh(true);   // 首页现在不需要加载多次
+                });
+            },
+            _swiper(){
+                var _this=this;
+                $(document).ready(function() {
+                    var myswiper = new Swiper('.swiper-container', {
+                        spaceBetween: 0,
+                        slidesPerView: 2,
+                        // centeredSlides: true,
+                        // loop: true,
+                        direction: 'vertical',
+                        autoplay: {
+                            delay: 3000,
+                            disableOnInteraction: false,
+                        },
+                        on: {
+                        slideChangeTransitionEnd: function(){
+                            _this.activeIndex = this.activeIndex
+                            _this.imgactshow = _this.articleInfo[_this.activeIndex].cover
+                        },
+                    },
+                    });
+                })
+            },
+
+            focusBuilding(options) {
+                options.event.stopPropagation();
+                const index = options.index;
+                const building = this.lpList[index];
+                const _this = this;
+                const is_focus = Number(!building.is_focus).toString();
+                //楼盘关注和取消关注事件
+                ajax('buildingAjax/setFocus',{id: building.id, is_focus}, function(res){
+                    if(res.success){
+                        mui.toast(`${is_focus=="0"? '取消': '开通'}成功！`);
+                        _this.$set(_this.lpList[index], 'is_focus', is_focus);
+                    }else{
+                        mui.toast('开通失败！');
+                    }
+                });
+            },
+        },
+        created() {
+            this._swiper();
+        },
+    });
+</script>

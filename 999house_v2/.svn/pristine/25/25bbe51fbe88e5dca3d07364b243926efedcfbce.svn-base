@@ -1,0 +1,30 @@
+<template>
+	<view style="background-color: #F5F5F5;">
+		<index-activity v-if="show"></index-activity>
+	</view>
+</template>
+
+<script>
+	const app = getApp()
+	import indexActivity from '@/components/activityItem/indexActivity.vue'
+	export default {
+		data() {
+			return {
+				show:false
+			}
+		},
+		components:{
+			indexActivity
+		},
+		onLoad() {
+			this.show = true
+		}
+		// methods: {
+			
+		// }
+	}
+</script>
+
+<style>
+
+</style>

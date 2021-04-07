@@ -1,0 +1,67 @@
+<?php
+
+namespace app\admin\controller;
+
+use app\common\base\AdminBaseController;
+use app\server\admin\Admin;
+use app\server\admin\City;
+use app\server\admin\CitySite;
+use app\server\admin\Role;
+use think\Validate;
+
+
+class IndexController extends AdminBaseController
+{
+    public function index(){
+
+    }
+
+    public function userInfo(){
+        $rs = (new Admin())->getUserInfo(['userid'=>$this->getUserId()]);
+
+        if(empty($rs['result']['region_nos_info'])){
+            $region_nos_info = (new City())->getSiteCitys([],'id,cname,pid,pcname')['result'];
+        }else{
+            $region_nos_info = json_decode($rs['result']['region_nos_info'],true);
+        }
+
+        $this->success([
+            'id' => $rs['result']['id'],
+            'username' => $rs['result']['account'],
+            'region_nos_info' => $region_nos_info,
+        ]);
+    }
+
+    public function editPassword(){
+        $validate = new Validate([
+            'oldpassword' => 'require|different:newpassword',
+            'newpassword' => 'require|confirm:newpassword2|length:6,20',
+        ]);
+        $validate->message([
+            'oldpassword.require' => '请输入密码',
+            'oldpassword.different' => '新旧密码不能一致',
+            'newpassword.require' => '请输入新密码',
+            'newpassword.confirm' => '两次输入的新密码不一致',
+            'newpassword.length'  => '新密码长度为6-20位'
+        ]);
+
+        $data = $this->request->param();
+        if (!$validate->check($data)) {
+            $this->error(['code'=>0,'msg'=>$validate->getError()]);
+        }
+
+        $rs = (new Admin())->userEditPwd($this->getUserId(),$data['oldpassword'],$data['newpassword']);
+        if($rs['code']==1){
+            $this->success('','操作成功');
+        }else{
+            $this->error(['code'=>0,'msg'=>$rs['msg']]);
+        }
+    }
+
+    public function menu(){
+        $rs = (new Role())->getRoleMenus($this->roleId,'getTree')['result'];
+        $this->success($rs);
+    }
+
+
+}

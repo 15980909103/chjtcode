@@ -1,0 +1,1 @@
+<view><view data-event-opts="{{[['tap',[['like',['$event']]]]]}}" class="{{['like_state',state==0?'':'text-active']}}" style="{{'padding:'+(padding)+';'}}" bindtap="__e">{{''+num}}<view class="iconfont icondianzan _i"></view></view></view>

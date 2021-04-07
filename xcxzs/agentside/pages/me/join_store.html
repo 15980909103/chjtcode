@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>加入店铺</title>
+    <link rel="stylesheet" type="text/css" href="../../static/css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/mui/css/mui.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/css/me/join_store.css" />
+    <script type="text/javascript" src="../../static/js/jquery-2.0.0.min.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.min.js" ></script>
+    <script type="text/javascript" src="../../static/js/vue.min.js" ></script>
+    <script type="text/javascript" src="../../static/js/vue-tap.js" ></script>
+    <script type="text/javascript" src="../../static/js/public.js?v=2" ></script>
+</head>
+    <body>
+      <div id="app" class="join-store">
+        <div class="popup-container">
+          <div class="popup-content">
+            <div class="popup-content__header">
+              <img src="../../static/image/join_store.png">
+            </div>
+            <div class="popup-content__body">
+              <p class="popup-content__body-info">邀请你加入网店</p>
+              <button class="popup-content__body-button agree" v-tap="{methods: agree}">确认加入</button>
+              <button class="popup-content__body-button refuse" v-tap="{methods: refuse}">拒绝加入</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </body>
+</html>
+
+<script>
+  new Vue({
+    el: '#app',
+    name: 'JoinStore',
+    data(){
+      return{
+        store_id:0,
+      }
+    },
+    mounted() {
+      this.store_id = getQueryString('store_id')
+      if(!this.store_id){
+        mui.alert('参数错误', '提示', function() {
+            window.location.href = window.location.origin+'/agentside/news.html'
+        });
+        return
+      }
+    },
+    methods: {
+      agree() {
+        var store_id = this.store_id
+        ajax('userAjax/addMember', {
+          store_id: store_id
+          // agent_id: //
+        }, res => {
+          //alert('back!')
+          if (res.success) {
+            //alert(JSON.stringify(res));
+            setLocation('index.html');
+
+          } else {
+              if(res.message == '您已经申请成功！！'){
+                  setLocation('me.html');
+              }
+            //alert(JSON.stringify(res));
+            mui.toast(res.message);
+          }
+        })
+      },
+      refuse() {
+        setLocation('news.html');
+      }
+    }
+  })
+</script>

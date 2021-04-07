@@ -1,0 +1,316 @@
+<template>
+	<view>
+		<view v-if="pageShow" style="overflow: hidden;">
+			<view v-if="content.id">
+				<view class="content">
+					<view class="content-title">
+						<!-- <text v-if=" content.isWrite == 1 ">原创</text> -->
+						{{ content.title }}
+					</view>
+					<view class="content-time">
+						<text class="original" v-if=" content.isWrite == 1 ">原创</text>
+						<text class="content-info" v-if="content.head || content.name">
+							{{ content.name }}
+						</text>
+						{{ content.release_time ||content.time }}
+					</view>
+					<mp-html class="content-text" v-if="content.text" :content="content.text" :domain="domainurl" lazy-load />
+					<!-- <view class="content-text" v-html="content.text" v-if="content.text"></view> -->
+					<view class="content_buttom_box">
+						<view class="content-read">阅读{{content.read }}</view>
+						<view class="content-like">
+							<span >
+								<!-- v-if="content.source_link" -->
+								 <view class="content-url"  @click="goPage(content.source_link)" >阅读原文</view>
+		<!--						{{ content.time }}-->
+							</span>
+						</view>
+					</view>
+					
+				</view>
+				<view style="background-color: #FAFCFF;">
+					<common-information  :list="adList" @del="(e)=>{ adList = e }" :show_adclose='false'></common-information>
+				</view>
+				<!-- <common-template :list="adList" @del="(e)=>{ adList = e }" :show_adclose='false'></common-template> -->
+				
+				<view class="talk-box">
+					<view class="talk-title">评论</view>
+					<discover-reply v-if='replyList&&replyList.length' :list="replyList" :reply="false" @like="replylikeSome" @reply="replySome"></discover-reply>
+					<view class="talk-box-notext" v-else @click="inputfocus">
+						<image mode="widthFix" :src="$api.imgDirtoUrl('/my/default.png')">
+						暂无评论</view>
+					
+					<button v-if='replyList&&replyList.length' class="more_btn" type="default" color="rgba(246, 246, 246, 1)" @click="replyPop = true ">更多评论</button>
+				</view>
+				
+				<view class="recommend">
+					<view class="recommend-title">推荐阅读</view>
+					<common-information :list="recommendList" @del="(e)=>{ recommendList = e }" :limit_num='recommendList_limitNum'></common-information>
+					<!-- <common-template :list="recommendList" @del="(e)=>{ recommendList = e }" :limit_num='recommendList_limitNum'></common-template> -->
+					<u-button 
+						v-if='recommendList&&recommendList.length>=recommendList_limitNum&&showRecommendMore'
+						class="recommend-btn" 
+						:loading="recommendLoad" 
+						loading-text="加载中..."
+						@click="recommendLoadMore"
+					>
+						查看更多推荐
+						<i class="iconfont iconjiantou"></i>
+					</u-button>
+					<view class="allwrap"></view>
+				</view>
+			</view>
+			<view class="list_null" v-else >
+				<img src="../../static/null.png">
+				<p>该文章已被下架或删除啦</p>
+			</view>
+		</view>
+		<discover-reply-box
+			:style="{ height: `calc(98rpx + ${ safeBottom+'px' })`, paddingBottom: safeBottom+'px' }"
+			:show="replyPop" 
+			:ids="id"
+			:userid='id'
+			:pid="pid"
+			:cate_id ="cate_id"
+			:favorite="content.favorite" 
+			:list="replyList"
+			:content='content'
+			:focus="focuss"
+			@send="sendSome" 
+			@close="replyPop = false" 
+			@like="replylikeSome"
+			@likess='likeSome'
+			ref="replyBox"
+			v-if="pageShow && content.id"
+		>
+		</discover-reply-box>
+		<view id="container-user-site"></view>
+	</view>
+</template>
+
+<script>
+	let app = getApp();
+	import commonLike from '@/components/common/like' 
+	import commonInformation from '@/components/common/template_information'
+	import discoverReply from '@/components/discover/reply'
+	import discoverReplyBox from '@/components/discover/reply_box'
+	import mpHtml from '@/components/mp-html/mp-html'
+	export default {
+		data() {
+			return {
+				pageShow: false,
+				showRecommendMore:true,
+				domainurl:'',
+				focuss:false,
+				content: {
+					id: 0,
+					isWrite: 1,
+					title: '',
+					time: '',
+					head: '',
+					name: '',
+					text:'',
+					read: 0,
+					like: 0,
+					favorite: 0,
+					likeStatus: 0,
+					comeUrl: '',
+				},
+				city_no: 0,
+				// 广告
+				adList: [],
+				
+				// 留言
+				replyList: [],
+				replyPop: false,
+				text: '',
+				pid:'',
+				cate_id:'',
+				id:'',
+				// 推荐
+				recommendList: [],
+				recommendList_limitNum: 5,
+				recommendLoad: false,
+				recommendMore: true,
+				safeBottom:0
+			};
+		},
+		onLoad(options) {
+			console.log('uni.getSystemInfoSync().safeAreaInsets',uni.getSystemInfoSync().safeAreaInsets)
+			this.safeBottom = uni.getSystemInfoSync().safeAreaInsets.bottom;
+			this.pid = Number(options.pid);
+			this.cate_id = Number(options.cate_id);
+			this.id = Number(options.id);
+			this.domainurl = app.globalData.host
+			
+			this.getInfo();
+		},
+		components:{
+			commonLike,
+			commonInformation,
+			discoverReply,
+			discoverReplyBox,
+			mpHtml
+		},
+		methods:{
+			recommendLoadMore() {
+				this.recommendList_limitNum = 10
+				this.showRecommendMore = false;
+				// if( this.recommendMore == true ){
+				// 	this.recommendLoad = true;
+				// 	this.$api.goPage('discover/index.html',{pid:this.pid,cate_id:this.cate_id,id:this.id});
+				// }
+			},
+			getInfo(){
+				if( !this.pid  || !this.cate_id || !this.id ){
+					this.$toast('该文章呗删除了哦！');
+				}
+				let that = this;
+				this.$http.post(
+				'/news/getArticleInfo',
+					{
+						pid:this.pid,
+						cate_id:this.cate_id,
+						id:this.id,
+					},
+				).then(res=>{
+					if(res.code == 1){
+						that.content = res.data.info;
+						if(res.data.adv){
+							res.data.adv = this.formatAdv(res.data.adv)
+							that.adList  = [res.data.adv];
+						}
+						that.replyList  = res.data.replyList;
+						that.recommendList  = res.data.recommend;
+
+						//处理i资讯
+						let newList =that.recommendList;
+						newList.forEach(function (item,index) {
+
+							if( item.img instanceof  Array ){
+								if(item.img&&item.img.length > 0){
+									item.img.forEach(function(img,i) {
+										newList[index]['img'][i] = this.$api.imgDirtoUrl(img);
+									})
+
+								}
+							}else{
+								newList[index]['url'] = that.$api.imgDirtoUrl(item.url);
+							}
+
+						});
+						that.recommendList =  newList;
+					}
+
+					that.pageShow = true
+				}).catch(res=>{
+					//this.$toast(res.msg);
+					that.pageShow = true
+				});
+			},
+			likeSome(e) {
+				this.alertLogin();
+				
+				let that = this;
+				//执行点赞
+				this.$http.post(
+					'/news/addFabulous',
+					{
+						pid:this.pid,
+						cate_id:this.cate_id,
+						id:this.id,
+					}
+				).then(res=>{
+					if(res.code == 1){
+						if(res.code == 1){
+							this.$toast(res.data.is_fabulous==1?'点赞成功':'取消点赞');
+							// uni.showToast({
+							//     title: res.msg,
+							//     duration: 2000
+							// });
+							// this.$toast(res.msg);
+							this.content.likeStatus = Number(res.data.is_fabulous);
+							if(this.content.likeStatus  ==1){
+								this.content.like ++;
+							}else{
+								this.content.like --;
+							}
+						}
+					}
+				}).catch(res=>{
+					this.$toast(res.msg);
+				});
+
+
+			},
+			replylikeSome( e ) {
+				this.$set(this.replyList[e.index],'lik',e.num);
+			},
+			replySome( id ) {
+				this.$refs.replyBox.replySome(id);
+			},
+			sendSome( newOption ) {
+				let { option, obj } = newOption;
+				
+				if( option.pid == 0 ){
+					this.replyList.unshift(obj);
+				} else {
+					this.replyList.map( (item,index)=>{
+						if( item.id == option.pid ){
+							
+							this.$set(this.replyList[index],'reply',[...this.replyList[index]['reply'],...[obj]]);
+						}
+					})
+				}
+			},
+			inputfocus(){
+				this.focuss = true
+			},
+			
+			formatAdv(advlist){
+				if(advlist &&  !advlist.href&&advlist.info){
+					advlist.href = 'houses/index?id='+advlist.info.estate_id+'&cover='+advlist.cover;
+				}
+				let tips = [];	
+				let new_lab = [];	
+				if(advlist && advlist.info){
+					let adv_info = advlist.info															
+					tips = tips.concat(this.$api.getTagsText('estatesnew_sale_status',advlist.info.sale_status));
+					tips = tips.concat(this.$api.getTagsText('house_purpose',advlist.info.house_purpose));
+					if(advlist.info.feature_tag){
+						tips = tips.concat(this.$api.getTagsText('feature_tag',advlist.info.feature_tag));
+					}
+					advlist.info.tip = tips;
+					if(advlist.info.lab&&advlist.info.lab.length>0){
+						let lab = advlist.info.lab
+						
+						for(let i in lab){
+							let item = lab[i]
+							if(item.type == 'discount'){
+								item.type = 1;
+								new_lab.push({
+									name: item.title,
+									type: item.type,
+								})
+							}
+							if(item.type == 'hot'){
+								item.type = 0;
+								new_lab.push({
+									name: item.title,
+									type: item.type,
+								})
+							}
+						}
+					}
+					advlist.info.lab = new_lab;
+				}
+				
+				return advlist;
+			},
+		},
+	}
+</script>
+
+<style lang="scss">
+	@import './news_detail.css'
+</style>

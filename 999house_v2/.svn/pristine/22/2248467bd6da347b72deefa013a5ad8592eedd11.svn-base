@@ -1,0 +1,83 @@
+<template>
+	<view>
+		<view 
+			class="like_state" 
+			:class="[ state == 0 ? '' : 'text-active' ]"
+			:style="{ padding: padding }"
+			@click="like"
+		>
+			{{ num }}<i class="iconfont icondianzan"></i>
+		</view>
+	</view>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+			};
+		},
+		props: {
+			itemid: {
+				type: [Number,String],
+				default() {
+					return -1
+				}
+			},
+			num: {
+				type: [Number,String],
+				default() {
+					return 0
+				}
+			},
+			/**
+			 * 0-文章
+			 * 文章点赞状态走接口
+			 * 
+			 * 1-评论
+			 * 评论点赞状态前端记录
+			 * 1天为时限
+			 */
+			type: {
+				type: [Number,String],
+				default() {
+					return 1
+				}
+			},
+			state: {
+				type: [Number,String],
+				default() {
+					return 0
+				}
+			},
+			padding: {
+				type: [String],
+				default() {
+					return ''
+				}
+			}
+		},
+		methods: {
+			like() {
+				this.$emit('like',this.itemid);
+			}
+		},
+	}
+</script>
+
+<style lang="scss">
+	.like_state{
+		width: 100rpx;
+		font-size: 26rpx;
+		color: rgba(87, 107, 149, 1);
+		display: flex;
+		align-items: center;
+		justify-content: flex-end;
+	}
+	
+	.like_state .iconfont{
+		margin-bottom: 10rpx;
+		margin-left: 10rpx;
+	}
+	
+</style>

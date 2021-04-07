@@ -1,0 +1,201 @@
+<template>
+	<view>
+		<swiper class="swiper-container" circular previous-margin='20' next-margin ='20' @change="swiperchange">
+			<swiper-item v-for="( item, index ) in list" :key="index">
+				<template v-if="item.type == 0 || item.type == 1">
+					<div 
+						class="box" 
+						:class="[ 
+							item.type == 1 ? 'box1' : '',
+							active != index ? 'box-not-active' : ''
+						]" 
+						:ref="'box'+index">
+						<img :src="item.bg" mode='scaleToFill' class="box-bg">
+						<img :src="$api.imgDirtoUrl('/houses/logo.png')" class="logo" :class="[item.type == 0 ? 'logo1' : 'logo2']">
+						<div class="box-content">
+							<h4>{{ contentText(item.title,32) }}</h4>
+							<div>{{ contentText(item.content,215) }}</div>
+						</div>
+						<div class="box-info-box">
+							<div class="box-info">
+								<div class="box-info-head">
+									<img :src="$api.imgDirtoUrl(item.info.head)">
+									<h4>{{ item.info.name }}</h4>
+								</div>
+								<div class="box-info-nickname">
+									{{ item.info.nickName }}
+								</div>
+							</div>
+							<div class="box-qrcode" ref="qrcode">
+								<img :src="$api.imgDirtoUrl(item.qrUrl)"/>
+							</div>
+							<div class="box-tip">扫码识别二维码阅读资讯</div>
+						</div>
+					</div>
+				</template>
+				<template v-else>
+					<div 
+						class="box box3" 
+						:class="[ active != index ? 'box-not-active' : '' ]" 
+						:ref="'box'+index" 
+					>
+						<img :src="item.bg" class="box-bg">
+						<div class="box-info-box">
+							<img :src="$api.imgDirtoUrl(item.info.head)">
+							<div class="box-info-head">
+								<h4>{{ item.info.name }}</h4>
+								<div class="box-info-nickname">
+									{{ item.info.nickName }}
+								</div>
+							</div>
+						</div>
+						<div class="box-content">
+							<h4>{{ contentText(item.title,32) }}</h4>
+							<div>{{ contentText(item.content,215) }}</div>
+						</div>
+						<div class="box3-wrap">
+							<div class="box-qrcode" ref="qrcode"></div>
+							<div class="box3-tip">
+								扫码识别二维码阅读资讯
+							</div>
+							<img :src="$api.imgDirtoUrl('/houses/logo2.png')" class="box3-logo">
+						</div>
+					</div>
+				</template>
+			</swiper-item>
+		</swiper>
+		<div class="pagination">
+			<span v-for="(item,index) in list" :key="index" :class="index == active ? 'pagination-active' : '' "></span>
+		</div>
+		
+		<div class="create-btn">
+			<button 
+			color="rgba(254, 130, 30, 1)" 
+			loading-type="spinner"
+			loading-text="海报生成中..."
+			:loading="createState"
+			@click="createPoster"
+			>
+				生成海报
+			</button>
+		</div>
+		<l-painter :board="base" isRenderImage @success="success" style="position: absolute; top: -999px;"/>
+		<u-popup
+			v-model="load" 
+			mode="center" 
+			border-radius="6" 
+			width="200"
+			height ="200"
+			:mask-close-able="false"
+		>
+			<view class="box">
+				<u-loading mode="flower" size="60"></u-loading>
+				<view>
+					海报生成中~
+				</view>
+			</view>
+		</u-popup>
+		<u-popup
+			v-model="showimage" 
+			mode="center">
+			<img :src="$api.imgDirtoUrl('/houses/banner1.png')" mode='scaleToFill' >
+		</u-popup>
+	</view>
+</template>
+
+<script>
+	import lPainter from '@/components/lime-painter/index';
+	export default {
+		data() {
+			return {
+				showimage:false,
+				base: '',
+				option: '',
+				load: false,
+				imgUrl: '',
+				id: 0,
+				mySwiper: 0,
+				active: 0,
+				list: [],
+				createState: false,
+				// 遮罩弹窗
+				chooseSrc: '',
+				showPic: false
+			}
+		},
+		components: {
+			lPainter
+		},
+		onLoad(option) {
+			const that = this;
+			for(let i=0;i<3;i++){
+				let item = {
+					type: i,
+					bg: this.$api.imgDirtoUrl('/houses/banner1.png'),
+					title: '',
+					content: '',
+					info: {
+						head: '',
+						name: '',
+						nickName: ''
+					},
+					qrUrl: '',
+					logo: ''
+				}
+				that.list.push(item)
+			}
+			this.id = option.id;
+			this.cate_id = option.cate_id;
+			this.pid = option.pid;
+			this.getInfo();
+		},
+		methods:{
+			swiperchange(event){
+				this.active = event.detail.current
+				// console.log(event)
+			},
+			getInfo(){
+				let that = this;
+				let id = this.id;
+				this.$http.post(
+					'/news/getShoreInfo',
+					{
+						id:id,
+						cate_id:this.cate_id,
+						pid:this.pid,
+					},
+					
+				).then(res=>{
+					let data  = res.data;
+					if(res.code == 1){
+						let list  = that.list;
+						list.forEach(function (vaule,key) {
+							list[key].title 	= data.title;
+							list[key].content   = data.content;
+							list[key].info  	= data.info;
+							list[key].qrUrl 	= data.qrUrl;
+							list[key].logo 		= data.info.head;	
+						})
+						
+						that.list = list;
+					}
+					// console.log(item.children[1].currentSrc);
+				}).catch(res=>{
+					that.$toast(res.msg);
+				});
+			},
+			createPoster() {
+				const that = this;
+				this.showimage = true
+			},
+			contentText(text,num){
+				const ellipsis = text.length > num ? '...' : '';
+				return text.slice(0,num) + ellipsis;
+			},
+		},
+	}
+</script>
+
+<style>
+	@import './share.css'
+</style>

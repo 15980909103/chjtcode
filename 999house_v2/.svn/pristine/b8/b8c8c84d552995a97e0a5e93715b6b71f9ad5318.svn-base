@@ -1,0 +1,4 @@
+<!--logs.wxml-->
+<view class="container">
+  <web-view src='{{h5Host}}/discover/index.html?{{t_version}}' />
+</view>

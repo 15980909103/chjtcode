@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>浏览记录</title>
+		<link rel="stylesheet" href="../../common/vant/index.css"/>
+		<link rel="stylesheet" href="../../common/css/public.css?v=1.18"/>
+		<style>
+			.wrap{
+				padding-bottom: .6rem;
+			}
+			
+			.title{
+				height: .58rem;
+				background-color: rgba(247, 247, 247, 1);
+				font-size: .26rem;
+				box-sizing: border-box;
+				padding-left: .32rem;
+				display: flex;
+				align-items: center;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app" v-cloak ref="DOM">
+			<top-bar title="浏览记录"></top-bar>
+			<template v-if="fields">
+				<div class="wrap">
+					<div v-for="(nav,k) in list" :key="k">
+						<div class="title">{{ nav.time }}</div>
+						<common-template :list="nav.list" @del="(e)=>{ $set(list[k], 'list', e) }"></common-template>
+					</div>
+				</div>
+
+			</template>
+			<template v-else>
+				<van-empty image="error" description="暂无数据"/>
+			</template>
+
+			<div id="container-user-site"></div>
+		</div>
+	</body>
+</html>
+
+<script src="../../common/js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/rem.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/public.js?v=1.18" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/vant/index.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=53da8183ca23918f2f81c79a5b2ede15&plugin=AMap.Geocoder"></script>
+<script type="module">
+	import {http, loginMixin } from '/9house/common/js/method/http.js';
+
+	Vue.use(vant.Lazyload);
+	Vue.use(http);
+	const myComponents = [
+		'../../components/common/topBar/index',
+		'../../components/common/template/index',
+	];
+	
+	$api.addComponents(myComponents)
+		.then(()=>{
+			
+			Vue.use(vant.Lazyload);
+			 
+			const app = new Vue({
+				el: '#app',
+				data: {
+					/**
+					list: [
+						{
+							time: '2020-09-12',
+							list: [
+								{
+									// 8-新房（数据和类型4-广告楼盘有图 雷同）
+									id: 14,
+									type: 8,
+									info: {
+										name: '世贸湖边首府',
+										tip: ['售完','住宅','热楼盘','装修交付'],
+										price: 34000,
+										site: '湖里 软件园',
+										area: 108,
+										lab: [
+											{ type: 0, name: '入围护理人气楼盘榜', img: '/9house/static/logo.png' },
+											{ type: 0, name: '享9.5折', img: '/9house/static/logo.png' },
+											{ type: 0, name: '777', img: '/9house/static/logo.png' },
+											{ type: 0, name: '888', img: '/9house/static/logo.png' }
+										]
+									},
+									img:  ['/9house/static/logo.png','/9house/static/logo.png']
+								},
+								{
+									// 8-新房（数据和类型4-广告楼盘有图 雷同）
+									id: 14,
+									type: 8,
+									info: {
+										name: '世贸湖边首府',
+										tip: ['售完','住宅','热楼盘','装修交付'],
+										price: 34000,
+										site: '湖里 软件园',
+										area: 108,
+										lab: [
+											{ type: 0, name: '入围护理人气楼盘榜', img: '/9house/static/logo.png' },
+											{ type: 0, name: '享9.5折', img: '/9house/static/logo.png' },
+											{ type: 0, name: '777', img: '/9house/static/logo.png' },
+											{ type: 0, name: '888', img: '/9house/static/logo.png' }
+										]
+									},
+									img:  ['/9house/static/logo.png','/9house/static/logo.png']
+								},
+							]
+						},
+						{
+							time: '2020-09-10',
+							list: [
+								{
+									// 8-新房（数据和类型4-广告楼盘有图 雷同）
+									id: 14,
+									type: 8,
+									info: {
+										name: '世贸湖边首府',
+										tip: ['售完','住宅','热楼盘','装修交付'],
+										price: 34000,
+										site: '湖里 软件园',
+										area: 108,
+										lab: [
+											{ type: 0, name: '入围护理人气楼盘榜', img: '/9house/static/logo.png' },
+											{ type: 0, name: '享9.5折', img: '/9house/static/logo.png' },
+											{ type: 0, name: '777', img: '/9house/static/logo.png' },
+											{ type: 0, name: '888', img: '/9house/static/logo.png' }
+										]
+									},
+									img:  ['/9house/static/logo.png','/9house/static/logo.png']
+								},
+								{
+									// 8-新房（数据和类型4-广告楼盘有图 雷同）
+									id: 14,
+									type: 8,
+									info: {
+										name: '世贸湖边首府',
+										tip: ['售完','住宅','热楼盘','装修交付'],
+										price: 34000,
+										site: '湖里 软件园',
+										area: 108,
+										lab: [
+											{ type: 0, name: '入围护理人气楼盘榜', img: '/9house/static/logo.png' },
+											{ type: 0, name: '享9.5折', img: '/9house/static/logo.png' },
+											{ type: 0, name: '777', img: '/9house/static/logo.png' },
+											{ type: 0, name: '888', img: '/9house/static/logo.png' }
+										]
+									},
+									img:  ['/9house/static/logo.png','/9house/static/logo.png']
+								},
+								{
+									// 8-新房（数据和类型4-广告楼盘有图 雷同）
+									id: 14,
+									type: 8,
+									info: {
+										name: '世贸湖边首府',
+										tip: ['售完','住宅','热楼盘','装修交付'],
+										price: 34000,
+										site: '湖里 软件园',
+										area: 108,
+										lab: [
+											{ type: 0, name: '入围护理人气楼盘榜', img: '/9house/static/logo.png' },
+											{ type: 0, name: '享9.5折', img: '/9house/static/logo.png' },
+											{ type: 0, name: '777', img: '/9house/static/logo.png' },
+											{ type: 0, name: '888', img: '/9house/static/logo.png' }
+										]
+									},
+									img:  ['/9house/static/logo.png','/9house/static/logo.png']
+								},
+							],
+
+						}
+					],
+					 **/
+					activeId:-1,
+					fields:false,
+					list:[]
+				},
+				mixins: [loginMixin],
+				components: {
+					topBar,
+					commonTemplate,
+				},
+				created() {
+					this.getIndexHistory()
+				},
+				mounted() {
+				
+				},
+				methods:{
+					getIndexHistory(){
+						this.$http.ajax({
+							url: '/index/user/browseRecords',
+							// data:{active_id : this.activeId,'region_no': this.region_no}
+						}).then( res=>{
+							console.log('length',res.data.length)
+							console.log(res.data)
+							if(res.data.length == 0){
+								this.fields = false
+							}else {
+								this.fields = true;
+							}
+							this.list = res.data
+
+							/**
+							for (let i in this.list){
+								let item = this.list[i]
+								for (let j in item['list']){
+									item['list'][j]['id'] = 1;
+									item['list'][j]['type'] = 8;
+									item['list'][j]['info'] = {
+										name: '世贸湖边首府',
+										tip: ['售完','住宅','热楼盘','装修交付'],
+										price: 34000,
+										site: '湖里 软件园',
+										area: 108,
+										lab: [
+											{ type: 0, name: '入围护理人气楼盘榜', img: '/9house/static/logo.png' },
+											{ type: 0, name: '享9.5折', img: '/9house/static/logo.png' },
+											{ type: 0, name: '777', img: '/9house/static/logo.png' },
+											{ type: 0, name: '888', img: '/9house/static/logo.png' }
+										]
+									};
+									item['list'][j]['img'] = ['/9house/static/logo.png','/9house/static/logo.png'];
+								}
+							}**/
+
+							// this.houseList = res.data.list?res.data.list:[]; //数据
+							// this.topPic = this.$http.imgDirtoUrl(res.data.cover_url);  //头图
+							// this.ruleText = res.data.context_rule; //规则
+							// this.voteId = res.data.vote_id;
+						})
+					},
+				},
+			})
+			
+		})
+	
+</script>

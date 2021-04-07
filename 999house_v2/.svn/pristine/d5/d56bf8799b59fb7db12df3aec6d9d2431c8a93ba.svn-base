@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>实时资讯</title>
+		<link rel="stylesheet" href="../../common/vant/index.css"/>
+		<link rel="stylesheet" href="../../common/css/public.css"/>
+		<style>
+			.box{
+				box-sizing: border-box;
+				padding: 0.4rem 0.32rem 1rem;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<div id="app" v-cloak ref="DOM">
+			<div class="box">
+				<houses-hot-news :list="list"></houses-hot-news>
+			</div>
+		</div>
+	</body>
+</html>
+
+<script src="../../common/js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/rem.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/public.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/vant/index.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+<script>
+	const myComponents = [
+		'../../components/houses/template_hot_news/index',
+	];
+	
+	$api.addComponents(myComponents)
+		.then(()=>{
+			
+			Vue.use(vant.Lazyload);
+			 
+			
+			const app = new Vue({
+				el: '#app',
+				data: {
+					list: [
+						{
+							type: 1,
+							tip: '测评',
+							title: ' 89平的三室小复式样板房将于2020-10-12日开放，欢 迎各位参观，本套式是小区很好的户型，全局透亮。',
+							img: ['../../static/logo.png']
+						},
+						{
+							type: 1,
+							tip: '测评',
+							title: ' 89平的三室小复式样板房将于2020-10-12日开开放，欢 迎各位参观，本套式是小区很好的户型，全局透亮。观，本套式是小区很好的户型，全局透亮',
+							img: ['../../static/logo.png','../../static/logo.png','../../static/logo.png','../../static/logo.png']
+						},
+						{
+							type: 1,
+							tip: '测评',
+							title: ' 89平的三室小复式样板房将于2020-10-12日开-12日开放，欢 迎各位参观，本套式是小区很好的户型，全局透亮。观，本套式是小区很好的户型，全局透亮',
+							video: [{},{}]
+						},
+						{
+							type: 1,
+							tip: '测评',
+							title: ' 89平的三室小复式样板房将于2020-10-12日开放，欢 迎各位参观，本套式是小区很好的户型，全局透亮。',
+							img: ['../../static/logo.png']
+						},
+						{
+							type: 1,
+							tip: '测评',
+							title: ' 89平的三室小复式样板房将于2020-10-12日开开放，欢 迎各位参观，本套式是小区很好的户型，全局透亮。观，本套式是小区很好的户型，全局透亮',
+							img: ['../../static/logo.png','../../static/logo.png','../../static/logo.png','../../static/logo.png']
+						},
+						{
+							type: 1,
+							tip: '测评',
+							title: ' 89平的三室小复式样板房将于2020-10-12日开-12日开放，欢 迎各位参观，本套式是小区很好的户型，全局透亮。观，本套式是小区很好的户型，全局透亮',
+							video: [{},{}]
+						},
+					]
+					
+				},
+				components: {
+					housesHotNews
+				},
+				created() {
+					this.setTitle();
+					
+					// this.$nextTick(()=>{
+					// 	this.$refs.DOM.scrollTo(0,3500)
+					// })
+				},
+				mounted() {
+					
+				},
+				methods:{
+					setTitle() {
+						const id = $api.funcUrlDel().option.id;
+						
+						document.title = id == 4 ? '实时资讯' : '实时测评';
+					},
+					
+				},
+			})
+			
+			
+			
+		})
+	
+</script>

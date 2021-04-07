@@ -1,0 +1,636 @@
+/**
+ * 前置引入area组件
+ */
+var commonSizer = (function() {
+	const html =
+		`
+		<van-dropdown-menu>
+			<template v-for="(sezer, k) in list">
+				<van-dropdown-item 
+					:title="sezer.title"  
+					@closed="setCloseMethod(k)" 
+					:ref="setRef(k)" 
+					:title-class="!(['区域','价格','户型','更多'].includes(sezer.title)) ? 'text-active' : 'text-none'"
+					v-if="k != 0 || showArea"
+				>
+					
+					<template v-if=" k == 0">
+						<common-area 
+							v-if="flag"
+							:height="7.16" 
+							:list="sezer.list" 
+							@sure="siteSure" 
+							@close="siteClose" 
+							:default_data='value' 
+							ref="area"
+						>
+						</common-area>
+					</template>
+					
+					<template v-else-if=" k == 1 ">
+						<div class="drop-price">
+							<div class="drop-price-box">
+								<div class="drop-tab">
+									<span 
+										:class="[ priceActive['left'] == index ? 'text-active' : '' ]"
+										v-for="(item,index) in sezer.list" 
+										:key="index" 
+										@click="priceChoose('left',index)" 
+									>
+										{{ item.title == '总价' ? item.title+'(万/套)' : item.title+'(元/m²)' }}
+									</span>
+									<i :style="[ priceActive['left'] == 0 ? { left: '1.88rem' } : { left: '5.64rem' } ]"></i>
+								</div>
+								<div
+									class="drop-content" 
+									v-for="(item,index) in sezer.list" 
+									:key="index" 
+									v-show="priceActive['left'] == index"
+								 >
+									<div class="drop-price-input">
+										<div class="drop-price-input-price"> 
+											<!-- <span class="drop-price-input-title">自定义(万元)</span> -->
+											<div class="drop-price-input-box">
+												<van-field 
+													v-model="priceMin" 
+													:placeholder="item.title == '总价' ? '最低总价(万)' : '最低单价(元)'" 
+													type="digit" 
+													@input="priceInput"
+												>
+												</van-field>
+												<span class="drop-price-input-interval"></span>
+												<van-field 
+													v-model="priceMax" 
+													:placeholder="item.title == '总价' ? '最高总价(万)' : '最高单价(元)'" 
+													type="digit" 
+													@input="priceInput"
+												>
+												</van-field>
+											</div>
+										</div>
+									</div>
+									<div class="drop-price-right">
+										<div
+											class="drop-price-item" 
+											:class="[ priceActive.right.indexOf(key) != -1 ? 'drop-price-item-active' : '' ]"
+											v-for="(money,key) in item.list" 
+											:key="key"
+											@click="priceChoose('right',key)"
+										>
+											<p>{{ money.name }}</p>
+											<i class="iconfont " :class="[ priceActive.right.indexOf(key) != -1 ? 'iconnewxuanzhongduoxuan' : 'iconweixuanzhong' ]"></i>
+										</div>
+									</div>
+								</div>
+								
+								<!-- <div class="drop-price-left">
+									<div 
+										class="drop-price-item" 
+										:class="[ priceActive.left == index ? 'drop-price-item-active' : '' ]"
+										v-for="(item,index) in sezer.list" 
+										:key="index" 
+										@click="priceChoose('left',index)"
+									>
+										{{ item.title }}
+									</div>
+								</div>
+								<div class="drop-price-right">
+									<template v-for="(item,index) in sezer.list">
+										<span :key="index" v-if="priceActive.left == index">
+											<div
+												class="drop-price-item" 
+												:class="[ priceActive.right.indexOf(key) != -1 ? 'drop-price-item-active' : '' ]"
+												v-for="(money,key) in item.list" 
+												:key="key"
+												@click="priceChoose('right',key)"
+											>
+												<p>{{ money.name }}</p>
+												<i class="iconfont " :class="[ priceActive.right.indexOf(key) != -1 ? 'iconnewxuanzhongduoxuan' : 'iconweixuanzhong' ]"></i>
+											</div>
+										</span>
+									</template>
+								</div> -->
+							</div>
+							<!-- <div class="drop-price-input">
+								<div class="drop-price-input-price"> 
+									<span class="drop-price-input-title">自定义(万元)</span>
+									<div class="drop-price-input-box">
+										<van-field v-model="priceMin" placeholder="最低价" type="digit" @input="priceInput"></van-field>
+										<span class="drop-price-input-interval"></span>
+										<van-field v-model="priceMax" placeholder="最高价" type="digit" @input="priceInput"></van-field>
+									</div>
+								</div>
+							</div> -->
+							<div class="drop-btn">
+								<div class="location-btn-icon" @click="priceDel">
+									<i class="iconfont iconqingchu"></i>
+									<span>重置</span>
+								</div>
+								<!-- <van-button plain type="primary" class="drop-del drop-btn-item" @click="priceDel">重置</van-button> -->
+								<van-button type="default" color="rgba(254, 130, 30, 1)"  class="drop-btn-item" @click="priceSure">确定</van-button>
+							</div>
+						</div>
+					</template>
+					
+					<template v-else-if=" k == 2 ">
+						<div class="drop-type">
+							<div class="drop-type-wrap" >
+								<div class="drp-type-box" v-for="(item,index) in sezer.list" :key="index" @click="typeChange(index)">
+									<span :class="[ typeChoose.indexOf(index) != -1 ? 'drop-price-item-active' : '' ]">{{ item.name }}</span>
+									<i class="iconfont " :class="[ typeChoose.indexOf(index) != -1 ? 'iconnewxuanzhongduoxuan' : 'iconweixuanzhong' ]"></i>
+								</div>
+							</div>
+							<div class="drop-btn">
+								<div class="location-btn-icon" @click="typeDel">
+									<i class="iconfont iconqingchu"></i>
+									<span>重置</span>
+								</div>
+								<!-- <van-button plain type="primary" class="drop-del drop-btn-item" @click="typeDel">重置</van-button> -->
+								<van-button type="default" color="rgba(254, 130, 30, 1)"  class="drop-btn-item" @click="typeSure">确定</van-button>
+							</div>
+						</div>
+					</template>
+					
+					<template v-else>
+						<div class="drop-more" v-if=" Object.keys(moreChooseSure).length > 0 ">
+							<div class="drop-more-wrap">
+								<div class="drop-more-item" v-for="(item,index) in sezer.list" :key="index">
+									<h4 class="drop-more-title">{{ item.title }}</h4>
+									<div class="drop-more-box">
+										<span 
+											class="drop-more-tip van-ellipsis" 
+											:class="[ (moreClass.indexOf(item.type+tip.id) != -1) ? 'drop-more-tip-active' : '' ]"
+											v-for="(tip,key) in item.list"
+											:key="key"
+											@click="chooseMore(index,tip.id)"
+										>
+											{{ tip.name }}
+										</span>
+									</div>
+								</div>
+							</div>
+							<div class="drop-btn">
+								<div class="location-btn-icon" @click="moreDel">
+									<i class="iconfont iconqingchu"></i>
+									<span>重置</span>
+								</div>
+								<!-- <van-button plain type="primary" class="drop-del drop-btn-item" @click="moreDel">重置</van-button> -->
+								<van-button type="default" color="rgba(254, 130, 30, 1)"  class="drop-btn-item" @click="moreSure(k)">确定</van-button>
+							</div>
+						</div>
+					</template>
+				</van-dropdown-item>
+			</template>
+		</van-dropdown-menu>
+	`;
+
+	return {
+		data: function() {
+			return {
+				list: [],
+				// nav筛选所有结果
+				sizerResult: {},
+				// 价格筛选
+				priceActive: {
+					left: 0,
+					right: []
+				},
+				priceActiveSure: {
+					left: 0,
+					right: []
+				},
+				priceMin: '',
+				priceMax: '',
+
+				// 户型筛选
+				typeChoose: [0],
+				typeChooseSure: [0],
+
+				// 更多筛选
+				moreType: [],
+				moreClass: [],
+				moreChoose: {},
+				moreChooseSure: {},
+				city_no: 0,
+				flag: true,
+				value: {}
+			}
+		},
+		template: html,
+		props: {
+			default_data: {
+				type: [Object],
+				default () {
+					return {}
+				}
+			},
+			moreData: {
+				type: [Object],
+				default () {
+					return {}
+				}
+			},
+			showArea: {
+				type: [Boolean],
+				default () {
+					return true
+				}
+			}
+		},
+		watch: {
+			value: {
+				handler(val) {
+					console.log(999, val)
+				},
+				deep: true,
+			}
+		},
+		created() {
+
+			// console.log(this.default_data, 11001)
+			this.value = this.default_data
+			this.$http.getCurrentCity().then(data => {
+				this.city_no = data.city_no;
+				this.getList();
+			});
+		},
+		methods: {
+			setRef(index) {
+				switch (index) {
+					case 0:
+						return 'site';
+					case 1:
+						return 'price';
+					case 2:
+						return 'type';
+					case 3:
+						return 'more';
+				}
+			},
+			setCloseMethod(index) {
+				switch (index) {
+					case 0:
+						this.$refs.area[0].reset();
+						break;
+					case 1:
+						this.priceClosed();
+						break;
+					case 2:
+						this.typeClosed();
+						break;
+					case 3:
+						this.moreClosed();
+						break;
+				}
+			},
+			sendResutl(name, arr, type) {
+				this.$set(this.sizerResult, name, arr);
+
+				if (!type) {
+					this.$nextTick(() => {
+						this.$emit('result', this.sizerResult);
+					});
+				}
+			},
+			siteClose() {
+				this.$refs.site[0].toggle();
+			},
+			siteSure(text, id, center) {
+				// text.length = text.length - 1
+				if( text.indexOf(',') != -1 ){
+					text = text.slice(0,text.length-1);
+				}
+				
+				text = text.split(',');
+				
+				if( text.length > 1 ){
+					text = '多选';
+				} else {
+					text = text[0] == '不限' ? '区域' : text[0];
+				}
+				
+				this.$set(this.list[0], 'title', text);
+
+				if (String(id).indexOf('p_') != -1) {
+					id = id.replace('p_', '');
+				}
+
+				this.sendResutl('siteCenter', center, 1);
+				this.sendResutl('site', id);
+			},
+			chooseMore(index, id, call) {
+				// console.log(index)
+				const indexOf = this.moreChoose[this.moreType[index]].indexOf(id);
+
+				if (indexOf == -1) {
+					this.moreChoose[this.moreType[index]].push(id);
+					this.moreClass.push(this.moreType[index] + id);
+				} else {
+					this.moreChoose[this.moreType[index]].splice(indexOf, 1);
+
+					this.moreClass.splice(this.moreClass.indexOf(this.moreType[index] + id), 1);
+				}
+				
+				call && call();
+			},
+			moreDel() {
+				this.$set(this.list[3], 'title', '更多');
+				this.initMoreState();
+				this.$refs.more[0].toggle();
+				this.sendResutl('more', this.moreChooseSure);
+			},
+			moreSure(k,type) {
+				let text;
+				let len = 0;
+			
+				for (let i in this.moreChoose) {
+					len += this.moreChoose[i].length;
+				}
+
+				if (len == 0) {
+					text = '更多';
+				} else {
+					if( len > 1 ){
+						text = '多选';
+					} else {
+						for( let i in this.moreChoose ){
+							if( this.moreChoose[i] ){
+								this.moreChoose[i].map( item=>{
+									this.list[k].list.map( list=>{
+										list.list.map( key=>{
+											if( key.id == item ){
+												text = key.name;
+											}
+										})
+									})
+								})
+							}
+						}
+						// console.log(this.moreChoose)
+						// console.log(this.list[k].list)
+					}
+					// text = `筛选(${len})`;
+				}
+
+				this.$set(this.list[3], 'title', text);
+				this.moreChooseSure = this.$api.deepClone(this.moreChoose);
+
+				this.moreClass = [];
+				for (let i in this.moreChoose) {
+					this.moreChoose[i].map((item) => {
+						this.moreClass.push(i + item);
+					})
+				}
+				
+				if( !type ){
+					this.$refs.more[0].toggle();
+				}
+				
+				this.sendResutl('more', this.moreChooseSure);
+			},
+			moreClosed() {
+				this.moreChoose = this.$api.deepClone(this.moreChooseSure);
+
+				this.moreClass = [];
+				for (let i in this.moreChooseSure) {
+					this.moreChooseSure[i].map((item) => {
+						this.moreClass.push(i + item);
+					})
+				}
+			},
+			// 添加更多类型 
+			addMoreType(data) {
+				data.map(item => {
+					if (item.title == '更多') {
+						item.list.map(child => {
+							this.moreType.push(child.type);
+						})
+					}
+				})
+
+				this.initMoreState();
+			},
+			initMoreState() {
+				this.moreType.map((item, index) => {
+					this.moreChoose[item] = [];
+					this.moreChooseSure[item] = [];
+					this.moreClass[index] = [];
+				})
+			},
+			priceInput() {
+				if( this.priceActive.right.length > 0 ){
+					this.$set(this.priceActive, 'right', []);
+				}
+			},
+			priceChoose(key, index) {
+				this.priceMin = this.priceMax = '';
+				
+				if (key == 'left') {
+					if (this.priceActive[key] != index) {
+						this.$set(this.priceActive, key, index);
+						this.$set(this.priceActive, 'right', []);
+					}
+				} else {
+					const num = this.priceActive[key].indexOf(index);
+
+					if (num != -1) {
+						this.priceActive[key].splice(num, 1);
+					} else {
+						if (index != 0) {
+
+							const all = this.priceActive[key].indexOf(0);
+
+							if (all != -1) {
+								this.priceActive[key].splice(all, 1);
+							}
+
+							this.priceActive[key].push(index);
+						} else {
+							this.priceActive[key] = [index];
+						}
+						// this.priceActive[key] = [index];
+					}
+				}
+				// console.log(this.priceActive)
+			},
+			priceSure() {
+				let text = '';
+				let id = [];
+
+				if (this.priceMin && this.priceMax) {
+					if (Number(this.priceMin) > 0 && Number(this.priceMax) > 0 && (Number(this.priceMax) > Number(this.priceMin))) {
+						const newName = this.priceActive.left == 1 ? 'total' : 'average';
+
+						text = `${this.priceMin}万-${this.priceMax}万`;
+
+						id = {
+							type: newName,
+							val: [`${this.priceMin}-${this.priceMax}`]
+						};
+
+						this.priceActive.right = this.priceActiveSure.right = [];
+						this.priceMin = this.priceMax = '';
+					} else {
+						this.$toast('请输入正确价格');
+
+						return;
+					}
+				} else {
+					if (this.priceActive.right.length > 0) {
+
+						this.priceActive.right.map(item => {
+							const name = this.list[1].list[this.priceActive.left].list[item].name;
+
+							if (name == '不限') {
+								text = '价格';
+							} else {
+								if( text == '' ){
+									text += name;
+								} else {
+									text += ',' + name;
+								}
+								
+								id.push(this.list[1].list[this.priceActive.left].list[item].id);
+							}
+						})
+
+						if (text != '价格') {
+							const newName = this.priceActive.left == 1 ? 'total' : 'average';
+
+							id = {
+								type: newName,
+								val: id
+							};
+						}
+
+						this.priceActiveSure.right = this.$api.deepClone(this.priceActive.right);
+					} else {
+						text = '价格';
+						this.priceActive.right = this.priceActiveSure.right = [];
+					}
+
+				}
+				text = text.split(',');
+				
+				if( text.length == 1 ){
+					text = text[0];
+					if(parseInt(text)>999){
+						text = String(text).substring(0,3) +'...';
+					}
+				} else {
+					text = '多选';
+				}
+				
+				// console.log(id)
+
+				this.$set(this.list[1], 'title', text);
+
+				this.$refs.price[0].toggle();
+
+				this.sendResutl('price', id);
+			},
+			priceDel() {
+				this.priceMin = this.priceMax = '';
+				this.$set(this.priceActive, 'right', []);
+				this.priceSure();
+			},
+			priceClosed() {
+				this.priceActive.right = this.$api.deepClone(this.priceActiveSure.right);
+			},
+			typeChange(index) {
+				if( index == 0 ){
+					// this.typeChoose = [0];
+					// console.log(index)
+					if( this.typeChoose.indexOf(index) != -1){
+						this.typeChoose.splice(this.typeChoose.indexOf(index),1);
+					} else {
+						this.typeChoose = [0];
+					}
+				} else {
+					if( this.typeChoose.indexOf(0) != -1 ){
+						this.typeChoose.splice(this.typeChoose.indexOf(0),1);
+					}
+					
+					if( this.typeChoose.indexOf(index) != -1){
+						this.typeChoose.splice(this.typeChoose.indexOf(index),1);
+					} else {
+						this.typeChoose.push(index);
+					}
+				}
+			},
+			typeClosed() {
+				this.typeChoose = this.typeChooseSure;
+			},
+			typeDel() {
+				this.typeChoose = this.typeChooseSure = [0];
+				
+				let id = this.list[2].list[this.typeChoose].id;
+				this.$set(this.list[2], 'title', '户型');
+				this.$refs.type[0].toggle();
+				this.sendResutl('type', id);
+			},
+			typeSure() {
+				let text = [];
+				let id = [];
+				
+				if( this.typeChoose.length > 0 ){
+					this.typeChooseSure = this.typeChoose;
+				} else {
+					this.typeChooseSure = this.typeChoose = [0];
+				}
+				
+				this.typeChoose.map( item=>{
+					text.push( this.list[2].list[item].name == '不限' ? '户型' : this.list[2].list[item].name );
+					id.push( this.list[2].list[item].id );
+				})
+				
+				if( text.length > 1 ){
+					text = '多选';
+				} else {
+					text = text[0];
+				}
+				// text = text.join(',');
+
+				this.$set(this.list[2], 'title', text);
+				this.$refs.type[0].toggle();
+				this.sendResutl('type', id);
+			},
+			getList() {
+				let that = this
+				this.$http.ajax({
+					method: 'get',
+					data: {
+						'city_no': this.city_no
+					},
+					url: '/index/estates/getSeletList',
+				}).then(res => {
+					// console.log(res)
+					that.list = res.data;
+					this.addMoreType(res.data);
+					if(that.default_data.site_center){
+						that.list[0].title = that.default_data.site_center.district
+					}
+					
+					this.initMoreChoose();
+				})
+			},
+			// 外部传输更多选项
+			initMoreChoose(){
+				if( Object.keys(this.moreData).length > 0 ){
+					
+					this.list.map( (item,k)=>{
+						if( item.title == '更多' ){
+							item.list.map( (list,index)=>{
+								if( list.type == this.moreData.type ){
+									this.chooseMore(index,this.moreData.id, ()=>{
+										this.moreSure(k,true);
+									});
+								}
+							})
+						}
+					})
+				}
+			}
+		},
+	}
+}());

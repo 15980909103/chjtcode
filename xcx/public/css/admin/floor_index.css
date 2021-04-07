@@ -1,0 +1,12 @@
+#my-img-div{width:500px;height:450px;margin:0 auto;position: relative;margin-bottom: 20px;}
+.view1-floor {
+    display: inline-block;
+    font-size:12px;
+    background-color: #FFF;
+    padding:3px 7px;
+    border-radius: 12px;
+    cursor:move;
+    user-select:none;
+    position: absolute;
+}
+[v-cloak]{display: none;}

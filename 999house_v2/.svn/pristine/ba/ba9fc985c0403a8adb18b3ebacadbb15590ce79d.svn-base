@@ -1,0 +1,55 @@
+<script>
+	const host = "https://act.999house.com";
+	
+	export default {
+		globalData: {
+			city_no: '350200', 
+			userInfo: null,
+			token: "", //用于访问
+			sid: "",//用于访问
+			host: host,
+			h5Host: host+"/9house/pages",
+			host_api: host+"/index", 
+			imgHost: host+"/static/images/",
+			//EventBusClass: EventBusClass.Int,
+			
+			whitePages: [
+			  "pages/index/index",
+			  "pages/login/index",
+			]
+		},
+		onLaunch: function() {
+			console.log('App Launch');
+
+			// getUserLocation().then((res)=>{
+			// 	console.log(res,'Launch')
+			// 	uni.$emit('launchReady');
+			// })
+			uni.$emit('launchReady');
+		},
+		onShow: function() {
+			console.log('App Show')
+		},
+		onHide: function() {
+			console.log('App Hide')
+		},
+		methods:{
+			wxAuthLogin(){
+				
+			},
+			launchReady(){
+				return new Promise((resolve)=>{
+					uni.$on('launchReady',function(data){
+						resolve(data)
+					})
+				})
+			}
+		},
+	}
+</script>
+ 
+<style lang="scss">
+	/*每个页面公共css */
+	@import "uview-ui/index.scss";
+	@import '@/common/css/iconfont.css';
+</style>

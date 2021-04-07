@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>户型详情</title>
+    <link rel="stylesheet" type="text/css" href="../../static/css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/mui/css/mui.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/css/build/model_list.css" />
+    <script type="text/javascript" src="../../static/js/jquery-2.0.0.min.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.min.js" ></script>
+    <script type="text/javascript" src="../../static/js/vue.min.js" ></script>
+    <script type="text/javascript" src="../../static/js/vue-tap.js" ></script>
+    <script type="text/javascript" src="../../static/js/public.js?v=2" ></script>
+    <script type="text/javascript" src="../../static/js/coverViewImage.js" ></script>
+</head>
+<body>
+<div id="app" class="my-content">
+    <div class="mui-scroll-wrapper my-scroll">
+        <div class="mui-scroll">
+            <div class='my-top'></div>
+            <div class='view5-li' v-for="item in doorInfo" v-tap="{methods:onModelDetail,id:item.id,imgSrc:item.pic}">
+                <div class='view5-content1'>
+                    <img :src='item.pic' v-cloak/>
+                </div>
+                <div class='view5-content2'>
+                    <div class='view5-col1'>
+                        <div class='view5-row1' v-cloak>{{item.title}}</div>
+                        <div class='view5-row2' v-cloak>{{item.sales_status}}</div>
+                        <div class='view5-row3' v-cloak>{{item.house_type}}</div>
+                    </div>
+                    <div class='view5-col2' v-cloak>建面{{item.construction_area}}m²朝向{{item.orientation}}</div>
+                    <div class='view5-col3' v-cloak>约{{item.price_total}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            doorInfo: []
+        },
+        mounted: function () {
+        this.$nextTick(function () {
+            var _this=this;
+            //获取楼盘的所有户型
+            ajax('buildingAjax/getBuildingDoor',{id:getQueryString('id')},function(res){
+                _this.doorInfo=res.doorInfo;
+            });
+            mui('.my-scroll').scroll({
+                scrollY: true, //是否竖向滚动
+                scrollX: false, //是否横向滚动
+                startX: 0, //初始化时滚动至x
+                startY: 0, //初始化时滚动至y
+                indicators: false, //是否显示滚动条
+                deceleration:0.0005, //阻尼系数,系数越小滑动越灵敏
+                bounce: true //是否启用回弹
+            });
+        })
+        },
+        methods:{
+            onModelDetail(event){    //跳转户型详情
+                openViewImage({
+                    src: event.imgSrc
+                });
+                // setLocation('pages/build/model_detail.html?id='+event.id);
+            }
+        }
+    })
+</script>

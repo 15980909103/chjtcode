@@ -1,0 +1,227 @@
+<template>
+	<view>
+		<view>
+			<u-tabs class="tab" active-color="#FE841E" sticky :current="active" :is-scroll="false" :list="lists" name="title" @change="change"></u-tabs>
+		</view>
+		<!-- <view v-for="(item,index) in list" >{{item.title}}</view> -->
+		<view v-if="fields" v-for="(nav,index) in lists">
+			<view v-if="active==index&&index!=1">
+				<view class="all-template">
+				    <view
+				        :class="[item.type != 6 ? 'template' : 'template2']"
+				        v-for="(item,key) in nav.list" 
+				        :key="key"
+				        @click.stop="goDetil(item)">
+				        <view class="template3">
+				            <view class="template3-top">
+				                <view :class="[ item.type == 11 ? 'template3-top-img-sale' : '' ]">
+				                    <!-- 
+									 <image v-lazy="$http.imgDirtoUrl(item.img[0])" class="template3-top-img" />-->
+									<image :src="$api.imgDirtoUrl(item.img[0])" class="template3-top-img" />
+				                </view>
+				                <view class="template3-top-right">
+				                    <view class="template3-title">
+				                        <span 
+											:class="[
+												 item.info.tip[0] == '在售' ? 'houses-bg-blue' : '',
+												 item.info.tip[0] == '待售' ? 'houses-bg-orange' : '',
+												 item.info.tip[0] == '售完' ? 'houses-bg-purple' : '',
+												 item.info.tip[0] == '尾盘' ? 'houses-bg-blue2' : ''
+											 ]"
+				                            v-if=" item.info.tip[0] != '人气榜' && item.info.tip[0] != '热搜榜'"
+				                        >
+				                            {{item.info.tip[0]}}
+				                        </span>
+				                        <template v-else>
+				                            <image :src="item.info.tip[0] == '热搜榜' ? '../../static/new_house/hot.png' : '../../static/new_house/popular.png'"/>
+				                        </template>
+				                        {{item.info.name}}
+				                    </view>
+				                    <view class="template3-tip">
+				                        <template v-for="(tip,num) in item.info.tip">
+				                            <view v-if="num != 0&&tip" :key="num">
+				                                {{tip}}
+				                            </view>
+				                        </template>
+				                    </view>
+				                    <view class="template3-site">
+				                        <text class="template-top-houses-site">{{item.info.site}}</text>
+				                        <text>建面{{item.info.area}}m²</text>
+				                    </view>
+				                    <view class="template-top-houses-price">
+				                        <view v-if="item.info.price>0">
+				                            <text>{{item.info.price}}</text>元/m²
+				                        </view>
+				                        <view v-else>
+				                            价格待定
+				                        </view>
+				                    </view>
+				                </view>
+				            </view>
+				            <template v-if="item.type == 8">
+				                <view class="template3-bottom">
+				                    <template v-for="(house,houseIndex) in item.info.lab">
+				                        <view class="template3-bottom-tip" :key="houseIndex" v-if="houseIndex < 2 && house.type == 0">
+				                            <image :src="$api.imgDirtoUrl('/9house/static/index/hot.png',1)"/>
+				                            <view class="van-ellipsis">{{house.name}}</view>
+				                        </view>
+				                        <!--template3-bottom-vr--> 
+				                        <view class="template3-bottom-tip" :key="houseIndex" v-if="houseIndex < 2 && house.type == 1">
+				                            <image :src="$api.imgDirtoUrl('/9house/static/index/sale.png',1)"/>
+				                            <view class="van-ellipsis">{{house.name}}</view>
+				                        </view>
+				                    </template>
+				                </view>
+				            </template>
+				            <!-- <template v-else-if="item.type == 11">
+				                <view class="template3-bottom-apply">
+				                    <view class="template3-bottom-apply-box">
+				                        <view class="template3-bottom-apply-info van-ellipsis"><i class="iconfont iconxingzhuang1"></i>{{ item.apply.title }}</view>
+				                        <view class="template3-bottom-apply-people"><view>{{ item.apply.people }}</view>人已报名</view>
+				                    </view>
+				                    <van-button 
+				                        round 
+				                        type="info"
+				                        :color="item.apply.state == 0 ? 'linear-gradient(90deg, #FFA640 0%, #FE8D35 100%)' : 'rgba(173, 173, 173, 1)' "
+				                        :disabled ="item.apply.state == 0 ? false : true"
+				                        bind:tap="$emit('apply',item.id)"
+				                    >
+				                        {{ item.apply.state == 0 ? '立即报名' : '已报名' }}
+				                    </van-button>
+				                </view>
+				            </template> -->
+				        </view>    
+				    </view>
+				</view>
+			</view>
+			<view v-if="active==index&&index==1">
+				<view class="news">
+					<view class="news-box" v-for="(news,key) in nav.list" :key="key">
+						<image :src="$api.imgDirtoUrl(news.img[0])">
+						<view class="news-right">
+							<h4 class="news-title u-multi-ellipsis--l3">
+								{{ news.title }}
+							</h4>
+							<view class="news-info">
+								<image :src="$api.imgDirtoUrl(news.author.head)">
+								<span>
+								{{ news.author.name }}
+							</span>
+							</view>
+						</view>
+					</view>
+				</view>
+			</view>
+		</view>
+				<!-- <template v-if="fields">
+					<template v-if="index != 1">
+						<common-template :list="item.list" @del="(e)=>{ $set(list[index], 'list', e) }"></common-template>
+					</template>
+					<template v-else>
+						<view class="news">
+							<view class="news-box" v-for="(news,key) in item.list" :key="key">
+								<image :src="news.img[0]">
+								<view class="news-right">
+									<h4 class="news-title u-multi-ellipsis--l3">
+										{{ news.title }}
+									</h4>
+									<view class="news-info">
+										<image :src="news.author.head">
+										<span>
+										{{ news.author.name }}
+									</span>
+									</view>
+								</view>
+							</view>
+						</view>
+					</template>
+				</template> -->
+				<template v-else>
+					<u-empty image="error" description="暂无数据"/>
+				</template>
+
+		<view id="container-user-site"></view>
+	</view>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+				active: 0,
+				key:0,
+				finished:true,
+				fields: false,
+				lists: []
+			}
+		},
+		watch:{
+			active(val){
+				let url
+
+				if(val == 0){
+					this.key = 0;
+					 url = '/user/myListings'
+				}else if (val == 1){
+					this.key = 1
+					 url = '/user/myAdvisory'
+				}
+
+				this.getList(url)
+
+			}
+		},
+		created() {
+			this.getList()
+		},
+		onLoad() {
+
+		},
+		mounted() {
+			this.aaa({
+				url: '456'
+			})
+		},
+		methods:{
+			change(index){
+				this.active = index
+			},
+			getList(url = ''){
+				let getUrl = ''
+				if(url != ''){
+					getUrl = url
+				}else {
+					getUrl = '/user/myListings'
+				}
+				this.$http.get(
+					getUrl,
+				).then( res=>{
+					if( res.data[this.key]['list'] && res.data[this.key]['list'].length > 0 ){
+						this.fields = true;
+					}else {
+						this.fields = false;
+					}
+
+					this.lists = res.data
+				})
+
+
+			},
+			aaa( params ){
+				const domain = '123';
+				let {
+					url = domain + params.url,
+					method = 'POST', 
+					data,
+					timeout = 10000
+				} = params;
+				
+				console.log(url)
+			}
+		},
+	}
+</script>
+
+<style>
+	 @import './my_focus.css';
+</style>

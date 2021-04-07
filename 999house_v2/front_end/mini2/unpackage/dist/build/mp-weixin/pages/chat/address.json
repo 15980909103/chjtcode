@@ -1,0 +1,8 @@
+{
+  "navigationBarTitleText": "通讯录",
+  "usingComponents": {
+    "u-index-list": "/uview-ui/components/u-index-list/u-index-list",
+    "u-index-anchor": "/uview-ui/components/u-index-anchor/u-index-anchor",
+    "u-search": "/uview-ui/components/u-search/u-search"
+  }
+}

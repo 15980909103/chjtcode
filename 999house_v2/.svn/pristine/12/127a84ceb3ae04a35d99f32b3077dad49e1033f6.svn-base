@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>楼盘点评</title>
+		<link rel="stylesheet" href="../../common/vant/index.css"/>
+		<link rel="stylesheet" href="../../common/css/public.css"/>
+		<style>
+			.box{
+				box-sizing: border-box;
+				padding: .33rem .32rem 1rem;
+			}
+			
+			.choose{
+				display: flex;
+				align-items: center;
+			}
+			
+			.choose span:first-child{
+				margin-right: 0.2rem;
+			}
+			
+			.choose .van-tag{
+				margin-right: 0.26rem;
+				border-radius: 0.04rem;
+				background: #F7F7F7;
+				color: rgba(117, 117, 117, 1);
+				font-size: 0.26rem;
+			}
+			
+			.choose .van-tag.active{
+				background-color: rgba(240, 255, 236, 1);
+				color: rgba(121, 183, 107, 1);
+			}
+			
+			.input .van-cell{
+				padding: .8rem 0 .32rem;
+				font-size: 0.24rem;
+			}
+			
+			.up .van-uploader__preview-image,
+			.up .van-uploader__upload{
+				width: 1.3rem;
+				height: 1.3rem;
+			}
+			
+			.up .van-uploader__upload{
+				border: 1px solid #E0E0E0;
+				background-color: #fff;
+				position: relative;
+				justify-content: flex-start;
+			}
+			
+			.up .van-uploader__upload .van-icon{
+				font-size: 0.54rem;
+				margin-top: 0.2rem;
+				color: rgba(173, 173, 173, 1);
+			}
+			
+			.up .van-uploader__upload::after{
+				content: '添加照片';
+				width: 100%;
+				font-size: 0.24rem;
+				color: rgba(173, 173, 173, 1);
+				position: absolute;
+				bottom: 0.18rem;
+				left: 50%;
+				transform: translate(-50%,0);
+				text-align: center;
+				pointer-events: none;
+			}
+			
+			.btn{
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				padding: 1rem 0 1rem;
+			}
+			
+			.btn .van-button{
+				width: 100%;
+				height: .88rem;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<div id="app" v-cloak ref="DOM">
+			<div class="box">
+				<div class="choose">
+					<span>是否去售楼处看过楼盘:</span>
+					<van-tag type="primary" size="large" :class="[ choose == 0 ? 'active' : '' ]" @click="chooseType(0)">考虑看房</van-tag>
+					<van-tag type="primary" size="large" :class="[ choose == 1 ? 'active' : '' ]" @click="chooseType(1)">已看过房</van-tag>
+				</div>
+				<div class="input">
+					<van-field
+					  v-model="message"
+					  rows="4"
+					  maxlength="300"
+					  autosize
+					  type="textarea"
+					  placeholder="对本楼盘的环境、位置、配套设施满意吗？说说您的看法"
+					/>
+				</div>
+				<div class="up">
+					<van-uploader v-model="fileList" multiple :max-count="9" />
+				</div>
+				<div class="btn">
+					<van-button 
+					type="default" 
+					color="rgba(254, 130, 30, 1)" 
+					:loading="load"
+					loading-text="发表中..."
+					@click="sendMsg"
+					>
+						发表
+					</van-button>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
+
+<script src="../../common/js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/rem.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/public.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/vant/index.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+<script>
+	Vue.use(vant.Lazyload);
+	 
+	
+	const app = new Vue({
+		el: '#app',
+		data: {
+			choose: 0,
+			message: '',
+			fileList: [],
+			load: false
+		},
+		components: {
+		
+		},
+		created() {
+			// this.$nextTick(()=>{
+			// 	this.$refs.DOM.scrollTo(0,3500)
+			// })
+		},
+		mounted() {
+			
+		},
+		methods:{
+			chooseType(num) {
+				this.choose = this.choose != num ? num : this.choose;
+			},
+			sendMsg() {
+				this.load = true;
+				const val = $api.htmlEscape($api.trim(this.message));
+				
+				if( val > 0 ){
+					
+				} else {
+					this.load = false;
+					this.$toast('请填写您的看法');
+				}
+				
+				console.log(this.fileList)
+			}
+		},
+	})
+	
+	
+	
+</script>

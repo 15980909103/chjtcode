@@ -1,0 +1,7 @@
+[2020-11-23T09:49:59+08:00][error] [0]请进行微信配置[/mnt/e/project/999house_v2/app/common/lib/wxapi/module/WxBase.php:51]
+[2020-11-23T16:46:02+08:00][error] [10501]SQLSTATE[42S22]: Column not found: 1054 Unknown column 'vote_detail_id' in 'where clause'[/mnt/e/project/999house_v2/vendor/topthink/think-orm/src/db/PDOConnection.php:722]
+[2020-11-23T16:46:04+08:00][error] [10501]SQLSTATE[42S22]: Column not found: 1054 Unknown column 'vote_detail_id' in 'where clause'[/mnt/e/project/999house_v2/vendor/topthink/think-orm/src/db/PDOConnection.php:722]
+[2020-11-23T16:46:08+08:00][error] [10501]SQLSTATE[42S22]: Column not found: 1054 Unknown column 'vote_detail_id' in 'where clause'[/mnt/e/project/999house_v2/vendor/topthink/think-orm/src/db/PDOConnection.php:722]
+[2020-11-23T16:46:54+08:00][error] [10501]SQLSTATE[42S22]: Column not found: 1054 Unknown column 'vote_detail_id' in 'where clause'[/mnt/e/project/999house_v2/vendor/topthink/think-orm/src/db/PDOConnection.php:722]
+[2020-11-23T16:46:58+08:00][error] [10501]SQLSTATE[42S22]: Column not found: 1054 Unknown column 'vote_detail_id' in 'where clause'[/mnt/e/project/999house_v2/vendor/topthink/think-orm/src/db/PDOConnection.php:722]
+[2020-11-23T16:55:02+08:00][error] [10501]SQLSTATE[42S22]: Column not found: 1054 Unknown column 'vote_detail_id' in 'where clause'[/mnt/e/project/999house_v2/vendor/topthink/think-orm/src/db/PDOConnection.php:722]

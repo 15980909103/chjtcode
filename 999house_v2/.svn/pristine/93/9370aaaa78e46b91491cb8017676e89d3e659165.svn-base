@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>分享预览</title>
+		<link rel="stylesheet" href="../../common/vant/index.css"/>
+		<link rel="stylesheet" href="../../common/css/public.css?v=1.19"/>
+		<link rel="stylesheet" href="../../static/css/houses/share.css?v=1.19"/>
+		<style>
+			
+		</style>
+	</head>
+	<body>
+		<div id="app" v-cloak ref="DOM">
+			<top-bar title="分享预览"></top-bar>
+			<div class="wrap" :style="{backgroundImage: 'url('+ bg +')'}" ref="wrap" v-if="!chooseSrc">
+				<img src="../../static/houses/logo.png" class="logo">
+				<div class="box" v-if="Object.keys(data).length > 0">
+					<img :src="cover" class="pic" ref="pic">
+					<div class="box-item">
+						<h4 class="title">
+							{{ data.name }}
+						</h4>
+						<div class="tip">
+							<div v-for="(item,index) in data.discount" :key="index">
+								<img :src="item.type == 'discount' ? '../../static/index/hot.png' : '../../static/index/sale.png' ">
+								<span>{{ item.title }}</span>
+							</div>
+						</div>
+						<div class="info">
+							<div class="info-item">
+								<h4>{{ ( data.price && data.price != 0 ) ? data.price : '价格待定' }}</h4>
+								<span>单价 (元/平)</span>
+							</div>
+							<div class="info-item">
+								<h4>{{ data.built_area ? data.built_area : '--' }}</h4>
+								<span>面积</span>
+							</div>
+							<div class="info-item">
+								<h4>{{ data.house_type ? data.house_type : '--' }}</h4>
+								<span>居室</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="concat"  v-if="Object.keys(data).length > 0">
+					<div class="someone">
+						<template v-if="data.house_purpose_user && Object.keys(data.house_purpose_user).length > 0">
+							<img :src="header" class="someone-head" v-if="header" ref="head">
+							<div class="someone-box" v-if="data.house_purpose_user">
+								<h4>{{ data.house_purpose_user.name }}</h4>
+								<span>联系方式：{{ data.house_purpose_user.phone }}</span>
+							</div>
+						</template>
+					</div>
+					<div class="qrcode" ref="qrcode"></div>
+				</div>
+				<div class="tip-text">长按图片保存至手机</div>
+			</div>
+			<img :src="chooseSrc" class="choose-url" v-else>
+				
+			<div class="load" v-if="load">
+				<van-loading type="spinner"></van-loading>
+				<span>加载中,请稍后...</span>
+			</div>	
+			
+			<div id="container-user-site"></div>
+		</div>	
+	</body>
+</html>
+
+<script src="../../common/js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/rem.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/public.js?v=1.19" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/vant/index.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/qrcode.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/html2canvas.min.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=53da8183ca23918f2f81c79a5b2ede15&plugin=AMap.Geocoder"></script>
+<script type="module">
+	import { http, loginMixin } from '../../common/js/method/http.js';
+	
+	Vue.use(http);
+	
+	const myComponents = [
+		'../../components/common/topBar/index',
+	];
+	
+	$api.addComponents(myComponents)
+		.then(()=>{
+			
+			Vue.use(vant.Lazyload);
+			
+			const app = new Vue({
+				el: '#app',
+				data: {
+					bg: '../../static/houses/bg.png',
+					data: {},
+					url: '',
+					chooseSrc: '',
+					cover: '',
+					header: '',
+					load: true,
+				},
+				mixins: [loginMixin],
+				components: {
+					topBar
+				},
+				created() {
+					const id = this.$api.funcUrlDel().option.id;
+					this.url = window.location.href.replace('share','index') + '&cover=0';
+					
+					if( id ){
+						this.getInfo(id);
+					} else {
+						this.$toast('未能获取参数');
+					}
+				},
+				methods:{
+					getInfo(id) {
+						let that = this;
+						
+						this.$http.ajax({
+							data:{
+								id:id
+							},
+							url:'/index/estates/shareEstatesInfo'
+						}).then(res=>{
+							console.log(res.data)
+							if(!res.data || Object.keys(res.data).length==0){
+								that.load = false;
+								return
+							}
+							this.data = res.data;
+
+							this.cover = this.$http.imgDirtoUrl(res.data.list_cover);
+							if(res.data.house_purpose_user){
+								this.header = this.$http.imgDirtoUrl(res.data.house_purpose_user.head_img);
+							}
+
+							this.$nextTick(()=>{
+								
+								if( this.$refs.qrcode ){
+									new QRCode(this.$refs.qrcode, {
+										text: that.url,
+										colorDark : "#000000",
+										colorLight : "#ffffff",
+										correctLevel : QRCode.CorrectLevel.L
+									});
+								}
+								
+								// this.createPoster();
+									
+								this.urlToBase64(this.$refs.pic).then( pic=>{
+									this.cover = pic;
+									
+									if(this.$refs.head){
+										this.urlToBase64(this.$refs.head).then( head=>{
+											this.header = head;
+											this.$nextTick(()=>{
+												this.createPoster();
+											})
+										}).catch( ()=>{
+											this.header = '';
+											this.$nextTick(()=>{
+												this.createPoster();
+											})
+										})
+									}else{
+										this.$nextTick(()=>{
+											this.createPoster();
+										})
+									}
+									
+								}).catch( ()=>{
+									this.cover = '';
+									
+									if(this.$refs.head){
+										this.urlToBase64(this.$refs.head).then( head=>{
+											this.header = head;
+											this.$nextTick(()=>{
+												this.createPoster();
+											})
+										}).catch( ()=>{
+											this.header = '';
+											this.$nextTick(()=>{
+												this.createPoster();
+											})
+										})
+									}else{
+										this.$nextTick(()=>{
+											this.createPoster();
+										})
+									}
+								})
+							})
+							
+							
+							
+						}).catch(res=>{
+							that.load = false;
+							if(typeof(res)=='object'){
+								that.$toast(res.msg);
+							};
+						});
+					},
+					createPoster() {
+						const that = this;
+						const id = 'wrap';
+						window.pageYOffset = 0;	
+						window.pageXOffset = 0;	
+						this.createState = true;
+						// console.log(that.$refs)
+						// console.log(that.$refs[id])
+						// return;
+						html2canvas(that.$refs[id],{
+						  allowTaint: true,
+						  useCORS: true,
+						  dpi: window.devicePixelRatio*96,
+						  height: that.$refs[id].offsetHeight, //注意 下面解决当页面滚动之后生成图片出现白边问题
+						  width: that.$refs[id].offsetWidth,  //注意 下面解决当页面滚动之后生成图片出现白边问题
+						}).then(canvas => {
+							that.chooseSrc = canvas.toDataURL("image/png", 1.0);
+							that.load = false;
+						});
+					},
+					urlToBase64(el) {
+					    return new Promise ((resolve,reject) => {
+							let image = new Image();
+							image.src = el.src;
+							image.setAttribute('width',el.width);
+							image.setAttribute('height',el.height);
+							image.onload = function() {
+								let canvas = document.createElement('canvas');
+								canvas.width = el.width*2;
+								canvas.height = el.height*2;
+								// 将图片插入画布并开始绘制
+								canvas.getContext('2d').drawImage(image, 0, 0, el.width*2, el.height*2);
+								// result
+								// console.log(canvas)
+								let result = canvas.toDataURL('image/png',1.0);
+								// console.log(result)
+								resolve(result);
+							};
+						
+							// 图片加载失败的错误处理 
+							image.onerror = () => {
+								reject(new Error('图片流异常'));
+					        };
+					    })  
+					}
+				},
+			})
+		})	 
+</script>

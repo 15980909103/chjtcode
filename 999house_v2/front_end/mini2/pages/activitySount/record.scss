@@ -1,0 +1,76 @@
+.record_center{
+	padding: 20rpx  30rpx;
+}
+.coupon{
+	margin-top: 18rpx ;
+	background-color: #FFFFFF;
+	position: relative;
+	.coupon_item{
+		
+		
+		&.failure {
+			filter: grayscale(100%);
+			pointer-events: none;
+		}
+		.item_conter{
+			display: flex;
+			justify-content: space-between;
+			padding: 20rpx 25rpx;
+		}
+		.shop_img{
+			width: 124rpx;
+			height: 124rpx;
+		}
+		.coupon_shop{
+			width: 300rpx;
+			.shop_title{
+				font-size: 28rpx;
+				color: #A2A2A2;
+				margin-bottom: 13rpx;
+				overflow: hidden;
+				text-overflow:ellipsis;
+				white-space: nowrap;
+			}
+			.shop_type{
+				font-size: 24rpx;
+				color: #A2A2A2;
+				margin-bottom: 6rpx;
+			}
+			.coupon_type{
+				padding: 2rpx 10rpx;
+				background-color: #A2A2A2;
+				border-radius: 4rpx;
+				display: inline-block;  
+				font-size: 20rpx;
+				color: #FFFFFF;
+			}
+		}
+		.discounts{
+			.discounts_number{
+				font-size: 30rpx;
+				color: #A2A2A2;
+				margin-top: 23rpx;
+				margin-bottom: 13rpx;
+			}
+			.discounts_amount{
+				font-size: 24rpx;
+				color: #A2A2A2;
+			}
+		}
+		
+	}
+	.state{
+		position: absolute;
+		right: 170rpx;
+		width: 150rpx;
+		height: 138rpx;
+		top: 0;
+	}
+	.verification_time{
+		padding-left: 20rpx;
+		font-size: 24rpx;
+		color: #212121;
+		line-height: 56rpx;
+		border-top: 1rpx solid #EBEBEB;
+	}
+}

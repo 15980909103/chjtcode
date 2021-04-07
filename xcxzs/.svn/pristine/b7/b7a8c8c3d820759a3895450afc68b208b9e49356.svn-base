@@ -1,0 +1,5 @@
+[2020-11-12T18:43:48+08:00][error] [1]Allowed memory size of 134217728 bytes exhausted (tried to allocate 62930944 bytes)[/mnt/e/project/999house_v2/app/admin/controller/IndexController.php:21]
+[2020-11-12T18:43:49+08:00][error] [1]Allowed memory size of 134217728 bytes exhausted (tried to allocate 65028096 bytes)[/mnt/e/project/999house_v2/app/admin/controller/IndexController.php:21]
+[2020-11-12T18:43:54+08:00][error] [1]Allowed memory size of 134217728 bytes exhausted (tried to allocate 65028096 bytes)[/mnt/e/project/999house_v2/app/admin/controller/IndexController.php:21]
+[2020-11-12T18:44:09+08:00][error] [1]Allowed memory size of 134217728 bytes exhausted (tried to allocate 62930944 bytes)[/mnt/e/project/999house_v2/app/admin/controller/IndexController.php:21]
+[2020-11-12T18:44:17+08:00][error] [1]Allowed memory size of 134217728 bytes exhausted (tried to allocate 106971136 bytes)[/mnt/e/project/999house_v2/app/admin/controller/IndexController.php:21]

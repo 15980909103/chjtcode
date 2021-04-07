@@ -1,0 +1,83 @@
+<template>
+	<view style="background-color: #F5F5F5;" class="content">
+		<view class="discount_box">
+			<view class="discount_conter">
+				<picker class="shop_selet" @change="bindPickerChange" :value="index" :range="array">
+					<view class="uni-input">{{array[index]}}</view>
+				</picker>
+				<view class="coupon_name">厦门地产情报站联合新华都超市满减活动</view>
+				<view class="coupon_number">满90减20</view>
+				<view class="qrcode">
+					<image src="../../static/activity.png"></image>
+				</view>
+				<u-cell-group style="padding: 0 35rpx;">
+					<u-cell-item icon="clock" :arrow="false" title="有效期：2020年4月10-2020年8"></u-cell-item>
+					<u-cell-item icon="error-circle-fill" :arrow="false" title="单次微信用户活动期间内限参与1次"></u-cell-item>
+					<u-cell-item title="活动咨询" :arrow="true"></u-cell-item>
+				</u-cell-group>
+				<view class="advertising">
+					<image src="../../static/activity/explain.png"></image>
+				</view>
+			</view>
+			<view class="rule">
+				<view class="rule_title">活动规则</view>
+				<view class="rule_item">
+					<span>1、活动时间：</span>
+					3月1日-3月31日
+				</view>
+				<view class="rule_item">
+					<span>2、优惠时间：</span>
+					3月1日-3月31日
+				</view>
+				<view class="rule_item">
+					<span>3、活动对象：</span>
+					新华都消费的顾客（具体以店
+				</view>
+				<view class="rule_item">
+					<span>4、活动范围：</span>
+					新华都前埔门店、集美门店、
+				</view>
+				<view class="rule_item">
+					<span>5、活动内容：</span>
+					关注厦门地产情报站的新用户
+				</view><view class="rule_item">
+					<span>6、活动期间：</span>
+					超市总优惠名额20000个，此活动，同一用户，同一微信号，每人仅限一次机会，每人活动名额有限，先到先得，送完为止。所有参加此次粉丝节主题活动的商户优惠次数、优惠名额共享
+				</view>
+				<view class="rule_item">
+					<span>7、优惠失效：</span>
+					享受优惠的交易如发生退款、撤销，则视为放弃优惠，退款金额扣除享受优惠的金额后退回至用户原支付账号；
+				</view>
+				<view class="rule_item">
+					<span>8、</span>
+					用户不允许拆单，在收银台排队一次仅可进行一次支付
+				</view>
+				<view class="qrcode_box">
+					<image src="../../static/activity.png"></image>
+					<view class="qrcode_p">厦门地产情报站</view>
+				</view>
+			</view>
+		</view>
+	</view>
+</template>
+
+<script>
+	export default {
+		data() {
+			return {
+				array: ['前埔','前埔2','前埔3','前埔4','前埔5'],
+				index: 0,
+			};
+		},
+		methods:{
+			bindPickerChange: function(e) {
+				console.log('picker发送选择改变，携带值为', e.target.value)
+				this.index = e.target.value
+			},
+		}
+	}
+</script>
+
+<style lang="scss"> 
+	@import './activityDetails.scss';
+</style>

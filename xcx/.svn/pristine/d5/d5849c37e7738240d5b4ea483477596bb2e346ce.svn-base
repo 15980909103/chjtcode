@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>带看申请</title>
+    <link rel="stylesheet" type="text/css" href="../../static/css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/mui/css/mui.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/css/customer/take_apply.css" />
+    <script type="text/javascript" src="../../static/js/jquery-2.0.0.min.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.min.js" ></script>
+    <script type="text/javascript" src="../../static/js/vue.min.js" ></script>
+    <script type="text/javascript" src="../../static/js/vue-tap.js" ></script>
+    <script type="text/javascript" src="../../static/js/qrcode.min.js" ></script>
+    <script type="text/javascript" src="../../static/js/public.js" ></script>
+    <style>
+        .mui-pull-bottom-tips{display: none;}
+        #qrcode img{
+            margin: 10px auto;
+        }
+    </style>
+</head>
+<body>
+<div id="app" class="my-content">
+    <div id="my-div1">
+        <div class="div1-title">
+           <div class="div1-t-li">
+               <div class="my-title">带看单号：</div>
+               <div class="my-neirong" v-cloak>{{reportedInfo.order_no}}</div>
+           </div>
+            <div class="div1-t-li">
+                <div class="my-title">带看时间：</div>
+                <div class="my-neirong" v-cloak>{{reportedInfo.take_time}}</div>
+            </div>
+            <div class="div1-t-li">
+                <div class="my-title">楼&emsp;&emsp;盘：</div>
+                <div class="my-neirong" v-cloak>{{reportedInfo.building_name}}</div>
+            </div>
+            <div class="div1-t-li">
+                <div class="my-title">客&emsp;&emsp;户：</div>
+                <div class="my-neirong" v-cloak>{{reportedInfo.user_name}} {{reportedInfo.user_phone}}</div>
+            </div>
+            <div class="div1-t-li">
+                <div class="my-title">申请状态：</div>
+                <div class="my-neirong2" v-cloak>{{reportedInfo.status_type_name}}</div>
+            </div>
+        </div>
+        <div class="div1-content">
+            <div class="div1-tishi">提示：带看申请单当日有效，请及时联系客户经理确认</div>
+            <div id="qrcode" v-cloak></div>
+            <div class="my-ts">带客户到达后</div>
+            <div class="my-ts">出示二维码给客户经理扫描确认</div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    var pullToRefresh=null;
+    new Vue({
+        el: '#app',
+        data: {
+            reportedInfo:{} //带看信息
+        },
+        mounted: function () {
+        this.$nextTick(function () {
+            var _this=this;
+            var reported_id = getQueryString('reported_id')
+            ajax('agentAjax/getTakeApply',{
+                reported_id
+            }, function(res) {
+                if(res.success){
+                    _this.reportedInfo = res.data;
+                    new QRCode("qrcode", {
+                        text: DOMAINNAME+"agentside/examine_reported.html?reported_id="+reported_id,
+                        width: 160,
+                        height: 160,
+                        colorDark : "#000000",
+                        colorLight : "#ffffff",
+                    });
+                }else{
+                    mui.toast(res.message);
+                }
+            });
+        })
+        },
+        methods:{
+
+        }
+    })
+</script>

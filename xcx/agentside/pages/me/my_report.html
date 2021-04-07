@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>我的报备</title>
+    <!-- <link rel="stylesheet" type="text/css" href="../../static/css/aui.css" /> -->
+    <link rel="stylesheet" type="text/css" href="../../static/mui/css/mui.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/css/me/my_report.css" />
+    <script type="text/javascript" src="../../static/js/jquery-2.0.0.min.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.min.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.pullToRefresh.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.pullToRefresh.material.js" ></script>
+    <script type="text/javascript" src="../../static/js/vue.min.js" ></script>
+    <script type="text/javascript" src="../../static/js/vue-tap.js" ></script>
+    <script type="text/javascript" src="../../static/js/public.js?v=2" ></script>
+    <style>.mui-pull-bottom-tips{display: none;}</style>
+</head>
+<body>
+<div id="app" class="my-content">
+    <div style="overflow: hidden;width: 100vw;height:1px;"></div>
+    <div class="my-search">
+        <div class="mui-input-row mui-search ">
+            <input type="search" class="mui-input-clear" placeholder="请输入客户名字" v-model="searchText" v-on:keyup.enter="onSearch">
+        </div>
+    </div>
+
+    <div id="my-sort">
+        <div class="sort_box">
+            <div class="sort-li" :class="[sortList[0].is_show?'my-tick':'']" v-tap="{methods:onSortBtn,index:0,status_type:0}" v-cloak>{{sortList[0].text}}</div>
+            <div class="sort-li" :class="[sortList[1].is_show?'my-tick':'']" v-tap="{methods:onSortBtn,index:1,status_type:1}" v-cloak>{{sortList[1].text}}</div>
+            <div class="sort-li" :class="[sortList[2].is_show?'my-tick':'']" v-tap="{methods:onSortBtn,index:2,status_type:2}" v-cloak>{{sortList[2].text}}</div>
+            <div class="sort-li" :class="[sortList[3].is_show?'my-tick':'']" v-tap="{methods:onSortBtn,index:3,status_type:3}" v-cloak>{{sortList[3].text}}</div>
+            <div class="sort-li" :class="[sortList[4].is_show?'my-tick':'']" v-tap="{methods:onSortBtn,index:4,status_type:4}" v-cloak>{{sortList[4].text}}</div>
+            <div class="sort-li" :class="[sortList[5].is_show?'my-tick':'']" v-tap="{methods:onSortBtn,index:5,status_type:5}" v-cloak>{{sortList[5].text}}</div>
+            <div class="sort-li" :class="[sortList[6].is_show?'my-tick':'']" v-tap="{methods:onSortBtn,index:6,status_type:6}" v-cloak>{{sortList[6].text}}</div>
+        </div>
+
+    </div>
+    <div id="my-scroll" class="mui-scroll-wrapper" :class="[is_manager?'manager_content':'']">
+        <div class="mui-scroll">
+            <!-- <div class="my-kh-li" v-for="(item,index) in list" v-tap="{methods:onCustomerDetail,id:item.user_id}"> -->
+            <div class="my-kh-li" v-for="(item,index) in list" v-tap="{methods:onCustomerDetail,id:item.id}">
+                <div class="my-kh1">
+                    <img :src="item.avatarUrl" alt="暂无图片" v-cloak/>
+                </div>
+                <div class="my-kh2">
+                    <div class="my-kh2-1">
+                        <div class="my-kh2-1-title" v-cloak>{{item.user_name}}</div>
+                        <div class="my-kh2-1-tag" :class="[item.status_type_class]" v-if="item.status_type>0" v-cloak>{{item.status_type_name}}</div>
+                    </div>
+                    <div class="my-kh2-2"><span class="my-kh2-2-1" v-cloak>报备：{{item.create_time}}</span></div>
+                </div>
+                <div class="my-kh3">
+                    <div class="my-kh3-1" v-if="item.status_type=='1'">未带看</div>
+                    <div class="my-kh3-2" v-cloak>带看预定：{{item.take_time}}</div>
+                </div>
+            </div>
+            <div class="empty" v-if="show" style="width:100%;min-height: 20vh;">
+                <img src="../../static/image/empty.png" alt="">
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    var page=1;
+    var parameter={};
+    new Vue({
+        el: '#app',
+        data: {
+            searchText:"",  //搜索内容
+            is_manager:true,    //是否店长
+            pullToRefresh:null,
+            sortList: [  //排序栏目数据
+                { text: '全部', is_show: true },
+                { text: '报备', is_show: false },
+                { text: '带看', is_show: false },
+                { text: '成交', is_show: false },
+                { text: '确认业绩', is_show: false },
+                { text: '开票', is_show: false },
+                { text: '结佣', is_show: false }
+            ],
+            list:[],
+            show:false
+        },
+        mounted: function () {
+            this.$nextTick(function () {
+                var _this=this;
+                mui.init();
+                mui('#my-scroll').scroll({
+                    scrollY: true, //是否竖向滚动
+                    scrollX: false, //是否横向滚动
+                    startX: 0, //初始化时滚动至x
+                    startY: 0, //初始化时滚动至y
+                    indicators: false, //是否显示滚动条
+                    deceleration:0.0005, //阻尼系数,系数越小滑动越灵敏
+                    bounce: false //是否启用回弹
+                });
+                _this.pullToRefresh=mui(".mui-scroll").pullToRefresh({
+                    up: {
+                        auto: true, //自动执行一次上拉加载，可选；
+                        show: false, //显示底部上拉加载提示信息，可选；
+                        callback:function(){
+                            setTimeout(function(){
+                                _this.pullupRefresh(_this.pullToRefresh);
+                            },300)
+                        }
+                    }
+                });
+                $(".my-baobei").on({
+                    touchmove:function(e){
+                        e.preventDefault();
+                        $(this).css({
+                            "left":e.originalEvent.targetTouches[0].clientX-35,
+                            "top":e.originalEvent.targetTouches[0].clientY-35
+                        });
+                    }
+                });
+            })
+        },
+        methods:{
+            onSearch(){
+                parameter.is_serach=1;
+                parameter.searchText=this.searchText;
+                page=1;
+                this.pullupRefresh(this.pullToRefresh);
+            },
+            pullupRefresh(_self){
+                var _this=this;
+                ajax('agentAjax/getMyCustomerData',Object.assign(parameter,{page:page}),function(res){
+                    if(res.success){
+                        if(res.data&&res.data.data.length>0){
+                            _this.show = false
+                        }else if(!res.data.data||res.data.data.length==0){
+                            _this.show = true
+                        }
+                        if (res.is_serach){
+                            _this.list=res.data;
+                        }else{
+                            _this.list=_this.list.concat(res.data.data);
+                        }
+                        parameter.is_serach=0;
+                        page++;
+                        _self.endPullUpToRefresh();
+                    }else{
+                        _self.endPullUpToRefresh(true);   //内容为空了
+                    }
+                });
+            },
+            //收起所有排序选择
+            onPackUpAll(){
+                var sortList = this.sortList;
+                for (var i in sortList){
+                    sortList[i].is_show=false;
+                }
+                this.sortList=sortList;
+            },
+            onSortBtn(options){
+                var _index = options.index;
+                var sortList = this.sortList;
+                this.onPackUpAll();
+                sortList[_index].is_show = !sortList[_index].is_show;
+                this.sortList=sortList;
+                parameter.is_serach=1;
+                parameter.status_type=options.status_type;
+                page=1;
+                this.pullupRefresh(this.pullToRefresh);
+            },
+            onCustomerDetail(event){    //跳转客户详情
+                setLocation('pages/customer/customer_detail.html?id='+event.id);
+            }
+            // onCustomerDetail(event){    //跳转客户详情
+            //     setLocation('pages/customer/follow.html?id='+event.id);
+            // }
+        }
+    })
+</script>

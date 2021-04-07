@@ -1,0 +1,231 @@
+<?php
+
+
+namespace app\admin\controller;
+use app\common\base\AdminBaseController;
+use app\common\MyConst;
+use app\server\admin\Task;
+use Exception;
+
+class TaskController extends AdminBaseController
+{
+    /**
+     * 数据迁移
+     */
+    public function transferEstates()
+    {
+        $params = $this->request->param();
+
+        if(!empty($params['id'])) {
+            $this->transferEstatesAppoint();
+        } else {
+            $this->transferEstatesAll();
+        }
+    }
+
+    /**
+     * 抓取数据-指定
+     */
+    public function transferEstatesAppoint()
+    {
+        $server = new Task();
+
+        $params = $this->request->param();
+        
+        if(empty($params['id'])) {
+            $this->error('未指定数据');
+        }
+        $ids = $params['id'];
+
+        $paramsEstates = [
+            'where' => [
+                ['id', 'in', $ids],
+                ['sales_status', '<>', '出租'],
+            ],
+            'table' => 'property',
+        ];
+
+        $data = $this->getData($paramsEstates);
+        if(!empty($data)) {
+            $res = $server->transferData($data);
+        }
+
+        $this->success($res);
+    }
+
+    /**
+     *  抓取数据-全部
+     */
+    public function transferEstatesAll()
+    {
+        try {
+            $server = new Task();
+
+            $task = $server->getTaskDispatch([
+                ['name', '=', 'transferEstates'],
+                ['is_finish', '=', '0'],
+            ]);
+            if(empty($task['0'])) {
+                throw new Exception('任务不存在或已结束');
+            }
+            $task = $task['0'];
+            if(!empty($task['is_lock'])) {
+                throw new Exception('任务加锁状态');
+            }
+            $lock = $server->addTaskLock([
+                ['id', '=', $task['id']],
+            ], ['is_lock' => 1]);
+            if(empty($lock)) {
+                throw new Exception('任务加锁失败');
+            }
+
+            $offset = !empty($task['last_num']) ? (int)$task['last_num'] : 0;
+            $limit = 100;
+            $paramsEstates = [
+                'where' => [
+                    ['sales_status', '<>', '出租'],
+                ],
+                'table' => 'property',
+                'offset' => $offset,
+                'limit' => $limit,
+            ];
+
+            $data = $this->getData($paramsEstates);
+            $last = 0;
+            if(!empty($data)) {
+                $res = $server->transferData($data);
+
+                $last = $offset + $res;
+            }
+
+            // 解锁
+            $lock = $server->addTaskLock([
+                ['id', '=', $task['id']],
+            ], ['is_lock' => 0, 'last_num' => $last]);
+            if(!$lock) {
+                throw new Exception('任务解锁失败');
+            }
+
+        } catch(Exception $e) {
+            $this->error($e->getMessage());
+        }
+
+        $this->success();
+    }
+
+    /**
+     * 旧库楼盘数据
+     */
+    protected function getData($params)
+    {
+        $server = new Task();
+
+        $data = [];
+
+        $estates = $server->getOldData($params);// 楼盘
+        if(!empty($estates)) {
+            $housesList = [];
+            $picList = [];
+            $priceList = [];
+
+            $oldIds = array_column($estates, 'id');
+            if(!empty($oldIds)) {
+                // 户型
+                $paramsHouses = [
+                    'table' => 'layout',
+                    'where' => [
+                        ['property_id', 'in', $oldIds],
+                    ],
+                ];
+                $houses = $server->getOldData($paramsHouses);
+                if(!empty($houses)) {
+                    foreach($houses as $h) {
+                        $housesList[$h['property_id']][] = $h;
+                    }
+                }
+                // 图片
+                $paramsPic = [
+                    'table' => 'pic',
+                    'where' => [
+                        ['property_id', 'in', $oldIds],
+                    ],
+                ];
+                $pic = $server->getOldData($paramsPic);
+                if(!empty($pic)) {
+                    foreach($pic as $p) {
+                        $picList[$p['property_id']][] = $p;
+                    }
+                }
+                // 价格历史
+                $paramsPrice = [
+                    'table' => 'price',
+                    'where' => [
+                        ['property_id', 'in', $oldIds],
+                    ],
+                ];
+                $price = $server->getOldData($paramsPrice);
+                if(!empty($price)) {
+                    foreach($price as $r) {
+                        $priceList[$r['property_id']][] = $r;
+                    }
+                }
+            }
+
+            $data = [
+                'estates' => $estates,
+                'houses' => $housesList,
+                'pic' => $picList,
+                'price' => $priceList,
+            ];
+        }
+
+        return $data;
+    }
+
+    /**
+     * 九房1.0触发
+     */
+    public function triggerData()
+    {
+        $redis = $this->getReids();
+        try {
+            $params = $this->request->param();
+
+            // $redis->set('test', json_encode($params, JSON_UNESCAPED_UNICODE));
+
+            if(empty($params['table'])) {
+                throw new Exception('类型缺失-10002');
+            }
+            if(empty($params['action'])) {
+                throw new Exception('方法缺失-10003');
+            }
+            $type = $params['table'];
+            $action = $params['action'];
+            if(in_array($action, ['add', 'update'])) {
+                if(empty($params['data'])) {
+                    throw new Exception('数据缺失-10012');
+                }
+            }
+            $data = $params['data'] ?? [];
+            
+            $server = new Task();
+
+            if('estate' == $type) {
+                $server->triggerEstate($data, $action);
+            } elseif('pic' == $type) {
+                $server->triggerPic($data, $action, $type);
+            } else {
+                $server->triggerOther($data, $action, $type);
+            }
+        } catch(Exception $e) {
+            $key = 'estates:task:errlog';
+            $log = [
+                'msg' => $e->getMessage(),
+                'data' => $params,
+                'time' => date('Y-m-d H:i:s'),
+            ];
+            $redis->sAdd($key, json_encode($log, JSON_UNESCAPED_UNICODE));
+        }
+    }
+
+}

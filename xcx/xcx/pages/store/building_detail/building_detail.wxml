@@ -1,0 +1,38 @@
+<van-tabs id="my-van-tabs" swipe-threshold="4" animated swipeable>
+  <block wx:for="{{unitInfo}}" wx:key="index">
+    <van-tab title="{{item.title}}">
+      <view class="tabs-content">
+        <view class='tabs-view1'>
+          <view>{{item.title}}</view>
+          <view>楼层：<text>{{item.floor_number}}层</text></view>
+          <view>梯户比：<text>{{item.stairs_number}}户</text></view>
+        </view>
+        <scroll-view class='my-scroll' scroll-y>
+          <view class='view5-li' wx:for="{{item.data}}" wx:key="idx" wx:for-index="idx" wx:for-item="val" data-id="{{val.id}}" bindtap='onModelDetail'>
+            <view class='view5-content1'>
+              <image src='{{domain_name+val.pic}}'></image>
+            </view>
+            <view class='view5-content2'>
+              <view class='view5-col1'>
+                <view class='view5-row1'>{{val.title}}</view>
+                <view class='view5-row2'>{{val.sales_status}}</view>
+                <view class='view5-row3'>{{val.house_type}}</view>
+              </view>
+              <view class='view5-col2'>建面{{val.construction_area}}m²朝向{{val.orientation}}</view>
+              <view class='view5-col3'>约{{val.price_total}}</view>
+            </view>
+          </view>
+        </scroll-view>
+      </view>
+    </van-tab>
+  </block>
+</van-tabs>
+<view id="my-footer">
+  <view class='f-img'><image src='{{agentInfo.headimgurl}}'></image></view>
+  <view class='f-name'>
+    <view class='f-name-1 van-ellipsis'>{{agentInfo.name}}</view>
+    <view class='f-name-2 van-ellipsis'>{{agentInfo.storename}}</view>
+  </view>
+  <view class='f-btn1' bindtap='onCall'>电话联系</view>
+  <view class='f-btn2'>微聊</view>
+</view>

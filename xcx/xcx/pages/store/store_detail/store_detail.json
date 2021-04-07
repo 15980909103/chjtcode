@@ -1,0 +1,11 @@
+{
+  "usingComponents": {
+    "van-icon": "/dist/icon/index",
+    "van-popup": "/dist/popup/index"
+  },
+  "navigationBarTitleText": "",
+  "navigationBarBackgroundColor":"#e73602",
+  "backgroundColorTop": "#e73602",
+  "backgroundColorBottom":"#ffffff",
+  "navigationBarTextStyle":"white"
+}

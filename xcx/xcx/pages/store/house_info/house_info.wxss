@@ -1,0 +1,42 @@
+.van-tabs--line .van-tabs__wrap{height: 7vh !important;}
+.van-tabs--line{padding-top: 7vh !important;}
+.van-tab{line-height: 7vh !important;}
+.van-tab--active{color: #D12527 !important;}
+.van-tabs__wrap{position: fixed !important;}
+
+.van-tabs--line  .van-tab{font-size: 32rpx!important;}
+
+#my-van-tabs{width: 100vw;}
+#my-basis{width: 100vw;height: 93vh;}
+.basis-content{width: 90vw;padding: 0 5vw;margin-bottom: 8vh;}
+.basis-li{min-height: 7vh;display: flex;align-items:center;border-bottom: 1px solid #eee;}
+.basis-li1{width: 20vw;font-size: 3.6vw;color: #999;}
+.basis-li2{width: 70vw;font-size: 3.8vw;}
+.basis-litwo{font-size: 3.6vw;color: #999;height: 7vh;display: flex;align-items:center;border-bottom: 1px solid #eee;}
+.basis-litwo view{width: 30vw;}
+.basis-litwo view:nth-child(1){text-align: left;}
+.basis-litwo view:nth-child(2){text-align: center;}
+.basis-litwo view:nth-child(3){text-align: right;}
+.basis-litwo2{font-size: 3.8vw;display: flex;align-items:flex-start;padding: 2vh 0 2vh;}
+.basis-litwo2 view{width: 30vw;word-break:break-all;}
+.basis-litwo2 view:nth-child(2){text-align: center;}
+.basis-booter{width: 90vw;height: 6vh;padding: 1vh 5vw;background-color: #F8F8FA;position: fixed;bottom: 0;display: flex;color: #D1D4D8;font-size: 3vw;z-index: 9999;}
+.basis-booter image{width: 5vw;height: 5vw;}
+.basis-booter view{width: 85vw;}
+.basis-booter text{font-size: 3.5vw;color: #5A83A8;}
+#my-map{width: 100vw;height: 93vh;}
+#my-map-map{width: 100vw;height: 93vh;}
+.my-floating{width: 100vw;position: fixed;left: 0;bottom: 0;padding-top: 7vw;}
+.float-top{width: 90vw;height: 8vh;padding: 1vh 5vw;background-color: #FFF;color: #999;display: flex;justify-content:space-between;border-radius: 2vw 1vw 0 0;position: relative;}
+.view6-nav-li{font-size: 3.4vw;display: flex;flex-direction:column;justify-content:center;align-items:center;}
+.view6-nav-li cover-image{width: 4.5vh;height: 4.5vh;}
+.my-tick{color:#D33032;}
+.float-img{width: 6vw;height: 6vw;position: absolute;top: 0;left: 47vw;}
+.float-content{width: 100vw;background-color: #FFF;}
+.view6-list{width: 90vw;padding: 1vh 5vw;}
+.view6-list-li{display: flex;justify-content:space-between;align-items:stretch;padding: .5vh 0;}
+.view6-li-1{width: 70vw;font-size: 4.5vw;}
+.view6-li-2{width: 20vw;font-size: 3.5vw;line-height: 4.5vw;color: #999;display: flex;justify-content:flex-end;align-items:center;}
+.view6-li-2 cover-image{width: 5vw;height: 5vw;}
+.float-c-lists{height: 50vh;overflow-y: scroll;border-bottom: 1px solid #eee;border-top: 1px solid #eee;padding: 1vh 0;}
+.float-btn{width: 100vw;height: 8vh;line-height: 8vh;text-align: center;font-size: 4.5vw;}

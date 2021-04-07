@@ -1,0 +1,9 @@
+{
+  "navigationBarTitleText": "分享预览",
+  "usingComponents": {
+    "mp-html": "/components/mp-html/mp-html",
+    "u-popup": "/uview-ui/components/u-popup/u-popup",
+    "u-loading": "/uview-ui/components/u-loading/u-loading",
+    "l-painter": "/components/lime-painter/index"
+  }
+}

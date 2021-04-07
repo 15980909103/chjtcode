@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>腾讯地图-简单地图示例</title>
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <script charset="utf-8" src="https://map.qq.com/api/js?v=2.exp&key=OLCBZ-VNYKX-CXL47-ZL3C5-AP46T-MQFNS"></script>
+    <style type="text/css">
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            width: 714px;
+            margin: 0 auto;
+            height: 500px;
+            position: relative;
+        }
+
+        #container {
+            width: 100%;
+            margin: 0 auto;
+            height: 100%;
+        }
+
+        #savePath {
+            position: absolute;
+            z-index: 99;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            background: #fff;
+            height: 44px;
+            text-align: center;
+            line-height: 42px;
+            color: #333;
+            font-size: 16px;
+            font-weight: bold;
+            border: solid 1px #e1e1e1;
+            box-sizing: border-box;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="container"></div>
+    <script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript">
+        var path = [];
+        // $(function(){
+            var url_path = decodeURIComponent(getQueryVariable('json_path'));
+            var path_arr = JSON.parse(url_path);
+            for(var i in path_arr){
+                var obj = new qq.maps.LatLng(path_arr[i].lat, path_arr[i].lng);
+                path.push(obj)
+            }
+        // })
+        var map = new qq.maps.Map(document.getElementById("container"), {
+            // 地图的中心地理坐标。
+            center: new qq.maps.LatLng(24.446134, 118.068910),
+            zoom: 14
+        });
+        var polygon = new qq.maps.Polyline({
+            map: map,
+            path: path,
+            strokeColor: '#ff0000',
+            strokeDashStyle: 'dash',
+            strokeWeight: 3,
+            editable: true
+        });
+        function getQueryVariable(variable)
+        {
+            var query = window.location.search.substring(1);
+            var vars = query.split("&");
+            for (var i=0;i<vars.length;i++) {
+                    var pair = vars[i].split("=");
+                    if(pair[0] == variable){return pair[1];}
+            }
+            return(false);
+        }
+    </script>
+</body>
+
+</html>

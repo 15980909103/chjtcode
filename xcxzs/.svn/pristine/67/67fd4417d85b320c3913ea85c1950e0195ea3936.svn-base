@@ -1,0 +1,5 @@
+[2021-02-05T08:42:15+08:00][error] [10501]SQLSTATE[42S22]: Column not found: 1054 Unknown column 'xa.examine_said' in 'field list'[/mnt/e/project/9house_test/fenxiao_v2/vendor/topthink/think-orm/src/db/PDOConnection.php:722]
+[2021-02-05T08:42:31+08:00][error] [10501]SQLSTATE[42S22]: Column not found: 1054 Unknown column 'xa.examine_said' in 'field list'[/mnt/e/project/9house_test/fenxiao_v2/vendor/topthink/think-orm/src/db/PDOConnection.php:722]
+[2021-02-05T09:38:39+08:00][error] [10501]SQLSTATE[42S02]: Base table or view not found: 1146 Table 'youxi.9h_reported_log' doesn't exist[/mnt/e/project/9house_test/fenxiao_v2/vendor/topthink/think-orm/src/db/PDOConnection.php:722]
+[2021-02-05T09:38:54+08:00][error] [10501]SQLSTATE[42S02]: Base table or view not found: 1146 Table 'youxi.9h_reported_log' doesn't exist[/mnt/e/project/9house_test/fenxiao_v2/vendor/topthink/think-orm/src/db/PDOConnection.php:722]
+[2021-02-05T09:40:05+08:00][error] [10501]SQLSTATE[42S02]: Base table or view not found: 1146 Table 'youxi.9h_reported_log' doesn't exist[/mnt/e/project/9house_test/fenxiao_v2/vendor/topthink/think-orm/src/db/PDOConnection.php:722]

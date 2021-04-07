@@ -1,0 +1,198 @@
+.ad_top{
+	width: 100%;
+	height: 3.2rem;
+}
+
+.tabs{
+	display: flex;
+	justify-content: center;
+	margin-top: 0.14rem;
+}
+
+.van-tabs__nav{
+	width: 6.08rem;
+	height: 0.94rem;
+}
+
+.van-tabs__wrap{
+	display: flex;
+	justify-content: center;
+}
+
+.van-tab{
+	font-size: 0.3rem;
+	color: rgba(255, 255, 255, .5);
+}
+
+.van-tab--active{
+	font-size: 0.34rem;
+	font-weight: bold;
+}
+
+.van-tabs__line{
+	width: 0.24rem;
+	bottom: 20px;
+} 
+.tabs .van-tabs__wrap{
+	border-bottom: none;
+	display: none;
+}
+
+.live-box{
+	width: 6.86rem;
+	height: 2.89rem;
+	background-color: #fff;
+	border-radius: 0.04rem;
+}
+
+.live-swipe{
+	height: 100%;
+	font-size: 0.26rem;
+}
+
+.van-tabs__content{
+	margin-top: 0.24rem;
+}
+
+.live-swipe-wrap{
+	display: flex;
+	justify-content: center;
+	
+}
+
+.live-swipe-item{
+	width: 3.06rem;
+	height: 2.2rem;
+	background-repeat: no-repeat;
+	background-size: 100% 100%;
+	margin-top: 0.2rem;
+	position: relative;
+}
+
+.live-swipe-item:nth-child(2){
+	margin-left: 0.34rem;
+}
+
+.live-swipe-title{
+	width: 100%;
+	box-sizing: border-box;
+	padding: 0.04rem 0.16rem;
+	background: rgba(0,0,0,.4);
+	color: #fff;
+	position: absolute;
+	bottom: 0;
+}
+
+.van-swipe__indicators{
+	bottom: 8px;
+}
+
+.van-swipe__indicator{
+	background-color: rgba(254, 114, 71, 1) !important;
+	opacity: .9;
+}
+
+.van-swipe__indicator--active{
+	width: 0.24rem;
+	border-radius: 0.05rem;
+	opacity: 1;
+}
+
+.live-swipe-tip{
+	font-size: 0.24rem;
+	height: 0.33rem;
+	border-radius: 0.04rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: absolute;
+	top: 0.16rem;
+	left: 0.16rem;
+	color: #fff;
+}
+
+.live-swipe-tip1{
+	width: 1.2rem;
+	background: #ED3335;
+	overflow: hidden;
+}
+
+.live-swipe-tip1 img{
+	width: 0.26rem;
+	height: 0.26rem;
+}
+
+.live-swipe-tip1 span{
+	margin-left: 0.08rem;
+	line-height: 0.1rem;
+}
+
+.live-swipe-tip2{
+	background-color: rgba(0, 0, 0, .4);
+}
+
+.live-swipe-tip2-title{
+	width: 1.04rem;
+	background-color: rgba(40, 94, 228, 1);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.live-swipe-tip2-title .iconfont{
+	margin: 0.04rem 0.08rem 0 0;
+	font-size: 0.22rem;
+}
+
+.live-swipe-tip2-time{
+	padding: 0 0.1rem;
+}
+
+.list-box{
+	width: 6.86rem;
+	margin: 0.3rem auto;
+	background-color: #fff;
+	
+}
+
+.list-tip{
+	width: 100%;
+	padding: 0.4rem 0 0.2rem;
+	display: flex;
+	overflow-x: scroll;
+	-webkit-overflow-scrolling: touch;
+}
+
+.list-tip-item{
+	width: 1.5rem;
+	height: 0.54rem;
+	margin-left: 0.26rem;
+	
+}
+
+.list-tip-item div{
+	width: 1.5rem;
+	height: 0.54rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: rgba(245, 248, 254, 1);
+	border-radius: 0.02rem;
+	box-sizing: border-box;
+}
+
+.list-tip-item:last-child{
+	padding-right: 0.26rem;
+}
+
+.tip-active{
+	background-color: rgba(255, 238, 224, 1) !important;
+	color: rgba(254, 130, 30, 1);
+	border: 1px solid #FE821E;
+}
+
+.list-end-tips{
+	text-align: center;
+	color: #ADADAD;
+	padding: 0.45rem;
+}

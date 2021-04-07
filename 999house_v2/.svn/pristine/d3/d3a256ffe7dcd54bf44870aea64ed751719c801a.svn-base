@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>沙盘图</title>
+		<link rel="stylesheet" href="../../common/vant/index.css"/>
+		<link rel="stylesheet" href="../../common/css/public.css"/>
+		<style>
+			.swipe-item{
+				width: 100%;
+				height: 4.2rem;
+			}
+			
+			.swipe-item img{
+				width: 100%;
+				height: 100%;
+			}
+			
+			.custom-indicator{
+				position: absolute;
+				left: 50%;
+				bottom: 0.21rem;
+				color: #fff;
+				font-size: 0.2rem;
+				display: flex;
+				transform: translate(-50%,0);
+			}
+			
+			.custom-indicator div{
+				padding: 0.08rem 0.27rem;
+				background-color: rgba(0, 0, 0, .5);
+				border-radius: 0.19rem;
+			}
+			
+			.custom-indicator div:nth-child(2){
+				margin: 0 0.28rem;
+			}
+			
+			.wrap{
+				padding: 0.26rem 0.32rem 0.68rem;
+				box-sizing: border-box;
+			}
+			
+			.info-title{
+				font-size: 0.34rem;
+				margin-bottom: 0.2rem;
+			}
+			
+			.info-box{
+				font-size: 0.3rem;
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: space-between;
+			}
+			
+			.info-content{
+				width: 36%;
+				padding: 0.14rem 0;
+			}
+			
+			.info-content span{
+				margin-right: .2rem;
+				color: rgba(117, 117, 117, 1);
+			}
+			
+			.info-line{
+				margin: .2rem 0;
+				height: .01rem;
+				width: 100%;
+				background-color: rgba(235, 235, 235, 1);
+			}
+			
+			.house-title{
+				font-size: 0.3rem;
+				margin-top: 0.7rem;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<div id="app" v-cloak ref="DOM">
+			<van-tabs class="tabs" v-model="active" sticky>
+				<van-tab v-for="(item,index) in list" :title="item.name" :key="index">
+					
+					<van-swipe @change="onChange" ref="swipe">
+						<van-swipe-item class="swipe-item" v-for="(list,key) in item.list" :key="key">
+							<img :src="list.img">
+						</van-swipe-item>
+						<template #indicator >
+							<div class="custom-indicator">
+								<div 
+									:class="[ swiperActive == key ? 'bg-active' : '' ]"
+									v-for="(list,key) in item.list" 
+									:key="key" 
+									@click="changeSwipe(key)"
+								>
+									{{ list.name }}
+								</div>
+							</div>
+						</template>
+					</van-swipe>
+					
+					
+					<div class="wrap">
+						<div class="info">
+							<h4 class="info-title">
+								{{ item.name }}
+							</h4>
+							<div class="info-box">
+								<template v-for="(list,key) in item.list[swiperActive].house">
+									<div class="info-content" :key="key">
+										<span>{{ list.name }}:</span>{{ list.list }}
+									</div>
+									<div class="info-line" v-if=" key == 1 " />
+								</template>
+								
+							</div>
+						</div>
+						
+						<div class="house">
+							<p class="house-title">
+								{{ item.name }}楼栋户型
+							</p>
+							<houses-template :list="item.list[swiperActive].list"/>
+						</div>
+					</div>
+				</van-tab>
+			</van-tabs>
+			
+		</div>
+	</body>
+</html>
+
+<script src="../../common/js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/rem.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/public.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/vant/index.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+<script>
+	const myComponents = [
+		'../../components/houses/template_house/index'
+	];
+	
+	$api.addComponents(myComponents)
+		.then(()=>{
+			
+			Vue.use(vant.Lazyload);
+			 
+			
+			const app = new Vue({
+				el: '#app',
+				data: {
+					active: 0,
+					swiperActive: 0,
+					list: [
+						{
+							name: '2-2#',
+							list: [
+								{
+									name: '在售',
+									img: '/9house/static/houses/banner1.png',
+									house: [
+										{
+											name: '开盘',
+											list: '暂无'
+										},
+										{
+											name: '交房',
+											list: '2020.10.10'
+										},
+										{
+											name: '单元',
+											list: '2单元'
+										},
+										{
+											name: '层级',
+											list: '20层'
+										},
+										{
+											name: '户数',
+											list: '234户'
+										},
+										{
+											name: '楼型',
+											list: '暂无'
+										}
+									],
+									list: [
+										{
+											img: '/9house/static/logo.png',
+											title: '3室2厅2卫',
+											tip: ['住宅'],
+											area: 120,
+											way: '南',
+											price: 499
+										},
+										{
+											img: '/9house/static/logo.png',
+											title: '3室2厅2卫',
+											tip: ['住宅'],
+											area: 120,
+											way: '南',
+											price: 499
+										},
+										{
+											img: '/9house/static/logo.png',
+											title: '3室2厅2卫',
+											tip: ['住宅'],
+											area: 120,
+											way: '南',
+											price: 499
+										},
+									]
+								},
+								{
+									name: '未开盘',
+									img: '/9house/static/houses/banner2.png',
+									house: [
+										{
+											name: '开盘',
+											list: '暂无2'
+										},
+										{
+											name: '交房',
+											list: '2020.10.10'
+										},
+										{
+											name: '单元',
+											list: '2单元'
+										},
+										{
+											name: '层级',
+											list: '20层'
+										},
+										{
+											name: '户数',
+											list: '234户'
+										},
+										{
+											name: '楼型',
+											list: '暂无'
+										}
+									],
+									list: [
+										{
+											img: '/9house/static/logo.png',
+											title: '3室2厅29卫',
+											tip: ['住宅'],
+											area: 120,
+											way: '南',
+											price: 499
+										},
+										{
+											img: '/9house/static/logo.png',
+											title: '3室2厅2卫',
+											tip: ['住宅'],
+											area: 120,
+											way: '南',
+											price: 499
+										},
+										{
+											img: '/9house/static/logo.png',
+											title: '3室2厅2卫',
+											tip: ['住宅'],
+											area: 120,
+											way: '南',
+											price: 499
+										},
+									]
+								},
+								{
+									name: '售空',
+									img: '/9house/static/houses/banner1.png',
+									house: [
+										{
+											name: '开盘',
+											list: '暂无3'
+										},
+										{
+											name: '交房',
+											list: '2020.10.12'
+										},
+										{
+											name: '单元',
+											list: '2单元'
+										},
+										{
+											name: '层级',
+											list: '20层'
+										},
+										{
+											name: '户数',
+											list: '234户'
+										},
+										{
+											name: '楼型',
+											list: '暂无'
+										}
+									],
+									list: [
+										{
+											img: '/9house/static/logo.png',
+											title: '3室2厅2卫',
+											tip: ['住宅'],
+											area: 120,
+											way: '南',
+											price: 499
+										},
+										{
+											img: '/9house/static/logo.png',
+											title: '3室2厅2卫',
+											tip: ['住宅'],
+											area: 120,
+											way: '南',
+											price: 499
+										},
+										{
+											img: '/9house/static/logo.png',
+											title: '3室2厅2卫',
+											tip: ['住宅'],
+											area: 120,
+											way: '南',
+											price: 499
+										},
+									]
+								}
+							],
+						},
+						{
+							name: '2-3#',
+							list: [
+								{
+									name: '在售',
+									img: '/9house/static/houses/banner1.png',
+									house: [
+										{
+											name: '开盘',
+											list: '暂无'
+										},
+										{
+											name: '交房',
+											list: '2020.10.10'
+										},
+										{
+											name: '单元',
+											list: '2单元'
+										},
+										{
+											name: '层级',
+											list: '20层'
+										},
+										{
+											name: '户数',
+											list: '234户'
+										},
+										{
+											name: '楼型',
+											list: '暂无'
+										}
+									],
+									list: [
+										{
+											img: '/9house/static/logo.png',
+											title: '3室2厅2卫',
+											tip: ['住宅'],
+											area: 120,
+											way: '南',
+											price: 499
+										},
+										{
+											img: '/9house/static/logo.png',
+											title: '3室2厅2卫',
+											tip: ['住宅'],
+											area: 120,
+											way: '南',
+											price: 499
+										},
+										{
+											img: '/9house/static/logo.png',
+											title: '3室2厅2卫',
+											tip: ['住宅'],
+											area: 120,
+											way: '南',
+											price: 499
+										},
+									]
+								},
+								{
+									name: '未开盘',
+									img: '/9house/static/houses/banner2.png',
+									house: [
+										{
+											name: '开盘',
+											list: '暂无'
+										},
+										{
+											name: '交房',
+											list: '2020.10.10'
+										},
+										{
+											name: '单元',
+											list: '2单元'
+										},
+										{
+											name: '层级',
+											list: '20层'
+										},
+										{
+											name: '户数',
+											list: '234户'
+										},
+										{
+											name: '楼型',
+											list: '暂无'
+										}
+									],
+									list: [
+										{
+											img: '/9house/static/logo.png',
+											title: '3室2厅2卫',
+											tip: ['住宅'],
+											area: 120,
+											way: '南',
+											price: 499
+										},
+										{
+											img: '/9house/static/logo.png',
+											title: '3室2厅2卫',
+											tip: ['住宅'],
+											area: 120,
+											way: '南',
+											price: 499
+										},
+										{
+											img: '/9house/static/logo.png',
+											title: '3室2厅2卫',
+											tip: ['住宅'],
+											area: 120,
+											way: '南',
+											price: 499
+										},
+									]
+								},
+								{
+									name: '售空',
+									img: '/9house/static/houses/banner1.png',
+									house: [
+										{
+											name: '开盘',
+											list: '暂无'
+										},
+										{
+											name: '交房',
+											list: '2020.10.10'
+										},
+										{
+											name: '单元',
+											list: '2单元'
+										},
+										{
+											name: '层级',
+											list: '20层'
+										},
+										{
+											name: '户数',
+											list: '234户'
+										},
+										{
+											name: '楼型',
+											list: '暂无'
+										}
+									],
+									list: [
+										{
+											img: '/9house/static/logo.png',
+											title: '3室2厅2卫',
+											tip: ['住宅'],
+											area: 120,
+											way: '南',
+											price: 499
+										},
+										{
+											img: '/9house/static/logo.png',
+											title: '3室2厅2卫',
+											tip: ['住宅'],
+											area: 120,
+											way: '南',
+											price: 499
+										},
+										{
+											img: '/9house/static/logo.png',
+											title: '3室2厅2卫',
+											tip: ['住宅'],
+											area: 120,
+											way: '南',
+											price: 499
+										},
+									]
+								}
+							],
+						}
+					]
+				},
+				components: {
+					housesTemplate
+				},
+				created() {
+					
+					// this.$nextTick(()=>{
+					// 	this.$refs.DOM.scrollTo(0,3500)
+					// })
+					
+					
+				},
+				mounted() {
+					
+				},
+				methods:{
+					onChange(e) {
+						this.swiperActive = e;
+					},
+					changeSwipe(e) {
+						// console.log(this.$refs.swipe[0])
+						this.$refs.swipe[0].swipeTo(e);
+					}
+				},
+			})
+			
+		})
+	
+</script>

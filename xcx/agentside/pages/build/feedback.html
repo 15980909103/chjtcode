@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>信息纠错</title>
+    <link rel="stylesheet" type="text/css" href="../../static/css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/mui/css/mui.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../static/css/build/feedback.css" />
+    <script type="text/javascript" src="../../static/js/jquery-2.0.0.min.js" ></script>
+    <script type="text/javascript" src="../../static/mui/js/mui.min.js" ></script>
+    <script type="text/javascript" src="../../static/js/vue.min.js" ></script>
+    <script type="text/javascript" src="../../static/js/vue-tap.js" ></script>
+    <script type="text/javascript" src="../../static/js/public.js?v=2" ></script>
+</head>
+<body>
+<div id="app" class="my-content">
+    <div id='my-feedback'>
+        <div class='my-title'>请选择纠错的问题类型</div>
+        <div class='my-btn-li'>
+            <div class="my-btn" :class="[index==problemIndex?'my-tick':'']" v-for="(item,index) in problemData" v-tap="{methods:onProblem,index:index}">{{item.title}}</div>
+        </div>
+        <div class='my-title2'>问题和建议</div>
+        <div class='my-ta-content'>
+            <textarea class='my-textarea' placeholder="简要描述您要反馈的问题和建议" maxlength="100" v-model="textareaText"></textarea>
+            <div class='my-num'>{{textareaText.length}}/100</div>
+        </div>
+        <div class='my-btn-success' v-tap="{methods:onSave}">保存</div>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    new Vue({
+        el: '#app',
+        data: {
+            textareaText:"",  //文本框内容
+            problemIndex:0, //问题选中索引
+            problemData:[{ title: '基本信息',value:'1'},{ title: '建筑信息',value:'2'},{ title: '物业参数',value:'3'},{ title: '配套信息',value:'4'}]   //问题数据
+        },
+        mounted: function () {
+        this.$nextTick(function () {
+
+        })
+        },
+        methods:{
+            onSave(){
+                var _this=this;
+                var textareaText=_this.textareaText;
+                var matter_type=_this.problemData[_this.problemIndex].value;
+                if(textareaText==""){
+                    mui.toast('请输入意见反馈内容！');
+                    return false;
+                }
+                ajax('buildingAjax/addFeedback',{id:getQueryString('id'),matter_type:matter_type,building_correct_info:textareaText},function(res){
+                    if(res.success){
+                        mui.toast('保存成功！');
+                        _this.problemIndex=0;
+                        _this.textareaText="";
+                    }else{
+                        mui.toast('保存失败！');
+                    }
+                });
+            },
+            onProblem(event){   //问题选择
+                this.problemIndex=event.index;
+            }
+        }
+    })
+</script>

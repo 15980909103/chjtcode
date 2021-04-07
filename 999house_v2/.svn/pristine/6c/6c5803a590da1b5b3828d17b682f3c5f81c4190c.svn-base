@@ -1,0 +1,5 @@
+<!--pages/discover/search.wxml-->
+<view class="container">
+  <web-view src='{{h5Host}}/discover/search.html' />
+</view>
+

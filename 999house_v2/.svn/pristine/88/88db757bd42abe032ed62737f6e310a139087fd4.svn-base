@@ -1,0 +1,24 @@
+#!/usr/bin/env php
+<?php
+namespace think;
+
+// 命令行入口文件
+// 加载基础文件
+require __DIR__ . '/vendor/autoload.php';
+
+// 定义网站入口目录
+if(!defined('WEB_ROOT')){
+    define('WEB_ROOT', __DIR__ . '/public/');
+}
+if(!defined('APP_ROOT')){
+    // 定义根目录
+    define('APP_ROOT', __DIR__ . '/');
+}
+if(!defined('APP_PATH_ROOT')){
+    // 定义应用目录
+    define('APP_PATH_ROOT', APP_ROOT . 'app/');
+}
+//具体应用内时使用app_path()方法
+
+// 应用初始化
+(new App())->console->run();

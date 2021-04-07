@@ -1,0 +1,1 @@
+<block wx:if="{{$root.g0.length>0}}"><view class="content data-v-8cc28202"><text class="title data-v-8cc28202">{{data.title}}</text><view class="text data-v-8cc28202"><rich-text nodes="{{data.contxt}}"></rich-text></view></view></block>

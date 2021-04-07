@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+		<title>楼盘详情</title>
+		<link rel="stylesheet" href="../../common/vant/index.css?v=1.19" />
+		<link rel="stylesheet" href="../../common/css/public.css?v=1.19" />
+		<link rel="stylesheet" href="../../static/css/houses/index.css?v=1.19"/>
+	</head>
+	<body>
+		<div id="app" v-cloak ref="DOM" :style="{ overflowY: overflowY }">
+			<!--  -->
+			<top-bar title="楼盘详情"></top-bar>
+			<div v-if="pageShow">
+				<div v-if="infoList.name">
+					<!-- 封面 -->
+					<houses-surface :show="visible" :list="surfaceList" @hide="surfaceHide"></houses-surface>
+					<!-- banner -->
+					<div class="banner-wrap">
+						<div class="banner">
+							<template v-for="(item,key) in bannerList">
+								<template v-if="item.name == 'VR'">
+									<div class="banner-item" :key="key" v-show="bannerActive == key">
+										<img v-lazy="item.list[0]">
+
+										<img src="../../static/houses/vr.png" class="vr-logo">
+									</div>
+								</template>
+								<template v-else-if="item.name == '视频'">
+									<div class="banner-item" :key="key" v-show="bannerActive == key">
+										<img v-lazy="item.img">
+									</div>
+								</template>
+								<template v-else-if="item.name == '图片'">
+									<div class="banner-item" :key="key" v-show="bannerActive == key">
+										<van-swipe class="banner-swipe" :autoplay="3000" :show-indicators="false" @change="swipeChange">
+											<van-swipe-item v-for="(image, index) in item.list" :key="index" @click.stop="bannerMore">
+												<img v-lazy="image" />
+											</van-swipe-item>
+										</van-swipe>
+
+										<span class="banner-swipe-point">
+											{{swipeActive}}/{{item.list.length}}
+										</span>
+									</div>
+								</template>
+							</template>
+
+							<!-- 分享 -->
+							<div class="banner-share" @click="goshare">
+								<img src="../../static/houses/share.png">
+							</div>
+							<!-- 指示器 -->
+							<div class="banner-type">
+								<div v-for="(itme,index) in bannerList" :key="index" @click="bannerChange(index)">
+									<span :class="[ bannerActive == index ? 'bg-active' : '' ]">
+										{{ itme.name }}
+									</span>
+								</div>
+							</div>
+						</div>
+
+						<div class="apply" v-show="haveApply">
+							<div class="nav-apply" @click="goApply">
+								<div class="nav-apply-title van-ellipsis">
+									{{ applyList.title }}
+								</div>
+								<div class="nav-apply-box">
+									<div class="nav-apply-left">
+										<span class="nav-apply-tip">
+											{{ applyList.tip }}
+										</span>
+										<div>
+											<span class="nav-apply-day">
+												距离结束剩余{{ applyList.day }}天
+											</span>
+											<span class="nav-apply-people">
+												{{ applyList.people }}人已报名
+											</span>
+										</div>
+									</div>
+									<div class="nav-apply-btn">
+										<van-button type="default" round color="linear-gradient(90deg, #FFA640 0%, #FE8D35 100%)" @click.stop="applyShow">
+											立即报名
+										</van-button>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<!-- <div class="vr">
+							<div class="vr-wrap">
+								<span class="vr-title">
+									<span>VR带看</span>
+									<span>足不出户</span>
+									<span>专人带看</span>
+								</span>
+								<div class="vr-btn">
+									<van-button color="rgba(254, 130, 30, 1)" @click="vrVisit">在线带看</van-button>
+								</div>
+							</div>
+						</div> -->
+					</div>
+
+					<!-- info -->
+					<div class="info">
+						<div class="info-item info-title-wrap">
+							<span class="info-title">
+								{{ infoList.name }}
+							</span>
+							<span class="info-count" @click="loanCalc">
+								房贷计算器<span class="iconfont iconjisuanqi"></span>
+							</span>
+						</div>
+						<div class="info-item info-price-wrap">
+							<div class="info-price">均价：<span v-if="infoList.price">{{ infoList.price }}元/平</span><span v-else>价格待定</span></div>
+						</div>
+						<div class="info-remark" v-if="infoList.remark">
+							<template v-for="(tag,tagKey) in infoList.remark">
+								<van-tag v-if="limit_remark_num>=tagKey" :key="tagKey" type="primary" size="medium" color="rgba(246, 246, 246, 1)"
+								text-color="rgba(173, 173, 173, 1)">
+									{{ tag }}
+								</van-tag>
+							</template>
+							<div class="arrow-box" v-if="arrow_show==1">
+								<van-icon  @click='changeArrowShow(2)' name="arrow-down" />
+							</div>
+							<div class="arrow-box" v-if="arrow_show==2">
+								<van-icon class="arrow-box" @click='changeArrowShow(1)' name="arrow-up" />
+							</div>
+						</div>
+						<div class="info-item">
+							<div class="info-detile">
+								开盘：<span>{{ infoList.buyTime }}</span>
+							</div>
+							<div class="info-detile">
+								用途：<span>{{ infoList.use }}</span>
+							</div>
+						</div>
+						<div class="info-item info-area-wrap">
+							<div class="info-detile">
+								户型：<span v-if="infoList.houseType">{{ infoList.houseType }}</span><span v-else>暂无数据</span>
+							</div>
+							<div class="info-detile" >
+								建面：<span v-if="infoList.area">{{ infoList.area }}m²</span><span v-else>暂无数据</span>
+							</div>
+						</div>
+						<div class="info-item info-site-wrap">
+							<span class="info-site van-ellipsis">楼盘地址：<span class="van-ellipsis" @click="goMap">{{ infoList.site }}</span></span>
+							<!-- <span class="iconfont iconjiantou1-copy"></span> -->
+						</div>
+						<div class="info-btn">
+							<van-button type="default" color="rgba(246, 246, 246, 1)" @click="moreInfo">更多房源信息</van-button>
+						</div>
+					</div>
+
+					<!-- cut-line -->
+					<div class="cut-line"></div>
+
+					<!-- nav -->
+					<div class="nav">
+						<van-tabs v-model="active" scrollspy sticky ref="nav">
+							<van-tab v-for="(item,index) in navList" :title="item.name" :key="index">
+								<div :class="[ (item.id == 1 || item.id == 6 || item.id == 9 ) ? 'nav-item-new' : 'nav-item' ]">
+						
+									<div class="nav-title">
+										<span>{{item.title}}</span>
+										<div v-if="item.id == 1 || item.id == 4 || item.id == 5 || item.id == 7 || item.id == 8" @click="lookMore(item.id)">
+											{{ item.id == 1 ? '全部户型' : '查看全部' }}
+											<div class="iconfont iconjiantou1-copy"></div>
+										</div>
+									</div>
+						
+									<template v-if="item.id == 0">
+										<template v-for="(sale,key) in item.sale">
+						
+											<div class="nav-sale" :key="key" :style="{backgroundImage: 'url(../../static/houses/sale.png)'}" @click="showSale(key)">
+												<div class="nav-sale-top">
+													<div class="nav-sale-box">
+														<div class="nav-sale-title">
+															<span class="iconfont iconyhui"></span>
+															{{ sale.title }}
+														</div>
+														<div class="nav-sale-name van-ellipsis">
+															{{ sale.content }}
+														</div>
+													</div>
+													<!-- <div class="nav-sale-num">
+														{{ sale.sale }}
+														<span>折</span>
+													</div> -->
+												</div>
+												<div class="nav-sale-bottom">
+													<span>使用时间：{{ sale.start_time }}-{{ sale.end_time }}</span>
+													<span class="iconfont iconjiantou1" :style="{transform: 'rotate('+ (saleShow[key] ? 180 : 0) +'deg)'}">
+													</span>
+												</div>
+											</div>
+											<transition name="van-slide-down">
+												<div class="nav-sale-info" v-show="saleShow[key] && saleShow[key] == true">
+													<span>{{ sale.rule }}</span>
+												</div>
+											</transition>
+										</template>
+									</template>
+									<template v-else-if="item.id == 1">
+						
+										<div class="nav-house" v-if="item.list.length > 0">
+											<div class="nav-house-wrap" v-for="(house,key) in item.list" :key="key">
+												<div class="nav-house-box">
+													<img v-lazy="$http.testUrl(house.img)" @click="$http.showImg(house.img)">
+													<div class="nav-house-title">
+														{{ house.title }}
+														<van-tag color="rgba(246, 247, 248, 1)" v-if="house.tip.length > 0">{{ house.tip }}</van-tag>
+													</div>
+													<div class="nav-house-info">
+														建面{{ house.area }}m² 朝向{{ house.direction }}
+													</div>
+													<div v-if="house.price" class="nav-house-price">
+														约{{ house.price }}万/套
+													</div>
+													<div v-else-if="house.price_ave" class="nav-house-price">
+														{{ house.price_ave }}元/m²
+													</div>
+													<div v-else class="nav-house-price">
+														价格待定
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="no_item" v-else>
+											暂无数据
+										</div>
+									</template>
+									<canvas id="myChart" class="myChart" ref="myChart" v-show="item.id == 2 && haveCharts"></canvas>
+									<div class="no_item" v-if="item.id == 2 && !haveCharts">
+										暂无数据
+									</div>
+									<template v-if="item.id == 3">
+										<Poi-Map :id='houseId' @click.stop></Poi-Map>
+									</template>
+									<template v-else-if="item.id == 4 || item.id == 5">
+						
+										<houses-hot-news :list="item.list" :show-num="3" v-if="item.list.length > 0"></houses-hot-news>
+										<div class="no_item" v-else>
+											暂无数据
+										</div>
+									</template>
+									<template v-else-if="item.id == 6">
+										<span class="margin-top-28"></span>
+										<common-template 
+											:list="item.list" 
+											:title-show="false" 
+											v-if="item.list.length > 0"
+											@del="(e)=>{ $set(navList[index], 'list', e) }"
+										>
+										</common-template>
+										<div class="no_item" v-else>
+											暂无数据
+										</div>
+									</template>
+									<template v-else-if="item.id == 7">
+										<houses-comment v-if="item.list.length > 0" :list="item.list" :show-all="false"></houses-comment>
+										<div class="no_item" v-else>
+											暂无数据
+										</div>
+										<div class="nav-comment-btn">
+											<van-button type="default" color="rgba(246, 246, 246, 1)" @click="goComment">我要点评</van-button>
+										</div>
+									</template>
+									<template v-else-if="item.id == 8">
+										<div class="nav-Sandboxie" v-if='item.list.num'>
+											<img v-lazy="$http.testUrl(item.list.img)">
+											<van-button v-if="item.list.num>0" type="default" color="rgba(246, 246, 246, 1)" @click="goPage('houses/sand.html',{id: houseId})">查看{{ item.list.num }}个楼栋信息</van-button>
+										</div>
+										<div class="no_item" v-else>
+											暂无数据
+										</div>
+									</template>
+								<!-- 	<template v-else-if="item.id == 9">
+										<common-template :list="item.list" @del="(e)=>{ $set(navList[index], 'list', e) }"></common-template>
+									</template> -->
+								</div>
+								<div class="cut-line" v-if="item.id != 9"></div>
+							</van-tab>
+						</van-tabs>
+						
+						<div class="nav-item-new" v-if="likeList.length > 0">
+							<div class="nav-title">
+								<span>猜你喜欢</span>
+							</div>
+							<common-template :list="likeList"></common-template>
+						</div>
+					</div>
+					
+					<!-- 底部栏 -->
+					<div class="bottom-tabber">
+						<div class="bottom-tabber-item-icon">
+							<div class="bottom-tabber-icon" :class="[ careState == 1 ? 'text-active' : '' ]" @click="careInfo">
+								<span class="iconfont iconguanzhu"></span>
+								<span class="icon-text">关注</span>
+							</div>
+						<!-- 	<div class="bottom-tabber-icon">
+								<img src="../../static/houses/tip.png">
+								<span class="icon-text">通知</span>
+							</div> -->
+						</div>
+						<!-- <div class="bottom-tabber-item">
+							<van-button type="default" color="linear-gradient(90deg, #B7C881 0%, #87B673 100%)" @click="showMap">周边配套</van-button>
+						</div> -->
+						<div class="bottom-tabber-item">
+							<!-- <a :href="'tel:'+contactPhone"> -->
+							<van-button @click="contactShow = true" type="default" color="linear-gradient(90deg, #FFA640 0%, #FE8D35 100%)">联系淘房师</van-button>
+						</div>
+					</div>
+
+					<!-- <div class="bottom-tabber-12">
+						<div class="btn-box" v-show="haveApply">
+							<van-button type="default" round color="linear-gradient(90deg, #B7C881 0%, #87B673 100%)" @click="applyShow">报名享优惠</van-button>
+						</div>
+						<div class="btn-box">
+							<a :href="surfaceList.phone?'tel:'+ surfaceList.phone:'#'">
+								<van-button type="default" round color="linear-gradient(90deg, #FFA640 0%, #FE8D35 100%)">拨打电话</van-button>
+							</a>
+						</div>
+					</div> -->
+					<houses-apply :show="showApply" :id="applyList.id"  @state="()=>{ is_sign = true;applyList.people++}"  @close="(e)=>{ showApply = e }"></houses-apply>
+
+					<!-- 联系淘房师 -->
+					<div class="contact">
+						<van-popup v-model="contactShow" round position="bottom" closeable>
+							<div class="contact-box">
+
+								<div class="contact-title">
+									职业淘房师({{ contactList.length }})
+								</div>
+
+								<div class="contact-tip">
+									<span><i class="iconfont iconxuanzhong"></i>案场专职</span>
+									<span><i class="iconfont iconxuanzhong"></i>楼盘导购</span>
+									<span><i class="iconfont iconxuanzhong"></i>户型解读</span>
+									<span><i class="iconfont iconxuanzhong"></i>政策讲解</span>
+								</div>
+
+								<div class="contact-wrap">
+									<div class="contact-people" v-for="(item,index) in contactList" :key="index">
+										<div class="contact-left">
+											<img v-lazy="$http.imgDirtoUrl(item.head)">
+											<div class="contact-left-info">
+												<span>{{ item.name }}</span>
+												<!-- <van-tag type="primary" size="medium" color="rgba(255, 237, 222, 1)" text-color="rgba(244, 123, 26, 1)">
+													{{ item.state }}
+												</van-tag> -->
+											</div>
+										</div>
+										<div class="contact-right">
+											<!-- <div class="contact-btn">
+												<img src="../../static/houses/msg.png">
+											</div> -->
+											<a :href="'tel:'+ item.phone" class="contact-btn">
+												<img src="../../static/houses/phone.png">
+											</a>
+										</div>
+									</div>
+								</div>
+
+							</div>
+						</van-popup>
+					</div>
+					<div id="container-user-site"></div>
+				</div>
+				
+				<div class="list_null" v-else>
+					<img src="../../static/null.png">
+					<p>该信息已被下架或删除啦</p>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
+<script src="../../common/js/vue.js?v=1.19" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/rem.js?v=1.19" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/public.js?v=1.19" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/antv.f2.js?v=1.19" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/vant/index.js?v=1.19" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/fastclick.js?v=1.19" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/wxsdk.js?v=1.19" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=53da8183ca23918f2f81c79a5b2ede15&plugin=AMap.IndexCluster,AMap.Geocoder"></script>
+<script type="module">
+	import { http, loginMixin } from '../../common/js/method/http.js?v=1.19';
+	
+	Vue.use(http);
+	
+	const myComponents = [
+		'../../components/houses/apply/index',
+		'../../components/houses/surface/index',
+		'../../components/common/template/index',
+		'../../components/houses/template_comment/index',
+		'../../components/houses/template_hot_news/index',
+		'../../components/common/poiMap/index',
+		'../../components/common/topBar/index',
+	];
+	
+	$api.addComponents(myComponents)
+		.then(()=>{
+			
+			Vue.use(vant.Lazyload);
+			Vue.component('topBar', topBar);
+			let limit_remark_num = 3;
+			const app = new Vue({
+				el: '#app',
+				data: {
+					pageShow: false,
+					active_id: 0,//活动主题id
+					contactPhone: '#',	// 联系电话
+					// 封面
+					visible: true,
+					// 封面数据
+					surfaceList: {},
+					careState: 0,
+					haveApply: false,// 是否显示报名栏目
+					is_sign: false,//用户是否已报名
+					// 楼盘id
+					houseId: -1,
+					houseType: 1,
+					city_code:350200,
+					// banner
+					justClick: true,
+					bannerActive: 1,
+					swipeActive: 1,
+					bannerList: [
+						// {
+						// 	name: 'VR',
+						// 	list: ['../../static/houses/banner2.png']
+						// },
+						// {
+						// 	name: '视频',
+						// 	img: '../../static/houses/banner1.png'
+						// },
+						{
+							name: '图片',
+							list: []
+						}
+					],
+					limit_remark_num: limit_remark_num,
+					arrow_show: 0,
+					
+					// info
+					infoList: {},
+					// 报名
+					applyList: {
+						id: -1,
+						title: '',
+						tip: '',
+						day: '',
+						people: '',
+						desc: '',
+						share_title: '',
+						share_desc: '',
+						share_img: ''
+					},
+					// 报名弹窗显示
+					showApply: false,
+					haveCharts: true,
+					// nav
+					active: 0,
+					navList: [
+						{
+							id: 1,
+							name: '户型',
+							title: '户型介绍',
+							list: []
+						},
+						{
+							id: 2,
+							name: '价格走势',
+							title: '价格走势',
+							list: [],
+							// chartY: [3,4,5,6,7]
+						},
+						// {
+						// 	id: 3,
+						// 	name: '周边',
+						// 	title: '位置周边',
+						// 	list: []
+						// },
+						{
+							id: 4,
+							name: '资讯',
+							title: '房源实时资讯',
+							list: []
+						},
+						{
+							id: 5,
+							name: '测评',
+							title: '房源实时测评',
+							list: []
+						},
+						// {
+						// 	id: 6,
+						// 	name: '视频',
+						// 	title: '视频展示',
+						// 	list: [
+						// 		{
+						// 			id: 1,
+						// 			type: 6,
+						// 			list: [
+						// 				{
+						// 					title: '89平三房小复式',
+						// 					tip: '户型鉴赏',
+						// 					view: 235,
+						// 					url: 'static/logo.png'
+						// 				},
+						// 				{
+						// 					title: '世贸湖边首府',
+						// 					tip: '小区Vlog',
+						// 					view: 1098,
+						// 					url: 'static/logo.png'
+						// 				},
+						// 				{
+						// 					title: '89平三房小复式',
+						// 					tip: '新盘速递',
+						// 					view: 235,
+						// 					url: 'static/logo.png'
+						// 				},
+						// 				{
+						// 					title: '世贸湖边首府',
+						// 					tip: '小区Vlog',
+						// 					view: 1098,
+						// 					url: 'static/logo.png'
+						// 				}
+						// 			]
+						// 		}
+						// 	]
+						// },
+						{
+							id: 7,
+							name: '点评',
+							title: '用户点评',
+							// type: 0-所有 1-有图，2-实看
+							list: []
+						},
+						{
+							id: 8,
+							name: '沙盘图',
+							title: '沙盘图',
+							list: {
+								img: '../../static/logo.png',
+								num: 0
+							}
+						},
+					],
+					// sale
+					saleShow: {},
+					// 联系淘房师
+					contactShow: false,
+					contactList: [
+						// {
+						// 	id: 0,
+						// 	name: '陈佳佳',
+						// 	head: '/9house/static/logo.png',
+						// 	state: '活跃',
+						// 	phone: 15500999909
+						// },
+					],
+
+					likeList:[],//猜你喜欢
+					overflowY: 'scroll',
+				},
+				components: {
+					commonTemplate,
+					housesSurface,
+					housesComment,
+					housesHotNews,
+					housesApply,
+					PoiMap
+				},
+				mixins: [loginMixin],
+				created() {
+					this.houseId = 	this.$api.funcUrlDel().option.id;
+					
+					this.initSurface();
+					
+					this.$http.getCurrentCity().then( data=>{
+						this.city_no = data.city_no;
+						this.init();
+						
+					})
+				},
+				mounted() {
+					
+				},
+				methods:{
+					initSurface() {
+						
+						if( this.$api.funcUrlDel().option.cover == 0 ){
+							this.visible = false;
+							return;
+						}
+						
+						// return;
+						// console.log(888)
+						let housesArr =  this.$api.localGet('housesArr');
+						
+						if( housesArr && housesArr.indexOf(this.houseId) != -1 ){
+							this.visible = false;
+							// this.domMove(1);
+						} else {
+							housesArr = [];
+							housesArr.push(this.houseId);
+							this.$api.localSet('housesArr',housesArr);
+							// this.domMove(0);
+						}
+					},
+					init() {
+						let active_id = this.$api.funcUrlDel().option.active_id;
+						let housesArr =  this.$api.localGet('housesArr');
+						if(active_id){ this.active_id = active_id }
+						
+						let type = this.$api.funcUrlDel().option.type;
+						if(!type){
+							this.houseType = type;
+						}
+						
+						// swiper需要时间初始化
+						this.$nextTick(()=>{
+							this.bannerActive = 0;
+						})
+						// 获取数据
+						this.getInfo();
+						// 获取轮播图
+						this.getSwiperList();
+						// 获取户型数据
+						this.getHouseList();
+						
+						// 获取楼盘资讯
+						this.getNews();
+						// 获取楼盘测评
+						this.getEval();
+						// 获取楼盘评论列表
+						this.getTalk();
+						
+						//猜你喜欢楼盘
+						this.getEstatesLike();
+					},
+					// 获取数据
+					getInfo() {
+						const id = this.houseId;
+						const type = this.houseType;
+						const data = {};
+						
+						data.id = id;
+						
+						if( type == 1 ) {
+							data['from'] = 'search';
+						}
+						
+						this.$http.ajax({
+							url: '/index/estates/getInfo',
+							data: data,
+						}).then( res=>{
+							let data = res.data;
+							data.open_time = data.open_time ? data.open_time : '暂无数据',//开盘时间
+							
+							this.wxShare(res);
+							
+							// console.log(data)
+
+							// 封面
+							const surFace = {};
+							const apply = {};
+							const info = {};
+							surFace.tip = [];
+							
+							surFace.bg = this.$http.testUrl(data.detail_cover);
+							surFace.logo = this.$http.testUrl(data.logo);
+							surFace.title = data.name;
+							surFace.price = data.price;
+							surFace.site = data.address;
+							surFace.time = data.open_time;
+							surFace.phone = data.sales_telephone;
+							
+							this.careState = data.is_attention;
+							
+							if( data.sign_up&&data.sign_up.id ) {
+								apply.id = data.sign_up.id;
+								apply.title = data.sign_up.name;
+								apply.tip = data.sign_up.subname;
+								apply.day = data.sign_up.left_day;
+								apply.desc = data.sign_up.desc;
+								apply.people = data.sign_up.join_num;
+								apply.share_title = data.sign_up.share_title;
+								apply.share_desc = data.sign_up.share_desc;
+								apply.share_img = this.$http.testUrl(data.sign_up.share_img);
+								
+								this.applyList = apply;
+								this.haveApply = true; //显示
+								this.is_sign = data.is_sign?true:false;
+							}
+							
+							info.name = data.name;
+							info.price = data.price;
+							
+							info.buyTime = data.open_time;
+							info.houseType = data.house_type;
+							info.area = data.built_area;
+							info.site = data.address;
+
+							//沙盘
+							this.navList.map((item,index)=>{
+								if( item.id == 8 ){
+									let arr = {
+										img: data.sand_table&&data.sand_table[0]?data.sand_table[0]:'',
+										num: data.building_num?data.building_num: 0//楼栋数量
+									} 
+									// console.log('---',arr)
+									this.$set(this.navList[index], 'list', arr);
+								}
+							})
+							
+							// 优惠信息
+							if( data.discount&&data.discount.length > 0 ) {
+								const saleList = {
+									id: 0,
+									name: '优惠',
+									title: '优惠信息',
+									sale: data.discount
+								};
+								
+								this.navList.unshift(saleList);
+							}
+							
+							const allTag = this.$api.localGet('u-tag');
+							let allTag_update = 0;
+							
+							if(allTag&&allTag['estatesnew_sale_status']&&allTag['estatesnew_sale_status'][data.sale_status]){
+								surFace.tip.push(allTag['estatesnew_sale_status'][data.sale_status]);
+							}
+							
+							if( data.house_purpose&&data.house_purpose.length > 0 ){
+								data.house_purpose.map( item=>{
+									if(allTag&&allTag['house_purpose']&&allTag['house_purpose'][item]){
+										surFace.tip.push(allTag['house_purpose'][item]);
+									}else{
+										allTag_update = 1;
+									}
+								})
+							}
+							
+							if(allTag&&allTag['house_purpose']&&allTag['house_purpose'][data.house_purpose]){
+								info.use = allTag['house_purpose'][data.house_purpose];
+							}else{
+								allTag_update = 1;
+							}
+							
+							// console.log(data.tags)
+							if(data.tags && data.tags.length > 0){
+								data.tags.map( item=>{
+									if(allTag&&allTag['feature_tag']&&allTag['feature_tag'][item]){
+										surFace.tip.push(allTag['feature_tag'][item]);
+									}else{
+										allTag_update = 1;
+									}
+								})
+							}
+							
+							info.remark = [];
+		
+							if(data.price_str){
+								info.remark.push(data.price_str);
+							}
+							
+							if( data.common_tags&&Object.keys(data.common_tags).length > 0 ){
+								for( let i in data.common_tags ){
+									data.common_tags[i].map( item=>{
+										if(allTag&&allTag[i]&&allTag[i][item]){
+											info.remark.push(allTag[i][item]);
+										}else{
+											allTag_update =1;
+										}
+									})
+								}
+							}
+
+							if(info.remark.length>this.limit_remark_num){
+								this.arrow_show = 1
+							}
+							//console.log(allTag_update)
+							this.$api.localSet('u-tag-update',allTag_update);
+							
+							this.surfaceList = surFace;
+							this.infoList = info;
+
+							//淘房师
+							// console.log(data.agent,6666)
+							for(let i in data.agent){
+								let item = data.agent[i]
+								this.contactList.push({
+									id: item.id,
+									name: item.name,
+									head: item.head_img? item.head_img : '/9house/static/logo.png',
+									//state: '活跃',
+									phone: item.phone
+								});
+							}
+							
+							this.pageShow = true;
+							// console.log(this.pageShow)
+							// 获取历史价格
+							this.getChartsList();
+							
+							// console.log(data);
+						})
+					},
+					changeArrowShow(val){
+						this.arrow_show = val;
+						if(val==2){
+							this.limit_remark_num = 9999;
+						}else{
+							this.limit_remark_num = limit_remark_num;
+						}
+					},
+					// 获取楼盘相册
+					getSwiperList() {
+						const id = this.houseId;
+						const data = {
+							estate_id: id,
+						};
+						
+						this.$http.ajax({
+							url: '/index/estates/getBuildingPhotosList',
+							data: data,
+						}).then( res=>{
+							let data = res.data;
+							
+							const newData = [];
+							
+							for( let i in data ){
+								if( i != 9 ){
+									data[i].map(item=>{
+										newData.push(this.$http.testUrl(item.cover));
+									})
+								}
+							}
+							
+							this.bannerList.map( (item,index)=>{
+								if( item.name == '图片' ){
+									this.$set(this.bannerList[index], 'list', newData);
+								}
+							})
+							
+							// console.log(data);
+							// console.log(newData);
+						})
+					},
+					// 获取楼盘数据
+					getHouseList() {
+						const id = this.houseId;
+						const data = {
+							estate_id: id,
+							is_group: 0
+						};
+						
+						this.$http.ajax({
+							url: '/index/estates/getEstatesnewHouseList',
+							data: data,
+						}).then( res=>{
+							let data = res.data;
+							const arr = [];
+							const allTag = this.$api.localGet('u-tag');
+							
+							data.map( item=>{
+								let obj = {};
+								
+								obj.id = item.id;
+								obj.title = item.name;
+								obj.img = this.$http.testUrl(item.img);
+								obj.tip = allTag&&allTag['house_purpose']&&allTag['house_purpose'][item.house_purpose]? allTag['house_purpose'][item.house_purpose] : [];
+								obj.area = item.built_area;
+								obj.direction = allTag&&allTag['orientation']&&allTag['orientation'][item.orientation]?allTag['orientation'][item.orientation] : [];
+								obj.price = item.price;
+								obj.price_ave = item.price_ave;
+								
+								arr.push(obj);
+							})
+							console.log(arr)
+							this.navList.map((item,index)=>{
+								if( item.id == 1 ){
+									this.$set(this.navList[index], 'list', arr);
+								}
+							})
+							// console.log(data);
+						})
+					},
+					// 历史价图表数据
+					getChartsList() {
+						const id = this.houseId;
+						const data = {
+							id: id,
+						};
+						
+						this.$http.ajax({
+							url: '/index/estates/getPriceHistory',
+							data: data,
+						}).then( res=>{
+							let data = res.data;
+							
+							// console.log(data);
+							this.$nextTick(()=>{
+								this.chartCreat(data);
+							})
+						})
+					},
+					// 获取楼盘资讯
+					getNews() {
+						const id = this.houseId;
+						const data = {
+							id: id,
+							dotype: 'news'
+						};
+							
+						this.$http.ajax({
+							method: 'GET',
+							url: '/index/estates/getEstateArticle',
+							data: data,
+						}).then( res=>{
+							let data = res.data;
+							const newData = [];
+							
+							data.map(item=>{
+								const obj = {};
+								const arr = [];
+								
+								obj.id = item.id;
+								obj.img = item.img_url;
+								obj.title = item.name;
+								obj.type = item.type;
+								obj.tip = '资讯';
+								
+								newData.push(obj);
+							})
+							
+							this.navList.map((item,index)=>{
+								if( item.id == 4 ){
+									this.$set(this.navList[index], 'list', newData);
+								}
+							})
+							
+							// console.log(data);
+						})
+					},
+					// 获取楼盘测评
+					getEval() {
+						const id = this.houseId;
+						const data = {
+							id: id,
+							dotype: 'assess'
+						};
+							
+						this.$http.ajax({
+							method: 'GET',
+							url: '/index/estates/getEstateArticle',
+							data: data,
+						}).then( res=>{
+							let data = res.data;
+							const newData = [];
+							
+							data.map(item=>{
+								const obj = {};
+								
+								obj.id = item.id;
+								obj.img = item.img_url;
+								obj.title = item.name;
+								obj.type = item.type;
+								obj.tip = '测评';
+								
+								newData.push(obj);
+							})
+							
+							this.navList.map((item,index)=>{
+								if( item.id == 5 ){
+									this.$set(this.navList[index], 'list', newData);
+								}
+							})
+							// console.log(data);
+						})
+					},
+					// 楼盘评论
+					getTalk() {
+						const id = this.houseId;
+						const data = {
+							id: id,
+							page: 1,
+							pageSize: 3
+						};
+							
+						this.$http.ajax({
+							method: 'GET',
+							url: '/index/comment/propertyReviewsList',
+							data: data,
+						}).then( res=>{
+							let data = res.data.list?res.data.list:[];
+							const newData = [];
+							
+							data.map(item=>{
+								const obj = {};
+								obj.id = item.id;
+								obj.head = this.$http.testUrl(item.user_avatar);
+								obj.name = item.user_name;
+								obj.say = item.content;
+								obj.time = this.$api.timeFormat(item.create_time,'yyyy年mm月dd日');
+								obj.img = item.img;
+								
+								newData.push(obj);
+							})
+							
+							this.navList.map((item,index)=>{
+								if( item.id == 7 ){
+									this.$set(this.navList[index], 'list', newData);
+								}
+							})
+							// console.log(data);
+						})
+					},
+					//猜你喜欢楼盘
+					getEstatesLike() {
+						const city_no = this.city_no;
+						const data = {
+							city_no: city_no,
+							subject_id: this.active_id,
+							estate_id: this.houseId
+						};
+							
+						this.$http.ajax({
+							method: 'GET',
+							url: '/index/estates/getGuessList',
+							data: data,
+						}).then( res=>{
+							let data = res.data;
+							//console.log('猜你喜欢',data);
+							if( data.length > 0 ){
+								// const obj = {
+								// 	id: 9,
+								// 	name: '猜你喜欢',
+								// 	title: '猜你喜欢',
+								// 	list: this.$api.createHouseList({list:data})
+								// }
+								// this.navList.push(obj)
+								this.likeList = this.$api.createHouseList({list:data});
+							}
+						})
+					},
+					domMove( num ){
+						let option;
+						
+						if( num == 1 ){
+							option = 'scroll';
+						} else {
+							option = 'hidden';
+						}
+						// console.log(888,option)
+						this.overflowY = option;
+					},
+					surfaceHide( type ) {
+						// 播放视频
+						if( type == 'video' ){
+							
+						} else if( type == 'img' ){
+							this.bannerMore();
+						}
+						
+						this.visible = false;
+						
+						// this.$nextTick(()=>{
+						// 	this.domMove(1);
+						// })
+					},
+					// 分享海报
+					goshare() {
+						this.$api.goPage('houses/share.html', { id: this.houseId });
+					},
+					// banner
+					bannerChange( num ) {
+						this.bannerActive = num;
+					},
+					swipeChange( num ) {
+						this.swipeActive = num + 1;
+						// 防止滑动触发点击
+						this.justClick = false;
+					},
+					bannerMore() {
+						if( this.justClick ){
+							const obj = {};
+							obj.id = this.houseId;
+							
+							if( this.$api.funcUrlDel().option.active_id ){
+								obj.active_id = this.$api.funcUrlDel().option.active_id;
+							}
+							
+							$api.goPage('houses/banner_more.html', obj);
+						} else {
+							this.justClick = true;
+						}
+					},
+					// VR带看
+					vrVisit() {
+						// console.log(111)
+					},
+					// 贷款计算器
+					loanCalc() {
+						$api.goPage('houses/loan.html');
+					},
+					// 更多房源信息
+					moreInfo() {
+						const obj = {};
+						obj.id = this.houseId;
+						
+						if( this.$api.funcUrlDel().option.active_id ){
+							obj.active_id = this.$api.funcUrlDel().option.active_id;
+						}
+						
+						$api.goPage('houses/info.html', obj);
+					},
+					// nav
+					showSale( key ) {
+						
+						key = String(key);
+						
+						if( Object.keys(this.saleShow).indexOf(key) != -1  ){
+							this.saleShow[key] = !this.saleShow[key];
+						} else {
+							this.$set(this.saleShow, key, true);
+						}
+					},
+					// 查看全部
+					lookMore(typeId) {
+						const obj = {};
+						obj.id = this.houseId;
+						
+						if( this.$api.funcUrlDel().option.active_id ){
+							obj.active_id = this.$api.funcUrlDel().option.active_id;
+						}
+						
+						// console.log(id)
+						
+						switch(typeId){
+						    case 1 :
+								$api.goPage('houses/house_type.html',obj);
+								break; 
+							case 4:
+							case 5:
+								$api.goPage(`houses/hot_news.html?typeId=${typeId}`,obj);
+								break; 
+							case 7 :
+							    $api.goPage('houses/comment.html',obj);
+							    break;   
+							case 8 :
+							    $api.goPage('houses/sand.html',obj);
+							    break;   
+						}
+					},
+					goPage:$api.goPage,
+					goApply() {
+						this.$api.goPage('houses/activty.html', { id: this.houseId });
+					},
+					// 报名
+					applyShow() {
+						if(this.is_sign == true){
+							vant.Toast('您已报名成功')
+							return;
+						}
+						this.showApply = true;
+					},
+					// 关注
+					careInfo() {
+						this.$http.hrefMobileLogin();
+						
+						this.$http.ajax({
+							method: 'POST',
+							url: '/index/user/attentionListings',
+							data: {
+								id: this.houseId
+							},
+						}).then( res=>{
+							this.careState = this.careState == 1 ? 0 : 1;
+							if(res.code==1){
+								this.$toast(this.careState==1?'关注成功':'取消关注');
+							}else{
+								this.$toast(res.msg);
+							}
+						})
+					},
+					// 周边位置
+					showMap() {
+						this.navList.map( (item,index)=>{
+							if( item.name == '周边' ){
+								this.$refs.nav.scrollTo(index);
+								return;
+							}
+						})
+					},
+					// 跳转地图
+					goMap() {
+						return;
+						let obj = {
+							id: this.houseId,
+							type:'floor'
+						};
+						this.$api.goPage('map/index.html', obj);
+					},
+					goComment() {
+						if( !this.$http.isLogin() ){
+							this.$http.hrefMobileLogin();
+							return;
+						}
+						this.$api.goPage('houses/send_comment.html',{id: this.houseId});
+					},
+					// 图表
+					chartCreat(data) {
+						if( data.length == 0 ){
+							this.haveCharts = false;
+							return;
+						}
+						
+						let arr = [];
+						data.map(  item=>{
+							const obj = {};
+							
+							obj.date = item.date;
+							obj.type = item.type;
+							obj.value = Number(item.value);
+							arr.push(obj);
+						})
+						data = arr;
+						
+						const that = this;
+						const labelStyle = {
+							fontSize: 11,
+							fontWeight: 500,
+						};
+						
+						let	num;
+						
+						this.navList.map((item,index)=>{
+							if( item.id == 2 ){
+								num = index;
+							}
+						})
+						
+						const chart = new F2.Chart({
+						  id: this.$refs.myChart[num],
+						  appendPadding: [15, 0, 0],
+						  pixelRatio: window.devicePixelRatio
+						});
+						
+						chart.source(data, {
+						  value: {
+						      tickCount: 5,
+							  formatter: function formatter(ivalue) {
+							    return ivalue/10000 + '万';
+							  }
+						    }
+						});
+						
+						chart.axis('date', {
+						  label: labelStyle
+						}).axis('value', {
+						  label: labelStyle
+						});
+						
+						// 图例
+						chart.legend({
+						  align: 'right',
+						  itemWidth: null,
+						});
+						
+						chart.line()
+							.position('date*value')
+							.color('type', [ 'rgba(254, 130, 30, 1)', 'rgba(173, 173, 173, 1)' ]);
+						
+						chart.render();
+					},
+				},
+			})
+			
+		})
+</script>

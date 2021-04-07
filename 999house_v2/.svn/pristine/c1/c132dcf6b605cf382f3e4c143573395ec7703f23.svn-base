@@ -1,0 +1,31 @@
+
+/**
+ * obj = {
+ *  a:{
+ * 		b:{
+ * 			c:''
+ * 		}
+ * 	}
+ * }
+ * 
+ * 调用方式 DynamicObjcetKey('a.b.c','22',obj)
+ * 
+ * 多维键值多维嵌套进行赋值 
+ * @param {*} key 赋值的数据对象中的多维的键，格式如 a.b.c
+ * @param {*} val 键对应的值
+ * @param {*} obj 赋值的数据对象
+ */
+var DynamicObjcetKey = function(key,val,obj) {
+    if (!obj) obj = data; //outside (non-recursive) call, use "data" as our base object
+    var ka = key.split(/\./); //split the key by the dots
+    if (ka.length < 2) { 
+      obj[ka[0]] = val; //only one part (no dots) in key, just set value
+    } else {
+      if (!obj[ka[0]]) obj[ka[0]] = {}; //create our "new" base obj if it doesn't exist
+      obj = obj[ka.shift()]; //remove the new "base" obj from string array, and hold actual object for recursive call
+      setData(ka.join("."),val,obj); //join the remaining parts back up with dots, and recursively set data on our new "base" obj
+    }    
+  }
+
+
+module.exports = DynamicObjcetKey

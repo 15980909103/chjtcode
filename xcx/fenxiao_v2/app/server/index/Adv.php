@@ -1,0 +1,164 @@
+<?php
+
+namespace app\server\index;
+
+use app\common\traits\TraitEstates;
+use app\server\admin\Banner;
+use Co\WaitGroup;
+use Exception;
+use app\common\base\ServerBase;
+
+
+/*
+ * 公用城市操作
+ *
+ *
+ * */
+
+class Adv extends ServerBase
+{
+    use TraitEstates;
+
+    public function getFlagAdlist($where)
+    {
+        $_where = [];
+        $list = $this->db->name('banner_img');
+        if (is_array($where['flag']) && !empty($where['flag'])) {
+            $_where[] = ['place', 'in', $where['flag']];
+        }
+
+        if (is_string($where['flag']) && !empty($where['flag'])) {
+            $_where[] = ['place', '=', $where['flag']];
+        }
+        if (!empty($where['city_no'])) {
+            $_where[] = ['region_no', '=', $where['city_no']];
+        }
+        if (!empty($where['status'])) {
+            $_where[] = ['status', '=', $where['status']];
+        }
+//        if (!empty($where['time'])) {
+//            $_where[] = ['start_time', '<', $where['time']];
+//        }
+//        if (!empty($where['time'])) {
+//            $_where[] = ['end_time', '>', $where['time']];
+//        }
+        $list = $list->where($_where)
+            ->order('sort desc,id desc')
+            ->select();
+//             echo $this->db->getLastSql();
+//        var_dump(324234);
+        $list = !empty($list) ? $list->toArray() : [];
+        if(!empty($list)){ //图片统一处理
+            $list = (new Banner())->adExpired($list);
+        }
+        return $list;
+    }
+
+    /**
+     * 是否有效标识
+     */
+    public function isFlag($flag)
+    {
+
+        $info = $this->db->name('banner_img_place')->where('place', 'in', $flag)->find();
+
+        if (empty($info)) {
+            return false;
+        }
+
+        return true;
+    }
+
+
+    /**
+     * 判断广告类型放回前端格式
+     * @param $data
+     */
+    public function getAdlist($data)
+    {
+        if (empty($data)) {
+            return [];
+        }
+        $arr = array();
+        foreach ($data as $k => $v) {
+            $arr[$k]['id'] = $v['id'];
+//            //图片广告
+//            if($v['is_propert_news'] ==1){
+//                if($v['type'] == 0 ){
+//                    $arr[$k]['type']    = 4; // 楼盘带图广告
+//                }else{
+//
+//                }
+//            }
+            $arr[$k]['place'] = $v['place'];
+            if ($v['type'] == 0 && $v['is_propert_news'] == 1) {
+                $arr[$k]['type'] = 4; // 楼盘带图广告
+                $res = $this->db->name("estates_new")->alias('en')
+                    ->leftJoin('estates_has_tag eht', 'en.id = eht.estate_id AND eht.type = 1')
+                    ->field('	en.logo,en.detail_cover, en.id,en.NAME,en.list_cover,en.price,en.price_total,en.city_str,en.area_str,en.business_area_str,en.sale_status,en.built_area,en.house_purpose,en.discount,GROUP_CONCAT( tag_id ) AS feature_tag')
+                    ->where('en.id', '=', $v['forid'])->find();
+//                var_dump($res);
+                $sellingPoint = $this->dealSellingPoint($res);
+
+                $arr[$k]['info']['lab'] = $sellingPoint;
+                $arr[$k]['info']['name'] = $res['NAME'];
+                $arr[$k]['info']['price'] = $res['price'];
+                $arr[$k]['info']['tip'] = $res['feature_tag'];
+                $arr[$k]['info']['area'] = $res['built_area'];
+                $arr[$k]['info']['site'] = $res['area_str'] . $res['business_area_str'];
+                $arr[$k]['info']['estate_id'] = $res['id'];
+
+            } else if ($v['type'] == 0) {
+                $arr[$k]['type'] = 2; //广告有图
+            } else {
+                $arr[$k]['type'] = 3; //广告视频
+            }
+            $arr[$k]['cover'] = !empty($res['logo']) && !empty($res['detail_cover']) ? 1 : 0;
+//            $arr[$k]['type']    = $v['type'] ==0 ? 2 :3;
+            $arr[$k]['title'] = $v['title'] ?? '';
+            $arr[$k]['sub_title'] = $v['sub_title'] ?? '';
+            $arr[$k]['href'] = $v['href'];
+            $img_url = $v['type'] != 3 ? array_column($this->getImgPath(explode(',', $v['cover'])), 'url')
+                : $this->getVoidePath($v['cover']);
+            $arr[$k]['img'] = $img_url;
+        }
+
+        return $arr;
+    }
+
+    protected function getImgPath($id)
+    {
+        if (empty($id)) {
+            return '';
+        }
+        if (!is_array($id) && !is_string($id)) {
+            return '';
+        }
+        if (is_string($id)) {
+            $info = $this->db->name('upload_file')->where('file_id', '=', $id)->value('file_path');
+        } else {
+            $inof = [];
+//            var_dump($id);
+            foreach ($id as $key => $value) {
+                $info [] = $this->db->name('upload_file')->where('file_id', '=', $value)->field('file_path as url,file_hash as name')->find();
+            }
+        }
+
+//        echo $this->db->getLastSql();
+
+        return $info;
+    }
+
+    /**
+     * 根据id获取视频路径
+     */
+    protected function getVoidePath($id)
+    {
+        if (empty($id)) {
+            return '';
+        }
+
+        $info = $this->db->name('video_simple')->where('id', '=', $id)->find();
+        return $info['name'];
+    }
+}

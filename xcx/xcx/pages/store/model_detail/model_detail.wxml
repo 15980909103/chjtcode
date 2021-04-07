@@ -1,0 +1,69 @@
+<scroll-view id='my-scroll' scroll-y scroll-top="{{scroll_top}}" scroll-with-animation enable-back-to-top>
+  <import src="../../../wxParse/wxParse.wxml"/>
+  <swiper class='my-swiper' bindchange="onSwiperChange">
+    <block wx:for="{{doorImgInfo}}" wx:key="index">
+      <swiper-item>
+        <image src="{{domain_name+item.img}}" mode="aspectFit" class="slide-image"/>
+      </swiper-item>
+    </block>
+  </swiper>
+  <view class='my-num' wx:if="{{doorImgInfo.length>0}}">{{current+1}}/{{doorImgInfo.length}}</view>
+  <view id="my-view1">
+    <view class="view1-1"><view class='view1-title van-ellipsis'>{{buildingInfo.name}}</view></view>
+    <view class="view1-2" bindtap='onCalculator'><image src='/image/icon-fangdaijisuanqi.png'></image></view>
+  </view>
+  <view id='my-view2'>
+    <view class='view2-li1'>
+      <view>浏览<text>0</text></view>
+      <view>经纪人<text>0</text></view>
+      <view>带客量<text>0</text></view>
+    </view>
+    <view class='view2-li2'>{{buildingInfo.fold}}元/m²</view>
+  </view>
+  <view id='my-view3'>
+    <view class='view3-li'>面积：<text>建面{{doorInfo.construction_area}}m²</text></view>
+    <view class='view3-li'>类型：<text>{{doorInfo.house_type}}</text></view>
+    <view class='view3-li'>朝向：<text>{{doorInfo.orientation}}</text></view>
+    <view class='view3-li'>户型结构：<text>{{doorInfo.family_structure}}</text></view>
+  </view>
+  <view id='my-view4'>
+    <view class='my-h2'>
+      <view class='my-h2-1'>空间信息</view>
+    </view>
+    <view class='view4-content'>
+      <template is="wxParse" data="{{wxParseData:spaceData.nodes}}"/>
+    </view>
+  </view>
+  <view id='my-view5'>
+    <view class='my-h2'>
+      <view class='my-h2-1'>所属楼盘</view>
+    </view>
+    <view class='my-lp-list'>
+      <view class='my-lpimg'>
+        <image class='my-lp-ig' src='{{domain_name+buildingInfo.pic}}' wx:if="{{buildingInfo.pic}}"></image>
+      </view>
+      <view class='my-lp-center'>
+        <view class='my-lp-c1'><view class="my-c-1-1 van-ellipsis">{{buildingInfo.name}}</view><view class='my-c-1-2'>{{buildingInfo.sales_status}}</view></view>
+        <view class='my-lp-c2'>{{buildingInfo.house_type}} | {{buildingInfo.city}} {{buildingInfo.area}}</view>
+        <view class='my-lp-c3'>{{buildingInfo.fold}}元/m²</view>
+      </view>
+    </view>
+  </view>
+  <view id='my-view6'>
+    <view class='my-h2'>
+      <view class='my-h2-1'>本楼盘其他户型</view>
+    </view>
+    <view class='view6-center'>
+      <view class='view6-li' wx:for="{{remainingDoorInfo}}" wx:key="index" data-id="{{item.id}}" bindtap='onModelDetail'>
+        <image src='{{domain_name+item.pic}}'></image>
+        <view class='view6-col1'>
+          <view class='view6-row1'>{{item.title}}</view>
+          <view class='view6-row2'>{{item.sales_status}}</view>
+          <view class='view6-row3'>{{item.house_type}}</view>
+        </view>
+        <view class='view6-col2'>建面{{item.construction_area}}m²朝向{{item.orientation}}</view>
+        <view class='view6-col3'>约{{item.price_total}}</view>
+      </view>
+    </view>
+  </view>
+</scroll-view>

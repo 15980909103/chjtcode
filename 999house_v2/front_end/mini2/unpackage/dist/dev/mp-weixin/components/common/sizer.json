@@ -1,0 +1,10 @@
+{
+  "component": true,
+  "usingComponents": {
+    "u-dropdown": "/uview-ui/components/u-dropdown/u-dropdown",
+    "u-dropdown-item": "/uview-ui/components/u-dropdown-item/u-dropdown-item",
+    "u-input": "/uview-ui/components/u-input/u-input",
+    "u-button": "/uview-ui/components/u-button/u-button",
+    "common-area": "/components/common/cArea"
+  }
+}

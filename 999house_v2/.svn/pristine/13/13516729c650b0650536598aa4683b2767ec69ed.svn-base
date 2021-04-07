@@ -1,0 +1,15 @@
+//混入操作
+let t_version = new Date().getTime();
+const app = getApp();
+
+module.exports = {
+	data(){ 
+		return {
+			t_version: '_isMini=1&t='+t_version, //用于webview的版本生成
+			host: app.globalData.host,
+			h5Host: app.globalData.h5Host,
+			host_api: app.globalData.host_api,
+			imgHost: app.globalData.imgHost,
+		}
+	},
+}

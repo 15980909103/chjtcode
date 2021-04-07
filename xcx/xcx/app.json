@@ -1,0 +1,71 @@
+{
+  "pages": [
+    "pages/index/index/index",
+    "pages/store/store/store",
+    "pages/talk/talk/talk",
+    "pages/me/me/me",
+    "pages/store/store_detail/store_detail",
+    "pages/talk/chat/chat",
+    "pages/me/collection/collection",
+    "pages/me/record/record",
+    "pages/store/posters/posters",
+    "pages/store/building/building",
+    "pages/store/headlines/headlines",
+    "pages/store/house_detail/house_detail",
+    "pages/store/house_info/house_info",
+    "pages/store/feedback/feedback",
+    "pages/store/model_list/model_list",
+    "pages/store/model_detail/model_detail",
+    "pages/store/building_list/building_list",
+    "pages/store/building_detail/building_detail",
+    "pages/me/feedback/feedback",
+    "pages/index/article_detail/article_detail",
+    "pages/index/comments/comments",
+    "pages/store/calculator/calculator",
+    "pages/talk/system/system",
+    "pages/authorization/user_info/user_info"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "九房网",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#9A9A9A",
+    "selectedColor": "#D12627",
+    "backgroundColor": "#FFFFFF",
+    "list": [
+      {
+        "pagePath": "pages/index/index/index",
+        "text": "资讯",
+        "iconPath": "image/icon_nav_news_normal.png",
+        "selectedIconPath": "image/icon_nav_news_active.png"
+      },
+      {
+        "pagePath": "pages/store/store/store",
+        "text": "名片",
+        "iconPath": "image/icon_nav_building_normal.png",
+        "selectedIconPath": "image/icon_nav_building_active.png"
+      },
+      {
+        "pagePath": "pages/talk/talk/talk",
+        "text": "消息",
+        "iconPath": "image/icon_nav_chat_normal.png",
+        "selectedIconPath": "image/icon_nav_chat_active.png"
+      },
+      {
+        "pagePath": "pages/me/me/me",
+        "text": "我的",
+        "iconPath": "image/icon_nav_personal_normal.png",
+        "selectedIconPath": "image/icon_nav_personal_active.png"
+      }
+    ]
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "请求获取您的地理位置"
+    }
+  },
+  "sitemapLocation": "sitemap.json"
+}

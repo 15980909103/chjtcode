@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>首页</title>
+		<link rel="stylesheet" href="../../common/vant/index.css"/>
+		<link rel="stylesheet" href="../../common/css/public.css?v=1.19"/>
+		<link rel="stylesheet" href="../../static/css/index/index.css"/>
+		<meta http-equiv="cache-control" content="no-cache" />
+		<meta http-equiv="Pragma" content="no-cache" />
+		<meta http-equiv="expires" content="0" />
+	</head>
+	<body>
+		<div id="app" v-cloak ref="DOM" style="background: #F5F5F5;">
+			<div class="header_box">
+				<!-- 头部 -->
+				<index-header :location="city_name"></index-header>
+				
+				<!-- banner -->
+				<index-banner v-if='bannerList.length' :list='bannerList'></index-banner>
+			</div>
+			
+			<!-- 导航 -->
+			<index-nav v-if='columns.length' :nav='columns'></index-nav>
+			
+			<!-- 便捷模块 -->
+			<index-speedy></index-speedy>
+			
+			<!-- 活动专栏 -->
+			<index-activity v-if='activityList.length' :activitylist='activityList'></index-activity> 
+			
+			<!-- 地产研究院 -->
+			<!-- <index-estate :city_no='city_no'></index-estate> -->
+			
+			<!-- 资讯/新房 -->
+			<index-news></index-news>
+			 
+			<!-- 底部栏 -->
+			<common-tabbar active="首页"></common-tabbar>
+			
+			<div id="container-user-site"></div>
+		</div>
+	</body>
+</html>
+
+<script src="../../common/js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/rem.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/public.js?v=1.19" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/vant/index.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=53da8183ca23918f2f81c79a5b2ede15&plugin=AMap.Geocoder"></script>
+<script type="module">
+	import { http, loginMixin } from '../../common/js/method/http.js?v=1.19';
+	
+	Vue.use(http);
+
+	let mySwiper;
+	const myComponents = [
+		'../../common/swiper/swiper.min',
+		'../../components/index/header/index',
+		'../../components/index/nav/index',
+		'../../components/index/banner/index',
+		'../../components/index/speedy/index',
+		'../../components/index/activity/index',
+		'../../components/index/estate/index',
+		'../../components/common/tabbar/index',
+		'../../components/common/template/index',
+		'../../components/index/news/index',
+	];
+	
+	$api.addComponents(myComponents)
+		.then(()=>{
+			
+			Vue.use(vant.Lazyload);
+			 
+			Vue.component('commonTemplate', commonTemplate);
+			
+			var app = new Vue({
+				el: '#app',
+				data: {
+					// 选取位置
+					locationShow: false,
+					columns:[],
+					bannerList: [],
+					activityList: [],
+					city_no: '',
+					city_name: '',
+				},
+				components: {
+					indexHeader,
+					indexNav,
+					indexBanner,
+					indexSpeedy,
+					indexActivity,
+					indexEstate,
+					commonTabbar,
+					indexNews,
+				},
+				mixins: [loginMixin],
+				created() {
+					this.getUserLocation();
+				},
+				methods:{
+					// 获取位置
+					getUserLocation() {
+						this.$http.getCurrentCity().then( data=>{
+							this.city_no = data.city_no;
+							this.city_name = data.city_name;
+							
+							this.getColumnList();
+							this.getAdvs();
+						})
+					},
+					getAdvs(){
+						const data = {
+							falg: ['h5_home_top1','h5_home_top2'],
+							city_no: this.city_no
+						};
+						
+						this.$http.ajax({
+							url: '/index/adv/getAdvByFlag',
+							data: data,
+						}).then( res=>{
+							let data = res.data;
+							let banners = [];
+							for(let i in data.h5_home_top1){
+								data.h5_home_top1[i]&&data.h5_home_top1[i].img&&banners.push({
+									img: data.h5_home_top1[i].img[0],
+									href: data.h5_home_top1[i].href,
+									info: data.h5_home_top1[i].info,
+									cover: data.h5_home_top1[i].cover,
+								});
+							}
+							this.bannerList = banners;
+
+							let activityList = [];
+							for(let i in data.h5_home_top2){
+								data.h5_home_top2[i]&&data.h5_home_top2[i].img&&activityList.push({
+									img: data.h5_home_top2[i].img[0],
+									href: data.h5_home_top2[i].href,
+									info: data.h5_home_top2[i].info,
+									cover: data.h5_home_top2[i].cover,
+									title:data.h5_home_top2[i].title
+								});
+							}
+							this.activityList = activityList
+						})
+					},
+					getColumnList(){
+						const data = {
+							group_flag: 'h5_home_icons'
+						};
+						
+						this.$http.ajax({
+							url: '/index/news/getColumnList',
+							data: data,
+						}).then( res=>{
+							let data = res.data;
+							this.columns = data;
+						})
+					},
+				},
+			})
+		});
+</script>

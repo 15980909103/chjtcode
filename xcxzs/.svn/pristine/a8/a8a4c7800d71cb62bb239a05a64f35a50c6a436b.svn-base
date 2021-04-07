@@ -1,0 +1,43 @@
+[2020-11-30T16:24:22+08:00][error] [1]Uncaught RedisException: read error on connection to 127.0.0.1:59091 in /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:17
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php(17): Redis->auth()
+#1 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(262): Smf\ConnectionPool\Connectors\PhpRedisConnector->connect()
+#2 /mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/ConnectionPool.php(94): Smf\ConnectionPool\ConnectionPool->createConnection()
+#3 {main}
+  thrown[/mnt/e/project/999house_v2/vendor/open-smf/connection-pool/src/Connectors/PhpRedisConnector.php:17]
+[2020-11-30T16:33:20+08:00][error] [1]Uncaught think\db\exception\PDOException: SQLSTATE[22007]: Invalid datetime format: 1292 Truncated incorrect DOUBLE value: 'undefined' in /mnt/e/project/999house_v2/vendor/topthink/think-orm/src/db/PDOConnection.php:722
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/topthink/think-orm/src/db/PDOConnection.php(778): think\db\PDOConnection->getPDOStatement()
+#1 /mnt/e/project/999house_v2/vendor/topthink/think-orm/src/db/PDOConnection.php(748): think\db\PDOConnection->queryPDOStatement()
+#2 /mnt/e/project/999house_v2/vendor/topthink/think-orm/src/db/PDOConnection.php(978): think\db\PDOConnection->execute()
+#3 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/pool/Proxy.php(105): think\db\PDOConnection->update()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/pool/proxy/Connection.php(139): think\swoole\pool\Proxy->__call()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-orm/src/db/BaseQuery.php(1032): think\swoole\pool\proxy\Connection->update()
+#6 /mnt/e/project/999house_v2/app/i[/mnt/e/project/999house_v2/vendor/topthink/think-orm/src/db/PDOConnection.php:722]
+[2020-11-30T16:55:20+08:00][error] [1]Uncaught think\db\exception\PDOException: SQLSTATE[22007]: Invalid datetime format: 1292 Truncated incorrect DOUBLE value: 'undefined' in /mnt/e/project/999house_v2/vendor/topthink/think-orm/src/db/PDOConnection.php:722
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/topthink/think-orm/src/db/PDOConnection.php(778): think\db\PDOConnection->getPDOStatement()
+#1 /mnt/e/project/999house_v2/vendor/topthink/think-orm/src/db/PDOConnection.php(748): think\db\PDOConnection->queryPDOStatement()
+#2 /mnt/e/project/999house_v2/vendor/topthink/think-orm/src/db/PDOConnection.php(978): think\db\PDOConnection->execute()
+#3 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/pool/Proxy.php(105): think\db\PDOConnection->update()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/pool/proxy/Connection.php(139): think\swoole\pool\Proxy->__call()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-orm/src/db/BaseQuery.php(1032): think\swoole\pool\proxy\Connection->update()
+#6 /mnt/e/project/999house_v2/app/i[/mnt/e/project/999house_v2/vendor/topthink/think-orm/src/db/PDOConnection.php:722]
+[2020-11-30T16:55:31+08:00][error] [1]Uncaught think\db\exception\PDOException: SQLSTATE[22007]: Invalid datetime format: 1292 Truncated incorrect DOUBLE value: 'undefined' in /mnt/e/project/999house_v2/vendor/topthink/think-orm/src/db/PDOConnection.php:722
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/topthink/think-orm/src/db/PDOConnection.php(778): think\db\PDOConnection->getPDOStatement()
+#1 /mnt/e/project/999house_v2/vendor/topthink/think-orm/src/db/PDOConnection.php(748): think\db\PDOConnection->queryPDOStatement()
+#2 /mnt/e/project/999house_v2/vendor/topthink/think-orm/src/db/PDOConnection.php(978): think\db\PDOConnection->execute()
+#3 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/pool/Proxy.php(105): think\db\PDOConnection->update()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/pool/proxy/Connection.php(139): think\swoole\pool\Proxy->__call()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-orm/src/db/BaseQuery.php(1032): think\swoole\pool\proxy\Connection->update()
+#6 /mnt/e/project/999house_v2/app/i[/mnt/e/project/999house_v2/vendor/topthink/think-orm/src/db/PDOConnection.php:722]
+[2020-11-30T16:56:17+08:00][error] [1]Uncaught think\db\exception\PDOException: SQLSTATE[22007]: Invalid datetime format: 1292 Truncated incorrect DOUBLE value: 'undefined' in /mnt/e/project/999house_v2/vendor/topthink/think-orm/src/db/PDOConnection.php:722
+Stack trace:
+#0 /mnt/e/project/999house_v2/vendor/topthink/think-orm/src/db/PDOConnection.php(778): think\db\PDOConnection->getPDOStatement()
+#1 /mnt/e/project/999house_v2/vendor/topthink/think-orm/src/db/PDOConnection.php(748): think\db\PDOConnection->queryPDOStatement()
+#2 /mnt/e/project/999house_v2/vendor/topthink/think-orm/src/db/PDOConnection.php(978): think\db\PDOConnection->execute()
+#3 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/pool/Proxy.php(105): think\db\PDOConnection->update()
+#4 /mnt/e/project/999house_v2/vendor/topthink/think-swoole/src/pool/proxy/Connection.php(139): think\swoole\pool\Proxy->__call()
+#5 /mnt/e/project/999house_v2/vendor/topthink/think-orm/src/db/BaseQuery.php(1032): think\swoole\pool\proxy\Connection->update()
+#6 /mnt/e/project/999house_v2/app/i[/mnt/e/project/999house_v2/vendor/topthink/think-orm/src/db/PDOConnection.php:722]

@@ -1,0 +1,198 @@
+<?php
+namespace app\common\lib\delayQueue;
+
+
+use app\common\lib\delayQueue\DelayQueueCoTaskPool;
+use app\common\manage\TaskManage;
+use app\common\pool\RedisPool;
+use app\common\traits\TraitInstance;
+use think\facade\Config;
+use think\facade\Log;
+
+class DelayQueue {
+
+    private $prefix = 'fenxiao:delay_queue:';//前缀
+
+    /**
+     * redis存储队列名称集的名称
+     * @var string
+     */
+    private $redis_delayQueueNames = 'delayQueueNames';
+
+    private static $_instance = null;
+
+
+
+    private function __construct() { }
+
+    final private function __clone() {}
+
+    use TraitInstance;
+
+    /**
+     * 添加任务信息到队列
+     * @param string $queue_name //队列名称
+     * @param int $delay //延迟几秒
+     * @param $jobClass //要处理的类或者方法
+     * @param null $args //执行的传入参数
+     * @param int $refresh //是否强制刷新 1强制刷新，0不刷新
+     *
+     * demo DelayQueue::getInstance('test')->addTask(
+     *    'app\common\lib\delayqueue\job\Test',
+     *    strtotime('2018-05-02 20:55:20'),
+     *    ['abc'=>111]
+     * );
+     */
+    public function addTask($queue_name = '', $delay = 0, $jobClass, $args = null, $refresh = 0)
+    {
+        $key = $this->prefix.$queue_name;
+        $arr = [
+            'name' => $queue_name,
+            'delay'=>$delay,
+        ];
+        $params = [
+            'doTask' => $jobClass,
+            'data'  => $args,
+            'addtime' => $args['addtime']??time(),
+        ];
+
+        $redis = RedisPool::getInstance()->init();
+//        $redis->sAdd($this->redis_delayQueueNames,json_encode($arr,JSON_UNESCAPED_UNICODE));
+//        $redis->zAdd(
+//            $key,
+//            $params['addtime'],
+//            //serialize($params)
+//            $this->compressData($params)
+//        );
+        //开启管道模式，代表将操作命令暂时放在管道里
+        $pipe = $redis->multi($redis::PIPELINE);
+        $pipe->sAdd($this->redis_delayQueueNames,json_encode($arr,JSON_UNESCAPED_UNICODE));
+        $pipe->zAdd(
+            $key,
+            $params['addtime'],
+            //serialize($params)
+            $this->compressData($params)
+        );
+        //提交管道里操作命令
+        $pipe->exec();
+        $pipe->discard();
+    }
+
+    /**
+     * 取出队列数据
+     * @param string $queue_name
+     * @param int $delay
+     * @return array
+     */
+    public function getTask($queue_name = '', $delay = 0){
+        $key = $this->prefix.$queue_name;
+        $redis = RedisPool::getInstance()->init();
+
+        //$result = $redis->zRange($key, 0 ,0);//取出有序集第一个元素
+        $result = $redis->zRangeByScore($key, 0 ,time()-$delay, ['limit' => [0,10] ]); //批量取出某个时间内的元素集合
+        $res = [];
+        if(!empty($result)){
+            //取出后删除队列
+            $redis->zRem($key, ...$result);
+
+            foreach ($result as $item){
+                $item = $this->unCompressData($item);
+                $jobClass = $item['doTask'];
+                if(!is_callable($jobClass)&&!@class_exists($jobClass)) {//未设置任务执行方法
+                    print_r($key . ' undefined doTask' . PHP_EOL);
+                }else{
+                    $res[] = $item;
+                }
+            }
+            //print_r($res);
+        }
+        unset($result);
+
+        return $res;
+    }
+
+    private function run(){
+        $delayQueueCoTaskPool = DelayQueueCoTaskPool::getInstance();
+        $delayQueueCoTaskPool->init();
+
+        go(function ()use( $delayQueueCoTaskPool){
+            $delayQueue = DelayQueue::getInstance();
+            $redis = RedisPool::getInstance()->init();
+            $queueNames_time = 0;$queueNames = [];
+            do{
+                try{
+                    if(time()-$queueNames_time>1){
+                        $queueNames = $redis->sMembers($this->redis_delayQueueNames)??'';
+                        if(empty($queueNames)){
+                            \Co::sleep(0.2);
+                            continue;
+                        }
+                        $queueNames_time = time();
+                    }
+
+                    foreach ($queueNames as $v){
+                        $v = json_decode($v,true);
+                        if(!empty($v['name'])){
+                            $rs = $delayQueue->getTask($v['name'], intval($v['delay']));//获取要处理的任务
+                            if(empty($rs)){//暂时无任务的时候
+                                \Co::sleep(0.2);
+                                continue;
+                            }
+
+                            //进行任务池投递//任务的通道满了时候，写入自动进行堵塞等待
+                            $delayQueueCoTaskPool->addTaskAsync($rs);//使用不获取返回通道值的异步投递
+                        }
+                    }
+                    unset($rs);
+
+                }catch (\Throwable $e){
+                    Log::write('延迟队列投递任务错误'.$e->getMessage(),'notice');
+                }
+            }while (true);
+        });
+    }
+
+    //通过自定义进程启动进行监听处理
+    public function startInMyProcess($Server){
+        //添加进程进行任务获取监听
+        $Server->addProcess($this->createProcess());
+    }
+
+    protected function createProcess(){
+        return new \Swoole\Process(function ($process) {
+            $this->setProcessName($process,'user_delayQueue');
+
+            $this->run();
+        });
+    }
+
+    protected function setProcessName($process, $name){
+        $serverName = 'swoole_http_server';
+        $appName    = Config::get('app.name', 'ThinkPHP');
+        $name = sprintf('%s: %s for %s', $serverName, $name, $appName);
+        $process->name($name);
+    }
+
+
+
+    /**
+     * 压缩字符串内容
+     * @param string|array $data
+     * @return false|string
+     */
+    protected function compressData($data){
+        $data['doTask'] = \Opis\Closure\serialize($data['doTask']);
+        return gzcompress(json_encode($data,JSON_UNESCAPED_UNICODE));
+    }
+
+    /**
+     * 解压字符串内容
+     * @param string $data
+     * @return false|string
+     */
+    protected function unCompressData($data = ''){
+        $data = json_decode(gzuncompress($data),true);
+        $data['doTask'] = \Opis\Closure\unserialize($data['doTask']);
+        return $data;
+    }
+}

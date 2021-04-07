@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+		<title>房贷计算器</title>
+		<link rel="stylesheet" href="../../common/vant/index.css"/>
+		<link rel="stylesheet" href="../../common/css/public.css?v=1.19"/>
+		<link rel="stylesheet" href="../../static/css/houses/loan.css"/>
+		<style>
+			
+		</style>
+	</head>
+	<body>
+		<div id="app" v-cloak ref="DOM">
+			<top-bar title="房贷计算器" ></top-bar>
+			<van-tabs class="tabs" color="rgba(254, 130, 30, 1)" v-model="active" @change="tabChange">
+				
+				<van-tab :title="item.name" v-for="(item,index) in list" :key="index">
+					<van-form @submit="onSubmit">
+						<van-field name="radio" label="计算方式" >
+							<template #input>
+								<van-radio-group v-model="loans.radio" direction="horizontal">
+									<van-radio name="1">按贷款总额</van-radio>
+									<van-radio name="2">按房屋总价</van-radio>
+								</van-radio-group>
+							</template>
+						</van-field>
+						
+						<template v-if="index == 0">
+							<template v-if="loans.radio == 2">
+								<van-field
+									class="addUnit"
+									v-model="loans.total"
+									type="number"
+									name="total"
+									maxlength="16"
+									label="房屋总价"
+									placeholder="房屋总价"
+									:rules="[{ required: true, message: '请填写房屋总价' }]"
+									@input="changeVal('fundMoney')"
+								></van-field>
+								<van-field
+									class="addUnit2"
+									v-model="loans.ratio"
+									type="number"
+									name="ratio"
+									maxlength="16"
+									label="贷款比例"
+									placeholder="贷款比例"
+									:rules="[{ required: true, message: '请填写贷款比例' }]"
+									@input="changeVal('fundMoney')"
+								></van-field>
+							</template>
+							
+							
+							<van-field
+								class="addUnit"
+								v-model="loans.fundMoney"
+								type="number"
+								name="money"
+								maxlength="16"
+								label="公积金金额"
+								placeholder="公积金金额"
+								:rules="[{ required: true, message: '请填写公积金金额' }]"
+							></van-field>
+							<van-field
+								readonly
+								clickable
+								name="time"
+								:is-link="true"
+								:value="loans.fundTime"
+								label="公积金年限"
+								@click="pickerShow(0,'fundTime','公积金年限')"
+							/></van-field>
+							<van-field
+								readonly
+								clickable
+								name="rate"
+								:is-link="true"
+								:value="loans.fundRate"
+								label="公积金利率"
+								@click="pickerShow(0,'fundRate','公积金利率')"
+							/></van-field>
+								
+						</template>
+						<!-- 商业贷款 -->
+						<template v-else-if="index == 1">
+							<template v-if="loans.radio == 2">
+								<van-field
+									class="addUnit"
+									v-model="loans.total"
+									type="number"
+									name="total"
+									maxlength="16"
+									label="房屋总价"
+									placeholder="房屋总价"
+									:rules="[{ required: true, message: '请填写房屋总价' }]"
+									@input="changeVal('tradeMoney')"
+								></van-field>
+								<van-field
+									class="addUnit2"
+									v-model="loans.ratio"
+									type="number"
+									name="ratio"
+									maxlength="16"
+									label="贷款比例"
+									placeholder="贷款比例"
+									:rules="[{ required: true, message: '请填写贷款比例' }]"
+									@input="changeVal('tradeMoney')"
+								></van-field>
+							</template>
+							<van-field
+								class="addUnit"
+								v-model="loans.tradeMoney"
+								type="number"
+								name="money"
+								maxlength="16"
+								label="商贷金额"
+								placeholder="商贷金额"
+								:rules="[{ required: true, message: '请填写商贷金额' }]"
+							></van-field>
+							<van-field
+								readonly
+								clickable
+								name="time"
+								:is-link="true"
+								:value="loans.tradeTime"
+								label="商贷年限"
+								@click="pickerShow(1,'tradeTime','商贷年限')"
+							/></van-field>
+							
+							<div class="method">
+								<van-field
+									readonly
+									clickable
+									name="method"
+									:is-link="true"
+									:value="loans.tradeMethod"
+									label="利率方式"
+									@click="pickerShow(1,'tradeMethod','利率方式')"
+								/></van-field>
+								<div class="method-box" v-show="loans.tradeMethod == '按LPR'">
+									<div class="method-tip">
+										<span>
+											<van-tag type="primary">7.2</van-tag>
+											LPR: {{title}}
+										</span>
+										<span class="method-history" @click="showLPR = true">
+											历史LPR
+										</span>
+									</div>
+								</div>
+							</div>
+							<van-field
+								readonly
+								clickable
+								name="rate"
+								:is-link="true"
+								:value="loans.tradeRate"
+								label="商贷利率"
+								@click="pickerShow(1,'tradeRate','商贷利率')"
+							/></van-field>
+							
+						</template>
+						<!-- 组合贷款 -->
+						<template v-else>
+							<template v-if="loans.radio == 2">
+								<van-field
+									class="addUnit"
+									v-model="loans.total"
+									type="number"
+									name="total"
+									maxlength="16"
+									label="房屋总价"
+									placeholder="房屋总价"
+									:rules="[{ required: true, message: '请填写房屋总价' }]"
+									@input="changeVal('money')"
+								></van-field>
+								<van-field
+									class="addUnit2"
+									v-model="loans.ratio"
+									type="number"
+									name="ratio"
+									maxlength="16"
+									label="贷款比例"
+									placeholder="贷款比例"
+									:rules="[{ required: true, message: '请填写贷款比例' }]"
+									@input="changeVal('money')"
+								></van-field>
+							</template>
+							<van-field
+								class="addUnit"
+								v-model="loans.money"
+								type="number"
+								name="money"
+								maxlength="16"
+								label="贷款总额"
+								placeholder="贷款总额"
+								:rules="[{ required: true, message: '请填写贷款总额' }]"
+								@input="changeGrpupVal"
+							></van-field>
+							
+							<div class="cut-line"></div>
+							
+							<van-field
+								class="addUnit"
+								v-model="loans.fundMoney"
+								type="digit"
+								name="fundMoney"
+								maxlength="16"
+								label="公积金金额"
+								placeholder="公积金金额"
+								:rules="[{ required: true, message: '请填写公积金金额' }]"
+								@blur="examVal('fundMoney')"
+								@input="changeGroupMoney('fundMoney')"
+							></van-field>
+							<van-field
+								readonly
+								clickable
+								name="fundTime"
+								:is-link="true"
+								:value="loans.fundTime"
+								label="公积金年限"
+								@click="pickerShow(2,'fundTime','公积金年限')"
+							/></van-field>
+							<van-field
+								readonly
+								clickable
+								name="fundRate"
+								:is-link="true"
+								:value="loans.fundRate"
+								label="公积金利率"
+								@click="pickerShow(0,'fundRate','公积金利率')"
+							/></van-field>
+							
+							<div class="cut-line"></div>
+							
+							<van-field
+								class="addUnit"
+								v-model="loans.tradeMoney"
+								type="digit"
+								name="tradeMoney"
+								maxlength="16"
+								label="商贷金额"
+								placeholder="商贷金额"
+								:rules="[{ required: true, message: '请填写商贷金额' }]"
+								@blur="examVal('tradeMoney')"
+								@input="changeGroupMoney('tradeMoney')"
+							></van-field>
+							<van-field
+								readonly
+								clickable
+								name="tradeTime"
+								:is-link="true"
+								:value="loans.tradeTime"
+								label="商贷年限"
+								@click="pickerShow(2,'tradeTime','商贷年限')"
+							/></van-field>
+							<div class="method">
+								<van-field
+									readonly
+									clickable
+									name="tradeMethod"
+									:is-link="true"
+									:value="loans.tradeMethod"
+									label="利率方式"
+									@click="pickerShow(2,'tradeMethod','利率方式')"
+								/></van-field>
+								<div class="method-box" v-show="loans.tradeMethod == '按LPR'">
+									<div class="method-tip">
+										<span>
+											<van-tag type="primary">7.2</van-tag>
+											LPR: {{title}}
+										</span>
+										<span class="method-history" @click="showLPR = true">
+											历史LPR
+										</span>
+									</div>
+								</div>
+							</div>
+							<van-field
+								readonly
+								clickable
+								name="tradeRate"
+								:is-link="true"
+								:value="loans.tradeRate"
+								label="商贷利率"
+								@click="pickerShow(1,'tradeRate','商贷利率')"
+							/></van-field>
+						</template>
+						
+						<div style="margin: 0.8rem 0.32rem">
+							<van-button block type="info" color="rgba(254, 130, 30, 1)" native-type="submit">
+								开始计算
+							</van-button>
+						</div>
+					</van-form>
+
+				</van-tab>
+			  
+			</van-tabs>
+			<!-- LPR弹窗 -->
+			<van-popup v-model="showLPR" :close-on-click-overlay="false">
+				<div class="LPR">
+					<!-- <div class="LPR-box" v-html="LPRArr"></div> -->
+					<div class="LPR-box">
+						<h4 class="LPR-title">LPR（贷款市场报价利率）</h4>
+						<div class="LPR-content">
+							自2019年10月8日起，新发放的商业住房贷款的贷款利率由<i>“贷款基准利率（4.9%）”转换为“贷款市场报价利率（LPR）”</i>。再LPR的基础上增加基点来确定最终的商贷利率；LPR每月20日（遇节假日延顺）报价一次，可在中国人民银行网站查询。
+						</div>
+						<h4 class="LPR-title2">最近一年LPR值</h4>
+						<div>
+							<p>（贷款年限在1-5年期间，由银行自主选择采用用一年期or五年期LPR）</p>
+							<div class="LPR-wrap">
+								<div class="LPR-wrap-title">
+									<span>发布时间</span>
+									<span>一年期</span>
+									<span>五年期</span>
+								</div>
+								<template v-for="(item,index) in LPRArr">
+									<div class="LPR-wrap-item" v-if="LPRArr.length > 0" :key="index">
+										<span>{{ item.time }}</span>
+										<span>{{ item['1'] }}</span>
+										<span>{{ item['5'] }}</span>
+									</div>
+								</template>
+							</div>
+						</div>
+					</div>
+					<van-button plain type="danger" @click="showLPR = false">知道了</van-button>
+				</div>
+			</van-popup>
+			
+			<van-popup v-model="showPicker" position="bottom">
+				<van-picker
+					show-toolbar
+					:title="choose.title"
+					:columns="columns"
+					:default-index="columnsChoose"
+					@confirm="onConfirm"
+					@cancel="showPicker = false"
+				></van-picker>
+				
+				<div class="rate-wrap" v-show="choose.type == 'rate'">
+					<div>
+						{{ inputText }}
+					</div>
+					<div class="rate-box">
+						<div class="rate-input" @click="inputMul = true">
+							<span :class="[ rateMul == '' ? 'rate-input-no' : '']">
+								{{ rateMul == '' ? '请输入' : rateMul }}
+							</span>
+							&nbsp;
+							<span>{{ inputText == '自定义倍数' ? '倍' : '%' }}</span>
+						</div>
+						<van-button plain type="default" v-show="rateMul != ''" @click="sureRate">{{ inputText == '自定义倍数' ? '确认倍数' : '确认利率' }}</van-button>
+					</div>
+				</div>
+			</van-popup>
+			<!-- 数字键盘 -->
+			<van-overlay class="input-mul" :show="inputMul" @click="inputMul = false">
+				<van-number-keyboard
+					:data-attr="rateMul"
+					:data-text="inputText"
+					
+					v-model="rateMul"
+					:show="inputMul"
+					theme="custom"
+					maxlength="6"
+					extra-key="."
+					close-button-text="确定"
+					@blur="inputOver"
+					@close="inputMul = false"
+					@input="inputVal"
+				></van-number-keyboard>
+			</van-overlay>
+			<div id="container-user-site"></div>
+		</div>
+	</body>
+</html>
+
+<script src="../../common/js/vue.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/rem.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/public.js?v=1.19" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/vant/index.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../common/js/fastclick.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript" src="https://webapi.amap.com/maps?v=2.0&key=53da8183ca23918f2f81c79a5b2ede15&plugin=AMap.Geocoder"></script>
+<script type="module">
+	import { http, loginMixin } from '../../common/js/method/http.js?v=1.19';
+	
+	Vue.use(http);
+	
+	 
+	const myComponents = [
+		'../../components/common/topBar/index',
+	];
+
+	$api.addComponents(myComponents)
+		.then(()=>{
+			Vue.use(vant.Lazyload);
+	
+			const app = new Vue({
+				el: '#app',
+				data: {
+					active: 0,
+					title: '',
+					myData: '',
+					list: [
+						{
+							name: '公积金贷款',
+							rate: [],
+							basic: ''
+						},
+						{
+							name: '商业贷款',
+							rate: [],
+							rateLRP: [],
+							basic: '',
+							rateLRP: ''
+						},
+						{
+							name: '组合贷款',
+						}
+					],
+					time: ['1年','2年','3年','4年','5年','6年','7年','8年','9年','10年','11年','12年','13年','14年','15年','16年','17年','18年','19年','20年','21年','22年','23年','24年','25年','26年','27年','28年','29年','30年'],
+					rateMethod: ['按旧版基准利率','按LPR'],
+					LPRArr: [],
+					loans: {
+						radio: '1',
+						total: 0,
+						ratio: 6.5,
+						money: 0,
+						fundMoney: 0,
+						fundTime: '',
+						fundRate: '最新基准利率(3.25%)',
+						tradeMoney: 0,
+						tradeTime: '',
+						tradeMethod: '按LPR',
+						tradeRate: '',
+						inputMul: 0
+					},
+					choose: {},
+					columns: [],
+					columnsChoose: 0,
+					showPicker: false,
+					showLPR: false,
+					// 公积金利率倍数
+					rateMul: '',
+					inputMul: false,
+					groupChange: 0,
+			
+					inputText: '自定义倍数',
+				},
+				components: {
+					topBar,
+				},
+				mixins: [loginMixin],
+				watch: {
+					'loans.fundTime': {
+						handler: function( newV, oldV ){
+							if( oldV != '' ){
+								this.initRate(newV,'fund');
+							}
+						}
+					},
+					'loans.tradeTime': {
+						handler: function( newV, oldV ){
+							if( oldV != '' ){
+								this.initRate(newV,'trade');
+							}
+						}
+					},
+				},
+				created() {
+					this.getList();
+					// console.log(this.computedAmount(300,30,4.9))
+				},
+				methods:{
+					tabChange() {
+						this.rateMul = '';
+					},
+					getList(){
+						this.$http.ajax({
+							method: 'GET',
+							url: '/index/estates/getInterestRateList'
+						}).then( res=>{
+							let data = res.data;
+							
+							this.myData = data;
+							
+							this.LPRArr = data.historyLPR;
+							this.title = data.titleLPR;
+							
+							this.init(); 
+						})
+					},
+					init() {
+						this.loans = {
+							radio: '1',
+							total: 0,
+							ratio: 6.5,
+							money: 0,
+							fundMoney: 0,
+							fundTime: '',
+							fundRate: '最新基准利率(3.25%)',
+							tradeMoney: 0,
+							tradeTime: '',
+							tradeMethod: '按LPR',
+							tradeRate: '',
+						};
+						
+						this.loans.fundTime = this.loans.tradeTime = this.time[this.time.length - 1];
+						
+						// 请求数据后赋值
+						this.initRate(this.loans.fundTime);
+					},
+					initRate( year, type ) {
+						year = Number(year.substring(0,year.length-1));
+						// console.log(type)
+						if( type ){
+							if( type == 'fund' ){
+								this.myData.fund && this.myData.fund.map( item=>{
+									if( year >= Math.min.apply(null,item.time) && year <= Math.max.apply(null,item.time) ){
+										this.$set(this.list[0], 'rate', item.val);
+										this.$set(this.list[0], 'basic', item.basic);
+									}
+								})
+								// console.log(this.list[0].rate)
+								this.loans.fundRate = this.list[0].rate[this.list[0].rate.indexOf(this.list[0].basic)];
+							} else {
+								if( this.loans.tradeMethod == '按LPR' ){
+									this.myData.businessLPR && this.myData.businessLPR.map( item=>{
+										if( year >= Math.min.apply(null,item.time) && year <= Math.max.apply(null,item.time) ){
+											this.$set(this.list[1], 'rateLRP', item.val);
+											this.$set(this.list[1], 'basicLRP', item.basic);
+										}
+									})
+									
+									this.loans.tradeRate = this.list[1].rateLRP[this.list[1].rateLRP.indexOf(this.list[1].basicLRP)];
+								} else {
+									this.myData.business && this.myData.business.map( item=>{
+										if( year >= Math.min.apply(null,item.time) && year <= Math.max.apply(null,item.time) ){
+											console.log(item.val)
+											this.$set(this.list[1], 'rate', item.val);
+											this.$set(this.list[1], 'basic', item.basic);
+										}
+									})
+									
+									this.loans.tradeRate = this.list[1].rate[this.list[1].rate.indexOf(this.list[1].basic)];
+								}
+							}
+							
+						} else {
+							this.myData.fund && this.myData.fund.map( item=>{
+								if( year >= Math.min.apply(null,item.time) && year <= Math.max.apply(null,item.time) ){
+									this.$set(this.list[0], 'rate', item.val);
+									this.$set(this.list[0], 'basic', item.basic);
+								}
+							})
+							
+							this.myData.business && this.myData.business.map( item=>{
+								if( year >= Math.min.apply(null,item.time) && year <= Math.max.apply(null,item.time) ){
+									this.$set(this.list[1], 'rate', item.val);
+									this.$set(this.list[1], 'basic', item.basic);
+								}
+							})
+							
+							this.myData.businessLPR && this.myData.businessLPR.map( item=>{
+								if( year >= Math.min.apply(null,item.time) && year <= Math.max.apply(null,item.time) ){
+									this.$set(this.list[1], 'rateLRP', item.val);
+									this.$set(this.list[1], 'basicLRP', item.basic);
+								}
+							})
+
+							this.loans.fundRate = this.list[0].rate[this.list[0].rate.indexOf(this.list[0].basic)];
+							this.loans.tradeRate = this.list[1].rateLRP[this.list[1].rateLRP.indexOf(this.list[1].basicLRP)];
+						}
+					},
+					pickerShow(num, type, title) {
+						console.log(num,type,title)
+						if( type == 'fundTime' || type == 'tradeTime' ){
+							this.columns = this.time;
+							this.columnsChoose = this.columns.length - 1;
+							this.$set(this.choose, 'type', 'other');
+						} else if( type == 'tradeMethod'){
+							this.columns = this.rateMethod;
+							this.columnsChoose = this.columns.length - 1;
+							this.$set(this.choose, 'type', 'other');
+						} else if(  type == 'fundRate' ){
+							this.inputText = '自定义倍数';
+							this.columns = this.list[num].rate;
+							this.columnsChoose = this.columns.indexOf(this.list[0].basic);
+							this.$set(this.choose, 'type', 'rate');
+						} else {
+							let key = '';
+							
+							if( this.loans.tradeMethod == '按LPR' ){
+								key = 'rateLRP';
+								this.inputText = '自定义利率';
+							} else {
+								key = 'rate';
+								this.inputText = '自定义倍数';
+							}
+							
+							this.columns = this.list[num][key];
+							
+							if( key == 'rate' ){
+								this.columnsChoose = this.columns.indexOf(this.list[1].basic);
+							} else {
+								this.columnsChoose = this.columns.indexOf(this.list[1].basicLRP);
+							}
+							
+							this.$set(this.choose, 'type', 'rate');
+						}
+				
+
+						this.$set(this.choose, 'which', type);
+						this.$set(this.choose, 'title', title);
+						
+						this.showPicker = true;
+					},
+					onConfirm(value) {
+						this.rateMul = '';
+						this.$set(this.loans, this.choose.which, value);
+						
+						if( value == '按旧版基准利率' || value == '按LPR'){
+							this.initRate(this.loans.tradeTime,'trade');
+						}
+						
+						this.showPicker = false;
+					},
+					inputVal() {
+						// console.log(888)
+					},
+					inputOver() {
+						if( this.rateMul == 0 ){
+							this.rateMul = '';
+							this.loans.inputMul = 0;
+						}
+					},
+					// 确认倍数
+					sureRate() {
+						let value,
+							newVal,
+							newVal1;
+							
+						this.loans.inputMul = this.rateMul;
+				
+						if( this.choose.which == 'fundRate' ){
+							value = this.list[0].basic;
+							newVal = value.match(/\(([^)]*)\)/)[1];
+							newVal = newVal.substring(0,newVal.length-1);
+							newVal1 = newVal*this.loans.inputMul;
+							newVal1 = newVal1.toFixed(2);
+							value = value.replace(newVal,newVal1);
+							
+						} else {
+							if( this.loans.tradeMethod != '按LPR' ){
+								value = this.list[1].basic;
+								console.log(value)
+								newVal = value.match(/\(([^)]*)\)/)[1];
+								newVal = newVal.substring(0,newVal.length-1);
+								newVal1 = newVal*this.loans.inputMul;
+								newVal1 = newVal1.toFixed(2);
+								value = value.replace(newVal,newVal1);
+							} else {
+								value = this.loans.inputMul + '%';
+							}
+						}
+
+						this.$set(this.loans, this.choose.which, value);
+						this.showPicker = false;
+					},
+					// 公积金/商业贷款 金额联动
+					changeVal( type ) {
+						
+						this.loans[type] = this.loans.total * this.loans.ratio/10;
+					},
+					// 组合贷款总额与商贷
+					changeGrpupVal() {
+						this.loans.tradeMoney = this.loans.money - this.loans.fundMoney;
+					},
+					// 组合贷款 金额联动
+					changeGroupMoney( type ) {
+						if( this.loans.money == 0 ){
+							return;
+						}
+						
+						this.groupChange = type == 'tradeMoney' ? 1 : 2;
+						
+						if( type == 'tradeMoney' && this.groupChange == 1){
+							this.loans.fundMoney = this.loans.money - this.loans.tradeMoney;
+						}else if( type == 'fundMoney' && this.groupChange == 2){
+							this.loans.tradeMoney = this.loans.money - this.loans.fundMoney;
+						}
+					},
+					// 检测组合贷款金额
+					examVal( type ) {
+						this.groupChange = 0;
+						
+						if( this.loans.money != 0 ){
+							const myVal = Number(this.loans.fundMoney) + Number(this.loans.tradeMoney);
+							
+							if( myVal > this.loans.money ){
+								this.$toast('公积金与商贷金额不能大于贷款总额');
+								this.loans[type] = 0;
+							}
+							
+							return;
+						}
+						
+						this.$toast('请输入贷款总额');
+						this.loans[type] = 0;
+					},
+					onSubmit(values) {
+				
+						if( this.active == 0 || this.active == 1){	//	公积金/商业贷款
+							if( this.active == 0 && values.money == 0 ){ //	公积金贷款
+								this.$toast('请输入公积金金额');
+								return;
+							}else if( values.money == 0 ){ //	商业贷款
+								this.$toast('请输入商贷金额');
+								return;
+							}
+						} else { //	组合贷款
+							if( values.money == 0 ){
+								this.$toast('请输入贷款总额');
+								return;
+							}else if( values.fundMoney == 0 ){
+								this.$toast('请输入公积金金额');
+								return;
+							}else if( values.tradeMoney == 0 ){
+								this.$toast('请输入商贷金额');
+								return;
+							}
+						}
+						
+						let title,
+							year,
+							year1,
+							rate,
+							rate1,
+							data,
+							data1,
+							info,
+							option;
+
+						switch( this.active ){
+							case 0:
+							title = '公积金贷款';
+							break;
+							case 1:
+							title = '商业贷款';
+							break;
+							case 2:
+							title = '组合贷款';
+							break;
+						};
+						
+						if( this.active == 0 || this.active == 1){	//	公积金/商业贷款
+								
+							rate = _myRate(values.rate);
+							
+							year = values.time.substring(0,values.time.length-1);
+
+							data = this.computedAmount(values.money, year, rate);
+							
+							info = {
+								money: Number(values.money),
+								year:  Number(year),
+								rate:  Number(rate)
+							}
+							
+							option = {
+								title: title,
+								data: data,
+								info: info
+							};
+							
+						} else { //	组合贷款
+							
+							rate = _myRate(values.fundRate);
+							year = values.fundTime.substring(0,values.fundTime.length-1);
+							data = this.computedAmount(values.fundMoney, year, rate);
+							
+							rate1 = _myRate(values.tradeRate);
+							year1 = values.tradeTime.substring(0,values.tradeTime.length-1);
+							data1 = this.computedAmount(values.tradeMoney, year1, rate1);
+							
+							info = {
+								fundMoney:  Number(values.fundMoney),
+								tradeMoney:  Number(values.tradeMoney),
+								year:  Number(year),
+								year1:  Number(year1),
+								rate:  Number(rate),
+								rate1:  Number(rate1)
+							}
+							
+							option = {
+								title: title,
+								data: data,
+								data1: data1,
+								info: info
+							};
+						}
+						
+						console.log(data[0],data[1])
+
+						this.$api.localSet('loan',option);
+
+						$api.goPage('houses/loan_result.html');
+						
+						function _myRate( rate ){
+							let newRate;
+							console.log(rate.indexOf('LPR'),888)
+							if( rate.indexOf('LPR') == -1 ){
+								if( rate.indexOf('利率') != -1 ){
+									newRate = rate.match(/\(([^)]*)\)/)[1];
+									newRate = newRate.substring(0,newRate.length-1);
+								} else {
+									newRate = rate.slice(0,rate.length-1);
+								}
+							} else {
+								newRate = rate.substring(0,rate.indexOf('%'));
+							}
+							return newRate;
+						}
+					},
+					computedAmount(money, year, rate){
+			
+						var data = [],
+							money = money * 10000, // 贷款总金额
+							rate = rate / 12 / 100, // 贷款比例
+							month = year * 12, // 月份数量
+							rateAll = Math.pow((rate+1),month), //共还款比例
+							rateDec = Math.pow((rate+1),(month-1)); //次月共还款比例（少一个月;
+						
+						const allToFixed = function(arr) {
+							return arr.map(item => Number(item).toFixed(2));
+						}
+					
+						/******************等额本息还款法******************/
+						var a = new Array(4);
+						a[0] = money * rate * rateAll / (rateAll-1); //每月月供额
+						a[1] = month;//每月月数
+						/******每月应还利息
+							 a[2] = money*rate*(rateAll-rateDec)/(rateAll-1);
+							每月应还本金  a[3] = money*rate*(rateAll-1)/rateAll;
+						********/
+						a[2] = month*a[0]-money;                             //总利息
+						a[3] = a[2]+money;                                   //本息合计
+						data.push(allToFixed(a));
+						/******************等额本金还款法******************/
+						var b = new Array(4);
+						b[0] = ((money/month)+money*rate).toFixed(2);               //每月月供额
+						b[1] = month;                                  //每月月数
+						b[2] = (money*rate/month).toFixed(2);                           //每月月供递减额
+						b[3] = [(money/month+money*rate)+money/month*(1+rate)]/2*month-money;   //总利息
+						b[4] = b[3]+money;                             //本息合计
+					
+						/******************基础******************/
+						data.push(allToFixed(b));
+						return  data;
+					}
+					
+				},
+			})
+
+	})
+	
+	
+</script>

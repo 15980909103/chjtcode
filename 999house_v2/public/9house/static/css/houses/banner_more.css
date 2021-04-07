@@ -1,0 +1,28 @@
+.box{
+	box-sizing: border-box;
+	padding: 0.2rem 0.32rem 0;
+}
+
+.box:first-child{
+	padding-top: 0.5rem;
+}
+
+.box:last-child{
+	padding-bottom: 0.54rem;
+}
+
+.box h4{
+	font-size: 0.3rem;
+	margin-bottom: 0.24rem;
+}
+
+.img-wrap img{
+	width: 2.1rem;
+	height: 1.45rem;
+	margin-right: 0.28rem;
+	margin-bottom: 0.3rem;
+}
+
+.img-wrap img:nth-child(3n){
+	margin-right: 0;
+}

@@ -1,0 +1,278 @@
+<template>
+	<view>
+		<view class="all-template">
+			<view
+				:class="[item.type != 6 ? 'template' : 'template2']" 
+				v-for="(item,key) in list" 
+				:key="key"
+				@click.stop="goDetil(item)"
+				v-if="key<limit_num"
+			>
+				<!-- 资讯 -->
+				<template v-if="[0,1,2,3,4,5,7,9,10].includes(item.type)">
+					<!-- 楼盘广告顶部 -->
+					<template v-if="item.type == 4 || item.type == 7 || item.type == 9 || item.type == 10">
+						<view class="template-top-houses" v-if="item.info.name">
+							<view class="template-top-houses-name">
+								<p class="template-name">{{item.info.name}}</p>
+								<template v-if="item.info.tip && item.info.tip.length > 0">
+									<template v-for="(houseTip,houseKey) in item.info.tip" >
+										<span 
+											:key="houseKey" 
+											v-if="houseKey < 3"
+											:class="[
+												houseTip == '在售' ? 'houses-bg-blue' : '',
+												houseTip == '待售' ? 'houses-bg-orange' : '',
+												houseTip == '售完' ? 'houses-bg-purple' : '',
+												houseTip == '尾盘' ? 'houses-bg-blue2' : '',
+												houseKey == 0 ? 'template-top-houses-name-tip' : ''
+											]"
+										>
+											{{houseTip}}
+										</span>
+									</template>
+								</template>
+								
+							</view>
+							<view class="template-top-houses-price">
+								<view v-if="item.info.price>0">
+									<span>{{item.info.price}}</span>元/m²
+								</view>
+								<view v-else>
+									价格待定
+								</view>
+								
+								<span class="template-top-houses-site">{{item.info.site}}</span>
+								<span>建面{{item.info.area}}m²</span>
+							</view>
+						</view>
+					</template>
+					<view 
+						class="template-top" 
+						:class="[ 
+							item.type == 1 && item.img && item.img.length == 1 ? 'template-news-1' : '',
+							(item.type == 1 || item.type == 2 || item.type == 4 || item.type == 10) && item.img && item.img.length > 1 ? 'template-news-3' : '',
+							(item.type == 2 || item.type == 4 || item.type == 10) && item.img && item.img.length == 1 ? 'template-ad-1' : '',
+						]"
+					>
+						<h4 class="template-title">
+							<template v-if="(item.type == 0 || item.type == 1) && ( item.hot == 1 || item.write == 1 ) && !item.html_title && haveTag && item.write == 1">
+									<!-- <image src="/9house/static/index/fire.png" v-if="item.hot == 1"> -->
+								<span 
+									class="template-title-write" 
+									v-if="(item.type == 0 || item.type == 1)&& item.write == 1"
+								>
+									原创
+								</span>
+								
+							</template>
+							<!-- <rich-text v-if="item.html_title" :nodes="item.html_title"></rich-text> -->
+							<i v-if="item.html_title" v-html="item.html_title"></i>
+							<text v-else>
+								{{item.title}}
+							</text>
+						</h4>
+						
+						<!-- 资讯/广告有图 -->
+						<span 
+							:class="[ 
+								item.type == 1 && item.img && item.img.length == 1 ? 'template-top-1-pic' : '',
+							]"
+							v-if="![0,3,5,7,9].includes(item.type) && item.img.length>0"
+						>
+							<template v-for="(url, newKey) in item.img">
+								<image :src="$api.imgDirtoUrl(url)" v-if="newKey < 3" :key="newKey">
+							</template>
+						</span>
+						
+						<!-- 广告视频占位 -->
+						<template v-if="item.type == 3 || item.type == 5 || item.type == 7 || item.type == 9">
+							<view class="template-ad-video">
+								<image style='width:100%;height:100%;' :src="$api.imgDirtoUrl(item.img)">
+							</view>
+						</template>
+					</view>
+					<view class="template-bottom" v-if="item.type != 9 && item.type != 10">
+						<!-- 资讯 / 单视频 -->
+						<template v-if="item.type == 0 || item.type == 1 || item.type == 5">
+							<view class="template-bottom-left">
+								<!-- <image :src="imgDirtoUrl(item.author.head)"> -->
+								<span v-if="haveTag">
+									{{item.author.name}} &nbsp  {{item.release_time||''}} | {{item.readNum}}次阅读
+									<!-- {{item.commentNum}}评论 -->
+								</span>
+								<span v-else>
+									{{item.release_time||''}}
+								</span>
+							</view>
+							<view class="template-bottom-news" v-if="haveTag">
+								<template v-for="(newsTip, newsTipKey) in item.tip">
+									<span class="template-bottom-tip" :key="newsTipKey" v-if="newsTipKey < 2">
+										{{newsTip}}
+									</span>
+									
+								</template>
+								<text v-if="item.tip.length > 2">...</text>
+							</view>
+							
+						</template>
+						<!-- 资讯/视频广告 -->
+						<template v-if="item.type == 2 || item.type == 3">
+							<view class="template-bottom-tip">
+								广告
+							</view>
+							<span class="template-bottom-ad-del" v-if="show_adclose" @click.stop="delAd(key)">
+								<span class="iconfont iconlujing"></span>
+							</span>
+						</template>
+						<!-- 楼盘广告 -->
+						<template v-if="item.type == 4">
+							<view class="template-bottom-left">
+								<template v-for="(house,houseIndex) in item.info.lab">
+									<span class="template3-bottom-tip" :key="houseIndex" v-if="houseIndex < 2 && house.type == 0">
+										<image :src="$api.imgDirtoUrl('/9house/static/index/hot.png')">
+										<span class="van-ellipsis">{{house.name}}</span>
+									</span>
+									<!--template3-bottom-vr--> 
+									<span class="template3-bottom-tip " :key="houseIndex" v-if="houseIndex < 2 && house.type == 1">
+										<image :src="$api.imgDirtoUrl('/9house/static/index/sale.png')">
+										<span class="van-ellipsis">{{house.name}}</span>
+									</span>
+								</template>
+							</view>
+							<view class="template-bottom-right">
+								<span class="template-bottom-tip">
+									广告
+								</span>
+								<span class="template-bottom-ad-del" v-if="show_adclose" @click.stop="delAd(key)">
+									<span class="iconfont iconlujing"></span>
+								</span>
+							</view>
+						</template>
+					</view>
+				</template>
+			</view>
+		</view>
+	</view>
+</template>
+
+<script>
+	export default{
+		data(){
+			return{
+				active_id: 0,
+			}
+		},
+		props: {
+			list: {
+				type: Array,
+				default() {
+					return []
+				}
+			},
+			titleShow: {
+				type: Boolean,
+				default() {
+					return true
+				}
+			},
+			pid:{
+				type:Number,
+				default:9
+			},
+			cate_id:{
+				type:Number,
+				default:10
+			},
+			show_adclose:{
+				type: Boolean,
+				default() {
+					return true
+				}
+			},
+			limit_num:{//现在显示的条数
+				type: Number,
+				default() {
+					return 999999
+				}
+			},
+			haveTag: {
+				type: Boolean,
+				default() {
+					return true
+				}
+			}
+		},
+		onLoad(options) {
+			if(options.active_id){
+				this.active_id = options.active_id;
+			}
+
+			console.log(this.list)
+		},
+		methods: {
+			goDetil( item ){
+				if( item.type == 0 || item.type == 1 ){	//	文章资讯
+				
+					this.goPage('discover/news_detail',{ id: item.id, pid: this.pid, cate_id: this.cate_id });
+					
+				}else if(  item.type == 2 ){		// 广告有图
+					if( item.href && (item.href.indexOf('http://') ==0 || item.href.indexOf('https://') ==0 ) ){
+						window.location.href = item.href;
+					}
+					// this.goPage('discover/news_detail.html',{ id: id });
+					
+				}else if( item.type == 3 || item.type == 5 || item.type == 7 ){	//	3-广告视频 5-单独视频 7-楼盘视频
+					
+					this.goPage('discover/video',{ id: item.id,pid:this.pid,cate_id:this.cate_id });
+					
+				}else if( [4,8,9,10].includes(item.type) ){	//	4-广告楼盘有图 8-新房 9-好房推荐楼盘视频 10-好房推荐楼盘有图
+					if(item.type == 4){
+						if(!this.$api.trim(item.href) && item.info){
+							item.href = 'houses/index?id='+item.info.estate_id+'&cover='+item.info.cover;
+						}
+						if(!item.href){
+							return
+						}
+						this.goPage(item.href);
+						return;
+					}
+					const obj = {
+						id: item.id,
+						cover: item.cover
+					}
+					// console.log(item)
+					const active_id = this.active_id;
+					
+					if(active_id){ 
+						obj.active_id = active_id 
+					}
+					// console.log(obj)
+					item.href = $api.trim(item.href)
+					if(item.href){
+						this.goPage(item.href);//有设置跳转时
+					}else{
+						this.goPage('houses/index',obj);
+					}
+				}
+			},
+			goSmallVideo( id ) {
+				this.goPage('discover/small_video',{id: id});
+			},
+			moreVideo() {
+				this.goPage('discover/small_video_list');
+			},
+			// 广告删除
+			delAd( index ) {
+				let list = this.$api.deepClone(this.list);
+				
+				list.splice(index,1);
+				
+				this.$emit('del', list);
+			}
+		}
+	}
+</script>
+<style>
+	@import './commonTemplate.css';
+</style>

@@ -1,0 +1,79 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/discover/index",
+    "pages/chat/index",
+    "pages/my/index",
+    "pages/authorize/index",
+    "pages/houses/loan",
+    "pages/houses/loan_result",
+    "pages/new_house/index",
+    "pages/new_house/good_house",
+    "pages/houses/info",
+    "pages/houses/hot_news",
+    "pages/houses/banner_more",
+    "pages/houses/house_type",
+    "pages/houses/send_comment",
+    "pages/houses/comment",
+    "pages/index/search",
+    "pages/houses/sand",
+    "pages/discover/search",
+    "pages/my/my_history",
+    "pages/my/my_focus",
+    "pages/houses/index",
+    "pages/index/location",
+    "pages/discover/news_detail",
+    "pages/index/find_house",
+    "pages/index/find_result",
+    "pages/houses/share",
+    "pages/houses/activty",
+    "pages/discover/share",
+    "pages/map/index",
+    "pages/map/round",
+    "pages/chat/group",
+    "pages/chat/broker",
+    "pages/chat/house",
+    "pages/chat/address",
+    "pages/chat/chat"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "九房网",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "backgroundColor": "#F8F8F8"
+  },
+  "tabBar": {
+    "color": "#757575",
+    "selectedColor": "#FE821E",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "static/home.png",
+        "selectedIconPath": "static/home_active.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/discover/index",
+        "iconPath": "static/discover.png",
+        "selectedIconPath": "static/discover_active.png",
+        "text": "发现"
+      },
+      {
+        "pagePath": "pages/my/index",
+        "iconPath": "static/mine.png",
+        "selectedIconPath": "static/mine_active.png",
+        "text": "我的"
+      }
+    ]
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "获取小程序对应的城市数据获取地图poi点及楼盘定位提供给用户"
+    }
+  },
+  "usingComponents": {},
+  "sitemapLocation": "sitemap.json"
+}

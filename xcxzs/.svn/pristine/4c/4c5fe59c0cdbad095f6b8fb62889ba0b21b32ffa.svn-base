@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>店员</title>
+<!--    <link rel="stylesheet" type="text/css" href="../../static/css/aui.css" />-->
+<!--    <link rel="stylesheet" type="text/css" href="../../static/mui/css/mui.min.css" />-->
+<!--    <link rel="stylesheet" type="text/css" href="../../static/mui/css/mui.picker.min.css" />-->
+<!--    <link rel="stylesheet" type="text/css" href="../../static/mui/css/mui.poppicker.css" />-->
+<!--    <link rel="stylesheet" type="text/css" href="../../static/css/me/report.css?v=1" />-->
+    <link rel="stylesheet" type="text/css" href="../../static/css/me/my_store_new.css" />
+    <link rel="stylesheet" href="../../common/vant/index.css"/>
+
+    <style>.mui-btn-blue{background-color: #D33233;border: 1px solid #D33233;}
+        [v-cloak]{
+            display:none;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" class="my-content" v-cloak>
+        <div class="asf">
+            <van-cell title="选择店铺" is-link @click="listshows" :value="store_name" />
+            <van-popup v-model="listshow"  round  position="bottom" :close-on-click-overlay="false">
+                <van-picker
+                  title="选择店铺"
+                  show-toolbar
+                  :columns="columns"
+                  @confirm="listshow = false"
+                   @cancel="listshow = false"
+                />
+            </van-popup>
+        </div>
+        <div>
+            <van-search v-model="value2" placeholder="请输入成员名称" />
+        </div>
+        <div class="tabs">
+            <div class="tab_list">
+                <div class="tab_item" :class="active == 1?'active':''" @click="tab_clicke(1)">
+                    <img :src="active == 1?'../../static/image/tab_5_active.png':'../../static/image/tab_5.png'" />
+                    成员列表
+                </div>
+                <div class="tab_item" :class="active == 2?'active':''" @click="tab_clicke(2)">
+                    <img :src="active == 2?'../../static/image/tab_5_active.png':'../../static/image/tab_5.png'" />
+                    认证列表
+                </div>
+                <div class="tab_item" @click="gotoqrcode">
+                    <img src="../../static/image/tab_4.png" />
+                    邀请加入
+                </div>
+            </div>
+            <div class="tab_content">
+                <div class="tab_list" v-show="active == 1">
+                    <div class="member" style="width: 100%">
+                        <div class="member_title">
+                            <van-checkbox v-model="checkeall" shape="square" checked-color="#D22A2C">全选</van-checkbox>
+                        </div>
+                        <div class="check_list">
+                            <van-checkbox-group v-model="agent" checked-color="#D22A2C">
+                                <van-checkbox  v-for="(item, index) in  members" :name="item.said" class="checkitem">
+                                    <img :src="item.headimgurl" />
+                                    <p>{{item.name}}</p>
+                                </van-checkbox>
+                            </van-checkbox-group>
+                            <van-button class="kickout" plain hairline  type="info" @click="removeMember">提出成员</van-button>
+                        </div>
+                    </div>
+                    <van-empty v-if="members.length == 0" image="error" description="暂无店员" />
+                </div>
+                <div  class="tab_list" v-show="active == 2">
+                    <van-swipe-cell style="width: 100%" v-for="(item,index) in bindingInfo">
+                        <template #default>
+                            <div class="swipercellbox">
+                                <div class="info">
+                                    <img :src="item.headimgurl"/>
+                                    {{item.name}}
+                                </div>
+                                <div class="confirm" @click="agreeToRequest">申请通过</div>
+                            </div>
+
+                        </template>
+                        <template #right>
+                            <van-button square text="忽略" @click="refuseToRequest(index)" type="danger" color="#C1C1C1" class="delete-button" />
+                        </template>
+                    </van-swipe-cell>
+                    <van-empty v-if="bindingInfo.length == 0" image="error" description="暂无申请人员" />
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script type="text/javascript" src="../../static/js/jquery-2.0.0.min.js" ></script>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script type="text/javascript" src="../../static/js/vue-tap.js" ></script>
+<script type="text/javascript" src="../../static/js/public.js?v=2" ></script>
+<script src="../../common/vant/index.js" type="text/javascript" charset="utf-8"></script>
+<script src="../../static/js/rem.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    var vm=new Vue({
+        el: '#app',
+        data: {
+            columns:[],
+            store_id:'',
+            store_name:'',
+            value2:'',
+            listshow:false,
+            shopAssistantList:[], // 店员列表
+            active:1,
+            checkeall:[],
+            agent:[],
+            store_id: 0, //店铺id
+            bindingInfo: [],    //申请数据
+            members: [],  //成员数据
+        },
+        mounted() {
+           this.getStoreName()
+            this.getCurrentMembers()
+            this.getUserBindingInfo()
+        },
+        methods:{
+            tab_clicke(index){
+                this.active = index
+            },
+            getCurrentMembers() {
+                ajax('agentAjax/getSortAgent',{}, res => {
+                    console.log('res',res)
+                    if(res.members){
+                        this.members = res.members;
+                    }
+                    if(res.store_id){
+                        this.store_id = res.store_id;
+                    }
+                });
+            },
+            // 获取认证列表
+            getUserBindingInfo() {
+                ajax('agentAjax/userBindingInfo',{}, res => {
+                    this.bindingInfo = res.data.bindingInfo ||[];
+                });
+            },
+            getStoreName(){
+                var _this=this;
+                ajax('agentAjax/getStoreName',{},function(res){
+                    if(res.success){
+                        console.log(res.data)
+                        _this.columns=res.data;
+                        _this.getStoreinfo(res.data[0].id)
+                        _this.columns.forEach((item,index)=>{
+                            item['value'] = item.id
+                            item['text'] = item.name
+                        })
+                    }
+                });
+            },
+            agreeToRequest(e) {
+                var elem = e.target;
+                var li = elem.parentNode.parentNode;
+                var index=$(elem).data('index');
+                    this.addMember(index, () => {
+                        this.getCurrentMembers();
+                    });
+            },
+            refuseToRequest(e,index) {
+                console.log('eindex',index)
+                // var elem = e.target;
+                // var li = elem.parentNode.parentNode;
+                // var index = $(elem).data('index');
+                this.removeRequest(index, () => {
+                    this.getCurrentMembers();
+                });
+            },
+            addMember(index, cb) {
+                ajax('agentAjax/storeSqThrough',{
+                    sqid: this.bindingInfo[index].id
+                }, res => {
+                    if(res.success){
+                        cb && typeof(cb) == 'function'? cb(): '';
+                        this.getCurrentMembers();
+                    }else{
+                        mui.toast(res.message);
+                    }
+                });
+            },
+            removeRequest(index, cb) {
+                console.log('this.bindingInfo',this.bindingInfo)
+                console.log('index',index)
+                ajax('agentAjax/storeSqIgnore',{
+                    sqid: this.bindingInfo[index].id
+                }, res =>{
+                    if(res.success){
+                        mui.toast('忽略成功！');
+                        this.bindingInfo= this.bindingInfo.splice(index, 1);
+                        typeof(cb) == 'function' && cb();
+                    }else{
+                        mui.toast(res.message);
+                    }
+                });
+            },
+            listshows(){
+                this.listshow = true
+                // let self = this;
+                // let goto = new mui.PopPicker({//通过new mui.PopPicker()初始化popPicker组件
+                //     layer: 1   //显示列数
+                // });
+                // goto.setData(this.columns);  //setData() 支持数据格式为: 数组
+                // goto.show(function(e) {   //e 就是总数据的数组 显示picker
+                //     self.store_id = e[0].value
+                //     self.store_name = e[0].text
+                // })
+            },
+            // 获取店铺员工
+            getStoreinfo(id){
+                var _this=this;
+                let pare = {
+                    store_id: id
+                }
+                ajax('agentAjax/bindStoreInfo',{...pare},res => {
+                    console.log(res)
+                    if(res.code == 1){
+                        this.shopAssistantList = res.data
+
+                        console.log('getStoreinfo',res.data)
+                    }
+                });
+            },
+            // 踢出成员
+            removeMember() {
+                const ids = this.agent.join(',');
+                if (ids.length > 0) {
+                    this.$dialog.confirm({
+                        message: '是否删除该店员',
+                    })
+                    .then(() => {
+                        ajax('agentAjax/getKicking', {
+                            member_ids: ids
+                        }, res => {
+                            if (res.success) {
+                                this.getCurrentMembers();
+                            }
+                        })
+                        // on confirm
+                    })
+                    .catch(() => {
+                        // on cancel
+                    });
+                } else {
+                    this.$notify({ type: 'warning', message: '至少选中一位' });
+                }
+            },
+            // 跳转申请加入二维码
+            gotoqrcode(){
+                setLocation('pages/me/erweima_store.html');
+            }
+        }
+    })
+</script>

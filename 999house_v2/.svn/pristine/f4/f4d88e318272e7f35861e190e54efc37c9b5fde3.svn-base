@@ -1,0 +1,4 @@
+<!--pages/find_house/find_house_index.wxml-->
+<view class="container">
+  <web-view src='{{h5Host}}/index/find_house.html?{{t_version}}' />
+</view>

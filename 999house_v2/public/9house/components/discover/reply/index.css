@@ -1,0 +1,84 @@
+/* 留言 */
+.u_talk{
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.u_talk_top,
+.u_talk_item_top{
+	display: flex;
+	align-items: center;
+}
+
+.u_talk_top img{
+	width: .68rem;
+	height: .68rem;
+	border-radius: 50%;
+	margin-right: .2rem;
+}
+
+.u_talk_top span,
+.u_talk_item_top span{
+	font-size: .3rem;
+	color: rgba(117, 117, 117, 1);
+}
+
+.u_talk_content{
+	width: 100%;
+	font-size: .3rem;
+	margin-top: .24rem;
+}
+
+.u_talk_bottom{
+	font-size: .24rem;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.u_talk_box{
+	display: flex;
+	align-items: center;
+}
+
+.u_talk_box .van-tag{
+	color: rgba(117, 117, 117, 1);
+}
+
+.u_talk_time{
+	color: rgba(173, 173, 173, 1);
+	vertical-align: bottom;
+	margin-right: .38rem;
+	margin-bottom: .14rem;
+}
+
+.u_talk_wrap{
+	width: 100%;
+	box-sizing: border-box;
+	padding-left: .88rem;
+	margin-bottom: .34rem;
+}
+
+.u_talk_item{
+	margin-bottom: .28rem;
+}
+
+.u_talk_item:last-child{
+	margin-bottom: 0;
+}
+
+.u_talk_item_top img{
+	width: .44rem;
+	height: .44rem;
+	border-radius: 50%;
+	margin-right: .2rem;
+}
+
+.u_talk_item_content{
+	width: 100%;
+	font-size: .3rem;
+	margin-top: .2rem;
+	padding-bottom: .2rem;
+	border-bottom: 1px solid rgba(224, 224, 224, 1);
+}

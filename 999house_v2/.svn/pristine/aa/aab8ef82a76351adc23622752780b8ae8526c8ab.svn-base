@@ -1,0 +1,45 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/discover/index",
+    "pages/my/index",
+    "pages/authorize/index",
+    "pages/houses/loan",
+    "pages/new_house/index",
+    "pages/index/find_house",
+    "pages/houses/sand",
+    "pages/discover/search",
+    "pages/my/my_history"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "九房网",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#757575",
+    "selectedColor": "#FE821E",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "static/tabbar-index.png",
+        "selectedIconPath": "static/tabbar-index.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/discover/index",
+        "iconPath": "static/tabbar-index.png",
+        "selectedIconPath": "static/tabbar-index.png",
+        "text": "发现"
+      },
+      {
+        "pagePath": "pages/my/index",
+        "iconPath": "static/tabbar-index.png",
+        "selectedIconPath": "static/tabbar-index.png",
+        "text": "我的"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json"
+}

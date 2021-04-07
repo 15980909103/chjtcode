@@ -1,0 +1,102 @@
+//图片、音频地址转换
+var getRealURL = function (host, url, size = "") {
+  if(!url){
+    return '';
+  }
+  if (url.indexOf("http") === 0) {
+    return url;
+  }
+  if (size) {
+    return host + size + "/" + url;
+  } else {
+    return host + url;
+  }
+}
+
+var decimalFormat = function(val){
+  val= Number(val).toFixed(2)
+  val = val.split('.')
+  return val
+}
+
+var numManyFormat = function(val,str='W'){
+  if(val>=10000){
+    var val2=val%10000
+    if(val2==0){
+      val = parseInt(val/10000)+str
+    }
+    if(val>10000){
+      val = (val/10000).toFixed(1)+str
+    }
+    if(val>100000){
+      val = (val/10000).toFixed(2)+str
+    }
+  }else{
+    val = parseFloat(val)
+  }
+  if(!val){
+    val = 0
+  }
+  return val
+}
+
+var formatTime = function(date,type=0,join_str='-'){
+  if(!date){
+    return
+  }
+  var formatNumber = function(n){
+    return parseInt(n)>=10 ? n : '0' + n
+  }
+  
+  if(date == parseInt(date)){
+    var l = date.toString().length
+    switch (l) {
+      case 13:
+        date = parseInt(date)
+        break;
+      case 10:
+          date = parseInt(date)*1000
+          break;
+      default:
+        break;
+    }
+  }
+  date = getDate(date);
+  
+  var year = date.getFullYear()
+  var month = date.getMonth() + 1
+  var day = date.getDate()
+  var hour = date.getHours()
+  var minute = date.getMinutes()
+  var second = date.getSeconds()
+  
+  var result = [year, month, day].map(formatNumber);
+  var timeobj = [hour, minute, second].map(formatNumber);
+  switch (type) {
+    case 0:
+      result= result.join(join_str)+' ' + [timeobj[0], timeobj[1], timeobj[2]].join(':')
+      break;
+    case 1:
+      result = result.join(join_str)
+      break;
+    case 2:
+      result= result.join(join_str)+' ' + [timeobj[0], timeobj[1]].join(':')
+      break;
+    case 3: 
+      result= {year:result[0], month:result[1], day:result[2], hour:timeobj[0], minute:timeobj[1], second:timeobj[2]}
+      break;  
+  }
+  return result
+}
+
+var parse_Float= function(val){
+  return parseFloat(val)
+} 
+
+module.exports = {
+  getRealURL: getRealURL,
+  decimalFormat: decimalFormat,
+  numManyFormat:numManyFormat,
+  formatTime: formatTime,
+  parse_Float: parse_Float
+};

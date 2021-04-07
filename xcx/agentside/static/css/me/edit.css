@@ -1,0 +1,24 @@
+.my-content{width: 100vw;min-height: 100vh;background-color: #FFF;}
+[v-cloak] {display: none;}
+#my-scroll{width: 100vw;height: 90vh;}
+#my-footer{width: 90vw;height: 7vh;line-height: 7vh;margin: 1.5vh 5vw;color: #FFF;text-align: center;background: linear-gradient(0deg,#E13D33,#DD2D2F);position: fixed;bottom: 0;border-radius: 2vw;font-size: 4.5vw;}
+.scroll-div1{width: 100vw;padding: 1vh 5vw 0;border-bottom: 1.5vh solid #F7F7F7;}
+.my-scroll-li{border-bottom: 1px solid #eee;padding: 2vh 0;display: flex;justify-content:space-between;align-items:center;}
+.my-scroll-li-1{display: flex;align-items:center;}
+.my-scroll-li-2{position: relative;display: flex;align-items:center;}
+.my-scroll-li-2 i{margin-left: 3vw;}
+.my-scroll-li-1 div{font-size: 4vw;}
+.my-img{width: 14vw;height: 14vw;}
+.my-red{margin-left: 2vw;color:#D33233;font-size: 3vw;}
+input[type="text"],input[type="number"]{border: 0;margin-bottom: 0;text-align: right;width: 45vw;}
+.my-tag-color{color:#999;}
+.my-title{padding:2vh 0;}
+.my-title2{padding:2vh 0;border-bottom: 1px solid #eee;}
+.my-title2 span{color: #999;font-size: 3.5vw;margin-left: 1vw;}
+.my-textarea{border: 0;margin-bottom: 0;font-size: 4vw;background-color: #F7F7F7;}
+.my-tags{width: 90vw;padding-bottom: 2vh;display: flex;flex-wrap:wrap;}
+.my-tags-li{width: 19.5vw;color: #666;background-color: #F7F7F7;font-size: 3.5vw;text-align:center;padding: .6vh 0;margin: 2vh 1.5vw 0;}
+.my-tick{color: #FFF;background-color: #F44E50;}
+
+
+

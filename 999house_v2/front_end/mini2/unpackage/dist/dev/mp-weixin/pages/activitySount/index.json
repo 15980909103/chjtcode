@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "活动首页",
+  "usingComponents": {
+    "index-activity": "/components/activityItem/indexActivity"
+  }
+}

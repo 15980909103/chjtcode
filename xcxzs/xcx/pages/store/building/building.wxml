@@ -1,0 +1,91 @@
+<view id='my-search'>
+  <view
+    class="city my-op1 {{sortList[0].className}} {{sortList[0].is_show?'triangle-up':'triangle-down'}}"
+    data-index="0"
+    bindtap='onSortBtn'
+  >
+    {{sortList[0].text}}
+  </view>
+  <van-search
+    placeholder="请输入楼盘或小区名"
+    bind:search="onSearch"
+    background="#ffffff"
+  />
+</view>
+<view id="my-sort">
+  <view class="sort-li {{sortList[1].is_show?'triangle-up':'triangle-down'}}" data-index="1" bindtap='onSortBtn'>{{sortList[1].text}}</view>
+  <view class='sort-1'></view>
+  <view class="sort-li {{sortList[2].is_show?'triangle-up':'triangle-down'}}" data-index="2" bindtap='onSortBtn'>{{sortList[2].text}}</view>
+  <view class='sort-1'></view>
+  <view class="sort-li {{sortList[3].is_show?'triangle-up':'triangle-down'}}" data-index="3" bindtap='onSortBtn'>{{sortList[3].text}}</view>
+  <view class='sort-1'></view>
+  <view class="sort-li {{sortList[4].is_show?'triangle-up':'triangle-down'}}" data-index="4" bindtap='onSortBtn'>{{sortList[4].text}}</view>
+  <view class='sort-1'></view>
+  <view class="sort-img {{sortList[5].is_show?'sort-up':'sort-down'}}" data-index="5" bindtap='onSortBtn'></view>
+</view>
+<scroll-view wx:if="{{queryBar.length > 0}}" scroll-x class="current-query">
+  <view class="current-query__list">
+    <view
+      wx:for="{{queryBar}}"
+      wx:key="index"
+      class="current-query__list-item"
+      data-key="{{item.key}}"
+      bindtap="removeQueryItem"
+    >
+      {{item.label}}
+    </view>
+  </view>
+</scroll-view>
+<scroll-view scroll-y id="my-sort-detail" class="my-animation {{is_showdetail?'is-showdetail':''}}">
+  <view class='my-sort-d0' wx:if="{{sortList[0].is_show}}">
+    <list-html data="{{sortList[0].data}}" binddetail="onSubmit" data-btnidx="0" my-city="{{config.mycity}}" config="{{config}}"></list-html>
+  </view>
+
+  <view wx:if="{{sortList[1].is_show}}">
+    <view class="my-sort-d1" wx:for="{{sortData[1].data[sortList[0].text]}}" wx:key="index" bindtap="onSubmit" data-name="{{item}}" data-btnidx="1">{{item}}</view>
+  </view>
+  <view wx:if="{{sortList[2].is_show}}">
+    <view class='my-sort-d2'>
+      <view class='my-so-2-1'>
+        <view class="my-so-2-li {{sort2Index==index?'my-tick':''}}" wx:for="{{sortData[2].data}}" wx:key="index" data-index="{{index}}" bindtap='onSort2'>{{item.text}}</view>
+      </view>
+      <view class='my-so-2-2'>
+        <view class="my-so-2-li" wx:for="{{sortData[2].data[sort2Index].data}}" wx:key="index" bindtap="onSubmit" data-name="{{item.val}}" data-btnidx="2" data-label="{{item.name}}">{{item.name}}</view>
+      </view>
+      <view></view>
+    </view>
+  </view>
+  <view wx:if="{{sortList[3].is_show}}">
+    <view class="my-sort-d1" wx:for="{{sortData[3].data}}" wx:key="index" bindtap="onSubmit" data-name="{{item}}" data-btnidx="3">{{item}}</view>
+  </view>
+  <view class='my-sort-dd4' wx:if="{{sortList[4].is_show}}">
+    <view class='my-sort-d4' wx:for="{{sortData[4].data}}" wx:key="index">
+      <view class='sort4-title'>{{item.title}}</view>
+      <view class='sort4-contents'>
+        <view class="sort4-li {{val.is_checked?'my-tick2':''}} {{idx%3==1?'sort4-li-b':''}}" wx:for="{{item.data}}" wx:for-index="idx" wx:for-item="val" wx:key="idx" data-index="{{index}}" data-idx="{{idx}}" bindtap='onSort4'>{{val.title}}</view>
+      </view>
+    </view>
+    <view class='my-sort4-footer'>
+      <view class='sort4-btn1' bindtap='onSort4Reset'>重置</view>
+      <view class='sort4-btn2' data-btnidx="4" bindtap='onSubmit'>确定</view>
+    </view>
+  </view>
+  <view wx:if="{{sortList[5].is_show}}">
+    <view class="my-sort-d1" wx:for="{{sortData[5].data}}" wx:key="index" bindtap="onSubmit" data-name="{{item}}" data-btnidx="5">{{item}}</view>
+  </view>
+</scroll-view>
+<scroll-view id="my-loupan" bindscrolltolower="onGetDataInfo" scroll-y>
+  <view class="my-lp-lists">
+    <view class='my-lp-list' wx:for="{{lpList}}" wx:key="index" data-id="{{item.building_id}}" bindtap='onHouseDetail'>
+      <view class='my-lpimg'>
+        <image class='my-lp-ig' src='{{domain_name+item.pic}}'></image>
+        <view class='my-huo'><image src='/image/icon-renqizhi.png'></image> {{item.views_number}}</view>
+      </view>
+      <view class='my-lp-center'>
+        <view class='my-lp-c1'><view class="my-c-1-1 van-ellipsis">{{item.name}}</view><view class='my-c-1-2'>{{item.sales_status}}</view></view>
+        <view class='my-lp-c2'>{{item.house_type}} | {{item.city}} {{item.area}}</view>
+        <view class='my-lp-c3'>{{item.fold}}元/m²</view>
+      </view>
+    </view>
+  </view>
+</scroll-view>

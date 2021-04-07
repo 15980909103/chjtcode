@@ -1,0 +1,369 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>新闻</title>
+    <link rel="stylesheet" type="text/css" href="./static/css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="./static/mui/css/mui.min.css" />
+    <link rel="stylesheet" type="text/css" href="./static/css/news.css" />
+    <link rel="stylesheet" type="text/css" href="./static/css/swiper.min.css" />
+    <script type="text/javascript" src="./static/js/jquery-2.0.0.min.js" ></script>
+    <script type="text/javascript" src="./static/mui/js/mui.min.js" ></script>
+    <script type="text/javascript" src="./static/mui/js/mui.pullToRefresh.js" ></script>
+    <script type="text/javascript" src="./static/mui/js/mui.pullToRefresh.material.js" ></script>
+    <!-- <script type="text/javascript" src="./static/js/vue.min.js" ></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script type="text/javascript" src="./static/js/vue-tap.js" ></script>
+    <script type="text/javascript" src="./static/js/public.js?v=2" ></script>
+    <script type="text/javascript" src="./static/js/swiper.min.js" ></script>
+    <script type="text/javascript" src="./static/js/aui-toast.js" ></script>
+    <script type="text/javascript" src="./static/js/vue-lazyload.js" ></script>
+    <style>.mui-pull-bottom-tips{display: none;}</style>
+</head>
+<body>
+<div id="app" class="my-content" v-cloak>
+    <!-- 搜索框 -->
+    <div class="my-search wxhead">
+        <div class="mui-input-row mui-search ">
+            <input
+                type="search"
+                class="mui-input-clear"
+                placeholder="请输入新闻标题"
+                v-model="searchText"
+                v-on:keyup.enter="onSearch"
+                @focus="toggleFooter"
+                @blur="toggleFooter"
+            >
+        </div>
+    </div>
+    <div class="my-bottom">
+        <!-- 轮播图 -->
+        <div class="wxPic" id="wxPic">
+            <div class="wrapper">
+                <div v-for="(item, index) in imgUrls" class="slide" :class="`slide-${index}`">
+                    <a href="#" v-tap="{methods:onArticleDetail,id:item.id}">
+                        <div class="pic">
+                                <img class="my-lunbo" :src="item.img" v-cloak/>
+                        </div>
+                        <div class="title">{{item.title}}</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="swiper-container swiperTitle">
+            <div class="swiper-wrapper">
+                <div :class="['swiper-slide', index==current? 'active': '']" v-for="(item, index) in channel" :key="index" v-cloak><span>{{item.title}}</span></div>
+            </div>
+        </div>
+        <div class="swiper-container swiperContent wxCon">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide aui-list aui-media-list " id="wxGroup" v-for="(list, index) in articleList">
+                    <div class="mui-scroll-wrapper scroll-content" :class="['my-scroll'+index]">
+                        <div class="mui-scroll" :class="[isFixed?'padtop6':'']">
+                            <template  v-for="(article,key) in list">
+                                <div class="aui-list-item" v-tap="{methods:onArticleDetail,id:article.id}">
+                                    <div class="aui-media-list-item-inner">
+                                        <div class="aui-list-item-inner aui-padded-r-10 my-aui-content">
+                                            <div class="aui-list-item-text">
+                                                <div class="aui-list-item-title aui-font-size-14 aui-ellipsis-2" style='line-height:160%' v-cloak>{{article.title}}</div>
+                                            </div>
+                                            <div class="aui-info aui-padded-b-0">
+                                                <div class="aui-info-item aui-font-size-12">
+                                                    <div class="aui-margin-l-5 float-left" v-cloak><img class="my-logo" :src="article.logo" v-cloak></div>
+                                                    <div class="aui-margin-l-5 float-left" v-cloak>{{article.aname}}&nbsp·</div>
+                                                    <div class="aui-margin-l-5 float-left" v-cloak>{{article.area}}&nbsp·</div>
+                                                    <div class="aui-margin-l-5 float-left" v-cloak>{{article.release_time}}&nbsp·</div>
+                                                    <div class="aui-margin-l-5 float-left" v-cloak>{{article.comments_num}}评论</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="aui-list-item-media">
+                                            <img class='img-one' v-lazy="article.cover" v-cloak/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+                            <div class="empty" v-show="list.length==0 && channel[index].isLoad" style="width:100%;height:auto;">
+                                <img src="./static/image/empty.png" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="my-footer" v-if="isLogin()==1 && !isHiddenFooter">
+        <div class="footer-li" v-tap="{methods:onGoNarList,url:'index.html?is_login=1'}">
+            <img v-cloak :src="DOMAINSTATIC+'image/nav_home.png'">
+            <div>首页</div>
+        </div>
+        <div class="footer-li my-tick">
+            <img v-cloak :src="DOMAINSTATIC+'image/icon_nav_news_active.png'">
+            <div>新闻</div>
+        </div>
+        <div class="footer-li" v-tap="{methods:onGoNarList,url:'building.html'}">
+            <img v-cloak :src="DOMAINSTATIC+'image/nav_building.png'">
+            <div>楼房</div>
+        </div>
+        <div class="footer-li" v-tap="{methods:onGoNarList,url:'customer.html'}">
+            <img v-cloak :src="DOMAINSTATIC+'image/nav_customer.png'">
+            <div>客户</div>
+        </div>
+        <div class="footer-li" v-tap="{methods:onGoNarList,url:'me.html'}">
+            <img v-cloak :src="DOMAINSTATIC+'image/icon_nav_personal_normal.png'">
+            <div>我的</div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script>
+    Vue.config.devtools = true;
+    Vue.use(VueLazyload)
+    var toast = new auiToast({});
+    var x=[],y=[];
+    var pullToRefresh=[];   //下拉加载document
+    var isFirst = [true];
+    new Vue({
+        el: '#app',
+        data: {
+            isFixed:false,  //是否固定定位
+            imgUrls: [],
+            channel: [], //频道列表
+            current: 0, //当前频道
+            searchText:'',
+            articleList: [],
+            isScrollResize: false,
+            DOMAINSTATIC: DOMAINSTATIC,
+            isHiddenFooter: false
+        },
+        mounted: function () {
+            this.$nextTick(function () {
+                $('#app').on('touchmove',function(event){event.preventDefault();});
+                var  _this=this;
+                //获取文章页信息
+                this.fetchPageHeader();
+                this.fetchArticleList();
+
+                window.addEventListener("resize", setsetScrollHeight);
+            })
+        },
+        destroyed() {
+          window.removeEventListener("resize", setsetScrollHeight);
+        },
+        watch: {
+            current(value, old) {
+                this.channel.forEach((item, index) => {
+                    this.$set(this.channel[index], 'isLoad', false);
+                    this.$set(this.articleList, index, []);
+                })
+                this.fetchArticleList();
+            }
+        },
+        methods:{
+            initScroll() {
+                //上拉滚动事件
+                var scrollUpevent = function(x,y){
+                    if(y['y']>50){
+                      var headHeight=$(".wxhead").height();
+                      var memuHeight=$("#sliderControl").height();
+                      var height=headHeight+memuHeight+20;
+                    //   $('#wxGroup').css("top",height);
+                      $('#wxGroup').css("top","0");
+                      $('.wxPic' ).addClass("dis_n");
+                      $('#sliderControl' ).addClass("active");
+                      $('.wxhead' ).addClass("active");
+                    }
+                };
+                //下拉滚动事件
+                var scrollDownevent = function(x,y){
+                    if(y['lastY']==0){
+                      $('#wxGroup').css("top","0");
+                      $('.wxPic' ).removeClass("dis_n");
+                      $('#sliderControl' ).removeClass("active");
+                      $('.wxhead' ).removeClass("active");
+                    }
+                };
+            },
+            initSwiper() {
+                const _this = this;
+                mui.init();
+                swiper = new Swiper('.wxPic', {
+                    slidesPerView: 'auto',
+                    wrapperClass : 'wrapper',
+                    slideClass : 'slide',
+                    loop : true,
+                    centeredSlides: true,
+                    spaceBetween: 15,
+                });
+                swiperTitle = new Swiper ('.swiperTitle', {
+                    slidesPerView:4,
+                    freeMode: true,
+                    watchSlidesVisibility: true,
+                    watchSlidesProgress: true,
+                    observer: true,
+                    observeParents: true
+                });
+                swiperContent = new Swiper ('.swiperContent', {
+                    touchRatio: 0.5,
+                    observer: true,
+                    autoHeight:true,
+                    observeParents: true,
+                    thumbs: {
+                        swiper: swiperTitle
+                    },
+                    on:{
+                        slideChange: function(){
+                            _this.current=swiperContent.activeIndex;
+                            if (typeof (isFirst[_this.current]) == "undefined") {
+                                isFirst[_this.current] = true;
+                                toast.loading({
+                                    title:"加载中"
+                                });
+                                setTimeout(function(){
+                                    toast.hide();
+                                },500);
+                            }
+                            setTimeout(function(){
+                                swiperContent.updateSize();
+                            },500);
+                        }
+                    }
+                });
+            },
+            initPullFetch() {
+                const _this = this;
+                //循环初始化所有上拉加载
+                mui.each(document.querySelectorAll('.mui-scroll'), function(index, pullRefreshEl) {
+                    var myScroll = mui('.mui-scroll-wrapper').scroll({
+                        scrollY: true, //是否竖向滚动
+                        scrollX: false, //是否横向滚动
+                        startX: 0, //初始化时滚动至x
+                        startY: 0, //初始化时滚动至y
+                        indicators: false, //是否显示滚动条
+                        deceleration:0.0005, //阻尼系数,系数越小滑动越灵敏
+                        bounce: true //是否启用回弹
+                    });
+
+                    pullToRefresh[index] = mui(pullRefreshEl).pullToRefresh({
+                        up: {
+                            auto: false, //自动执行一次上拉加载，可选；
+                            show: false, //显示底部上拉加载提示信息，可选；
+                            callback: function() {
+                                setTimeout(function() {
+                                    _this.fetchArticleList();
+                                    // _this.pullupRefresh(self, index);
+                                }, 200);
+                            }
+                        }
+                    });
+                    document.querySelector('.my-scroll'+index).addEventListener('scroll', function (e) {
+                        var dataIf = $('.wxPic').hasClass("dis_n");
+                        var scrollObj = myScroll[index]? myScroll[index]: myScroll;
+                        const scrollHeight = scrollObj.lastY;
+                        if(!dataIf && scrollHeight < 0){
+                            if(Math.abs(scrollObj.y) > 50){
+                                $('.wxPic').addClass('dis_n');
+                                $('.wxCon').addClass('active');
+                                _this.isScrollResize = true;
+                                setsetScrollHeight();
+                            }
+                        }else{
+                            if(scrollHeight==0 && !_this.isScrollResize){
+                                $('.wxPic').removeClass('dis_n');
+                                $('.wxCon').removeClass('active');
+                                // _this.isScrollResize = false;
+                                // setsetScrollHeight();
+                            }
+                        }
+                    });
+                });
+            },
+            fetchPageHeader() {
+                ajax('articleAjax/getArticleHome',{},res => {
+                    if (res.success){
+                        this.imgUrls = res.data.figure;
+                        this.channel = res.data.column;
+                        this.articleList = this.channel.map(() => ([]));
+                        Vue.nextTick(() => {
+                            this.initSwiper();
+                            this.initPullFetch();
+                            setsetScrollHeight();
+                        })
+                    } else {
+                        mui.toast(res.message);
+                    }
+                });
+            },
+            fetchArticleList() {
+                const target = this.articleList[this.current];
+                const page = parseInt(target? (target.length / 10): 0) + 1;
+                ajax('articleAjax/getDataInfo', {
+                    column: this.channel[this.current].id || null,
+                    page,
+                    searchText: this.searchText
+                }, res => {
+                    if (res.success) {
+                        this.$set(this.channel[this.current], 'isLoad', true);
+                        if (page == 1) {
+                            this.articleList[this.current] = res.data.article;
+                        } else {
+                            this.$set(this.articleList, this.current, this.articleList[this.current].concat(res.data.article));
+                        }
+                        if (pullToRefresh[this.current]) {
+                            pullToRefresh[this.current].endPullUpToRefresh(res.data.article < 10);
+                        }
+                    } else {
+                        mui.toast(res.message);
+                    }
+                });
+            },
+            onGoNarList(options){
+                setLocation(options.url);
+            },
+            onArticleDetail(event){
+                setLocation('pages/index/article_detail.html?id='+event.id);
+            },
+            // 搜索事件
+            onSearch(){
+                this.$set(this.articleList, this.current, []);
+                this.fetchArticleList();
+            },
+            pullupRefresh(_self, index){
+                var _this=this;
+                var channel=_this.channel;
+                var cid = channel[index].id;
+                var page = channel[index].page;
+                ajax('articleAjax/getArticle',{ cid: cid, page: page},function(res){
+                    if(res.success){
+                        //更新类目页数
+                        channel[index].page = res.page;
+                        //更新文章数据
+                        var list = _this.list;
+                        list[index] = list[index].concat(res.data);
+                        _this.channel=channel;
+                        _this.$set(_this.list, index, list[index]);
+                        _self.endPullUpToRefresh();
+                    }else{
+                        _self.endPullUpToRefresh(true);   //内容为空了
+                    }
+                });
+            },
+            isLogin() {
+                return isLogin();
+            },
+            toggleFooter() {
+                this.isHiddenFooter = !this.isHiddenFooter;
+            },
+        }
+    })
+    function setsetScrollHeight(){  //设置滚动区域高度
+        var clientHeight=document.documentElement.clientHeight;    //页面高度
+        var swiperHeight=$('.swiperContent').offset().top;  //滚动区域距顶部距离
+        var diffHeight=clientHeight-swiperHeight;
+        $('.scroll-content').css('height',diffHeight+'px');
+        $('.swiperContent').css('height',diffHeight+'px');
+    }
+</script>
